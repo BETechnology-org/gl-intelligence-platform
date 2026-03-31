@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "name": "gl-intelligence-platform",
+  "builds": [
+    {
+      "src": "fasb_dise_platform.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "FASB DISE ASSETS/DISE_Dashboard.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "FASB DISE ASSETS/dise_full_mapping.json",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/fasb_dise_platform.html"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/FASB DISE ASSETS/DISE_Dashboard.html"
+    },
+    {
+      "src": "/dise_full_mapping.json",
+      "dest": "/FASB DISE ASSETS/dise_full_mapping.json"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "https://api.be-technology.io/api/$1"
+    }
+  ]
+}

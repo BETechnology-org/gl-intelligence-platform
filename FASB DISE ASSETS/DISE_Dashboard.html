@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE Technology — GL Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F8FC;--bg2:#FFFFFF;--bg3:#EEF1F6;--bg4:#E3E8F0;
+  --surface:#FFFFFF;--surface2:#F4F6FB;--surface3:#E8EDF5;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#0F1729;--text2:#3D4F6B;--text3:#7B8EA8;
+  --blue:#2563EB;--blue2:#1A56DB;--blue-dim:rgba(37,99,235,0.07);
+  --green:#059669;--green-dim:rgba(5,150,105,0.10);
+  --amber:#D97706;--amber-dim:rgba(217,119,6,0.10);
+  --red:#DC2626;--red-dim:rgba(220,38,38,0.08);
+  --purple:#7C3AED;--purple-dim:rgba(124,58,237,0.09);
+  --teal:#0D9488;
+  --cat-inv:#059669;--cat-inv-bg:rgba(5,150,105,0.10);
+  --cat-comp:#2563EB;--cat-comp-bg:rgba(37,99,235,0.10);
+  --cat-dep:#D97706;--cat-dep-bg:rgba(217,119,6,0.10);
+  --cat-amort:#7C3AED;--cat-amort-bg:rgba(124,58,237,0.10);
+  --cat-other:#DC2626;--cat-other-bg:rgba(220,38,38,0.08);
+  --serif:'Fraunces',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --radius:8px;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
+}
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5}
+body{min-height:100vh;overflow-x:hidden}
+::selection{background:var(--blue);color:#fff}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg3)}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:3px}
+
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;gap:20px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:16px;color:#fff}
+.logo-text{font-family:var(--serif);font-weight:500;font-size:15px;color:var(--text);letter-spacing:-0.02em}
+.logo-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;margin-left:12px}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.topbar-badge{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:20px;background:var(--blue-dim);color:var(--blue);border:1px solid rgba(37,99,235,0.15)}
+
+.tabs{display:flex;gap:2px;padding:0 32px;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:13px 18px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border:none;background:none;position:relative;transition:color 0.2s;font-family:var(--sans);white-space:nowrap}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--blue)}
+.tab.active::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:var(--blue);border-radius:2px 2px 0 0}
+
+.main{padding:28px 32px 60px;max-width:1440px;margin:0 auto}
+.section{display:none}
+.section.active{display:block;animation:fadeUp 0.3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Load zone */
+.load-zone{border:2px dashed rgba(0,0,0,0.15);border-radius:12px;padding:48px;text-align:center;transition:all 0.2s;cursor:pointer;background:var(--surface);box-shadow:var(--shadow)}
+.load-zone:hover{border-color:var(--blue);background:var(--blue-dim)}
+.load-title{font-family:var(--serif);font-size:22px;font-weight:500;margin-bottom:8px;color:var(--text)}
+.load-sub{color:var(--text3);font-size:13px}
+.load-or{color:var(--text3);font-size:12px;margin:16px 0}
+.load-btn{display:inline-block;padding:10px 24px;background:var(--blue);color:#fff;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;border:none;font-family:var(--sans);transition:background 0.15s}
+.load-btn:hover{background:var(--blue2)}
+#file-input{display:none}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px}
+.metric-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow 0.2s}
+.metric-card:hover{box-shadow:var(--shadow-md)}
+.metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity 0.3s}
+.metric-card:hover::before{opacity:1}
+.metric-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:8px}
+.metric-value{font-family:var(--serif);font-size:28px;font-weight:700;letter-spacing:-0.03em;color:var(--text)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* Charts */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.chart-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:16px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-label{font-size:12px;color:var(--text2);width:200px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:24px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease;display:flex;align-items:center;padding-left:8px}
+.bar-val{font-family:var(--mono);font-size:10px;color:#fff;font-weight:500;white-space:nowrap}
+.conf-row{display:flex;gap:12px}
+.conf-block{flex:1;border-radius:var(--radius);padding:16px;text-align:center}
+.conf-num{font-family:var(--serif);font-size:32px;font-weight:700;letter-spacing:-0.03em}
+.conf-label-text{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px}
+
+/* Filters & table */
+.filters{display:flex;gap:8px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.filter-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3)}
+.filter-select{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-size:12px;font-family:var(--sans);cursor:pointer;box-shadow:var(--shadow)}
+.filter-search{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:6px;font-size:12px;width:220px;font-family:var(--sans);box-shadow:var(--shadow)}
+.filter-search::placeholder{color:var(--text3)}
+.export-btn{margin-left:auto;padding:6px 16px;background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:6px;font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:all 0.15s;box-shadow:var(--shadow)}
+.export-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg3)}
+th{padding:10px 14px;text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none}
+th:hover{color:var(--text)}
+th .sort-arrow{margin-left:4px;opacity:0.3}
+th.sorted .sort-arrow{opacity:1;color:var(--blue)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:top;color:var(--text)}
+tr{transition:background 0.1s}
+tr:hover{background:var(--surface2)}
+.gl-code{font-family:var(--mono);font-weight:500;color:var(--teal);font-size:11px}
+.amount{font-family:var(--mono);font-size:11px;text-align:right;white-space:nowrap}
+
+.cat-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;white-space:nowrap}
+.cat-pill[data-cat="Purchases of inventory"]{background:var(--cat-inv-bg);color:var(--cat-inv)}
+.cat-pill[data-cat="Employee compensation"]{background:var(--cat-comp-bg);color:var(--cat-comp)}
+.cat-pill[data-cat="Depreciation"]{background:var(--cat-dep-bg);color:var(--cat-dep)}
+.cat-pill[data-cat="Intangible asset amortization"]{background:var(--cat-amort-bg);color:var(--cat-amort)}
+.cat-pill[data-cat="Other expenses"]{background:var(--cat-other-bg);color:var(--cat-other)}
+
+.conf-badge{font-family:var(--mono);font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px}
+.conf-badge.HIGH{background:var(--green-dim);color:var(--green)}
+.conf-badge.MEDIUM{background:var(--amber-dim);color:var(--amber)}
+.conf-badge.LOW{background:var(--red-dim);color:var(--red)}
+
+.caption-tag{font-family:var(--mono);font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 8px;border-radius:3px;border:1px solid var(--border)}
+.citation{font-family:var(--mono);font-size:10px;color:var(--text3)}
+
+.reasoning-toggle{color:var(--blue);cursor:pointer;font-size:11px;font-weight:500}
+.reasoning-toggle:hover{text-decoration:underline}
+.reasoning-text{display:none;margin-top:8px;padding:10px 12px;background:var(--bg3);border-radius:6px;font-size:11px;color:var(--text2);line-height:1.7;border-left:2px solid var(--blue)}
+.reasoning-text.open{display:block;animation:fadeUp 0.2s ease}
+
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border)}
+.page-info{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.page-btns{display:flex;gap:4px}
+.page-btn{padding:4px 12px;background:var(--surface);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-size:11px;cursor:pointer;font-family:var(--sans)}
+.page-btn:hover{border-color:var(--blue);color:var(--blue)}
+.page-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.page-btn:disabled{opacity:0.3;cursor:not-allowed}
+
+/* Disclosure */
+.disclosure-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;max-width:960px;box-shadow:var(--shadow)}
+.disclosure-header{font-family:var(--serif);font-size:20px;font-weight:500;margin-bottom:4px;color:var(--text)}
+.disclosure-sub{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:24px}
+.disc-table{width:100%;border-collapse:collapse}
+.disc-table th{padding:10px 16px;text-align:right;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);border-bottom:2px solid var(--border2)}
+.disc-table th:first-child{text-align:left;width:250px}
+.disc-table td{padding:10px 16px;text-align:right;font-family:var(--mono);font-size:12px;border-bottom:1px solid var(--border);color:var(--text2)}
+.disc-table td:first-child{text-align:left;font-family:var(--sans);font-weight:500;color:var(--text)}
+.disc-table tfoot td{border-top:2px solid var(--border2);font-weight:700;color:var(--text)}
+.disc-total{font-weight:700}
+
+/* Audit Trail */
+.audit-search{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:8px;font-size:13px;width:100%;max-width:500px;font-family:var(--sans);margin-bottom:24px;box-shadow:var(--shadow)}
+.audit-search::placeholder{color:var(--text3)}
+.audit-chain{display:flex;flex-direction:column;gap:0;max-width:800px}
+.chain-link{background:var(--surface);border:1px solid var(--border);padding:20px 24px;position:relative}
+.chain-link:first-child{border-radius:var(--radius) var(--radius) 0 0}
+.chain-link:last-child{border-radius:0 0 var(--radius) var(--radius)}
+.chain-link:not(:last-child){border-bottom:none}
+.chain-link::before{content:'';position:absolute;left:24px;top:-1px;bottom:-1px;width:2px;background:var(--border)}
+.chain-link:first-child::before{top:50%}
+.chain-link:last-child::before{bottom:50%}
+.chain-step{display:flex;align-items:flex-start;gap:16px;position:relative;z-index:1}
+.chain-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:2px solid var(--border);font-weight:600}
+.chain-dot.l1{background:var(--blue-dim);border-color:var(--blue);color:var(--blue)}
+.chain-dot.l2{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.chain-dot.l3{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
+.chain-dot.l4{background:var(--amber-dim);border-color:var(--amber);color:var(--amber)}
+.chain-content{flex:1}
+.chain-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:4px}
+.chain-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.chain-detail{font-size:12px;color:var(--text2);line-height:1.7}
+.chain-meta{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:6px;display:flex;gap:16px;flex-wrap:wrap}
+.chain-meta span{display:inline-flex;align-items:center;gap:4px}
+
+/* Anomaly */
+.anomaly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:16px}
+.anomaly-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow 0.2s}
+.anomaly-card:hover{box-shadow:var(--shadow-md)}
+.anomaly-header{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg3)}
+.anomaly-priority{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 10px;border-radius:4px}
+.anomaly-priority.P1{background:var(--red-dim);color:var(--red)}
+.anomaly-priority.P2{background:var(--amber-dim);color:var(--amber)}
+.anomaly-priority.P3{background:var(--blue-dim);color:var(--blue)}
+.anomaly-body{padding:16px 20px}
+.anomaly-cat{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.anomaly-desc{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.anomaly-stats{display:flex;gap:16px}
+.anomaly-stat{text-align:center}
+.anomaly-stat-val{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--text)}
+.anomaly-stat-label{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em}
+.anomaly-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:10px;overflow:hidden}
+.anomaly-bar-fill{height:100%;border-radius:2px}
+
+/* Cost Centre */
+.cc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cc-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.cc-title{font-size:14px;font-weight:600;margin-bottom:4px;color:var(--text)}
+.cc-amount{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:12px;color:var(--text)}
+.cc-breakdown{display:flex;flex-direction:column;gap:6px}
+.cc-row{display:flex;align-items:center;gap:8px}
+.cc-row-label{font-size:11px;color:var(--text2);width:200px;flex-shrink:0}
+.cc-row-bar{flex:1;height:16px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.cc-row-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px}
+.cc-row-val{font-family:var(--mono);font-size:9px;color:#fff;white-space:nowrap}
+
+/* Agent tab */
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all 0.2s;box-shadow:var(--shadow)}
+.agent-card:hover{box-shadow:var(--shadow-md)}
+.agent-card.running{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.08)}
+.agent-card.done{border-color:var(--green)}
+.agent-card.error{border-color:var(--red)}
+.agent-card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.agent-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700;font-size:16px}
+.agent-card-title{font-size:14px;font-weight:600;margin-bottom:2px;color:var(--text)}
+.agent-card-desc{font-size:11px;color:var(--text3);line-height:1.5}
+.agent-card-actions{display:flex;gap:8px;margin-bottom:10px}
+.agent-btn{padding:7px 16px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:6px;font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:all 0.15s}
+.agent-btn:hover{border-color:var(--blue);color:var(--blue)}
+.agent-btn:disabled{opacity:0.4;cursor:not-allowed}
+.agent-btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.agent-btn-primary:hover{background:var(--blue2)}
+.agent-btn-run-all{padding:12px 32px;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all 0.15s;box-shadow:0 2px 8px rgba(37,99,235,0.25)}
+.agent-btn-run-all:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,0.35)}
+.agent-btn-run-all:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none}
+.agent-result{font-size:11px;color:var(--text2);line-height:1.7;max-height:200px;overflow-y:auto}
+.agent-result pre{font-family:var(--mono);font-size:10px;background:var(--bg3);padding:10px;border-radius:6px;overflow-x:auto;white-space:pre-wrap;margin-top:8px;border:1px solid var(--border)}
+.agent-result .narrative{background:var(--bg3);border-left:3px solid var(--purple);padding:12px;border-radius:0 6px 6px 0;margin-top:8px;white-space:pre-wrap;line-height:1.8;font-size:12px}
+.agent-log-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:1024px){.metrics{grid-template-columns:repeat(3,1fr)}.charts-row,.cc-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr)}.topbar,.tabs,.main{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><div class="logo-mark">B</div><span class="logo-text">BE Technology</span></div>
+  <span class="logo-sub">GL Intelligence Platform</span>
+  <div class="topbar-right"><span class="topbar-badge" id="data-badge">No data loaded</span></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="dashboard">Dashboard</button>
+  <button class="tab" data-tab="accounts">Account Explorer</button>
+  <button class="tab" data-tab="audit">Audit Trail</button>
+  <button class="tab" data-tab="anomaly">Anomaly Alerts</button>
+  <button class="tab" data-tab="disclosure">DISE Disclosure</button>
+  <button class="tab" data-tab="costcentre">Cost Centre Intel</button>
+  <button class="tab" data-tab="agents">Agents</button>
+</div>
+
+<div class="main">
+  <div id="load-zone" class="load-zone" style="margin-bottom:28px">
+    <div class="load-title">Load DISE Mapping Results</div>
+    <div class="load-sub">Drop a JSON file here or click to browse</div>
+    <div class="load-or">or</div>
+    <button class="load-btn" id="auto-load-btn">Auto-load from dise_full_mapping.json</button>
+    <input type="file" id="file-input" accept=".json">
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section active" id="sec-dashboard" style="display:none">
+    <div class="metrics" id="metrics-strip"></div>
+    <div class="charts-row">
+      <div class="chart-card"><div class="chart-title">Category Distribution (by FY2023 $)</div><div id="cat-bars"></div></div>
+      <div class="chart-card">
+        <div class="chart-title">Confidence Distribution</div><div id="conf-blocks" class="conf-row"></div>
+        <div style="margin-top:20px"><div class="chart-title" style="margin-bottom:12px">Caption Breakdown</div><div id="caption-bars"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNTS -->
+  <div class="section" id="sec-accounts">
+    <div class="filters">
+      <span class="filter-label">Filter</span>
+      <select class="filter-select" id="f-cat"><option value="">All Categories</option></select>
+      <select class="filter-select" id="f-caption"><option value="">All Captions</option></select>
+      <select class="filter-select" id="f-conf"><option value="">All Confidence</option></select>
+      <input class="filter-search" id="f-search" placeholder="Search GL account or description...">
+      <button class="export-btn" id="export-csv">Export CSV</button>
+    </div>
+    <div class="table-wrap"><div class="table-scroll"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div><div class="pagination" id="pagination"></div></div>
+  </div>
+
+  <!-- AUDIT TRAIL -->
+  <div class="section" id="sec-audit">
+    <input class="audit-search" id="audit-search" placeholder="Search by GL account number or description...">
+    <div id="audit-container"></div>
+  </div>
+
+  <!-- ANOMALY ALERTS -->
+  <div class="section" id="sec-anomaly">
+    <div class="metrics" id="anomaly-metrics" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px"></div>
+    <div class="anomaly-grid" id="anomaly-grid"></div>
+  </div>
+
+  <!-- DISCLOSURE -->
+  <div class="section" id="sec-disclosure">
+    <div class="disclosure-card">
+      <div class="disclosure-header">Disaggregation of Income Statement Expenses</div>
+      <div class="disclosure-sub">ASU 2024-03 / ASC 220-40 &mdash; For the fiscal year ended December 31, 2023 (in thousands)</div>
+      <table class="disc-table" id="disc-table"></table>
+      <div style="margin-top:20px;font-size:11px;color:var(--text3);line-height:1.8" id="disc-footnotes"></div>
+    </div>
+  </div>
+
+  <!-- COST CENTRE -->
+  <div class="section" id="sec-costcentre">
+    <div class="cc-grid" id="cc-grid"></div>
+  </div>
+
+  <!-- AGENTS -->
+  <div class="section" id="sec-agents">
+    <!-- Live status from API -->
+    <div id="agent-live-status" style="margin-bottom:20px"></div>
+
+    <!-- Agent cards -->
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px">
+      <div class="agent-card" id="ac-mapping">
+        <div class="agent-card-head">
+          <div><div class="agent-card-icon" style="background:var(--green-dim);color:var(--green)">M</div></div>
+          <div style="flex:1">
+            <div class="agent-card-title">GL Mapping Agent</div>
+            <div class="agent-card-desc">Classifies unmapped GL accounts into DISE categories using Claude AI + similarity matching</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn" onclick="runAgent('mapping',{dry_run:true})">Dry Run</button>
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('mapping',{})">Run Live</button>
+        </div>
+        <div class="agent-result" id="ar-mapping"></div>
+      </div>
+
+      <div class="agent-card" id="ac-recon">
+        <div class="agent-card-head">
+          <div><div class="agent-card-icon" style="background:var(--blue-dim);color:var(--blue)">R</div></div>
+          <div style="flex:1">
+            <div class="agent-card-title">Reconciliation Agent</div>
+            <div class="agent-card-desc">Validates DISE pivot amounts against SAP trial balance and detects variances</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('recon',{})">Run Reconciliation</button>
+        </div>
+        <div class="agent-result" id="ar-recon"></div>
+      </div>
+
+      <div class="agent-card" id="ac-anomaly">
+        <div class="agent-card-head">
+          <div><div class="agent-card-icon" style="background:var(--amber-dim);color:var(--amber)">A</div></div>
+          <div style="flex:1">
+            <div class="agent-card-title">Anomaly Detection Agent</div>
+            <div class="agent-card-desc">YoY variance analysis with P1/P2/P3 priority alerts and CFO summary</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('anomaly',{})">Detect Anomalies</button>
+        </div>
+        <div class="agent-result" id="ar-anomaly"></div>
+      </div>
+
+      <div class="agent-card" id="ac-disclosure">
+        <div class="agent-card-head">
+          <div><div class="agent-card-icon" style="background:var(--purple-dim);color:var(--purple)">D</div></div>
+          <div style="flex:1">
+            <div class="agent-card-title">Disclosure Agent</div>
+            <div class="agent-card-desc">Generates ASU 2024-03 DISE footnote text in formal 10-K language</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('disclosure',{})">Generate Footnote</button>
+        </div>
+        <div class="agent-result" id="ar-disclosure"></div>
+      </div>
+    </div>
+
+    <!-- Run All -->
+    <div style="text-align:center;margin-bottom:24px">
+      <button class="agent-btn-run-all" onclick="runAllAgents()">Run Full Pipeline (all 4 agents)</button>
+    </div>
+
+    <!-- Agent log -->
+    <div class="agent-log-card">
+      <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        Agent Activity Log <span id="agent-spinner" style="display:none;width:12px;height:12px;border:2px solid var(--blue);border-top-color:transparent;border-radius:50%;animation:spin 0.6s linear infinite"></span>
+      </div>
+      <div id="agent-log" style="font-family:var(--mono);font-size:11px;color:var(--text2);line-height:2;max-height:300px;overflow-y:auto"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let DATA=[], filtered=[], sortCol='posting_amount', sortDir=-1, currentPage=0;
+const PAGE_SIZE=50;
+const catColors={'Purchases of inventory':'var(--cat-inv)','Employee compensation':'var(--cat-comp)','Depreciation':'var(--cat-dep)','Intangible asset amortization':'var(--cat-amort)','Other expenses':'var(--cat-other)'};
+const catColorHex={'Purchases of inventory':'#059669','Employee compensation':'#2563EB','Depreciation':'#D97706','Intangible asset amortization':'#7C3AED','Other expenses':'#DC2626'};
+
+function esc(s){if(s==null)return '';const d=document.createElement('div');d.textContent=String(s);return d.innerHTML}
+function fmt$(v){return '$'+(v/1e3).toLocaleString(undefined,{maximumFractionDigits:0})}
+function fmtM(v){return '$'+(v/1e6).toFixed(1)+'M'}
+function fmtFull(v){return '$'+v.toLocaleString(undefined,{maximumFractionDigits:0})}
+
+// ── DATA LOADING ──
+const loadZone=document.getElementById('load-zone'),fileInput=document.getElementById('file-input');
+loadZone.addEventListener('click',e=>{if(e.target.id!=='auto-load-btn')fileInput.click()});
+loadZone.addEventListener('dragover',e=>{e.preventDefault();loadZone.classList.add('drag-over')});
+loadZone.addEventListener('dragleave',()=>loadZone.classList.remove('drag-over'));
+loadZone.addEventListener('drop',e=>{e.preventDefault();loadZone.classList.remove('drag-over');if(e.dataTransfer.files[0])readFile(e.dataTransfer.files[0])});
+fileInput.addEventListener('change',()=>{if(fileInput.files[0])readFile(fileInput.files[0])});
+document.getElementById('auto-load-btn').addEventListener('click',e=>{e.stopPropagation();tryFetch(['dise_full_mapping.json','dise_mapping_results.json'],0)});
+
+function tryFetch(n,i){if(i>=n.length){alert('No JSON found. Upload manually.');return}
+fetch(n[i]).then(r=>{if(!r.ok)throw 0;return r.json()}).then(onData).catch(()=>tryFetch(n,i+1))}
+function readFile(f){const r=new FileReader();r.onload=e=>{try{onData(JSON.parse(e.target.result))}catch{alert('Invalid JSON')}};r.readAsText(f)}
+
+function onData(data){
+  DATA=data.filter(d=>d.suggested_category&&!d.error);
+  loadZone.style.display='none';
+  document.getElementById('sec-dashboard').style.display='block';
+  document.getElementById('data-badge').textContent=DATA.length+' accounts classified';
+  populateFilters();applyFilters();renderDashboard();renderDisclosure();renderAnomalies();renderCostCentres();renderAuditDefault();
+}
+
+// ── TABS ──
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');document.getElementById('sec-'+t.dataset.tab).classList.add('active');
+}));
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const total=DATA.length,totalAmt=DATA.reduce((s,d)=>s+(d.posting_amount||0),0);
+  const high=DATA.filter(d=>d.confidence_label==='HIGH').length;
+  const med=DATA.filter(d=>d.confidence_label==='MEDIUM').length;
+  const low=DATA.filter(d=>d.confidence_label==='LOW').length;
+  const cats={},captions={};
+  DATA.forEach(d=>{const c=d.suggested_category||'?';if(!cats[c])cats[c]={count:0,amount:0};cats[c].count++;cats[c].amount+=d.posting_amount||0});
+  DATA.forEach(d=>{const c=d.suggested_caption||'?';if(!captions[c])captions[c]={count:0,amount:0};captions[c].count++;captions[c].amount+=d.posting_amount||0});
+
+  document.getElementById('metrics-strip').innerHTML=`
+    <div class="metric-card"><div class="metric-label">Accounts Classified</div><div class="metric-value">${total}</div><div class="metric-sub">of 502 GL accounts</div></div>
+    <div class="metric-card"><div class="metric-label">Total FY2023 Expense</div><div class="metric-value">${fmtM(totalAmt)}</div><div class="metric-sub">${Object.keys(cats).length} DISE categories</div></div>
+    <div class="metric-card"><div class="metric-label">High Confidence</div><div class="metric-value" style="color:var(--green)">${total?Math.round(high/total*100):0}%</div><div class="metric-sub">${high} accounts</div></div>
+    <div class="metric-card"><div class="metric-label">Needs Review</div><div class="metric-value" style="color:var(--amber)">${med}</div><div class="metric-sub">Medium confidence</div></div>
+    <div class="metric-card"><div class="metric-label">Investigate</div><div class="metric-value" style="color:var(--red)">${low}</div><div class="metric-sub">Low confidence</div></div>`;
+
+  const maxAmt=Math.max(...Object.values(cats).map(c=>c.amount),1);
+  document.getElementById('cat-bars').innerHTML=Object.entries(cats).sort((a,b)=>b[1].amount-a[1].amount).map(([cat,v])=>`<div class="bar-row"><div class="bar-label">${esc(cat)}</div><div class="bar-track"><div class="bar-fill" style="width:${(v.amount/maxAmt*100).toFixed(1)}%;background:${catColors[cat]||'var(--text3)'}"><span class="bar-val">${fmtM(v.amount)} (${v.count})</span></div></div></div>`).join('');
+
+  document.getElementById('conf-blocks').innerHTML=`
+    <div class="conf-block" style="background:var(--green-dim)"><div class="conf-num" style="color:var(--green)">${high}</div><div class="conf-label-text" style="color:var(--green)">High</div></div>
+    <div class="conf-block" style="background:var(--amber-dim)"><div class="conf-num" style="color:var(--amber)">${med}</div><div class="conf-label-text" style="color:var(--amber)">Medium</div></div>
+    <div class="conf-block" style="background:var(--red-dim)"><div class="conf-num" style="color:var(--red)">${low}</div><div class="conf-label-text" style="color:var(--red)">Low</div></div>`;
+
+  const capMax=Math.max(...Object.values(captions).map(c=>c.amount),1);
+  document.getElementById('caption-bars').innerHTML=Object.entries(captions).sort((a,b)=>b[1].amount-a[1].amount).map(([c,v])=>`<div class="bar-row"><div class="bar-label">${esc(c)}</div><div class="bar-track"><div class="bar-fill" style="width:${(v.amount/capMax*100).toFixed(1)}%;background:var(--blue)"><span class="bar-val">${fmtM(v.amount)} (${v.count})</span></div></div></div>`).join('');
+}
+
+// ── ACCOUNTS TABLE ──
+function populateFilters(){
+  const cats=[...new Set(DATA.map(d=>d.suggested_category))].filter(Boolean).sort();
+  const caps=[...new Set(DATA.map(d=>d.suggested_caption))].filter(Boolean).sort();
+  document.getElementById('f-cat').innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
+  document.getElementById('f-caption').innerHTML='<option value="">All Captions</option>'+caps.map(c=>`<option>${esc(c)}</option>`).join('');
+  document.getElementById('f-conf').innerHTML='<option value="">All Confidence</option>'+['HIGH','MEDIUM','LOW'].map(c=>`<option>${c}</option>`).join('');
+  ['f-cat','f-caption','f-conf'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{currentPage=0;applyFilters()}));
+  document.getElementById('f-search').addEventListener('input',()=>{currentPage=0;applyFilters()});
+  renderTableHead();
+}
+
+function renderTableHead(){
+  const cols=[['gl_account','GL#'],['description','Description'],['functional_area','Function'],['posting_amount','FY2023 $'],['suggested_category','Category'],['suggested_caption','Caption'],['suggested_citation','Citation'],['confidence_label','Conf'],['confidence_score','Score'],['_r','']];
+  document.getElementById('table-head').innerHTML='<tr>'+cols.map(([k,l])=>{
+    const s=sortCol===k;const a=s?(sortDir>0?' &#9650;':' &#9660;'):' &#8597;';
+    return `<th class="${s?'sorted':''}" data-col="${k}">${l}${k!=='_r'?`<span class="sort-arrow">${a}</span>`:''}</th>`}).join('')+'</tr>';
+  document.querySelectorAll('#table-head th').forEach(th=>th.addEventListener('click',()=>{
+    const c=th.dataset.col;if(c==='_r')return;
+    if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=c==='posting_amount'||c==='confidence_score'?-1:1}applyFilters()}));
+}
+
+function applyFilters(){
+  const cat=document.getElementById('f-cat').value,cap=document.getElementById('f-caption').value,conf=document.getElementById('f-conf').value,q=document.getElementById('f-search').value.toLowerCase();
+  filtered=DATA.filter(d=>{
+    if(cat&&d.suggested_category!==cat)return false;if(cap&&d.suggested_caption!==cap)return false;
+    if(conf&&d.confidence_label!==conf)return false;
+    if(q&&!(d.gl_account||'').toLowerCase().includes(q)&&!(d.description||'').toLowerCase().includes(q))return false;return true});
+  filtered.sort((a,b)=>{let va=a[sortCol],vb=b[sortCol];if(typeof va==='number'&&typeof vb==='number')return(va-vb)*sortDir;va=String(va||'').toLowerCase();vb=String(vb||'').toLowerCase();return va<vb?-sortDir:va>vb?sortDir:0});
+  renderTableHead();renderTableBody();renderPagination();
+}
+
+function renderTableBody(){
+  const s=currentPage*PAGE_SIZE,page=filtered.slice(s,s+PAGE_SIZE);
+  document.getElementById('table-body').innerHTML=page.map((d,i)=>{const rid='r'+(s+i);
+    return `<tr><td><span class="gl-code">${esc(d.gl_account)}</span></td><td>${esc(d.description)}</td><td style="font-size:11px;color:var(--text2)">${esc(d.functional_area)}</td><td class="amount">${fmtFull(d.posting_amount||0)}</td><td><span class="cat-pill" data-cat="${esc(d.suggested_category)}">${esc(d.suggested_category)}</span></td><td><span class="caption-tag">${esc(d.suggested_caption)}</span></td><td><span class="citation">${esc(d.suggested_citation)}</span></td><td><span class="conf-badge ${esc(d.confidence_label)}">${esc(d.confidence_label)}</span></td><td class="amount">${((d.confidence_score||0)*100).toFixed(0)}%</td><td><span class="reasoning-toggle" onclick="toggleR('${rid}')">Details &#9662;</span><div class="reasoning-text" id="${rid}">${esc(d.draft_reasoning||'')}</div></td></tr>`}).join('');
+}
+
+function renderPagination(){
+  const tp=Math.ceil(filtered.length/PAGE_SIZE),s=currentPage*PAGE_SIZE+1,e=Math.min((currentPage+1)*PAGE_SIZE,filtered.length);
+  document.getElementById('pagination').innerHTML=`<div class="page-info">Showing ${filtered.length?s:0}&ndash;${e} of ${filtered.length}</div><div class="page-btns"><button class="page-btn" onclick="goP(0)" ${currentPage===0?'disabled':''}>First</button><button class="page-btn" onclick="goP(${currentPage-1})" ${currentPage===0?'disabled':''}>Prev</button><button class="page-btn active">${currentPage+1}/${tp||1}</button><button class="page-btn" onclick="goP(${currentPage+1})" ${currentPage>=tp-1?'disabled':''}>Next</button><button class="page-btn" onclick="goP(${tp-1})" ${currentPage>=tp-1?'disabled':''}>Last</button></div>`;
+}
+function goP(p){currentPage=Math.max(0,p);renderTableBody();renderPagination()}
+function toggleR(id){document.getElementById(id).classList.toggle('open')}
+
+// ── 4-LINK AUDIT TRAIL ──
+function renderAuditDefault(){
+  if(!DATA.length)return;
+  // Show first 5 by default
+  renderAuditResults(DATA.slice(0,5));
+}
+
+document.getElementById('audit-search').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  if(!q){renderAuditResults(DATA.slice(0,5));return}
+  const matches=DATA.filter(d=>(d.gl_account||'').toLowerCase().includes(q)||(d.description||'').toLowerCase().includes(q)).slice(0,10);
+  renderAuditResults(matches);
+});
+
+function renderAuditResults(accounts){
+  if(!accounts.length){document.getElementById('audit-container').innerHTML='<div style="color:var(--text3);text-align:center;padding:40px">No accounts found</div>';return}
+  document.getElementById('audit-container').innerHTML=accounts.map(d=>`
+    <div style="margin-bottom:24px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        <span class="gl-code" style="font-size:13px">${esc(d.gl_account)}</span>
+        <span style="color:var(--text2)">${esc(d.description)}</span>
+        <span class="cat-pill" data-cat="${esc(d.suggested_category)}" style="margin-left:8px">${esc(d.suggested_category)}</span>
+        <span style="margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--text3)">${fmtFull(d.posting_amount||0)}</span>
+      </div>
+      <div class="audit-chain">
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l1">1</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 1 &mdash; GL Posting</div>
+            <div class="chain-title">SAP General Ledger Entry</div>
+            <div class="chain-detail">Account <strong>${esc(d.gl_account)}</strong> &mdash; ${esc(d.description)}<br>Functional area: ${esc(d.functional_area)} | Cost element: ${esc(d.cost_element_type)}</div>
+            <div class="chain-meta"><span>FY2023: ${fmtFull(d.posting_amount||0)}</span><span>FY2022: ${fmtFull(d.fy2022_balance||0)}</span><span>YoY: ${d.fy2022_balance?((((d.posting_amount||0)-(d.fy2022_balance||0))/(d.fy2022_balance||1))*100).toFixed(1)+'%':'N/A'}</span></div>
+          </div>
+        </div></div>
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l2">2</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 2 &mdash; Mapping Decision</div>
+            <div class="chain-title">AI Agent Classification</div>
+            <div class="chain-detail">Category: <strong>${esc(d.suggested_category)}</strong> | Caption: <strong>${esc(d.suggested_caption)}</strong></div>
+            <div class="chain-meta"><span>Confidence: <span class="conf-badge ${esc(d.confidence_label)}">${esc(d.confidence_label)}</span> ${((d.confidence_score||0)*100).toFixed(0)}%</span><span>Model: claude-sonnet-4</span><span>Agent: GL_MAPPING_AGENT_v1</span></div>
+          </div>
+        </div></div>
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l3">3</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 3 &mdash; Agent Reasoning</div>
+            <div class="chain-title">Classification Rationale</div>
+            <div class="chain-detail">${esc(d.draft_reasoning||'No reasoning provided')}</div>
+          </div>
+        </div></div>
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l4">4</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 4 &mdash; ASC Citation</div>
+            <div class="chain-title">${esc(d.suggested_citation)}</div>
+            <div class="chain-detail">${getCitationDesc(d.suggested_citation)}</div>
+            <div class="chain-meta"><span>Standard: ASU 2024-03</span><span>Codification: ASC 220-40</span><span>Effective: Jan 2027</span></div>
+          </div>
+        </div></div>
+      </div>
+    </div>`).join('');
+}
+
+function getCitationDesc(c){
+  const map={'ASC 220-40-50-6(a)':'Employee compensation &mdash; all forms of consideration paid to employees for services rendered, including wages, salaries, bonuses, benefits, pension expense, and stock-based compensation.',
+    'ASC 220-40-50-6(b)':'Purchases of inventory &mdash; cost of goods purchased for resale and raw materials acquired from third parties, including freight-in and tariffs.',
+    'ASC 220-40-50-6(c)':'Depreciation &mdash; systematic allocation of the cost of tangible fixed assets (PP&amp;E) over their useful lives, including right-of-use assets under ASC 842.',
+    'ASC 220-40-50-6(d)':'Intangible asset amortization &mdash; systematic allocation of the cost of finite-lived intangible assets, including patents, trademarks, customer relationships, and capitalized software.',
+    'ASC 220-40-50-6(e)':'Other expenses &mdash; all expenses within a relevant caption not classified as inventory purchases, compensation, depreciation, or amortization.'};
+  return map[c]||'ASC 220-40 &mdash; Disaggregation of Income Statement Expenses';
+}
+
+// ── ANOMALY ALERTS ──
+function renderAnomalies(){
+  if(!DATA.length)return;
+  const alerts=[];
+  // Compute category-level YoY anomalies
+  const catTotals={};
+  DATA.forEach(d=>{
+    const c=d.suggested_category||'?';
+    if(!catTotals[c])catTotals[c]={fy23:0,fy22:0,accounts:[]};
+    catTotals[c].fy23+=d.posting_amount||0;
+    catTotals[c].fy22+=d.fy2022_balance||0;
+    catTotals[c].accounts.push(d);
+  });
+
+  // Category-level anomalies
+  Object.entries(catTotals).forEach(([cat,v])=>{
+    if(v.fy22===0)return;
+    const pctChange=((v.fy23-v.fy22)/v.fy22)*100;
+    if(Math.abs(pctChange)>15){
+      alerts.push({type:'category_shift',priority:Math.abs(pctChange)>30?'P1':Math.abs(pctChange)>20?'P2':'P3',
+        category:cat,fy23:v.fy23,fy22:v.fy22,pctChange,
+        desc:`${cat} shifted ${pctChange>0?'up':'down'} ${Math.abs(pctChange).toFixed(1)}% YoY ($${(Math.abs(v.fy23-v.fy22)/1e6).toFixed(1)}M). ${Math.abs(pctChange)>20?'Auditors will likely question this variance.':'Monitor for continued trend.'}`});
+    }
+  });
+
+  // Account-level outliers (top 10 by absolute YoY change)
+  const withYoY=DATA.filter(d=>d.fy2022_balance&&d.fy2022_balance>0).map(d=>({...d,yoyPct:((d.posting_amount-d.fy2022_balance)/d.fy2022_balance)*100,yoyAbs:Math.abs(d.posting_amount-d.fy2022_balance)})).sort((a,b)=>b.yoyAbs-a.yoyAbs);
+
+  withYoY.slice(0,8).forEach(d=>{
+    if(Math.abs(d.yoyPct)>25){
+      alerts.push({type:'account_outlier',priority:Math.abs(d.yoyPct)>50?'P1':'P2',
+        category:`${d.gl_account} — ${d.description}`,caption:d.suggested_caption,
+        fy23:d.posting_amount,fy22:d.fy2022_balance,pctChange:d.yoyPct,
+        desc:`${d.yoyPct>0?'Increased':'Decreased'} ${Math.abs(d.yoyPct).toFixed(1)}% YoY. ${d.suggested_category} / ${d.suggested_caption}. Posting amount: ${fmtFull(d.posting_amount)}.`});
+    }
+  });
+
+  alerts.sort((a,b)=>{const p={'P1':1,'P2':2,'P3':3};return(p[a.priority]||9)-(p[b.priority]||9)});
+
+  const p1=alerts.filter(a=>a.priority==='P1').length;
+  const p2=alerts.filter(a=>a.priority==='P2').length;
+  const p3=alerts.filter(a=>a.priority==='P3').length;
+
+  document.getElementById('anomaly-metrics').innerHTML=`
+    <div class="metric-card"><div class="metric-label">Total Alerts</div><div class="metric-value">${alerts.length}</div></div>
+    <div class="metric-card"><div class="metric-label">P1 — Critical</div><div class="metric-value" style="color:var(--red)">${p1}</div><div class="metric-sub">&gt;30% variance or &gt;50% account shift</div></div>
+    <div class="metric-card"><div class="metric-label">P2 — Warning</div><div class="metric-value" style="color:var(--amber)">${p2}</div><div class="metric-sub">20&ndash;30% category / 25&ndash;50% account</div></div>
+    <div class="metric-card"><div class="metric-label">P3 — Monitor</div><div class="metric-value" style="color:var(--blue)">${p3}</div><div class="metric-sub">15&ndash;20% variance</div></div>`;
+
+  document.getElementById('anomaly-grid').innerHTML=alerts.map(a=>{
+    const dir=a.pctChange>0;const absP=Math.abs(a.pctChange);const barW=Math.min(absP,100);
+    const barColor=a.priority==='P1'?'var(--red)':a.priority==='P2'?'var(--amber)':'var(--blue)';
+    return `<div class="anomaly-card">
+      <div class="anomaly-header"><span style="font-size:12px;color:var(--text2)">${a.type==='category_shift'?'Category Shift':'Account Outlier'}</span><span class="anomaly-priority ${a.priority}">${a.priority}</span></div>
+      <div class="anomaly-body">
+        <div class="anomaly-cat">${esc(a.category)}</div>
+        <div class="anomaly-desc">${esc(a.desc)}</div>
+        <div class="anomaly-stats">
+          <div class="anomaly-stat"><div class="anomaly-stat-val" style="color:var(--text2)">${fmtM(a.fy22)}</div><div class="anomaly-stat-label">FY2022</div></div>
+          <div class="anomaly-stat"><div class="anomaly-stat-val">${fmtM(a.fy23)}</div><div class="anomaly-stat-label">FY2023</div></div>
+          <div class="anomaly-stat"><div class="anomaly-stat-val" style="color:${dir?'var(--red)':'var(--green)'}">${dir?'+':''}${a.pctChange.toFixed(1)}%</div><div class="anomaly-stat-label">Change</div></div>
+        </div>
+        <div class="anomaly-bar"><div class="anomaly-bar-fill" style="width:${barW}%;background:${barColor}"></div></div>
+      </div>
+    </div>`}).join('');
+}
+
+// ── DISCLOSURE ──
+function renderDisclosure(){
+  const captions=['COGS','SG&A','R&D','Other income/expense'];
+  const cats=['Purchases of inventory','Employee compensation','Depreciation','Intangible asset amortization','Other expenses'];
+  const pivot={};cats.forEach(c=>{pivot[c]={};captions.forEach(cap=>pivot[c][cap]=0)});
+  DATA.forEach(d=>{const cat=d.suggested_category,cap=d.suggested_caption;if(pivot[cat]&&pivot[cat][cap]!==undefined)pivot[cat][cap]+=(d.posting_amount||0)});
+  const colTotals={};captions.forEach(cap=>{colTotals[cap]=cats.reduce((s,cat)=>s+(pivot[cat][cap]||0),0)});
+  const gt=Object.values(colTotals).reduce((s,v)=>s+v,0);
+  const f=v=>v===0?'&mdash;':fmt$(v);
+
+  let h='<thead><tr><th>Natural Expense Category</th>';
+  captions.forEach(c=>h+=`<th>${esc(c)}</th>`);h+='<th>Total</th></tr></thead><tbody>';
+  cats.forEach(cat=>{const rt=captions.reduce((s,c)=>s+(pivot[cat][c]||0),0);
+    h+=`<tr><td>${esc(cat)}</td>`;captions.forEach(c=>h+=`<td>${f(pivot[cat][c])}</td>`);
+    h+=`<td class="disc-total">${f(rt)}</td></tr>`});
+  h+='</tbody><tfoot><tr><td>Total expenses</td>';
+  captions.forEach(c=>h+=`<td>${f(colTotals[c])}</td>`);
+  h+=`<td class="disc-total">${f(gt)}</td></tr></tfoot>`;
+  document.getElementById('disc-table').innerHTML=h;
+
+  // Footnotes
+  const totalAccts=DATA.length;const highConf=DATA.filter(d=>d.confidence_label==='HIGH').length;
+  document.getElementById('disc-footnotes').innerHTML=`
+    <p><strong>Basis of presentation:</strong> The Company classifies operating expenses into the five natural categories prescribed by ASU 2024-03 (ASC 220-40-50-6). This disaggregation is presented for all relevant income statement expense captions.</p>
+    <p style="margin-top:8px"><strong>Methodology:</strong> ${totalAccts} GL accounts were classified using BE Technology's GL Intelligence Platform, which employs an AI-assisted mapping agent (Claude Sonnet 4) with human-in-the-loop review. ${highConf} accounts (${totalAccts?Math.round(highConf/totalAccts*100):0}%) were classified with HIGH confidence. All classifications are subject to Controller review and approval before inclusion in SEC filings.</p>
+    <p style="margin-top:8px"><strong>Amounts in thousands.</strong> Columns may not sum due to rounding.</p>`;
+}
+
+// ── COST CENTRE INTELLIGENCE ──
+function renderCostCentres(){
+  const areas={};
+  DATA.forEach(d=>{
+    const fa=d.functional_area||'Unassigned';
+    if(!areas[fa])areas[fa]={total:0,cats:{}};
+    areas[fa].total+=d.posting_amount||0;
+    const c=d.suggested_category||'?';
+    if(!areas[fa].cats[c])areas[fa].cats[c]=0;
+    areas[fa].cats[c]+=d.posting_amount||0;
+  });
+
+  const sorted=Object.entries(areas).sort((a,b)=>b[1].total-a[1].total);
+  document.getElementById('cc-grid').innerHTML=sorted.map(([fa,v])=>{
+    const catEntries=Object.entries(v.cats).sort((a,b)=>b[1]-a[1]);
+    const maxCat=Math.max(...catEntries.map(e=>e[1]),1);
+    return `<div class="cc-card">
+      <div class="cc-title">${esc(fa)}</div>
+      <div class="cc-amount">${fmtM(v.total)}</div>
+      <div class="cc-breakdown">${catEntries.map(([cat,amt])=>`<div class="cc-row">
+        <div class="cc-row-label">${esc(cat)}</div>
+        <div class="cc-row-bar"><div class="cc-row-fill" style="width:${(amt/maxCat*100).toFixed(1)}%;background:${catColorHex[cat]||'#5A6A8A'}"><span class="cc-row-val">${fmtM(amt)}</span></div></div>
+      </div>`).join('')}</div>
+    </div>`}).join('');
+}
+
+// ── EXPORT CSV ──
+document.getElementById('export-csv').addEventListener('click',()=>{
+  const h=['GL Account','Description','Functional Area','FY2023 Balance','FY2022 Balance','DISE Category','Caption','ASC Citation','Confidence','Score','Reasoning'];
+  const rows=filtered.map(d=>[d.gl_account,`"${(d.description||'').replace(/"/g,'""')}"`,d.functional_area,d.posting_amount,d.fy2022_balance||'',d.suggested_category,d.suggested_caption,d.suggested_citation,d.confidence_label,d.confidence_score,`"${(d.draft_reasoning||'').replace(/"/g,'""')}"`]);
+  const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='dise_mapping_export.csv';a.click();
+});
+
+// ═══════════════════════════════════════════════════════════
+// AGENTS TAB — Live API integration
+// ═══════════════════════════════════════════════════════════
+
+const API_BASE = window.location.origin;
+let agentLogLines = [];
+
+function agentLog(msg, level='info') {
+  const ts = new Date().toLocaleTimeString();
+  const colors = {info:'var(--text2)', success:'var(--green)', error:'var(--red)', warn:'var(--amber)'};
+  agentLogLines.push(`<div style="color:${colors[level]||colors.info}">[${ts}] ${esc(msg)}</div>`);
+  const el = document.getElementById('agent-log');
+  el.innerHTML = agentLogLines.slice(-50).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function setAgentState(name, state) {
+  const card = document.getElementById('ac-' + name);
+  card.classList.remove('running','done','error');
+  if (state) card.classList.add(state);
+  // Disable buttons while running
+  card.querySelectorAll('.agent-btn').forEach(b => b.disabled = state === 'running');
+}
+
+async function runAgent(name, params) {
+  const resultEl = document.getElementById('ar-' + name);
+  resultEl.innerHTML = '<span style="color:var(--text3)">Running...</span>';
+  setAgentState(name, 'running');
+  document.getElementById('agent-spinner').style.display = 'inline-block';
+  agentLog(`Starting ${name} agent...`);
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/agents/run`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({agent: name, params: params}),
+    });
+    const data = await resp.json();
+
+    if (data.error) {
+      setAgentState(name, 'error');
+      resultEl.innerHTML = `<div style="color:var(--red)">Error: ${esc(data.error)}</div>`;
+      agentLog(`${name} agent failed: ${data.error}`, 'error');
+      return data;
+    }
+
+    setAgentState(name, 'done');
+    agentLog(`${name} agent complete — ${data.processed || 0} processed, ${data.errors || 0} errors`, data.errors > 0 ? 'warn' : 'success');
+
+    // Render results based on agent type
+    if (name === 'mapping') {
+      resultEl.innerHTML = renderMappingResult(data);
+    } else if (name === 'recon') {
+      resultEl.innerHTML = renderReconResult(data);
+    } else if (name === 'anomaly') {
+      resultEl.innerHTML = renderAnomalyResult(data);
+    } else if (name === 'disclosure') {
+      // Disclosure returns detailed narrative — fetch it separately
+      const discResp = await fetch(`${API_BASE}/api/agents/disclosure`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({fiscal_year: '2023'}),
+      });
+      const discData = await discResp.json();
+      resultEl.innerHTML = renderDisclosureResult(discData);
+    } else {
+      resultEl.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+    return data;
+  } catch (e) {
+    setAgentState(name, 'error');
+    resultEl.innerHTML = `<div style="color:var(--red)">Network error: ${esc(e.message)}</div>`;
+    agentLog(`${name} agent network error: ${e.message}`, 'error');
+    return null;
+  } finally {
+    document.getElementById('agent-spinner').style.display = 'none';
+  }
+}
+
+async function runAllAgents() {
+  const btn = document.querySelector('.agent-btn-run-all');
+  btn.disabled = true;
+  btn.textContent = 'Running pipeline...';
+  agentLog('Starting full agent pipeline (4 agents)...', 'info');
+
+  for (const name of ['mapping', 'recon', 'anomaly', 'disclosure']) {
+    await runAgent(name, name === 'mapping' ? {dry_run: true} : {});
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Run Full Pipeline (all 4 agents)';
+  agentLog('Full pipeline complete.', 'success');
+}
+
+function renderMappingResult(data) {
+  const s = data.summary || {};
+  return `<div style="margin-top:8px">
+    <span class="conf-badge ${s.errors?'LOW':'HIGH'}">${data.status}</span>
+    <span style="margin-left:8px">Total unmapped: <strong>${s.total_unmapped || 0}</strong> | Processed: <strong>${data.processed || 0}</strong> | Errors: ${data.errors || 0}</span>
+    ${s.message ? `<div style="margin-top:4px;color:var(--green)">${esc(s.message)}</div>` : ''}
+  </div>`;
+}
+
+function renderReconResult(data) {
+  const s = data.summary || {};
+  let html = `<div style="margin-top:8px">
+    <span class="conf-badge ${s.variances_found?'MEDIUM':'HIGH'}">${data.status}</span>
+    <span style="margin-left:8px">Captions: ${s.captions_checked || 0} | Variances: <strong>${s.variances_found || 0}</strong> | Max: $${(s.max_variance||0).toLocaleString()}</span>
+  </div>`;
+  if (s.analysis) {
+    html += `<div class="narrative">${esc(s.analysis)}</div>`;
+  }
+  return html;
+}
+
+function renderAnomalyResult(data) {
+  const s = data.summary || {};
+  return `<div style="margin-top:8px">
+    <span class="conf-badge HIGH">${data.status}</span>
+    <span style="margin-left:8px">Analyzed: ${s.accounts_analyzed || 0} | Alerts: <strong>${s.total_alerts || 0}</strong>
+    (P1: <span style="color:var(--red)">${s.p1_critical||0}</span>,
+     P2: <span style="color:var(--amber)">${s.p2_warning||0}</span>,
+     P3: <span style="color:var(--blue)">${s.p3_monitor||0}</span>)</span>
+    ${s.cfo_summary ? `<div class="narrative">${esc(s.cfo_summary)}</div>` : ''}
+  </div>`;
+}
+
+function renderDisclosureResult(data) {
+  if (!data || !data.disclosure) return '<span style="color:var(--text3)">No disclosure generated</span>';
+  const d = data.disclosure;
+  const s = data.summary || {};
+  let html = `<div style="margin-top:8px">
+    <span class="conf-badge HIGH">${data.status}</span>
+    <span style="margin-left:8px">FY${s.fiscal_year||'2023'} | $${((s.grand_total||0)/1e6).toFixed(1)}M | ${s.mapped_accounts||0} accounts | Close: ${s.close_tasks_complete||0}/${s.close_tasks_total||0} green</span>
+  </div>`;
+  if (d.narrative) {
+    html += `<div class="narrative">${esc(d.narrative)}</div>`;
+  }
+  return html;
+}
+
+// Load live status from API on tab switch
+async function loadAgentLiveStatus() {
+  try {
+    const resp = await fetch(`${API_BASE}/api/status`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const el = document.getElementById('agent-live-status');
+    const clsTotal = data.classified_total ? '$'+(data.classified_total/1e6).toFixed(0)+'M' : '$0';
+    el.innerHTML = `
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">Classified Data (Excel Pipeline — 501 accounts)</div>
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+        <div class="metric-card"><div class="metric-label">Classified Accounts</div><div class="metric-value" style="color:var(--green)">${data.classified_accounts||0}</div><div class="metric-sub">via Claude AI</div></div>
+        <div class="metric-card"><div class="metric-label">Total FY2023</div><div class="metric-value">${clsTotal}</div><div class="metric-sub">5 DISE categories</div></div>
+        <div class="metric-card"><div class="metric-label">BQ Mappings (demo)</div><div class="metric-value" style="font-size:20px">${data.bq_approved_mappings||0}</div><div class="metric-sub">in diplomatic75</div></div>
+        <div class="metric-card"><div class="metric-label">Cortex Sources</div><div class="metric-value" style="font-size:16px">SAP + Oracle + SFDC</div><div class="metric-sub">${esc(data.config?.project)}</div></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Agents operate on the classified data. Cortex connectors query live ERP data.</div>
+    `;
+    agentLog(`Live status loaded — ${data.approved_mappings} mappings, ${data.pending_mappings} pending`, 'success');
+  } catch (e) {
+    document.getElementById('agent-live-status').innerHTML =
+      `<div style="padding:12px;background:var(--red-dim);border:1px solid rgba(239,68,68,0.2);border-radius:var(--radius);font-size:12px;color:var(--red)">
+        API not reachable at ${API_BASE}. Start the server: <code>python3 run.py serve --port 8888</code>
+      </div>`;
+  }
+}
+
+// Hook into tab switching to load live status when agents tab is activated
+const origTabClick = document.querySelectorAll('.tab');
+origTabClick.forEach(t => {
+  t.addEventListener('click', () => {
+    if (t.dataset.tab === 'agents') loadAgentLiveStatus();
+  });
+});
+
+// Auto-load
+window.addEventListener('DOMContentLoaded', () => {
+  tryFetch(['dise_full_mapping.json', 'dise_mapping_results.json'], 0);
+  // Also try loading from API
+  fetch(`${API_BASE}/api/status`).then(r => r.json()).then(data => {
+    document.getElementById('data-badge').textContent =
+      (data.approved_mappings || 0) + ' live mappings (BigQuery)';
+  }).catch(() => {});
+});
+</script>
+</body>
+</html>

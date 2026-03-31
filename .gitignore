@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.env
+.env.*
+
+# macOS
+.DS_Store
+*.DS_Store
+
+# Secrets
+*credentials*.json
+service_account*.json
+*.key
+
+# Data files (large / sensitive)
+*.xlsx
+*.xls
+sap_ecc_prospects_*.xlsx
+dise_mapping_results.xlsx
+DISE_Manual_Work_Demo.xlsx
+DISE_Mapping_Toolkit.xlsx
+
+# Output JSON (committed intentionally only)
+# dise_full_mapping.json is committed — comment out to exclude it
+# dise_full_mapping.json
+
+# Terraform state
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform/
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/

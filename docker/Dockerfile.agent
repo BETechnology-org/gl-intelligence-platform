@@ -1,0 +1,17 @@
+# BE Technology — GL Mapping Agent
+FROM python:3.11-slim AS builder
+WORKDIR /build
+COPY docker/requirements.txt .
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+FROM python:3.11-slim
+RUN groupadd -r agent && useradd -r -g agent -d /app -s /sbin/nologin agent
+WORKDIR /app
+COPY --from=builder /install /usr/local
+COPY gl_intelligence/ gl_intelligence/
+COPY run.py .
+RUN mkdir -p data && chown -R agent:agent /app
+USER agent
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD python -c "import anthropic, google.cloud.bigquery; print('ok')" || exit 1
+CMD ["python", "run.py", "agent", "mapping"]

@@ -1,0 +1,27 @@
+FROM --platform=linux/amd64 python:3.11-slim AS base
+
+WORKDIR /app
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 && rm -rf /var/lib/apt/lists/*
+
+# Python deps
+COPY docker/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# App code
+COPY gl_intelligence/ /app/gl_intelligence/
+COPY "FASB DISE ASSETS/dise_full_mapping.json" /app/FASB\ DISE\ ASSETS/dise_full_mapping.json
+COPY run.py /app/run.py
+
+# Non-root user
+RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD python3 -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/health')"
+
+CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8080", "--timeout", "120", "gl_intelligence.api.server:create_app()"]

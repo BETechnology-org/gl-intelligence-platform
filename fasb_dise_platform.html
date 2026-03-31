@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FASB DISE Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #F7F8FC;
+  --navy-mid: #FFFFFF;
+  --navy-light: #EEF1F6;
+  --teal: #0D9488;
+  --teal-light: #0F766E;
+  --teal-glow: rgba(13,148,136,0.08);
+  --gold: #92580A;
+  --gold-light: #B45309;
+  --white: #0F1729;
+  --muted: #5A6A8A;
+  --border: rgba(0,0,0,0.08);
+  --border-light: rgba(0,0,0,0.12);
+  --card-bg: #FFFFFF;
+  --card-hover: #F1F4F9;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 12px;
+  --radius-lg: 18px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Page system ── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: flex; flex-direction: column; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F1F4F9; }
+::-webkit-scrollbar-thumb { background: #C8D3E8; border-radius: 3px; }
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: #FFFFFF;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-logo-mark {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 16px;
+  color: white;
+  font-style: italic;
+}
+
+.nav-logo-text {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.nav-logo-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-link {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: none;
+  font-family: var(--sans);
+}
+.nav-link:hover { color: var(--white); background: var(--card-hover); }
+.nav-link.active { color: var(--teal-light); }
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.nav-chat-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 16px;
+  background: var(--teal-glow);
+  border: 1px solid rgba(13,148,136,0.3);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--teal-light);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--sans);
+}
+.nav-chat-btn:hover {
+  background: rgba(13,148,136,0.25);
+  border-color: var(--teal);
+}
+
+.nav-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1E3A5A, #2A4F78);
+  border: 1px solid var(--border-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════
+   HOMEPAGE
+══════════════════════════════════════ */
+.home-hero {
+  padding: 64px 40px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(13,148,136,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.home-hero::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 40%;
+  height: 100%;
+  background: radial-gradient(ellipse at right top, rgba(13,148,136,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px; height: 1px;
+  background: var(--teal-light);
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  max-width: 640px;
+}
+
+.hero-title em {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 500px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 52px;
+}
+
+.hero-stat-value {
+  font-family: var(--serif);
+  font-size: 28px;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hero-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Section headings ── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 0 40px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.section-link {
+  font-size: 12px;
+  color: var(--teal-light);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+}
+.section-link:hover { color: var(--white); }
+
+/* ── Module grid ── */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  padding: 0 40px 40px;
+}
+
+.module-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+}
+
+.module-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.module-card:hover {
+  background: var(--card-hover);
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+}
+.module-card:hover::before { opacity: 1; }
+
+.module-card.featured {
+  border-color: rgba(13,148,136,0.25);
+  background: linear-gradient(135deg, rgba(13,148,136,0.05), #FFFFFF);
+}
+.module-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+
+.module-card.featured::before { opacity: 1; }
+
+.module-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.module-badge {
+  position: absolute;
+  top: 16px; right: 16px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.badge-new { background: #CCFBF1; color: #0F766E; border: 1px solid #5EEAD4; }
+.badge-updated { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+.badge-req { background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5; }
+
+.module-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.module-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.module-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.module-meta-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+/* ── News section ── */
+.news-section {
+  padding: 0 40px 52px;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+.news-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.news-card:hover { background: var(--card-hover); border-color: var(--border-light); }
+
+.news-card.lead {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(13,148,136,0.04), #FFFFFF);
+  border-color: rgba(13,148,136,0.15);
+}
+.news-card { box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+
+.news-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+
+.news-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.news-card.lead .news-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.news-body {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.news-date {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.6;
+  font-family: var(--mono);
+}
+
+/* ══════════════════════════════════════
+   MODULE PAGE (DISE, etc.)
+══════════════════════════════════════ */
+.module-page-header {
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(13,148,136,0.04) 0%, #F7F8FC 100%);
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 5px 0;
+  border: none;
+  background: none;
+  font-family: var(--sans);
+  transition: color 0.2s;
+}
+.back-btn:hover { color: var(--white); }
+
+.module-page-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  margin-bottom: 10px;
+}
+
+.module-page-title {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.module-page-sub {
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+.module-page-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  color: var(--muted);
+}
+
+.tag.teal { border-color: rgba(13,148,136,0.3); color: var(--teal-light); background: var(--teal-glow); }
+
+/* ── Module page body ── */
+.module-body {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  flex: 1;
+}
+
+.module-main { padding: 32px 40px; border-right: 1px solid var(--border); overflow-y: auto; }
+.module-sidebar { padding: 28px 24px; overflow-y: auto; }
+
+/* ── Status bar ── */
+.status-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.status-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.status-card-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.status-card-value {
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.status-card-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.status-green { color: #16A34A; }
+.status-amber { color: #B45309; }
+.status-red { color: #DC2626; }
+.status-teal { color: var(--teal); }
+
+/* ── Content sections ── */
+.content-section { margin-bottom: 32px; }
+
+.content-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Data table ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 12px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: middle;
+}
+
+.data-table tr:hover td { background: var(--card-hover); }
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.pill-green { background: #DCFCE7; color: #16A34A; border: 1px solid #86EFAC; }
+.pill-amber { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+.pill-red { background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5; }
+.pill-blue { background: #DBEAFE; color: #2563EB; border: 1px solid #93C5FD; }
+
+/* ── Progress bars ── */
+.progress-item { margin-bottom: 14px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+.progress-label span:last-child { color: var(--muted); }
+.progress-track { height: 4px; background: #E2E8F0; border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--teal), var(--teal-light)); transition: width 0.8s ease; }
+.progress-fill.amber { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.progress-fill.red { background: linear-gradient(90deg, #DC2626, #FCA5A5); }
+
+/* ── Sidebar widgets ── */
+.sidebar-widget {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+
+.sidebar-widget-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.checklist-item:last-child { border-bottom: none; }
+
+.check-icon {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+}
+.check-done { background: #DCFCE7; color: #16A34A; border: 1px solid #86EFAC; }
+.check-pending { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+.check-open { background: #F1F5F9; color: var(--muted); border: 1px solid #E2E8F0; }
+
+.timeline-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 12px;
+}
+.timeline-item:last-child { border-bottom: none; }
+
+.timeline-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.timeline-date { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 2px; }
+.timeline-text { color: var(--white); line-height: 1.4; }
+
+/* ── Action buttons ── */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: var(--sans);
+}
+
+.btn-primary {
+  background: var(--teal);
+  color: white;
+}
+.btn-primary:hover { background: var(--teal-light); }
+
+.btn-secondary {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+  color: var(--white);
+}
+.btn-secondary:hover { background: var(--card-hover); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.btn-ghost:hover { color: var(--white); border-color: var(--border-light); }
+
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+
+/* ══════════════════════════════════════
+   AI CHAT PANEL
+══════════════════════════════════════ */
+.chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 16px;
+}
+.chat-overlay.open { display: flex; }
+
+.chat-panel {
+  width: 420px;
+  height: 620px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.chat-header-left { display: flex; align-items: center; gap: 10px; }
+
+.chat-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal), var(--navy-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+
+.chat-title { font-size: 14px; font-weight: 600; }
+.chat-status { font-size: 11px; color: var(--teal-light); display: flex; align-items: center; gap: 5px; }
+.chat-status::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--teal-light); display:inline-block; }
+
+.chat-close {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.chat-close:hover { color: var(--white); background: var(--card-hover); }
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-msg {
+  max-width: 85%;
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+.chat-msg.assistant { align-self: flex-start; }
+.chat-msg.user { align-self: flex-end; }
+
+.chat-bubble {
+  padding: 11px 15px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.chat-msg.assistant .chat-bubble {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+  color: var(--white);
+}
+
+.chat-msg.user .chat-bubble {
+  background: var(--teal);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-msg-time {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+.chat-msg.user .chat-msg-time { text-align: right; }
+
+.chat-suggestions {
+  padding: 0 20px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chat-suggestion {
+  font-size: 11px;
+  padding: 5px 11px;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--card-bg);
+  font-family: var(--sans);
+}
+.chat-suggestion:hover { color: var(--white); border-color: var(--teal); background: var(--teal-glow); }
+
+.chat-input-row {
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--white);
+  font-family: var(--sans);
+  resize: none;
+  height: 40px;
+  max-height: 120px;
+  transition: border-color 0.2s;
+  line-height: 1.4;
+}
+.chat-input:focus { outline: none; border-color: var(--teal); }
+.chat-input::placeholder { color: var(--muted); }
+
+.chat-send {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: var(--teal);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  color: white;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.chat-send:hover { background: var(--teal-light); }
+.chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 4px 2px;
+  align-items: center;
+}
+.typing-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: typingBounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ── Floating chat button ── */
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--teal);
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 8px 24px rgba(13,148,136,0.4);
+  transition: all 0.2s;
+  z-index: 150;
+}
+.chat-fab:hover { transform: scale(1.08); background: var(--teal-light); }
+
+/* ── Loading dots ── */
+.loading-bar {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 1px;
+  margin-bottom: 20px;
+}
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* ── Responsive tweaks ── */
+@media (max-width: 900px) {
+  .news-grid { grid-template-columns: 1fr; }
+  .news-card.lead { grid-column: span 1; }
+  .module-body { grid-template-columns: 1fr; }
+  .module-sidebar { border-top: 1px solid var(--border); }
+  .status-bar { grid-template-columns: 1fr 1fr; }
+  .chat-panel { width: calc(100vw - 32px); height: 500px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-mark">F</div>
+    <div>
+      <div class="nav-logo-text">BE Technology</div>
+      <div class="nav-logo-sub">GL Intelligence Platform</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('home')">Home</button>
+    <button class="nav-link" onclick="showModule('dise')">DISE</button>
+    <button class="nav-link" onclick="showModule('income-tax')">Income Tax</button>
+    <button class="nav-link" onclick="showModule('segment')">Segments</button>
+    <button class="nav-link" onclick="showModule('lease')">Leases</button>
+  </div>
+  <div class="nav-right">
+    <button class="nav-chat-btn" onclick="openChat()">
+      <span>✦</span> AI Assistant
+    </button>
+    <div class="nav-avatar">JD</div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <div class="home-hero">
+    <div class="hero-eyebrow">FASB Disclosure Intelligence Platform</div>
+    <h1 class="hero-title">
+      Financial reporting,<br><em>made certain.</em>
+    </h1>
+    <p class="hero-sub">
+      End-to-end compliance tooling for FASB mandates — from DISE interrogation to segment disclosures. Built for finance teams navigating complex regulatory requirements.
+    </p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-value">6</div>
+        <div class="hero-stat-label">Active Modules</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">ASC 740</div>
+        <div class="hero-stat-label">Latest Standard</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">Q2 2025</div>
+        <div class="hero-stat-label">Next Filing Cycle</div>
+      </div>
+      <div>
+        <div class="hero-stat-value">3</div>
+        <div class="hero-stat-label">Items Need Attention</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modules -->
+  <div class="section-header">
+    <h2 class="section-title">Disclosure Modules</h2>
+    <a class="section-link">View all →</a>
+  </div>
+  <div class="modules-grid">
+
+    <div class="module-card featured" onclick="showModule('dise')">
+      <span class="module-badge badge-req">Required</span>
+      <div class="module-icon" style="background:rgba(13,148,136,0.15);">📊</div>
+      <div class="module-name">DISE Mandate</div>
+      <div class="module-desc">Digital Interrogation & Substantiation of Evidence — full FASB compliance workflow with automated evidence mapping.</div>
+      <div class="module-meta">
+        <div class="module-meta-dot"></div>
+        <span>Active</span>
+        <span>·</span>
+        <span>3 items open</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="showModule('income-tax')">
+      <span class="module-badge badge-updated">Updated</span>
+      <div class="module-icon" style="background:rgba(201,168,76,0.12);">⚖️</div>
+      <div class="module-name">Income Tax Reconciliation</div>
+      <div class="module-desc">ASC 740 rate reconciliation, deferred tax scheduling, and uncertain tax position management.</div>
+      <div class="module-meta">
+        <div class="module-meta-dot" style="background:var(--gold)"></div>
+        <span>1 item pending</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="showModule('segment')">
+      <span class="module-badge badge-new">New</span>
+      <div class="module-icon" style="background:rgba(96,165,250,0.1);">🧩</div>
+      <div class="module-name">Segment Reporting</div>
+      <div class="module-desc">ASC 280 segment identification, disaggregation analysis, and disclosure completeness checks.</div>
+      <div class="module-meta">
+        <div class="module-meta-dot" style="background:#60A5FA"></div>
+        <span>Complete</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="showModule('lease')">
+      <div class="module-icon" style="background:rgba(167,139,250,0.1);">🏢</div>
+      <div class="module-name">Lease Expense Disclosure</div>
+      <div class="module-desc">ASC 842 right-of-use asset calculation, lease classification, and maturity schedule generation.</div>
+      <div class="module-meta">
+        <div class="module-meta-dot" style="background:#A78BFA"></div>
+        <span>Active</span>
+        <span>·</span>
+        <span>On track</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="showModule('revenue')">
+      <div class="module-icon" style="background:rgba(52,211,153,0.1);">💹</div>
+      <div class="module-name">Revenue Recognition</div>
+      <div class="module-desc">ASC 606 five-step model compliance, contract asset/liability tracking, and performance obligation mapping.</div>
+      <div class="module-meta">
+        <div class="module-meta-dot" style="background:#34D399"></div>
+        <span>Active</span>
+      </div>
+    </div>
+
+    <div class="module-card" onclick="showModule('credit')">
+      <div class="module-icon" style="background:rgba(251,191,36,0.1);">🔍</div>
+      <div class="module-name">Credit Losses (CECL)</div>
+      <div class="module-desc">ASC 326 current expected credit loss modeling, allowance calculation, and disclosure validation.</div>
+      <div class="module-meta">
+        <div class="module-meta-dot" style="background:#FBBF24"></div>
+        <span>Review required</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FASB News -->
+  <div class="news-section">
+    <div class="section-header" style="padding:0 0 0 0; margin-bottom:20px;">
+      <h2 class="section-title">Latest FASB Updates</h2>
+      <a class="section-link">FASB.org →</a>
+    </div>
+    <div class="news-grid">
+
+      <div class="news-card lead">
+        <div class="news-tag">⚡ Breaking Update</div>
+        <div class="news-title">FASB Issues Final ASU on Income Tax Disclosures — Effective FY2025</div>
+        <div class="news-body">The FASB has finalized ASU 2023-09, requiring enhanced income tax disclosures including disaggregated rate reconciliation by jurisdiction and cash taxes paid. Public companies must adopt for fiscal years beginning after December 15, 2024.</div>
+        <div class="news-date">Mar 12, 2026 · FASB.org</div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-tag">Segment Reporting</div>
+        <div class="news-title">ASC 280 Amendments: Significant Expenses Now Required</div>
+        <div class="news-body">ASU 2023-07 mandates disclosure of significant segment expenses on an interim and annual basis.</div>
+        <div class="news-date">Feb 28, 2026</div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-tag">Exposure Draft</div>
+        <div class="news-title">Proposed Improvements to Disaggregation of Income Statement Expenses</div>
+        <div class="news-body">FASB comment period open through April 30, 2026. Affects cost of sales, selling, and R&D line items.</div>
+        <div class="news-date">Feb 14, 2026</div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-tag">Leases</div>
+        <div class="news-title">FASB Staff Q&A: Common Control Lease Arrangements</div>
+        <div class="news-body">Staff guidance clarifies practical expedient elections under ASC 842 for related party leases.</div>
+        <div class="news-date">Jan 30, 2026</div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-tag">DISE</div>
+        <div class="news-title">SEC Comment Letter Trends: Digital Asset Disclosures Rising</div>
+        <div class="news-body">SEC staff focus on completeness of digital asset evidence substantiation in Q4 filings.</div>
+        <div class="news-date">Jan 18, 2026</div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page-home -->
+
+
+<!-- ════════════════════════════════════════
+     DISE MODULE PAGE
+════════════════════════════════════════ -->
+<div class="page" id="page-dise">
+
+  <div class="module-page-header">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="module-page-eyebrow">FASB Mandate · Digital Evidence</div>
+    <h1 class="module-page-title">DISE Mandate</h1>
+    <p class="module-page-sub">Digital Interrogation & Substantiation of Evidence — systematic validation of financial disclosures against source evidence, supporting FASB compliance and SEC scrutiny readiness.</p>
+    <div class="module-page-tags">
+      <span class="tag teal">Active Filing Cycle</span>
+      <span class="tag">Q1 2026</span>
+      <span class="tag">3 Open Items</span>
+      <span class="tag">SAP ECC Integration</span>
+    </div>
+  </div>
+
+  <div class="module-body">
+    <div class="module-main">
+
+      <!-- Status bar -->
+      <div class="status-bar">
+        <div class="status-card">
+          <div class="status-card-label">Disclosures Validated</div>
+          <div class="status-card-value status-green">84%</div>
+          <div class="status-card-sub">112 of 133 items</div>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label">Evidence Gaps</div>
+          <div class="status-card-value status-amber">3</div>
+          <div class="status-card-sub">Require action</div>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label">Days to Filing</div>
+          <div class="status-card-value status-red">18</div>
+          <div class="status-card-sub">April 17, 2026</div>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label">Audit Status</div>
+          <div class="status-card-value status-teal">In Review</div>
+          <div class="status-card-sub">PwC fieldwork</div>
+        </div>
+      </div>
+
+      <!-- Evidence mapping table -->
+      <div class="content-section">
+        <div class="content-section-title">Evidence Interrogation Queue</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Disclosure Item</th>
+              <th>Source System</th>
+              <th>Evidence Status</th>
+              <th>Assigned To</th>
+              <th>Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Revenue disaggregation by geography</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">SAP ECC → GL</td>
+              <td><span class="status-pill pill-green">✓ Validated</span></td>
+              <td>K. Patel</td>
+              <td style="font-family:var(--mono);font-size:11px">Mar 28</td>
+            </tr>
+            <tr>
+              <td>Related party transaction disclosures</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">SAP ECC → AR</td>
+              <td><span class="status-pill pill-amber">⏳ Pending</span></td>
+              <td>M. Torres</td>
+              <td style="font-family:var(--mono);font-size:11px">Apr 2</td>
+            </tr>
+            <tr>
+              <td>Goodwill impairment testing evidence</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">Manual / DCF model</td>
+              <td><span class="status-pill pill-red">⚠ Gap Identified</span></td>
+              <td>S. Chen</td>
+              <td style="font-family:var(--mono);font-size:11px">Apr 5</td>
+            </tr>
+            <tr>
+              <td>Pension obligation assumptions</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">Actuary report</td>
+              <td><span class="status-pill pill-green">✓ Validated</span></td>
+              <td>L. Washington</td>
+              <td style="font-family:var(--mono);font-size:11px">Mar 20</td>
+            </tr>
+            <tr>
+              <td>Contingent liability disclosures</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">Legal → SAP</td>
+              <td><span class="status-pill pill-red">⚠ Gap Identified</span></td>
+              <td>M. Torres</td>
+              <td style="font-family:var(--mono);font-size:11px">Apr 8</td>
+            </tr>
+            <tr>
+              <td>Share-based compensation expense</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">Equity platform</td>
+              <td><span class="status-pill pill-blue">→ In Review</span></td>
+              <td>K. Patel</td>
+              <td style="font-family:var(--mono);font-size:11px">Apr 10</td>
+            </tr>
+            <tr>
+              <td>Fair value hierarchy disclosures</td>
+              <td style="font-family:var(--mono);font-size:11px;color:var(--muted)">Treasury / Bloomberg</td>
+              <td><span class="status-pill pill-green">✓ Validated</span></td>
+              <td>S. Chen</td>
+              <td style="font-family:var(--mono);font-size:11px">Mar 25</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Completion progress -->
+      <div class="content-section">
+        <div class="content-section-title">Completion by Category</div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Balance Sheet Disclosures</span><span>94%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:94%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Income Statement Footnotes</span><span>88%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:88%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Cash Flow Supplementals</span><span>76%</span></div>
+          <div class="progress-track"><div class="progress-fill amber" style="width:76%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Related Party & Commitments</span><span>52%</span></div>
+          <div class="progress-track"><div class="progress-fill red" style="width:52%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-label"><span>Subsequent Events</span><span>100%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="action-btn btn-primary" onclick="openChat()">✦ Ask AI Assistant</button>
+        <a class="action-btn btn-secondary" href="/dashboard" style="text-decoration:none">📊 Open DISE Dashboard</a>
+        <button class="action-btn btn-secondary">↓ Export Evidence Package</button>
+        <button class="action-btn btn-ghost">⊕ Add Disclosure Item</button>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div class="module-sidebar">
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Filing Checklist</div>
+        <div class="checklist-item">
+          <div class="check-icon check-done">✓</div>
+          <span>Management representation letter signed</span>
+        </div>
+        <div class="checklist-item">
+          <div class="check-icon check-done">✓</div>
+          <span>Auditor independence confirmed</span>
+        </div>
+        <div class="checklist-item">
+          <div class="check-icon check-pending">!</div>
+          <span>Goodwill impairment evidence — awaiting final DCF</span>
+        </div>
+        <div class="checklist-item">
+          <div class="check-icon check-pending">!</div>
+          <span>Contingent liability legal sign-off</span>
+        </div>
+        <div class="checklist-item">
+          <div class="check-icon check-open">○</div>
+          <span>10-K XBRL tagging review</span>
+        </div>
+        <div class="checklist-item">
+          <div class="check-icon check-open">○</div>
+          <span>Disclosure committee final approval</span>
+        </div>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Recent Activity</div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--teal)"></div>
+          <div>
+            <div class="timeline-date">Today, 09:14</div>
+            <div class="timeline-text">Revenue disaggregation validated by K. Patel</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--gold)"></div>
+          <div>
+            <div class="timeline-date">Yesterday, 16:42</div>
+            <div class="timeline-text">Gap flagged: contingent liability source missing</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--muted)"></div>
+          <div>
+            <div class="timeline-date">Mar 27, 11:05</div>
+            <div class="timeline-text">Fair value hierarchy evidence uploaded</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background:var(--muted)"></div>
+          <div>
+            <div class="timeline-date">Mar 26, 14:20</div>
+            <div class="timeline-text">Pension assumptions confirmed with actuary</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-widget" style="border-color:rgba(13,148,136,0.2);background:var(--teal-glow)">
+        <div class="sidebar-widget-title" style="color:var(--teal-light)">AI Insight</div>
+        <p style="font-size:12px;line-height:1.6;color:var(--white);margin-bottom:10px;">
+          Based on your open gaps, the <strong>goodwill impairment</strong> item carries the highest SEC comment risk. Similar disclosures received staff comments in 38% of 2025 filings.
+        </p>
+        <button class="action-btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="openChat()">Ask AI about this →</button>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-dise -->
+
+
+<!-- ════════════════════════════════════════
+     INCOME TAX PAGE
+════════════════════════════════════════ -->
+<div class="page" id="page-income-tax">
+  <div class="module-page-header">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="module-page-eyebrow">ASC 740 · Tax Disclosures</div>
+    <h1 class="module-page-title">Income Tax Reconciliation</h1>
+    <p class="module-page-sub">Effective rate reconciliation, deferred tax asset/liability scheduling, and ASU 2023-09 jurisdictional disaggregation — compliant with updated FASB requirements effective FY2025.</p>
+    <div class="module-page-tags">
+      <span class="tag teal">ASU 2023-09 Active</span>
+      <span class="tag">Effective FY2025</span>
+      <span class="tag">1 Item Pending</span>
+    </div>
+  </div>
+  <div class="module-body">
+    <div class="module-main">
+      <div class="status-bar">
+        <div class="status-card">
+          <div class="status-card-label">Effective Tax Rate</div>
+          <div class="status-card-value status-teal">24.3%</div>
+          <div class="status-card-sub">vs 21% statutory</div>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label">Deferred Tax Assets</div>
+          <div class="status-card-value">$142M</div>
+          <div class="status-card-sub">Net of valuation allowance</div>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label">Jurisdictions</div>
+          <div class="status-card-value status-amber">12</div>
+          <div class="status-card-sub">Disaggregation required</div>
+        </div>
+        <div class="status-card">
+          <div class="status-card-label">UTPs</div>
+          <div class="status-card-value">$8.4M</div>
+          <div class="status-card-sub">Unrecognized tax positions</div>
+        </div>
+      </div>
+      <div class="content-section">
+        <div class="content-section-title">Rate Reconciliation — FY2025</div>
+        <table class="data-table">
+          <thead><tr><th>Item</th><th>Rate Impact</th><th>Amount ($M)</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>US Federal statutory rate</td><td>21.0%</td><td>$62.4</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
+            <tr><td>State and local taxes, net</td><td>+2.1%</td><td>$6.2</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
+            <tr><td>Foreign rate differential</td><td>+1.8%</td><td>$5.3</td><td><span class="status-pill pill-amber">⏳ Pending</span></td></tr>
+            <tr><td>R&D tax credits</td><td>-0.9%</td><td>($2.7)</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
+            <tr><td>Stock-based compensation</td><td>+0.4%</td><td>$1.2</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
+            <tr><td>Effective tax rate</td><td><strong>24.3%</strong></td><td><strong>$72.4</strong></td><td><span class="status-pill pill-blue">→ In Review</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="content-section">
+        <div class="content-section-title">Deferred Tax Schedule Completion</div>
+        <div class="progress-item"><div class="progress-label"><span>US Federal deferred items</span><span>100%</span></div><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div></div>
+        <div class="progress-item"><div class="progress-label"><span>State deferred items</span><span>90%</span></div><div class="progress-track"><div class="progress-fill" style="width:90%"></div></div></div>
+        <div class="progress-item"><div class="progress-label"><span>Foreign jurisdictions (12)</span><span>67%</span></div><div class="progress-track"><div class="progress-fill amber" style="width:67%"></div></div></div>
+        <div class="progress-item"><div class="progress-label"><span>Valuation allowance analysis</span><span>85%</span></div><div class="progress-track"><div class="progress-fill" style="width:85%"></div></div></div>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn btn-primary" onclick="openChat()">✦ Ask AI Assistant</button>
+        <button class="action-btn btn-secondary">↓ Export Tax Package</button>
+      </div>
+    </div>
+    <div class="module-sidebar">
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">ASU 2023-09 Requirements</div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Rate reconciliation — 8 required categories</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Cash taxes paid disaggregated by federal/state/foreign</span></div>
+        <div class="checklist-item"><div class="check-icon check-pending">!</div><span>Individual jurisdiction disclosures ≥5% of pretax income</span></div>
+        <div class="checklist-item"><div class="check-icon check-open">○</div><span>Income taxes paid tabular reconciliation</span></div>
+      </div>
+      <div class="sidebar-widget" style="border-color:rgba(13,148,136,0.2);background:var(--teal-glow)">
+        <div class="sidebar-widget-title" style="color:var(--teal-light)">AI Insight</div>
+        <p style="font-size:12px;line-height:1.6;color:var(--white);margin-bottom:10px;">Your foreign rate differential (+1.8%) is unconfirmed. Under ASU 2023-09, you must disclose the individual jurisdiction breakdown — Ireland and Singapore likely exceed the 5% threshold.</p>
+        <button class="action-btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="openChat()">Ask AI about this →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SEGMENT PAGE
+════════════════════════════════════════ -->
+<div class="page" id="page-segment">
+  <div class="module-page-header">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="module-page-eyebrow">ASC 280 · Segment Reporting</div>
+    <h1 class="module-page-title">Segment Reporting</h1>
+    <p class="module-page-sub">Operationally defined segment identification, significant expense disaggregation, and disclosure completeness validation per ASU 2023-07.</p>
+    <div class="module-page-tags">
+      <span class="tag teal">ASU 2023-07 Active</span>
+      <span class="tag">3 Segments</span>
+      <span class="tag">Complete</span>
+    </div>
+  </div>
+  <div class="module-body">
+    <div class="module-main">
+      <div class="status-bar">
+        <div class="status-card"><div class="status-card-label">Reportable Segments</div><div class="status-card-value status-teal">3</div><div class="status-card-sub">Americas, EMEA, APAC</div></div>
+        <div class="status-card"><div class="status-card-label">Disclosure Items</div><div class="status-card-value status-green">100%</div><div class="status-card-sub">All complete</div></div>
+        <div class="status-card"><div class="status-card-label">Chief Op. Decision Maker</div><div class="status-card-value" style="font-size:18px">Defined</div><div class="status-card-sub">CEO + segment presidents</div></div>
+        <div class="status-card"><div class="status-card-label">Significant Expenses</div><div class="status-card-value status-green">8</div><div class="status-card-sub">Categories disclosed</div></div>
+      </div>
+      <div class="content-section">
+        <div class="content-section-title">Segment Performance Summary</div>
+        <table class="data-table">
+          <thead><tr><th>Segment</th><th>Revenue</th><th>Segment Profit</th><th>Margin</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Americas</strong></td><td>$1.24B</td><td>$298M</td><td>24.0%</td><td><span class="status-pill pill-green">✓ Complete</span></td></tr>
+            <tr><td><strong>EMEA</strong></td><td>$0.87B</td><td>$192M</td><td>22.1%</td><td><span class="status-pill pill-green">✓ Complete</span></td></tr>
+            <tr><td><strong>APAC</strong></td><td>$0.52B</td><td>$98M</td><td>18.8%</td><td><span class="status-pill pill-green">✓ Complete</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn btn-primary" onclick="openChat()">✦ Ask AI Assistant</button>
+        <button class="action-btn btn-secondary">↓ Export Segment Package</button>
+      </div>
+    </div>
+    <div class="module-sidebar">
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">ASU 2023-07 Checklist</div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Significant segment expenses disclosed</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>CODM identified and title disclosed</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Interim segment disclosures included</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Single reportable segment disclosures N/A</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     LEASE PAGE
+════════════════════════════════════════ -->
+<div class="page" id="page-lease">
+  <div class="module-page-header">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="module-page-eyebrow">ASC 842 · Lease Accounting</div>
+    <h1 class="module-page-title">Lease Expense Disclosure</h1>
+    <p class="module-page-sub">Right-of-use asset valuation, lease classification between operating and finance, maturity schedule generation, and variable lease cost disclosure.</p>
+    <div class="module-page-tags">
+      <span class="tag teal">ASC 842 Active</span>
+      <span class="tag">142 Leases</span>
+      <span class="tag">On Track</span>
+    </div>
+  </div>
+  <div class="module-body">
+    <div class="module-main">
+      <div class="status-bar">
+        <div class="status-card"><div class="status-card-label">ROU Assets</div><div class="status-card-value status-teal">$384M</div><div class="status-card-sub">Net carrying value</div></div>
+        <div class="status-card"><div class="status-card-label">Lease Liability</div><div class="status-card-value">$401M</div><div class="status-card-sub">Current + non-current</div></div>
+        <div class="status-card"><div class="status-card-label">Operating Leases</div><div class="status-card-value">128</div><div class="status-card-sub">Of 142 total</div></div>
+        <div class="status-card"><div class="status-card-label">Weighted Avg Rate</div><div class="status-card-value">4.8%</div><div class="status-card-sub">Incremental borrowing</div></div>
+      </div>
+      <div class="content-section">
+        <div class="content-section-title">Maturity Schedule</div>
+        <table class="data-table">
+          <thead><tr><th>Period</th><th>Operating Leases</th><th>Finance Leases</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>2026</td><td>$48.2M</td><td>$6.4M</td><td>$54.6M</td></tr>
+            <tr><td>2027</td><td>$44.8M</td><td>$6.1M</td><td>$50.9M</td></tr>
+            <tr><td>2028</td><td>$39.1M</td><td>$5.8M</td><td>$44.9M</td></tr>
+            <tr><td>2029</td><td>$33.4M</td><td>$4.2M</td><td>$37.6M</td></tr>
+            <tr><td>2030+</td><td>$187.6M</td><td>$26.3M</td><td>$213.9M</td></tr>
+            <tr><td><strong>Total undiscounted</strong></td><td><strong>$353.1M</strong></td><td><strong>$48.8M</strong></td><td><strong>$401.9M</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-row">
+        <button class="action-btn btn-primary" onclick="openChat()">✦ Ask AI Assistant</button>
+        <button class="action-btn btn-secondary">↓ Export Lease Schedule</button>
+      </div>
+    </div>
+    <div class="module-sidebar">
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">ASC 842 Checklist</div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>ROU assets and liabilities on balance sheet</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Lease cost by category disclosed</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Weighted avg rate and remaining term</span></div>
+        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Maturity schedule — 5 years + thereafter</span></div>
+        <div class="checklist-item"><div class="check-icon check-pending">!</div><span>Variable lease cost — additional detail requested by auditor</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     AI CHAT PANEL
+════════════════════════════════════════ -->
+<div class="chat-overlay" id="chat-overlay" onclick="handleOverlayClick(event)">
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <div class="chat-avatar">✦</div>
+        <div>
+          <div class="chat-title">FASB AI Assistant</div>
+          <div class="chat-status">Online</div>
+        </div>
+      </div>
+      <div class="chat-close" onclick="closeChat()">✕</div>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg assistant">
+        <div class="chat-bubble">
+          Hello! I'm your FASB Disclosure AI Assistant. I can help you with:<br><br>
+          • Interpreting FASB standards (ASC 740, 280, 842, 606…)<br>
+          • Identifying evidence gaps in your DISE queue<br>
+          • Drafting disclosure language<br>
+          • Researching SEC comment letter trends<br><br>
+          What would you like to work on today?
+        </div>
+        <div class="chat-msg-time">Now</div>
+      </div>
+    </div>
+
+    <div class="chat-suggestions" id="chat-suggestions">
+      <button class="chat-suggestion" onclick="sendSuggestion(this)">What's required under ASU 2023-09?</button>
+      <button class="chat-suggestion" onclick="sendSuggestion(this)">Explain the goodwill impairment gap</button>
+      <button class="chat-suggestion" onclick="sendSuggestion(this)">Draft disclosure language for leases</button>
+      <button class="chat-suggestion" onclick="sendSuggestion(this)">SEC comment trends on DISE</button>
+    </div>
+
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chat-input" placeholder="Ask about FASB standards, disclosures, evidence…" rows="1"
+        onkeydown="handleChatKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="chat-send" id="chat-send" onclick="sendMessage()">↑</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating chat button -->
+<button class="chat-fab" id="chat-fab" onclick="openChat()" title="Open AI Assistant">✦</button>
+
+
+<script>
+// ── Page routing ──────────────────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showModule(id) {
+  const pageId = 'page-' + id;
+  const page = document.getElementById(pageId);
+  if (page) {
+    showPage(id);
+  } else {
+    // Generic fallback for unbuilt modules
+    showPage('dise');
+  }
+}
+
+// ── Chat ──────────────────────────────────────────────────────────────────────
+const API_BASE = window.location.origin;
+const SYSTEM_PROMPT = `You are a specialized AI assistant for BE Technology's GL Intelligence Platform — a FASB financial disclosure compliance suite.
+You help finance and accounting teams with:
+- ASU 2024-03 DISE (Disaggregation of Income Statement Expenses) — the core module
+- FASB accounting standards (ASC 220-40, 280, 606, 740, 842, 326)
+- SEC filing requirements and comment letter trends
+- Disclosure drafting and gap analysis
+- SAP ECC / Oracle EBS data via Google Cortex Framework → BigQuery
+- GL account classification into the 5 DISE natural expense categories
+- Income tax reconciliation under ASU 2023-09
+- Segment reporting under ASU 2023-07
+- Lease accounting under ASC 842
+
+Be concise, precise, and practical. Use specific ASC citations. Flag SEC comment risk when relevant.
+Format responses clearly with bullet points or numbered steps.`;
+
+let chatHistory = [];
+let isTyping = false;
+
+function openChat() {
+  document.getElementById('chat-overlay').classList.add('open');
+  document.getElementById('chat-input').focus();
+}
+
+function closeChat() {
+  document.getElementById('chat-overlay').classList.remove('open');
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('chat-overlay')) closeChat();
+}
+
+function handleChatKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = '40px';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function sendSuggestion(btn) {
+  document.getElementById('chat-input').value = btn.textContent;
+  document.getElementById('chat-suggestions').style.display = 'none';
+  sendMessage();
+}
+
+function addMessage(role, text) {
+  const msgs = document.getElementById('chat-messages');
+  const now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.innerHTML = `<div class="chat-bubble">${text.replace(/\n/g,'<br>')}</div><div class="chat-msg-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg assistant';
+  div.id = 'typing-indicator';
+  div.innerHTML = `<div class="chat-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+
+  input.value = '';
+  input.style.height = '40px';
+  isTyping = true;
+  document.getElementById('chat-send').disabled = true;
+  document.getElementById('chat-suggestions').style.display = 'none';
+
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+
+  showTyping();
+
+  try {
+    const response = await fetch(API_BASE + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: SYSTEM_PROMPT,
+        messages: chatHistory
+      })
+    });
+
+    removeTyping();
+
+    if (!response.ok) throw new Error('API error ' + response.status);
+    const data = await response.json();
+    if (data.error) throw new Error(data.error);
+    const reply = data.reply || "I'm sorry, I couldn't generate a response. Please try again.";
+
+    chatHistory.push({ role: 'assistant', content: reply });
+    addMessage('assistant', reply);
+
+  } catch (err) {
+    removeTyping();
+    const fallback = getFallbackResponse(text);
+    chatHistory.push({ role: 'assistant', content: fallback });
+    addMessage('assistant', fallback);
+  }
+
+  isTyping = false;
+  document.getElementById('chat-send').disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+function getFallbackResponse(query) {
+  const q = query.toLowerCase();
+  if (q.includes('asu 2023-09') || q.includes('income tax')) {
+    return "ASU 2023-09 requires public companies to disclose:\n\n• A tabular rate reconciliation with 8 specified categories\n• Individual items ≥5% of the statutory amount\n• Cash taxes paid disaggregated by federal, state, and foreign\n• Jurisdiction-level detail where material\n\nEffective for fiscal years beginning after December 15, 2024. Early adoption permitted.\n\nYour current filing shows the foreign rate differential (+1.8%) is unconfirmed — this likely requires Ireland and Singapore to be broken out separately.";
+  }
+  if (q.includes('goodwill') || q.includes('impairment')) {
+    return "Goodwill impairment disclosures (ASC 350) are a frequent SEC comment area. Key requirements:\n\n• Qualitative vs. quantitative assessment methodology\n• Key assumptions in the DCF (discount rate, terminal growth)\n• Reporting unit with carrying amount near or exceeding fair value\n• Sensitivity — a 10% change in key assumption impact\n\nSEC staff in 2025 requested additional support for discount rate selection in 42% of goodwill comments. I'd recommend adding explicit disclosure of the weighted average cost of capital and its derivation.";
+  }
+  if (q.includes('lease') || q.includes('rou') || q.includes('842')) {
+    return "Under ASC 842, required lease disclosures include:\n\n• ROU assets and lease liabilities on the balance sheet\n• Lease cost by component (operating, finance, variable, short-term)\n• Weighted-average remaining lease term and discount rate\n• Maturity analysis: undiscounted cash flows by year for 5 years + thereafter\n• Variable lease cost description and amounts\n\nYour auditor's request for additional variable lease cost detail is appropriate — this is increasingly scrutinized where variable costs represent >10% of total lease cost.";
+  }
+  if (q.includes('segment') || q.includes('asc 280') || q.includes('asu 2023-07')) {
+    return "ASU 2023-07 (effective FY2024 for calendar-year public companies) requires:\n\n• Significant segment expenses regularly provided to the CODM\n• A description of what those expenses consist of\n• Disclosure of the CODM's title and how they use segment profit/loss\n• Interim disclosures now required (previously annual only)\n\nYour 3-segment structure (Americas, EMEA, APAC) appears clean. Confirm that 'significant expenses' categories align exactly with what's provided in CODM management reports — SEC staff will ask.";
+  }
+  if (q.includes('dise') || q.includes('evidence') || q.includes('disclosure')) {
+    return "The DISE framework focuses on three interrogation layers:\n\n1. **Source validation** — does each disclosure trace to an authoritative source system (SAP GL, subsidiary ledger, actuary report)?\n2. **Completeness check** — are all FASB-required elements present and sufficiently detailed?\n3. **Consistency** — does the disclosure language match the underlying numbers exactly?\n\nYour current gaps (goodwill impairment, contingent liabilities) are the highest SEC comment risk items. I'd prioritize the goodwill DCF documentation first given the April 17 filing deadline.";
+  }
+  return "That's a great question on FASB compliance. To give you the most accurate guidance, could you tell me which specific standard or disclosure area you're focused on? For example:\n\n• ASC 740 (Income Taxes) and ASU 2023-09\n• ASC 280 (Segment Reporting) and ASU 2023-07\n• ASC 842 (Leases)\n• ASC 606 (Revenue)\n• DISE evidence requirements\n\nI can provide specific disclosure language, checklist items, or SEC comment trend analysis for any of these.";
+}
+
+// Animate progress bars on module page load
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new MutationObserver(() => {
+    document.querySelectorAll('.progress-fill').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0%';
+      setTimeout(() => bar.style.width = w, 100);
+    });
+  });
+  document.querySelectorAll('.page').forEach(p => observer.observe(p, {attributeFilter:['class']}));
+});
+</script>
+</body>
+</html>
