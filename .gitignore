@@ -42,3 +42,4 @@ terraform/.terraform/
 
 # Node
 node_modules/
+.vercel

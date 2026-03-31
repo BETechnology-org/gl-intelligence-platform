@@ -1,0 +1,22 @@
+# ============================================================
+# BE Technology — GL Intelligence Platform
+# Dockerfile — GL Mapping Agent
+# ============================================================
+# Build: docker build -t gcr.io/diplomatic75/gl-mapping-agent:latest .
+# Push:  docker push gcr.io/diplomatic75/gl-mapping-agent:latest
+# ============================================================
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy agent code
+COPY mapping_agent.py .
+COPY approval_system.py .
+
+# Default command — production run mode
+CMD ["python", "mapping_agent.py", "run"]

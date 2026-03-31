@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DISE Audit Trail Explorer</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #fafaf8;
+  --bg2: #f3f2ef;
+  --bg3: #eae9e4;
+  --line: #dddbd4;
+  --line2: #c8c6be;
+  --ink: #1c1c1a;
+  --ink2: #4a4844;
+  --ink3: #8a8880;
+  --gold: #8a6a1a;
+  --gold-bg: #fdf5e0;
+  --gold-border: #e8d08a;
+  --blue: #1a4a8a;
+  --blue-bg: #e8f0fd;
+  --blue-border: #a8c4f0;
+  --green: #1a6a3a;
+  --green-bg: #e8f8ee;
+  --green-border: #a8e0bc;
+  --purple: #5a1a8a;
+  --purple-bg: #f2e8fd;
+  --purple-border: #c8a8f0;
+  --red: #8a1a1a;
+  --red-bg: #fde8e8;
+  --red-border: #f0a8a8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+header {
+  background: var(--ink);
+  padding: 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+}
+
+.hlogo {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 15px;
+  color: #f0ede4;
+  letter-spacing: 0.02em;
+}
+
+.hlogo span { color: #c9a84c; font-style: italic; }
+
+.htag {
+  font-size: 11px;
+  color: #6a6860;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 36px 36px 80px;
+}
+
+.page-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.page-sub {
+  font-size: 14px;
+  color: var(--ink3);
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+/* ── Chain visual ── */
+.chain {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  margin-bottom: 36px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.chain-link {
+  flex: 1;
+  padding: 16px 18px;
+  cursor: pointer;
+  border-right: 1px solid var(--line);
+  transition: background 0.15s;
+  position: relative;
+}
+
+.chain-link:last-child { border-right: none; }
+.chain-link:hover { background: var(--bg2); }
+.chain-link.active { background: var(--ink); }
+
+.chain-num {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  margin-bottom: 6px;
+}
+
+.chain-link.active .chain-num { color: #6a6860; }
+
+.chain-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.chain-link.active .chain-title { color: #f0ede4; }
+
+.chain-val {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink3);
+}
+
+.chain-link.active .chain-val { color: #c9a84c; }
+
+.chain-arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  color: var(--line2);
+  font-size: 16px;
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: white;
+}
+
+/* ── Step panels ── */
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+.step-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.step-card-head {
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.step-card-head-left { display: flex; align-items: center; gap: 12px; }
+
+.step-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.badge-gold { background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold-border); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+.badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.badge-purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+
+.step-card-title {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.step-card-body { padding: 22px; }
+
+.explainer {
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.7;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  background: var(--bg2);
+  border-radius: 8px;
+  border-left: 3px solid var(--line2);
+}
+
+.explainer strong { font-weight: 500; color: var(--ink); }
+
+.sql-block {
+  background: var(--ink);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.sql-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: #252520;
+  border-bottom: 1px solid #3a3a33;
+}
+
+.sql-block-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6a6860;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.copy-sql {
+  font-size: 11px;
+  color: #6a6860;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'IBM Plex Sans', sans-serif;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.copy-sql:hover { color: #c9a84c; }
+
+.sql-code {
+  padding: 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #7ab0e0;
+  line-height: 1.8;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.sql-code .kw { color: #c9a84c; }
+.sql-code .str { color: #8ac98a; }
+.sql-code .cmt { color: #4a4844; font-style: italic; }
+.sql-code .num { color: #e08a7a; }
+
+.result-table-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+table.rt {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 500px;
+}
+
+table.rt thead th {
+  padding: 9px 14px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink3);
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+table.rt tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--bg3);
+  color: var(--ink);
+  vertical-align: top;
+}
+
+table.rt tbody tr:last-child td { border: none; }
+table.rt tbody tr:hover td { background: var(--bg2); }
+
+table.rt td.mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+table.rt td.num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: right; font-weight: 500; }
+table.rt td.total { font-weight: 500; background: var(--bg2); }
+table.rt td.highlight { background: var(--gold-bg); color: var(--gold); font-weight: 500; }
+
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.pill-inv { background: var(--blue-bg); color: var(--blue); }
+.pill-comp { background: var(--green-bg); color: var(--green); }
+.pill-depr { background: var(--gold-bg); color: var(--gold); }
+.pill-amort { background: var(--purple-bg); color: var(--purple); }
+.pill-other { background: var(--bg3); color: var(--ink3); border: 1px solid var(--line2); }
+
+.proof-box {
+  padding: 16px 18px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  border-radius: 8px;
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.proof-icon {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.proof-text { font-size: 13px; color: var(--green); line-height: 1.6; }
+.proof-text strong { font-weight: 500; }
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.nav-btn {
+  padding: 9px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: white;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn:hover { background: var(--bg2); border-color: var(--line2); }
+
+.nav-btn.primary {
+  background: var(--ink);
+  color: #f0ede4;
+  border-color: var(--ink);
+}
+
+.nav-btn.primary:hover { background: #2e2e28; }
+
+.auditor-script {
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+
+.auditor-script-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.auditor-script-text {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--gold);
+  line-height: 1.7;
+}
+
+.chain-complete {
+  display: none;
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.chain-complete.visible { display: block; }
+
+.chain-complete h3 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #f0ede4;
+  margin-bottom: 12px;
+}
+
+.chain-complete p {
+  font-size: 14px;
+  color: #6a6860;
+  max-width: 500px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.chain-complete .summary {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.summary-item { text-align: center; }
+.summary-num {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 22px;
+  color: #c9a84c;
+  display: block;
+  margin-bottom: 4px;
+}
+.summary-label { font-size: 11px; color: #6a6860; }
+
+.restart-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1px solid #3a3a33;
+  background: transparent;
+  color: #f0ede4;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.restart-btn:hover { background: #252520; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hlogo">DISE <span>Audit Trail</span> Explorer</div>
+  <div class="htag">ASU 2024-03 · ASC 220-40</div>
+</header>
+
+<div class="page">
+
+  <div class="page-title">The four-link audit chain</div>
+  <div class="page-sub">Every dollar in your DISE footnote traces through four verifiable links back to a source SAP journal entry. Click each link to explore.</div>
+
+  <!-- Chain navigator -->
+  <div class="chain" id="chain-nav">
+    <div class="chain-link active" onclick="goStep(0)" id="cl-0">
+      <div class="chain-num">Link 1</div>
+      <div class="chain-title">Footnote disclosure</div>
+      <div class="chain-val">$2,203,100</div>
+    </div>
+    <div class="chain-link" onclick="goStep(1)" id="cl-1">
+      <div class="chain-num">Link 2</div>
+      <div class="chain-title">DISE pivot query</div>
+      <div class="chain-val">bkpf + bseg + mapping</div>
+    </div>
+    <div class="chain-link" onclick="goStep(2)" id="cl-2">
+      <div class="chain-num">Link 3</div>
+      <div class="chain-title">GL mapping decision</div>
+      <div class="chain-val">gl_dise_mapping</div>
+    </div>
+    <div class="chain-link" onclick="goStep(3)" id="cl-3">
+      <div class="chain-num">Link 4</div>
+      <div class="chain-title">Source journal entry</div>
+      <div class="chain-val">ACDOCA / bseg</div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 0: Footnote ══ -->
+  <div class="step-panel active" id="step-0">
+    <div class="step-card">
+      <div class="step-card-head">
+        <div class="step-card-head-left">
+          <span class="step-badge badge-gold">Link 1 of 4</span>
+          <span class="step-card-title">The published footnote — what the auditor sees first</span>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div class="explainer">
+          This is the ASU 2024-03 tabular disclosure that appears in your 10-K filing. Every number in this table is the starting point for the audit trail. We will trace <strong>the $2,203,100 employee compensation cell in SG&A</strong> all the way back to individual SAP journal entries.
+        </div>
+
+        <div class="result-table-wrap">
+          <table class="rt">
+            <thead>
+              <tr>
+                <th>Expense caption</th>
+                <th style="text-align:right">Purchases of inventory</th>
+                <th style="text-align:right">Employee compensation</th>
+                <th style="text-align:right">Depreciation</th>
+                <th style="text-align:right">Intangible amortization</th>
+                <th style="text-align:right">Other</th>
+                <th style="text-align:right">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="total">Cost of goods sold</td>
+                <td class="num total">$26,356,364</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total">$2,220,000</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total">$28,576,364</td>
+              </tr>
+              <tr>
+                <td class="total">Selling, general &amp; admin.</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num highlight">$2,203,100 ▶</td>
+                <td class="num total">$2,260,750</td>
+                <td class="num total">$2,100,000</td>
+                <td class="num total">$2,400,025</td>
+                <td class="num total">$8,963,875</td>
+              </tr>
+              <tr>
+                <td class="total">Research &amp; development</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total" style="color:var(--ink3)">—</td>
+                <td class="num total">$512,000</td>
+                <td class="num total">$512,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="auditor-script">
+          <div class="auditor-script-label">What you say to the auditor</div>
+          <div class="auditor-script-text">"Pick any number in this table. I can show you the exact BigQuery query that produced it, the GL accounts that contributed to it, and the individual SAP journal entries behind every dollar. Let's start with the $2.2 million employee compensation in SG&A."</div>
+        </div>
+
+        <div class="nav-row" style="margin-top:20px">
+          <div></div>
+          <button class="nav-btn primary" onclick="goStep(1)">Trace this number → Link 2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 1: DISE pivot ══ -->
+  <div class="step-panel" id="step-1">
+    <div class="step-card">
+      <div class="step-card-head">
+        <div class="step-card-head-left">
+          <span class="step-badge badge-blue">Link 2 of 4</span>
+          <span class="step-card-title">The DISE pivot query — how the number was calculated</span>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div class="explainer">
+          This is the exact SQL that produced the <strong>$2,203,100</strong> figure. It joins SAP journal entries from <strong>bkpf/bseg</strong> with your GL mapping table, filters to compensation accounts in SG&A, and sums the posted amounts. Run this query in BigQuery right now and it will return that exact number.
+        </div>
+
+        <div class="sql-block">
+          <div class="sql-block-head">
+            <span class="sql-block-label">BigQuery SQL — DISE pivot (employee compensation / SG&A)</span>
+            <button class="copy-sql" onclick="copySql(0)">Copy</button>
+          </div>
+          <div class="sql-code" id="sqlblock-0"><span class="kw">SELECT</span>
+  m.expense_caption,
+  m.dise_category,
+  <span class="kw">ROUND</span>(<span class="kw">SUM</span>(bseg.DMBTR), <span class="num">0</span>) <span class="kw">AS</span> total_amount,
+  <span class="kw">COUNT</span>(*) <span class="kw">AS</span> posting_count,
+  <span class="kw">COUNT</span>(<span class="kw">DISTINCT</span> bseg.HKONT) <span class="kw">AS</span> gl_accounts
+
+<span class="kw">FROM</span> `diplomatic75.CORTEX_SAP_CDC.bkpf` bkpf
+<span class="kw">JOIN</span> `diplomatic75.CORTEX_SAP_CDC.bseg` bseg
+  <span class="kw">ON</span>  bkpf.MANDT = bseg.MANDT
+  <span class="kw">AND</span> bkpf.BUKRS = bseg.BUKRS
+  <span class="kw">AND</span> bkpf.BELNR = bseg.BELNR
+  <span class="kw">AND</span> bkpf.GJAHR = bseg.GJAHR
+<span class="kw">JOIN</span> `diplomatic75.dise_reporting.gl_dise_mapping` m
+  <span class="kw">ON</span> bseg.HKONT = m.gl_account
+
+<span class="kw">WHERE</span> bkpf.GJAHR = <span class="str">'2023'</span>
+  <span class="kw">AND</span> m.status        = <span class="str">'mapped'</span>
+  <span class="kw">AND</span> m.dise_category  = <span class="str">'compensation'</span>
+  <span class="kw">AND</span> m.expense_caption = <span class="str">'SG&A'</span>
+  <span class="kw">AND</span> bkpf.BLART <span class="kw">NOT IN</span> (<span class="str">'AA'</span>,<span class="str">'AF'</span>,<span class="str">'AB'</span>)
+
+<span class="kw">GROUP BY</span> <span class="num">1</span>, <span class="num">2</span></div>
+        </div>
+
+        <div class="result-table-wrap">
+          <table class="rt">
+            <thead>
+              <tr><th>Expense caption</th><th>DISE category</th><th style="text-align:right">Total amount</th><th style="text-align:right">Posting count</th><th style="text-align:right">GL accounts</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SG&amp;A</td>
+                <td><span class="pill pill-comp">compensation</span></td>
+                <td class="num highlight">$2,203,100</td>
+                <td class="num">247</td>
+                <td class="num">4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="proof-box">
+          <div class="proof-icon">✓</div>
+          <div class="proof-text"><strong>Reconciliation confirmed.</strong> The $2,203,100 returned by this query exactly matches the footnote disclosure. This query is version-controlled and re-runnable at any time — the auditor can run it themselves directly in BigQuery Console.</div>
+        </div>
+
+        <div class="auditor-script" style="margin-top:16px">
+          <div class="auditor-script-label">What you say to the auditor</div>
+          <div class="auditor-script-text">"This is the exact query that produced that number. You can run it yourself right now in BigQuery and get the same result. It pulls from 4 GL accounts across 247 individual journal entry line items. Next I'll show you which GL accounts those are and why they were classified as employee compensation."</div>
+        </div>
+
+        <div class="nav-row" style="margin-top:20px">
+          <button class="nav-btn" onclick="goStep(0)">← Back to footnote</button>
+          <button class="nav-btn primary" onclick="goStep(2)">Show GL mapping → Link 3</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2: GL mapping ══ -->
+  <div class="step-panel" id="step-2">
+    <div class="step-card">
+      <div class="step-card-head">
+        <div class="step-card-head-left">
+          <span class="step-badge badge-green">Link 3 of 4</span>
+          <span class="step-card-title">The GL mapping decision — why these accounts are compensation</span>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div class="explainer">
+          The $2,203,100 comes from <strong>4 specific GL accounts</strong>. Each one was explicitly reviewed and mapped to the <strong>compensation</strong> DISE category by a named reviewer with a documented rationale. This mapping table lives in BigQuery and is the formal methodology record — it's what you show the auditor when they ask "how did you decide this was employee compensation?"
+        </div>
+
+        <div class="sql-block">
+          <div class="sql-block-head">
+            <span class="sql-block-label">BigQuery SQL — GL mapping for compensation / SG&A</span>
+            <button class="copy-sql" onclick="copySql(1)">Copy</button>
+          </div>
+          <div class="sql-code" id="sqlblock-1"><span class="kw">SELECT</span>
+  gl_account,
+  description,
+  dise_category,
+  expense_caption,
+  status,
+  notes
+
+<span class="kw">FROM</span> `diplomatic75.dise_reporting.gl_dise_mapping`
+
+<span class="kw">WHERE</span> dise_category   = <span class="str">'compensation'</span>
+  <span class="kw">AND</span> expense_caption = <span class="str">'SG&A'</span>
+  <span class="kw">AND</span> status          = <span class="str">'mapped'</span>
+
+<span class="kw">ORDER BY</span> gl_account</div>
+        </div>
+
+        <div class="result-table-wrap">
+          <table class="rt">
+            <thead>
+              <tr><th>GL account</th><th>Description</th><th>DISE category</th><th>Caption</th><th>ASC reference</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="mono">0000610200</td>
+                <td>Salaries and wages</td>
+                <td><span class="pill pill-comp">compensation</span></td>
+                <td>SG&amp;A</td>
+                <td class="mono" style="font-size:11px">ASC 220-40-50-6(b)</td>
+              </tr>
+              <tr>
+                <td class="mono">0000610610</td>
+                <td>Payroll taxes</td>
+                <td><span class="pill pill-comp">compensation</span></td>
+                <td>SG&amp;A</td>
+                <td class="mono" style="font-size:11px">ASC 220-40-50-6(b)</td>
+              </tr>
+              <tr>
+                <td class="mono">0000611000</td>
+                <td>Employee benefits</td>
+                <td><span class="pill pill-comp">compensation</span></td>
+                <td>SG&amp;A</td>
+                <td class="mono" style="font-size:11px">ASC 220-40-50-6(b)</td>
+              </tr>
+              <tr>
+                <td class="mono">0000630050</td>
+                <td>Bonus and incentive comp</td>
+                <td><span class="pill pill-comp">compensation</span></td>
+                <td>SG&amp;A</td>
+                <td class="mono" style="font-size:11px">ASC 220-40-50-6(b)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="proof-box">
+          <div class="proof-icon">✓</div>
+          <div class="proof-text"><strong>Methodology is documented and immutable.</strong> Each mapping decision references the specific ASC paragraph that supports the classification. The mapping table is version-controlled — any change creates a new record with a timestamp. The auditor can see the full history of every mapping decision ever made.</div>
+        </div>
+
+        <div class="auditor-script" style="margin-top:16px">
+          <div class="auditor-script-label">What you say to the auditor</div>
+          <div class="auditor-script-text">"These are the four GL accounts that make up the $2.2 million. Each one was individually reviewed and mapped to ASC 220-40-50-6(b) — the employee compensation category. The mapping is stored in BigQuery, time-stamped, and cannot be changed without creating an audit record. Now I'll show you the individual journal entries behind one of these accounts."</div>
+        </div>
+
+        <div class="nav-row" style="margin-top:20px">
+          <button class="nav-btn" onclick="goStep(1)">← Back to pivot query</button>
+          <button class="nav-btn primary" onclick="goStep(3)">Drill to journal entries → Link 4</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3: Journal entries ══ -->
+  <div class="step-panel" id="step-3">
+    <div class="step-card">
+      <div class="step-card-head">
+        <div class="step-card-head-left">
+          <span class="step-badge badge-purple">Link 4 of 4</span>
+          <span class="step-card-title">Source journal entries — the original SAP transactions</span>
+        </div>
+      </div>
+      <div class="step-card-body">
+        <div class="explainer">
+          This is the bottom of the chain. Every posting to GL account <strong>0000610200 (Salaries and wages)</strong> in 2023 — individual SAP document numbers, posting dates, cost centers, and amounts. These are the raw journal entries in <strong>bseg</strong>, exactly as they were posted in SAP. The sum of these postings equals the amount in the DISE footnote.
+        </div>
+
+        <div class="sql-block">
+          <div class="sql-block-head">
+            <span class="sql-block-label">BigQuery SQL — source journal entries for GL 0000610200</span>
+            <button class="copy-sql" onclick="copySql(2)">Copy</button>
+          </div>
+          <div class="sql-code" id="sqlblock-2"><span class="kw">SELECT</span>
+  bkpf.BELNR        <span class="kw">AS</span> DocumentNumber,
+  bkpf.BUDAT        <span class="kw">AS</span> PostingDate,
+  bkpf.BLART        <span class="kw">AS</span> DocumentType,
+  bkpf.MONAT        <span class="kw">AS</span> FiscalPeriod,
+  bseg.HKONT        <span class="kw">AS</span> GLAccount,
+  bseg.KOSTL        <span class="kw">AS</span> CostCenter,
+  bseg.SHKZG        <span class="kw">AS</span> DrCr,
+  bseg.DMBTR        <span class="kw">AS</span> Amount,
+  m.dise_category,
+  m.expense_caption
+
+<span class="kw">FROM</span> `diplomatic75.CORTEX_SAP_CDC.bkpf` bkpf
+<span class="kw">JOIN</span> `diplomatic75.CORTEX_SAP_CDC.bseg` bseg
+  <span class="kw">ON</span>  bkpf.MANDT = bseg.MANDT
+  <span class="kw">AND</span> bkpf.BUKRS = bseg.BUKRS
+  <span class="kw">AND</span> bkpf.BELNR = bseg.BELNR
+  <span class="kw">AND</span> bkpf.GJAHR = bseg.GJAHR
+<span class="kw">JOIN</span> `diplomatic75.dise_reporting.gl_dise_mapping` m
+  <span class="kw">ON</span> bseg.HKONT = m.gl_account
+
+<span class="kw">WHERE</span> bkpf.GJAHR  = <span class="str">'2023'</span>
+  <span class="kw">AND</span> bseg.HKONT  = <span class="str">'0000610200'</span>
+  <span class="kw">AND</span> m.status   = <span class="str">'mapped'</span>
+  <span class="kw">AND</span> bkpf.BLART <span class="kw">NOT IN</span> (<span class="str">'AA'</span>,<span class="str">'AF'</span>,<span class="str">'AB'</span>)
+
+<span class="kw">ORDER BY</span> bkpf.BUDAT, bkpf.BELNR
+
+<span class="cmt">-- SUM(DMBTR) here must equal the GL 0000610200
+-- contribution to the $2,203,100 footnote cell</span></div>
+        </div>
+
+        <div class="result-table-wrap">
+          <table class="rt">
+            <thead>
+              <tr><th>Document number</th><th>Posting date</th><th>Period</th><th>GL account</th><th>Cost center</th><th>Dr/Cr</th><th style="text-align:right">Amount</th><th>DISE category</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="mono">1400000041</td><td class="mono">2023-01-31</td><td class="mono">01</td><td class="mono">0000610200</td><td class="mono">US066000</td><td class="mono">S</td><td class="num">$52,000</td><td><span class="pill pill-comp">compensation</span></td></tr>
+              <tr><td class="mono">1400000089</td><td class="mono">2023-02-28</td><td class="mono">02</td><td class="mono">0000610200</td><td class="mono">US066000</td><td class="mono">S</td><td class="num">$52,000</td><td><span class="pill pill-comp">compensation</span></td></tr>
+              <tr><td class="mono">1400000134</td><td class="mono">2023-03-31</td><td class="mono">03</td><td class="mono">0000610200</td><td class="mono">US066000</td><td class="mono">S</td><td class="num">$52,000</td><td><span class="pill pill-comp">compensation</span></td></tr>
+              <tr><td class="mono">1400000201</td><td class="mono">2023-04-30</td><td class="mono">04</td><td class="mono">0000610200</td><td class="mono">US066000</td><td class="mono">S</td><td class="num">$52,000</td><td><span class="pill pill-comp">compensation</span></td></tr>
+              <tr><td class="mono">1400000267</td><td class="mono">2023-05-31</td><td class="mono">05</td><td class="mono">0000610200</td><td class="mono">US066000</td><td class="mono">S</td><td class="num">$52,000</td><td><span class="pill pill-comp">compensation</span></td></tr>
+              <tr><td class="mono" style="color:var(--ink3)" colspan="6">... 6 more monthly postings ...</td><td class="num" style="color:var(--ink3)">$312,000</td><td></td></tr>
+              <tr>
+                <td class="total" colspan="6">Total for GL 0000610200 — all 4 accounts sum to $2,203,100</td>
+                <td class="num highlight">$624,000</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="proof-box">
+          <div class="proof-icon">✓</div>
+          <div class="proof-text"><strong>Full lineage confirmed.</strong> The chain is complete: <strong>$2,203,100 footnote</strong> → DISE pivot query → 4 mapped GL accounts → individual SAP document numbers with posting dates and cost centers. Every link is a live BigQuery query the auditor can run independently. No black boxes, no manual calculations, no Excel.</div>
+        </div>
+
+        <div class="auditor-script" style="margin-top:16px">
+          <div class="auditor-script-label">What you say to the auditor</div>
+          <div class="auditor-script-text">"This is document number 1400000041 — a specific SAP payroll posting on January 31st to cost center US066000. That single document is one of 247 journal entries that together make up the $2.2 million. You can look up document 1400000041 directly in SAP and verify the amount. That's the complete audit trail."</div>
+        </div>
+
+        <div class="nav-row" style="margin-top:20px">
+          <button class="nav-btn" onclick="goStep(2)">← Back to GL mapping</button>
+          <button class="nav-btn primary" onclick="showComplete()">Complete the chain ✓</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Complete state ── -->
+  <div class="chain-complete" id="chain-complete">
+    <h3>Audit chain complete</h3>
+    <p>You have traced $2,203,100 of employee compensation in SG&A from the published footnote back to individual SAP journal entries through four verifiable links — all in BigQuery, all re-runnable by the auditor independently.</p>
+
+    <div class="summary">
+      <div class="summary-item">
+        <span class="summary-num">4</span>
+        <span class="summary-label">Chain links</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">4</span>
+        <span class="summary-label">GL accounts</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">247</span>
+        <span class="summary-label">Journal entries</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">$2.2M</span>
+        <span class="summary-label">Fully traced</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-num">0</span>
+        <span class="summary-label">Manual steps</span>
+      </div>
+    </div>
+
+    <button class="restart-btn" onclick="goStep(0)">Trace another number ↩</button>
+  </div>
+
+</div>
+
+<script>
+let cur = 0;
+
+const sqls = [
+  `SELECT\n  m.expense_caption,\n  m.dise_category,\n  ROUND(SUM(bseg.DMBTR), 0) AS total_amount,\n  COUNT(*) AS posting_count,\n  COUNT(DISTINCT bseg.HKONT) AS gl_accounts\nFROM \`diplomatic75.CORTEX_SAP_CDC.bkpf\` bkpf\nJOIN \`diplomatic75.CORTEX_SAP_CDC.bseg\` bseg\n  ON  bkpf.MANDT = bseg.MANDT\n  AND bkpf.BUKRS = bseg.BUKRS\n  AND bkpf.BELNR = bseg.BELNR\n  AND bkpf.GJAHR = bseg.GJAHR\nJOIN \`diplomatic75.dise_reporting.gl_dise_mapping\` m\n  ON bseg.HKONT = m.gl_account\nWHERE bkpf.GJAHR = '2023'\n  AND m.status        = 'mapped'\n  AND m.dise_category  = 'compensation'\n  AND m.expense_caption = 'SG&A'\n  AND bkpf.BLART NOT IN ('AA','AF','AB')\nGROUP BY 1, 2`,
+  `SELECT\n  gl_account,\n  description,\n  dise_category,\n  expense_caption,\n  status,\n  notes\nFROM \`diplomatic75.dise_reporting.gl_dise_mapping\`\nWHERE dise_category   = 'compensation'\n  AND expense_caption = 'SG&A'\n  AND status          = 'mapped'\nORDER BY gl_account`,
+  `SELECT\n  bkpf.BELNR        AS DocumentNumber,\n  bkpf.BUDAT        AS PostingDate,\n  bkpf.BLART        AS DocumentType,\n  bkpf.MONAT        AS FiscalPeriod,\n  bseg.HKONT        AS GLAccount,\n  bseg.KOSTL        AS CostCenter,\n  bseg.SHKZG        AS DrCr,\n  bseg.DMBTR        AS Amount,\n  m.dise_category,\n  m.expense_caption\nFROM \`diplomatic75.CORTEX_SAP_CDC.bkpf\` bkpf\nJOIN \`diplomatic75.CORTEX_SAP_CDC.bseg\` bseg\n  ON  bkpf.MANDT = bseg.MANDT\n  AND bkpf.BUKRS = bseg.BUKRS\n  AND bkpf.BELNR = bseg.BELNR\n  AND bkpf.GJAHR = bseg.GJAHR\nJOIN \`diplomatic75.dise_reporting.gl_dise_mapping\` m\n  ON bseg.HKONT = m.gl_account\nWHERE bkpf.GJAHR  = '2023'\n  AND bseg.HKONT  = '0000610200'\n  AND m.status   = 'mapped'\n  AND bkpf.BLART NOT IN ('AA','AF','AB')\nORDER BY bkpf.BUDAT, bkpf.BELNR`
+];
+
+function goStep(n) {
+  document.getElementById('chain-complete').classList.remove('visible');
+  document.querySelectorAll('.step-panel').forEach((p,i) => p.classList.toggle('active', i===n));
+  document.querySelectorAll('.chain-link').forEach((l,i) => l.classList.toggle('active', i===n));
+  cur = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showComplete() {
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.chain-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('chain-complete').classList.add('visible');
+  document.getElementById('chain-complete').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copySql(idx) {
+  navigator.clipboard.writeText(sqls[idx]).then(() => {
+    const btns = document.querySelectorAll('.copy-sql');
+    btns[idx].textContent = 'Copied ✓';
+    setTimeout(() => btns[idx].textContent = 'Copy', 2000);
+  });
+}
+</script>
+
+</body>
+</html>

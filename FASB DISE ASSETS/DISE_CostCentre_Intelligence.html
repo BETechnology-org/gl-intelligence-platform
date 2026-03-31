@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE Technology — DISE Cost Centre Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F8FC;--white:#FFFFFF;--navy:#0F1E3C;--navy2:#1A3160;
+  --blue:#1A56DB;--green:#0A7C42;--amber:#92580A;--red:#C81A1A;
+  --text:#0F1729;--text2:#3D4D6A;--text3:#7A8BA8;
+  --border:#E2E8F4;--border2:#C8D3E8;
+  --mono:'JetBrains Mono',monospace;
+  --serif:'Playfair Display',serif;
+  --sans:'Inter',sans-serif;
+}
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px}
+
+/* ── Header ── */
+.header{
+  background:var(--navy);padding:16px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-eyebrow{
+  font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;
+}
+.header-title{font-family:var(--serif);font-size:20px;color:#FFF;font-weight:600}
+.header-pills{display:flex;gap:8px}
+.pill{
+  font-family:var(--mono);font-size:10px;padding:4px 10px;
+  border-radius:20px;border:1px solid rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.55);
+}
+.pill.live{
+  color:#6EE7B7;background:rgba(110,231,183,0.1);
+  border-color:rgba(110,231,183,0.2);
+  display:flex;align-items:center;gap:5px;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;background:#6EE7B7;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(110,231,183,0.4)}
+  50%{opacity:.7;box-shadow:0 0 0 4px rgba(110,231,183,0)}
+}
+
+/* ── Shell ── */
+.shell{max-width:1280px;margin:0 auto;padding:24px 28px 60px}
+
+/* ── Insight banner ── */
+.insight-banner{
+  background:var(--white);border:1px solid var(--border);
+  border-left:4px solid var(--amber);
+  border-radius:8px;padding:14px 18px;margin-bottom:24px;
+  display:flex;align-items:flex-start;gap:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  animation:fadeUp .4s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.insight-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.insight-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:4px;font-weight:600;
+}
+.insight-text{font-size:13px;color:var(--text2);line-height:1.6}
+.insight-text strong{color:var(--text)}
+
+/* ── Stat row ── */
+.stat-row{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:10px;margin-bottom:24px;
+}
+.stat-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:8px;padding:14px 16px;
+  position:relative;overflow:hidden;
+  box-shadow:0 1px 3px rgba(0,0,0,0.03);
+  animation:fadeUp .4s ease both;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.stat-card.blue::before{background:var(--blue)}
+.stat-card.green::before{background:var(--green)}
+.stat-card.amber::before{background:var(--amber)}
+.stat-card.navy::before{background:var(--navy)}
+.stat-card.red::before{background:var(--red)}
+.stat-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:6px;
+}
+.stat-val{
+  font-family:var(--serif);font-size:28px;font-weight:600;
+  line-height:1;letter-spacing:-.02em;color:var(--text);
+}
+.stat-sub{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:4px}
+
+/* ── Section label ── */
+.section-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--blue);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── Two column ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}}
+
+/* ── Panel ── */
+.panel{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(0,0,0,0.03);
+}
+.panel-head{
+  padding:11px 16px;background:#F1F4F9;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.panel-title{
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--blue);
+}
+.panel-badge{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  padding:2px 7px;border-radius:3px;
+}
+
+/* ── Cost centre bar chart ── */
+.cc-chart{padding:16px}
+.cc-bar-row{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;
+}
+.cc-bar-row:last-child{margin:0}
+.cc-name{
+  font-size:11px;color:var(--text2);
+  min-width:160px;max-width:160px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.cc-bar-wrap{flex:1;height:20px;background:#F1F4F9;border-radius:3px;overflow:hidden}
+.cc-bar{
+  height:100%;border-radius:3px;
+  transition:width .8s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;padding-left:8px;
+}
+.cc-bar-label{
+  font-family:var(--mono);font-size:9px;font-weight:500;
+  color:rgba(255,255,255,0.9);white-space:nowrap;
+}
+.cc-amount{
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  min-width:80px;text-align:right;
+}
+
+/* ── Category breakdown per cost centre ── */
+.cc-breakdown{padding:0}
+.cc-row{
+  padding:10px 16px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .1s;
+}
+.cc-row:last-child{border:none}
+.cc-row:hover{background:#F8F9FC}
+.cc-row-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:6px;
+}
+.cc-row-name{font-size:12px;font-weight:500;color:var(--text)}
+.cc-row-code{font-family:var(--mono);font-size:10px;color:var(--text3);margin-right:8px}
+.cc-row-total{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--navy)}
+.cc-cats{display:flex;gap:4px;flex-wrap:wrap}
+.cc-cat{
+  font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500;
+}
+.cat-inventory{background:rgba(10,107,98,.1);color:#0A6B62}
+.cat-compensation{background:rgba(26,86,219,.08);color:var(--blue)}
+.cat-depreciation{background:rgba(146,88,10,.08);color:var(--amber)}
+.cat-amortization{background:rgba(91,52,218,.08);color:#5B34DA}
+.cat-other{background:#F1F4F9;color:var(--text3)}
+
+/* ── DISE pivot with cost centre filter ── */
+.filter-row{
+  display:flex;gap:8px;padding:12px 16px;
+  border-bottom:1px solid var(--border);flex-wrap:wrap;
+}
+.filter-btn{
+  font-family:var(--mono);font-size:10px;
+  padding:5px 11px;border-radius:4px;cursor:pointer;
+  border:1px solid var(--border2);background:var(--white);
+  color:var(--text2);transition:all .15s;
+}
+.filter-btn.active{
+  background:var(--blue);color:#FFFFFF;border-color:var(--blue);
+}
+.filter-btn:hover:not(.active){background:#F8F9FC}
+
+/* ── Pivot table ── */
+.pivot-wrap{overflow-x:auto}
+.pivot-table{width:100%;border-collapse:collapse;font-size:11px}
+.pivot-table th{
+  padding:8px 12px;text-align:right;
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--text3);
+  border-bottom:1px solid var(--border2);white-space:nowrap;
+  background:#FAFBFD;
+}
+.pivot-table th.left{text-align:left}
+.pivot-table td{
+  padding:8px 12px;text-align:right;
+  border-bottom:1px solid var(--border);
+  font-family:var(--mono);font-size:11px;color:var(--text2);
+}
+.pivot-table td.caption{
+  text-align:left;font-family:var(--sans);
+  font-size:12px;font-weight:500;color:var(--text);
+}
+.pivot-table td.zero{color:#CBD5E1}
+.pivot-table tr.total-row td{
+  border-top:2px solid var(--border2);border-bottom:none;
+  font-weight:600;color:var(--navy);background:#F8F9FC;
+}
+.pivot-table tr:hover td{background:#F8F9FC}
+.pivot-table tr.total-row:hover td{background:#F8F9FC}
+
+/* ── Anomaly flag ── */
+.anomaly-flag{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:10px 14px;background:#FDF3DC;
+  border-bottom:1px solid #DDB96A;
+  font-size:11px;color:var(--text2);line-height:1.5;
+}
+.anomaly-pip{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--amber);flex-shrink:0;margin-top:4px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-eyebrow">BE Technology · GL Intelligence Platform</div>
+    <div class="header-title">DISE Cost Centre Intelligence</div>
+  </div>
+  <div class="header-pills">
+    <div class="pill live"><div class="live-dot"></div>Live · BigQuery</div>
+    <div class="pill">diplomatic75 · C006 · FY2023</div>
+    <div class="pill">ASU 2024-03 / ASC 220-40</div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ── Insight banner ── -->
+  <div class="insight-banner">
+    <div class="insight-icon">⚠</div>
+    <div>
+      <div class="insight-label">Cost Centre Anomaly Detected</div>
+      <div class="insight-text">
+        <strong>$27.4M of Purchases of inventory is coded to Finance and Accounts (US066000)</strong> —
+        inventory purchases typically belong in a supply chain or procurement cost centre, not Finance.
+        This may indicate a cost centre coding issue or that Finance manages direct procurement.
+        Document the methodology rationale before filing.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Stat row ── -->
+  <div class="stat-row">
+    <div class="stat-card blue" style="animation-delay:.05s">
+      <div class="stat-label">Total Disclosed</div>
+      <div class="stat-val">$45.2M</div>
+      <div class="stat-sub">FY2023 · all captions</div>
+    </div>
+    <div class="stat-card green" style="animation-delay:.1s">
+      <div class="stat-label">Cost Centres</div>
+      <div class="stat-val">7</div>
+      <div class="stat-sub">unique cost centres</div>
+    </div>
+    <div class="stat-card amber" style="animation-delay:.15s">
+      <div class="stat-label">Largest CC</div>
+      <div class="stat-val">60%</div>
+      <div class="stat-sub">Finance & Accounts</div>
+    </div>
+    <div class="stat-card navy" style="animation-delay:.2s">
+      <div class="stat-label">Categories</div>
+      <div class="stat-val">5</div>
+      <div class="stat-sub">all DISE categories</div>
+    </div>
+    <div class="stat-card red" style="animation-delay:.25s">
+      <div class="stat-label">Anomalies</div>
+      <div class="stat-val">1</div>
+      <div class="stat-sub">requires documentation</div>
+    </div>
+  </div>
+
+  <!-- ── Two column: bar chart + breakdown ── -->
+  <div class="section-label">Cost Centre Expense Distribution</div>
+  <div class="two-col">
+
+    <!-- Bar chart -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Total expense by cost centre</div>
+        <span class="panel-badge" style="background:rgba(26,86,219,.08);color:var(--blue)">FY2023</span>
+      </div>
+      <div class="cc-chart" id="cc-chart"></div>
+    </div>
+
+    <!-- Category breakdown -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">DISE categories per cost centre</div>
+        <span class="panel-badge" style="background:rgba(10,124,66,.08);color:var(--green)">Click to filter</span>
+      </div>
+      <div class="cc-breakdown" id="cc-breakdown"></div>
+    </div>
+
+  </div>
+
+  <!-- ── Filtered DISE pivot ── -->
+  <div class="section-label">DISE Disclosure · Filtered by Cost Centre</div>
+  <div class="panel">
+    <div class="anomaly-flag" id="anomaly-flag">
+      <div class="anomaly-pip"></div>
+      <div>
+        <strong>Finance and Accounts (US066000)</strong> — $27.4M inventory purchases
+        coded here. Verify cost centre assignment before filing.
+        Add methodology note to gl_dise_mapping for affected accounts.
+      </div>
+    </div>
+    <div class="filter-row" id="filter-row"></div>
+    <div class="pivot-wrap">
+      <table class="pivot-table">
+        <thead>
+          <tr>
+            <th class="left" style="min-width:160px">Caption</th>
+            <th>Purchases of<br>inventory</th>
+            <th>Employee<br>compensation</th>
+            <th>Depreciation</th>
+            <th>Intangible asset<br>amortization</th>
+            <th>Other</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="pivot-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Data from diplomatic75 FY2023 ──────────────────────────────
+const RAW = [
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Purchases of inventory',       caption:'COGS',  amount:27372364},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Depreciation',                  caption:'COGS',  amount:2220000},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Intangible asset amortization', caption:'SG&A',  amount:2137000},
+  {cc:'US061000',cc_name:'LaundryDet-Synthetic',   cat:'Other expenses',                caption:'SG&A',  amount:1618700},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Employee compensation',         caption:'SG&A',  amount:1438400},
+  {cc:'US067000',cc_name:'Administration',         cat:'Other expenses',                caption:'SG&A',  amount:1382900},
+  {cc:'US061000',cc_name:'LaundryDet-Synthetic',   cat:'Depreciation',                  caption:'SG&A',  amount:1242000},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Other expenses',                caption:'SG&A',  amount:1187900},
+  {cc:'US061000',cc_name:'LaundryDet-Synthetic',   cat:'Employee compensation',         caption:'SG&A',  amount:1096700},
+  {cc:'US065000',cc_name:'Sales Commission',       cat:'Other expenses',                caption:'SG&A',  amount:980125},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Depreciation',                  caption:'SG&A',  amount:767950},
+  {cc:'US067000',cc_name:'Administration',         cat:'Other expenses',                caption:'COGS',  amount:746000},
+  {cc:'US065100',cc_name:'Advt and Promotion',     cat:'Purchases of inventory',        caption:'COGS',  amount:430000},
+  {cc:'US065100',cc_name:'Advt and Promotion',     cat:'Employee compensation',         caption:'SG&A',  amount:366500},
+  {cc:'US067100',cc_name:'Other Overheads',        cat:'Other expenses',                caption:'SG&A',  amount:351924},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Other expenses',                caption:'R&D',   amount:345000},
+  {cc:'US067100',cc_name:'Other Overheads',        cat:'Employee compensation',         caption:'SG&A',  amount:294200},
+  {cc:'US067000',cc_name:'Administration',         cat:'Employee compensation',         caption:'SG&A',  amount:283600},
+  {cc:'US067100',cc_name:'Other Overheads',        cat:'Other expenses',                caption:'COGS',  amount:165200},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Other expenses',                caption:'Other income/expense', amount:136300},
+  {cc:'US066000',cc_name:'Finance and Accounts',   cat:'Employee compensation',         caption:'COGS',  amount:13500},
+  {cc:'US065000',cc_name:'Sales Commission',       cat:'Employee compensation',         caption:'SG&A',  amount:20400},
+];
+
+const CATS = ['Purchases of inventory','Employee compensation','Depreciation','Intangible asset amortization','Other expenses'];
+const CAPTIONS = ['COGS','SG&A','R&D','Other income/expense'];
+const COLORS = ['#1A56DB','#0A7C42','#92580A','#5B34DA','#64748B'];
+
+const fmt = n => n > 0 ? '$'+Math.round(n).toLocaleString('en-US') : '';
+const fmtM = n => '$'+(n/1e6).toFixed(1)+'M';
+
+// ── Aggregate by cost centre ───────────────────────────────────
+function aggByCc() {
+  const map = {};
+  RAW.forEach(r => {
+    if(!map[r.cc]) map[r.cc] = {cc:r.cc, name:r.cc_name, total:0, cats:{}};
+    map[r.cc].total += r.amount;
+    map[r.cc].cats[r.cat] = (map[r.cc].cats[r.cat]||0) + r.amount;
+  });
+  return Object.values(map).sort((a,b) => b.total-a.total);
+}
+
+// ── Build pivot for given cost centre filter ──────────────────
+function buildPivot(ccFilter) {
+  const data = ccFilter ? RAW.filter(r => r.cc === ccFilter) : RAW;
+  const lookup = {};
+  data.forEach(r => {
+    if(!lookup[r.caption]) lookup[r.caption] = {};
+    lookup[r.caption][r.cat] = (lookup[r.caption][r.cat]||0) + r.amount;
+  });
+  return lookup;
+}
+
+// ── Render bar chart ──────────────────────────────────────────
+function renderBarChart(ccs) {
+  const max = ccs[0].total;
+  document.getElementById('cc-chart').innerHTML = ccs.map(cc => {
+    const pct = Math.round(cc.total / max * 100);
+    const color = '#1A56DB';
+    return `<div class="cc-bar-row">
+      <div class="cc-name" title="${cc.name}">${cc.name}</div>
+      <div class="cc-bar-wrap">
+        <div class="cc-bar" style="width:${pct}%;background:${color}">
+          <span class="cc-bar-label">${fmtM(cc.total)}</span>
+        </div>
+      </div>
+      <div class="cc-amount">${fmtM(cc.total)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Cat pill class ────────────────────────────────────────────
+function catClass(cat) {
+  if(cat.includes('inventory'))    return 'cat-inventory';
+  if(cat.includes('compensation')) return 'cat-compensation';
+  if(cat.includes('epreciation'))  return 'cat-depreciation';
+  if(cat.includes('mortization'))  return 'cat-amortization';
+  return 'cat-other';
+}
+function catShort(cat) {
+  return {
+    'Purchases of inventory':'Inventory',
+    'Employee compensation':'Compensation',
+    'Depreciation':'Depreciation',
+    'Intangible asset amortization':'Amortization',
+    'Other expenses':'Other'
+  }[cat] || cat;
+}
+
+// ── Render CC breakdown ───────────────────────────────────────
+function renderBreakdown(ccs) {
+  document.getElementById('cc-breakdown').innerHTML = ccs.map(cc => {
+    const catPills = Object.entries(cc.cats)
+      .sort((a,b)=>b[1]-a[1])
+      .map(([cat,amt]) =>
+        `<span class="cc-cat ${catClass(cat)}" title="${fmt(amt)}">${catShort(cat)} ${fmtM(amt)}</span>`
+      ).join('');
+    return `<div class="cc-row" onclick="filterTo('${cc.cc}','${cc.name}')">
+      <div class="cc-row-head">
+        <div>
+          <span class="cc-row-code">${cc.cc}</span>
+          <span class="cc-row-name">${cc.name}</span>
+        </div>
+        <div class="cc-row-total">${fmtM(cc.total)}</div>
+      </div>
+      <div class="cc-cats">${catPills}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Render filter buttons ─────────────────────────────────────
+function renderFilters(ccs) {
+  const btns = [{cc:null, name:'All cost centres'}, ...ccs];
+  document.getElementById('filter-row').innerHTML = btns.map(b =>
+    `<button class="filter-btn ${b.cc===null?'active':''}"
+             id="filter-${b.cc||'all'}"
+             onclick="filterTo('${b.cc}','${b.name}')">${b.name||'All'}</button>`
+  ).join('');
+}
+
+// ── Render pivot table ────────────────────────────────────────
+let currentFilter = null;
+
+function renderPivot(ccFilter) {
+  currentFilter = ccFilter;
+  const lookup = buildPivot(ccFilter);
+  const activeCapts = CAPTIONS.filter(c => lookup[c]);
+
+  const colTotals = {};
+  CATS.forEach(c => colTotals[c] = 0);
+  const rowTotals = {};
+
+  activeCapts.forEach(cap => {
+    rowTotals[cap] = 0;
+    CATS.forEach(cat => {
+      const v = (lookup[cap]||{})[cat]||0;
+      colTotals[cat] += v;
+      rowTotals[cap] += v;
+    });
+  });
+
+  const rows = activeCapts.map(cap =>
+    `<tr>
+      <td class="caption">${cap}</td>
+      ${CATS.map(cat => {
+        const v = (lookup[cap]||{})[cat]||0;
+        return `<td class="${v===0?'zero':''}">${v>0?fmt(v):'—'}</td>`;
+      }).join('')}
+      <td style="color:var(--navy);font-weight:600">${fmt(rowTotals[cap])}</td>
+    </tr>`
+  ).join('');
+
+  const gt = activeCapts.reduce((s,c)=>s+(rowTotals[c]||0),0);
+  const totalRow = `<tr class="total-row">
+    <td class="caption">Total</td>
+    ${CATS.map(c=>`<td>${colTotals[c]>0?fmt(colTotals[c]):'—'}</td>`).join('')}
+    <td>${fmt(gt)}</td>
+  </tr>`;
+
+  document.getElementById('pivot-tbody').innerHTML = rows + totalRow;
+
+  // Show/hide anomaly flag
+  const flag = document.getElementById('anomaly-flag');
+  flag.style.display = (!ccFilter || ccFilter==='US066000') ? 'flex' : 'none';
+}
+
+// ── Filter handler ────────────────────────────────────────────
+function filterTo(cc, name) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`filter-${cc||'all'}`).classList.add('active');
+  renderPivot(cc || null);
+}
+
+// ── Init ──────────────────────────────────────────────────────
+const ccs = aggByCc();
+renderBarChart(ccs);
+renderBreakdown(ccs);
+renderFilters(ccs);
+renderPivot(null);
+</script>
+</body>
+</html>

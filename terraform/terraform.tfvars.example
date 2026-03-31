@@ -1,0 +1,57 @@
+# ============================================================
+# BE Technology — GL Intelligence Platform
+# Example client configuration files
+# ============================================================
+# Copy the relevant example to terraform.tfvars and fill in
+# the client-specific values before running terraform apply
+# ============================================================
+
+
+# ── Example 1: diplomatic75 (your demo environment) ──────────
+# Save as: terraform.tfvars
+# ------------------------------------------------------------
+# client_id        = "diplomatic75"
+# client_name      = "BE Technology Demo — diplomatic75"
+# project_id       = "diplomatic75"
+# admin_email      = "mrobasson@gmail.com"
+# controller_email = "mr@betechnology.org"
+# anthropic_api_key= "sk-ant-..."
+# company_code     = "C006"
+# fiscal_year      = "2023"
+# cdc_dataset      = "CORTEX_SAP_CDC"
+# environment      = "demo"
+
+
+# ── Example 2: Fortune 500 manufacturer (first real client) ──
+# Save as: terraform.tfvars
+# ------------------------------------------------------------
+# client_id        = "acme-mfg"
+# client_name      = "Acme Manufacturing Corporation"
+# project_id       = "acme-gcp-prod-12345"
+# admin_email      = "mrobasson@gmail.com"
+# controller_email = "j.smith@acme.com"
+# anthropic_api_key= "sk-ant-..."
+# company_code     = "US01"
+# fiscal_year      = "2024"
+# cdc_dataset      = "CORTEX_SAP_CDC"
+# region           = "us-central1"
+# scheduler_timezone = "America/Chicago"
+# environment      = "production"
+
+
+# ── Example 3: Mid-market retailer ───────────────────────────
+# Save as: terraform.tfvars
+# ------------------------------------------------------------
+# client_id        = "retail-co"
+# client_name      = "RetailCo Inc"
+# project_id       = "retailco-analytics-prod"
+# admin_email      = "mrobasson@gmail.com"
+# controller_email = "finance@retailco.com"
+# anthropic_api_key= "sk-ant-..."
+# company_code     = "1000"
+# fiscal_year      = "2024"
+# cdc_dataset      = "SAP_CDC_PROD"
+# region           = "us-east1"
+# region_suffix    = "ue"
+# scheduler_timezone = "America/New_York"
+# environment      = "production"

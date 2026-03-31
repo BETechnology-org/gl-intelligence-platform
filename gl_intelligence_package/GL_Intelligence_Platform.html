@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GL Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #0F2044;
+  --navy2:   #1B3A6B;
+  --navy3:   #2A5298;
+  --teal:    #0D9488;
+  --teal2:   #14B8A6;
+  --tealp:   #E6F7F5;
+  --gold:    #C9A84C;
+  --goldp:   #FDF5E0;
+  --white:   #FFFFFF;
+  --off:     #F8F9FC;
+  --g1:      #F1F5F9;
+  --g2:      #E2E8F0;
+  --g3:      #94A3B8;
+  --g4:      #475569;
+  --g5:      #1E293B;
+  --green:   #16A34A;
+  --greenp:  #DCFCE7;
+  --greenb:  #86EFAC;
+  --amber:   #D97706;
+  --amberp:  #FEF3C7;
+  --amberb:  #FCD34D;
+  --red:     #DC2626;
+  --redp:    #FEF2F2;
+  --redb:    #FCA5A5;
+  --blue:    #1D4ED8;
+  --bluep:   #EFF6FF;
+  --blueb:   #93C5FD;
+  --sidebar: 240px;
+  --topbar:  52px;
+  --radius:  10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--off);
+  color: var(--g5);
+  font-size: 14px;
+  line-height: 1.5;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  height: var(--topbar);
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  border-bottom: 2px solid var(--teal);
+  z-index: 100;
+}
+.tb-left { display: flex; align-items: center; gap: 12px; }
+.tb-logo { font-family: 'DM Serif Display', serif; font-size: 17px; color: #F0EDE4; }
+.tb-logo span { color: var(--gold); font-style: italic; }
+.tb-divider { width: 1px; height: 20px; background: #2A3F60; }
+.tb-client { font-size: 12px; color: #7A9ABF; }
+.tb-client strong { color: #A0C0DF; font-weight: 500; }
+.tb-right { display: flex; align-items: center; gap: 10px; }
+.tb-period { font-size: 11px; color: #5A7A9A; background: #0D1E3A; padding: 4px 12px; border-radius: 20px; }
+.tb-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--teal2); background: #0A2A28; padding: 4px 12px; border-radius: 20px; border: 1px solid #0D4A44; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal2); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.tb-conn-btn { font-size: 11px; padding: 5px 14px; border-radius: 20px; border: 1px solid #3A5A7A; background: transparent; color: #7A9ABF; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .15s; }
+.tb-conn-btn:hover { background: #1A3050; color: #A0C0DF; }
+.tb-conn-btn.connected { border-color: var(--teal); color: var(--teal2); background: #0A2A28; }
+
+/* ── LAYOUT ── */
+.body-wrap {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar);
+  background: var(--navy);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  border-right: 1px solid #1A3050;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #2A3F60; border-radius: 2px; }
+
+.sb-section { padding: 16px 12px 4px; }
+.sb-section-label { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: #3A5A7A; padding: 0 8px; margin-bottom: 4px; }
+
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .15s;
+  color: #7A9ABF;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+.sb-item:hover { background: #1A3050; color: #A0C0DF; }
+.sb-item.active { background: linear-gradient(135deg, #0D4A44, #0A3A34); color: var(--teal2); }
+.sb-item.active .sb-icon { color: var(--teal); }
+.sb-icon { width: 16px; height: 16px; flex-shrink: 0; opacity: .8; }
+.sb-item.active .sb-icon { opacity: 1; }
+.sb-badge { margin-left: auto; font-size: 10px; padding: 1px 7px; border-radius: 20px; background: var(--red); color: white; font-weight: 500; }
+.sb-badge.green { background: var(--teal); }
+.sb-badge.amber { background: var(--amber); }
+
+.sb-divider { height: 1px; background: #1A3050; margin: 8px 12px; }
+
+.sb-footer { margin-top: auto; padding: 12px; border-top: 1px solid #1A3050; }
+.sb-footer-text { font-size: 10px; color: #3A5A7A; line-height: 1.5; }
+
+/* ── MAIN CONTENT ── */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.main::-webkit-scrollbar { width: 6px; }
+.main::-webkit-scrollbar-thumb { background: var(--g2); border-radius: 3px; }
+
+.page { display: none; flex-direction: column; height: 100%; }
+.page.active { display: flex; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 20px 28px 0;
+  flex-shrink: 0;
+}
+.page-header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+.page-header p { font-size: 13px; color: var(--g3); }
+
+/* ── CONTENT AREA ── */
+.content { padding: 16px 28px 40px; flex: 1; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border: 0.5px solid var(--g2);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--g1);
+  border-bottom: 0.5px solid var(--g2);
+}
+.card-title { font-size: 13px; font-weight: 500; color: var(--navy); }
+.card-body { padding: 16px; }
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+
+/* ── METRIC CARDS ── */
+.metric-card { background: var(--g1); border-radius: 8px; padding: 14px; text-align: center; }
+.metric-val { font-size: 26px; font-weight: 500; color: var(--navy); display: block; margin-bottom: 3px; }
+.metric-lbl { font-size: 11px; color: var(--g3); line-height: 1.3; }
+.metric-val.teal { color: var(--teal); }
+.metric-val.red { color: var(--red); }
+.metric-val.amber { color: var(--amber); }
+.metric-val.green { color: var(--green); }
+
+/* ── STATUS INDICATOR ── */
+.status-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 12px; }
+.sb-ok { background: var(--greenp); color: var(--green); border: 0.5px solid var(--greenb); }
+.sb-warn { background: var(--amberp); color: var(--amber); border: 0.5px solid var(--amberb); }
+.sb-err { background: var(--redp); color: var(--red); border: 0.5px solid var(--redb); }
+.sb-info { background: var(--tealp); color: var(--teal); border: 0.5px solid var(--teal2); }
+
+/* ── BADGES ── */
+.badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.b-teal { background: var(--tealp); color: var(--teal); border: 0.5px solid var(--teal2); }
+.b-green { background: var(--greenp); color: var(--green); border: 0.5px solid var(--greenb); }
+.b-amber { background: var(--amberp); color: var(--amber); border: 0.5px solid var(--amberb); }
+.b-red { background: var(--redp); color: var(--red); border: 0.5px solid var(--redb); }
+.b-navy { background: var(--navy2); color: #A0C0DF; border: 0.5px solid #2A4A70; }
+.b-gray { background: var(--g1); color: var(--g4); border: 0.5px solid var(--g2); }
+
+/* ── BUTTONS ── */
+.btn { padding: 8px 16px; border-radius: 8px; border: 0.5px solid var(--g2); background: white; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--g4); cursor: pointer; transition: all .15s; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.btn:hover { background: var(--g1); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn-primary { background: var(--navy); color: white; border-color: var(--navy); }
+.btn-primary:hover { background: var(--navy2); }
+.btn-teal { background: var(--teal); color: white; border-color: var(--teal); }
+.btn-teal:hover { background: var(--teal2); }
+.btn-gold { background: var(--goldp); color: var(--gold); border-color: #E8D08A; }
+.btn-gold:hover { background: #FEF0C0; }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+
+/* ── INPUTS ── */
+.field { margin-bottom: 13px; }
+.field label { display: block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .07em; color: var(--g3); margin-bottom: 4px; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 8px 11px; border: 0.5px solid var(--g2); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--g5); background: white; outline: none; transition: border-color .15s;
+}
+.field input:focus, .field select:focus { border-color: var(--teal); }
+.field input[type=password] { font-family: 'DM Mono', monospace; font-size: 12px; }
+.fhint { font-size: 11px; color: var(--g3); margin-top: 3px; }
+
+/* ── SQL BLOCKS ── */
+.sql-wrap { background: var(--navy); border-radius: 8px; overflow: hidden; margin: 10px 0; }
+.sql-head { display: flex; align-items: center; justify-content: space-between; padding: 6px 12px; background: #1A2A40; border-bottom: 1px solid #2A3F60; }
+.sql-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: #5A7A9A; font-family: 'DM Mono', monospace; }
+.sql-copy-btn { font-size: 11px; color: #5A7A9A; background: transparent; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 2px 6px; border-radius: 4px; transition: color .15s; }
+.sql-copy-btn:hover { color: var(--gold); }
+.sql-code { padding: 12px 14px; font-family: 'DM Mono', monospace; font-size: 11px; color: #7AB0E0; line-height: 1.8; white-space: pre; overflow-x: auto; }
+
+/* ── TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table th { padding: 8px 10px; text-align: left; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--g3); border-bottom: 0.5px solid var(--g2); }
+.data-table th:not(:first-child) { text-align: right; }
+.data-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--g1); color: var(--g5); font-family: 'DM Mono', monospace; }
+.data-table td:first-child { font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.data-table td:not(:first-child) { text-align: right; }
+.data-table tr:last-child td { border-bottom: none; font-weight: 500; background: var(--g1); }
+.data-table tr:hover td { background: var(--g1); }
+
+/* ── SPINNER ── */
+.spin { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; animation: sp .7s linear infinite; display: none; }
+.spin.on { display: inline-block; }
+.spin-dark { border: 2px solid var(--g2); border-top-color: var(--teal); }
+@keyframes sp { to { transform: rotate(360deg); } }
+
+/* ── CALLOUT ── */
+.callout { padding: 11px 14px; font-size: 12px; line-height: 1.6; margin: 10px 0; border-left: 3px solid; border-radius: 0 8px 8px 0; }
+.c-teal { background: var(--tealp); color: var(--teal); border-left-color: var(--teal); }
+.c-amber { background: var(--amberp); color: var(--amber); border-left-color: var(--amber); }
+.c-green { background: var(--greenp); color: var(--green); border-left-color: var(--green); }
+.c-navy { background: var(--bluep); color: var(--navy2); border-left-color: var(--navy3); }
+
+/* ── AUDIT CHAIN ── */
+.chain-link { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 0.5px solid var(--g1); }
+.chain-link:last-child { border: none; }
+.chain-num { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: var(--teal2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
+.chain-body { flex: 1; }
+.chain-title { font-size: 13px; font-weight: 500; color: var(--navy); margin-bottom: 3px; }
+.chain-desc { font-size: 12px; color: var(--g3); line-height: 1.5; }
+.chain-connector { display: flex; justify-content: center; padding: 4px 0; color: var(--g3); font-size: 18px; }
+
+/* ── ALERT ROWS ── */
+.alert-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 0.5px solid var(--g1); }
+.alert-row:last-child { border: none; }
+.alert-icon { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.ai-crit { background: var(--redp); border: 0.5px solid var(--redb); color: var(--red); }
+.ai-warn { background: var(--amberp); border: 0.5px solid var(--amberb); color: var(--amber); }
+.alert-info { flex: 1; }
+.alert-title { font-size: 13px; font-weight: 500; color: var(--g5); margin-bottom: 2px; }
+.alert-sub { font-size: 11px; color: var(--g3); }
+.alert-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.alert-amt { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--g5); }
+.alert-var { font-size: 11px; font-weight: 500; color: var(--red); }
+
+/* ── PROGRESS BAR ── */
+.prog-wrap { height: 6px; background: var(--g2); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.prog-fill { height: 100%; border-radius: 3px; transition: width .8s ease; }
+.pf-teal { background: var(--teal); }
+.pf-amber { background: var(--amber); }
+.pf-green { background: var(--green); }
+.pf-red { background: var(--red); }
+
+/* ── CONN OVERLAY ── */
+.conn-overlay {
+  position: fixed; inset: 0; background: rgba(10,20,40,.85);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 999; backdrop-filter: blur(4px);
+}
+.conn-overlay.hidden { display: none; }
+.conn-modal {
+  background: white; border-radius: 14px; width: 500px;
+  padding: 32px; border: 0.5px solid var(--g2);
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.conn-title { font-family: 'DM Serif Display', serif; font-size: 22px; font-weight: 400; color: var(--navy); margin-bottom: 6px; }
+.conn-sub { font-size: 13px; color: var(--g3); margin-bottom: 24px; }
+
+/* ── QA INTERFACE ── */
+.qa-messages { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+.qa-msg { padding: 12px 14px; border-radius: 10px; font-size: 13px; line-height: 1.6; }
+.qa-user { background: var(--navy); color: #C0D8F0; align-self: flex-end; max-width: 80%; border-radius: 10px 10px 2px 10px; }
+.qa-bot { background: var(--g1); color: var(--g5); align-self: flex-start; max-width: 90%; border-radius: 10px 10px 10px 2px; }
+.qa-sql { background: var(--navy); padding: 10px 12px; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: #7AB0E0; white-space: pre-wrap; margin: 8px 0; }
+.qa-input-row { display: flex; gap: 8px; }
+.qa-input-row input { flex: 1; padding: 10px 14px; border: 0.5px solid var(--g2); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none; }
+.qa-input-row input:focus { border-color: var(--teal); }
+
+/* ── DISCLOSURE OUTPUT ── */
+.disclosure-box { background: white; border: 1px solid var(--g2); border-radius: 10px; padding: 20px 24px; color: var(--g5); font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.9; white-space: pre; overflow-x: auto; min-height: 120px; }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 48px 24px; color: var(--g3); }
+.empty-icon { font-size: 32px; margin-bottom: 12px; opacity: .3; }
+.empty-title { font-size: 14px; font-weight: 500; color: var(--g4); margin-bottom: 6px; }
+.empty-sub { font-size: 12px; }
+
+/* ── TABS ── */
+.tabs { display: flex; border-bottom: 0.5px solid var(--g2); margin-bottom: 16px; }
+.tab-btn { padding: 9px 16px; font-size: 13px; color: var(--g3); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; background: none; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; }
+.tab-btn:hover { color: var(--g5); }
+.tab-btn.on { color: var(--navy); border-bottom-color: var(--teal); font-weight: 500; }
+.tab-pane { display: none; }
+.tab-pane.on { display: block; }
+
+/* ── DASHBOARD SPECIFIC ── */
+.readiness-ring { width: 80px; height: 80px; border-radius: 50%; background: conic-gradient(var(--teal) 0% 80%, var(--g2) 80% 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; }
+.ring-inner { width: 56px; height: 56px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 500; color: var(--teal); }
+
+.step-list { display: flex; flex-direction: column; gap: 0; }
+.step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 0.5px solid var(--g1); cursor: pointer; transition: all .15s; }
+.step-item:last-child { border: none; }
+.step-item:hover { padding-left: 4px; }
+.step-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.step-label { font-size: 13px; color: var(--g5); flex: 1; }
+.step-status { font-size: 11px; }
+.step-arrow { color: var(--g3); font-size: 12px; }
+
+/* ── SECTION HEADER ── */
+.section-head { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--g3); margin: 18px 0 8px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .sidebar { width: 52px; }
+  .sb-item span { display: none; }
+  .sb-section-label { display: none; }
+  .tb-client { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">GL <span>Intelligence</span></div>
+    <div class="tb-divider"></div>
+    <div class="tb-client">Client: <strong id="tb-client-name">Not connected</strong></div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-period" id="tb-period">Period: —</div>
+    <div class="tb-status" id="tb-status-pill">
+      <div class="status-dot"></div>
+      <span id="tb-status-text">Awaiting connection</span>
+    </div>
+    <button class="tb-conn-btn" id="tb-conn-btn" onclick="showConnModal()">Configure connection</button>
+  </div>
+</div>
+
+<div class="body-wrap">
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar">
+  <div class="sb-section">
+    <div class="sb-section-label">Overview</div>
+    <div class="sb-item active" onclick="nav('dashboard')" id="nav-dashboard">
+      <svg class="sb-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="1.5"/></svg>
+      <span>Dashboard</span>
+    </div>
+  </div>
+
+  <div class="sb-divider"></div>
+
+  <div class="sb-section">
+    <div class="sb-section-label">Data foundation</div>
+    <div class="sb-item" onclick="nav('mapping')" id="nav-mapping">
+      <svg class="sb-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-width="1.5"/></svg>
+      <span>GL mapping</span>
+      <span class="sb-badge green" id="nav-mapped-count">15</span>
+    </div>
+  </div>
+
+  <div class="sb-divider"></div>
+
+  <div class="sb-section">
+    <div class="sb-section-label">DISE compliance</div>
+    <div class="sb-item" onclick="nav('disclosure')" id="nav-disclosure">
+      <svg class="sb-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="1.5"/></svg>
+      <span>DISE disclosure</span>
+    </div>
+    <div class="sb-item" onclick="nav('audit')" id="nav-audit">
+      <svg class="sb-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" stroke-width="1.5"/><path d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" stroke-width="1.5"/></svg>
+      <span>Audit trail</span>
+    </div>
+  </div>
+
+  <div class="sb-divider"></div>
+
+  <div class="sb-section">
+    <div class="sb-section-label">Intelligence</div>
+    <div class="sb-item" onclick="nav('alerts')" id="nav-alerts">
+      <svg class="sb-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-width="1.5"/></svg>
+      <span>Anomaly alerts</span>
+      <span class="sb-badge" id="nav-alert-count" style="display:none">0</span>
+    </div>
+    <div class="sb-item" onclick="nav('qa')" id="nav-qa">
+      <svg class="sb-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-width="1.5"/></svg>
+      <span>Financial Q&A</span>
+    </div>
+  </div>
+
+  <div class="sb-footer">
+    <div class="sb-footer-text">GL Intelligence Platform<br>ASU 2024-03 · ASC 220-40<br>Confidential</div>
+  </div>
+</div>
+
+<!-- ── MAIN CONTENT ── -->
+<div class="main">
+
+<!-- ════════════════════════════════════════
+     PAGE: DASHBOARD
+════════════════════════════════════════ -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <h1>Disclosure readiness dashboard</h1>
+    <p>Current period status across all DISE compliance modules</p>
+  </div>
+  <div class="content">
+
+    <div id="dash-not-connected" class="callout c-amber" style="margin-bottom:16px">
+      Configure your BigQuery connection using the button in the top-right to load live data from your SAP environment.
+    </div>
+
+    <div class="grid-4" style="margin-bottom:16px">
+      <div class="metric-card">
+        <span class="metric-val teal" id="dash-mapped">15</span>
+        <span class="metric-lbl">GL accounts<br>mapped</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-val" id="dash-coverage">100%</span>
+        <span class="metric-lbl">Mapping<br>coverage</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-val" id="dash-alerts">—</span>
+        <span class="metric-lbl">Open anomaly<br>alerts</span>
+      </div>
+      <div class="metric-card">
+        <span class="metric-val" id="dash-last-run">—</span>
+        <span class="metric-lbl">Last disclosure<br>generated</span>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Close checklist</span>
+          <span class="badge b-amber" id="dash-checklist-badge">3 of 5 complete</span>
+        </div>
+        <div class="card-body">
+          <div class="step-list">
+            <div class="step-item" onclick="nav('mapping')">
+              <div class="step-dot" style="background:var(--green)"></div>
+              <span class="step-label">GL accounts mapped to DISE categories</span>
+              <span class="badge b-green step-status">Done</span>
+              <span class="step-arrow">›</span>
+            </div>
+            <div class="step-item" onclick="nav('mapping')">
+              <div class="step-dot" style="background:var(--green)"></div>
+              <span class="step-label">Mapping coverage above 95%</span>
+              <span class="badge b-green step-status">Done</span>
+              <span class="step-arrow">›</span>
+            </div>
+            <div class="step-item" onclick="nav('alerts')">
+              <div class="step-dot" id="dash-alert-dot" style="background:var(--g2)"></div>
+              <span class="step-label">Anomaly alerts reviewed</span>
+              <span class="badge b-gray step-status" id="dash-alert-step">Pending</span>
+              <span class="step-arrow">›</span>
+            </div>
+            <div class="step-item" onclick="nav('disclosure')">
+              <div class="step-dot" id="dash-disc-dot" style="background:var(--g2)"></div>
+              <span class="step-label">DISE disclosure generated</span>
+              <span class="badge b-gray step-status" id="dash-disc-step">Pending</span>
+              <span class="step-arrow">›</span>
+            </div>
+            <div class="step-item" onclick="nav('audit')">
+              <div class="step-dot" id="dash-audit-dot" style="background:var(--g2)"></div>
+              <span class="step-label">Audit trail verified</span>
+              <span class="badge b-gray step-status" id="dash-audit-step">Pending</span>
+              <span class="step-arrow">›</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-head">
+            <span class="card-title">Quick actions</span>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-teal" style="width:100%;justify-content:center" onclick="nav('disclosure')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2"/></svg>
+              Generate DISE disclosure
+            </button>
+            <button class="btn" style="width:100%;justify-content:center" onclick="nav('alerts')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-width="1.5"/></svg>
+              Run anomaly detection
+            </button>
+            <button class="btn" style="width:100%;justify-content:center" onclick="nav('qa')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-width="1.5"/></svg>
+              Ask a financial question
+            </button>
+            <button class="btn" style="width:100%;justify-content:center" onclick="nav('audit')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" stroke-width="1.5"/></svg>
+              Explore audit trail
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">Platform coverage</span></div>
+          <div class="card-body">
+            <div style="margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--g3);margin-bottom:4px"><span>GL mapping</span><span style="color:var(--green);font-weight:500">100%</span></div>
+              <div class="prog-wrap"><div class="prog-fill pf-green" style="width:100%"></div></div>
+            </div>
+            <div style="margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--g3);margin-bottom:4px"><span>DISE pivot accuracy</span><span style="color:var(--teal);font-weight:500">Reconciled</span></div>
+              <div class="prog-wrap"><div class="prog-fill pf-teal" style="width:100%"></div></div>
+            </div>
+            <div style="margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--g3);margin-bottom:4px"><span>Audit trail depth</span><span style="color:var(--teal);font-weight:500">4 links</span></div>
+              <div class="prog-wrap"><div class="prog-fill pf-teal" style="width:100%"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--g3);margin-bottom:4px"><span>Anomaly baseline</span><span id="dash-baseline-label" style="color:var(--amber);font-weight:500">8 periods</span></div>
+              <div class="prog-wrap"><div class="prog-fill pf-amber" style="width:65%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: GL MAPPING
+════════════════════════════════════════ -->
+<div class="page" id="page-mapping">
+  <div class="page-header">
+    <h1>GL account mapping</h1>
+    <p>Semantic classification of general ledger accounts to ASC 220-40 DISE natural expense categories</p>
+  </div>
+  <div class="content">
+
+    <div class="callout c-teal" style="margin-bottom:14px">The GL mapping table is the intellectual core of the solution. Every classification carries an ASC citation and reviewer timestamp — this is the methodology document auditors request.</div>
+
+    <div class="grid-4" style="margin-bottom:14px">
+      <div class="metric-card"><span class="metric-val teal">15</span><span class="metric-lbl">Accounts<br>mapped</span></div>
+      <div class="metric-card"><span class="metric-val green">100%</span><span class="metric-lbl">Coverage<br>rate</span></div>
+      <div class="metric-card"><span class="metric-val">5</span><span class="metric-lbl">DISE<br>categories</span></div>
+      <div class="metric-card"><span class="metric-val">0</span><span class="metric-lbl">Unmapped<br>accounts</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">Current GL mapping — Company C006</span>
+        <div style="display:flex;gap:8px">
+          <span class="badge b-green">Validated FY2023</span>
+          <span class="badge b-teal">SAP ECC · diplomatic75</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0;overflow-x:auto">
+        <table class="data-table" style="font-size:11.5px">
+          <thead>
+            <tr>
+              <th style="text-align:left">GL account</th>
+              <th style="text-align:left">Description</th>
+              <th style="text-align:left">DISE category</th>
+              <th style="text-align:left">IS caption</th>
+              <th style="text-align:left">ASC reference</th>
+              <th style="text-align:right">FY2023 amount</th>
+              <th style="text-align:center">Status</th>
+            </tr>
+          </thead>
+          <tbody id="mapping-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="card-title">Category coverage summary</span></div>
+      <div class="card-body">
+        <div class="grid-3" style="gap:10px">
+          <div style="padding:12px;background:var(--g1);border-radius:8px">
+            <div style="font-size:11px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Purchases of inventory</div>
+            <div style="font-size:20px;font-weight:500;color:var(--navy);margin-bottom:2px">$26,356,364</div>
+            <div style="font-size:11px;color:var(--g3)">COGS caption · ASC 330</div>
+          </div>
+          <div style="padding:12px;background:var(--g1);border-radius:8px">
+            <div style="font-size:11px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Employee compensation</div>
+            <div style="font-size:20px;font-weight:500;color:var(--navy);margin-bottom:2px">$2,203,100</div>
+            <div style="font-size:11px;color:var(--g3)">SG&A caption · ASC 220-40</div>
+          </div>
+          <div style="padding:12px;background:var(--g1);border-radius:8px">
+            <div style="font-size:11px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Depreciation</div>
+            <div style="font-size:20px;font-weight:500;color:var(--navy);margin-bottom:2px">$4,480,750</div>
+            <div style="font-size:11px;color:var(--g3)">COGS + SG&A · ASC 360</div>
+          </div>
+          <div style="padding:12px;background:var(--g1);border-radius:8px">
+            <div style="font-size:11px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Intangible amortization</div>
+            <div style="font-size:20px;font-weight:500;color:var(--navy);margin-bottom:2px">$2,100,000</div>
+            <div style="font-size:11px;color:var(--g3)">SG&A caption · ASC 350</div>
+          </div>
+          <div style="padding:12px;background:var(--g1);border-radius:8px">
+            <div style="font-size:11px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Other expenses</div>
+            <div style="font-size:20px;font-weight:500;color:var(--navy);margin-bottom:2px">$2,912,025</div>
+            <div style="font-size:11px;color:var(--g3)">SG&A + R&D captions</div>
+          </div>
+          <div style="padding:12px;background:var(--navy);border-radius:8px">
+            <div style="font-size:11px;font-weight:500;color:var(--teal2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Total disclosed</div>
+            <div style="font-size:20px;font-weight:500;color:white;margin-bottom:2px">$38,052,239</div>
+            <div style="font-size:11px;color:#7A9ABF">Reconciles to IS face · FY2023</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: DISE DISCLOSURE
+════════════════════════════════════════ -->
+<div class="page" id="page-disclosure">
+  <div class="page-header">
+    <h1>DISE disclosure generator</h1>
+    <p>Generate ASC 220-40 compliant footnote disclosure from live SAP data</p>
+  </div>
+  <div class="content">
+
+    <!-- Compact credential bar -->
+    <div style="background:white;border:1px solid var(--g2);border-radius:var(--radius);padding:12px 16px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr 1fr 120px 120px auto;gap:10px;align-items:end">
+      <div>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--g3);margin-bottom:3px">GCP Project</div>
+        <input type="text" id="disc-project" value="diplomatic75" style="width:100%;padding:5px 8px;border:1px solid var(--g2);border-radius:6px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;color:var(--g5)">
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--g3);margin-bottom:3px">BigQuery access token</div>
+        <input type="password" id="disc-token" placeholder="ya29.a0..." style="width:100%;padding:5px 8px;border:1px solid var(--g2);border-radius:6px;font-size:11px;font-family:'DM Mono',monospace;outline:none;color:var(--g5)">
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--g3);margin-bottom:3px">Anthropic API key</div>
+        <input type="password" id="disc-apikey" placeholder="sk-ant-..." style="width:100%;padding:5px 8px;border:1px solid var(--g2);border-radius:6px;font-size:11px;font-family:'DM Mono',monospace;outline:none;color:var(--g5)">
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--g3);margin-bottom:3px">Fiscal year</div>
+        <input type="text" id="disc-year" value="2023" style="width:100%;padding:5px 8px;border:1px solid var(--g2);border-radius:6px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;color:var(--g5)">
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--g3);margin-bottom:3px">Company code</div>
+        <input type="text" id="disc-company" value="C006" style="width:100%;padding:5px 8px;border:1px solid var(--g2);border-radius:6px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;color:var(--g5)">
+      </div>
+      <button class="btn btn-teal" style="justify-content:center;padding:6px 16px;font-size:12px" onclick="runDisclosure()" id="disc-btn">
+        <div class="spin" id="disc-spin"></div>
+        Generate
+      </button>
+    </div>
+
+    <!-- Visual disclosure output -->
+    <div class="card" id="disc-visual-card">
+      <div class="card-head">
+        <span class="card-title">ASC 220-40 — Disaggregation of income statement expenses</span>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="badge b-gray" id="disc-pivot-badge">Not yet run</span>
+          <button class="btn btn-sm btn-gold" onclick="copyDisclosure()" id="disc-copy-btn" style="display:none">Copy footnote</button>
+        </div>
+      </div>
+      <div class="card-body" id="disc-visual-body">
+        <div class="empty-state">
+          <div class="empty-icon">§</div>
+          <div class="empty-title">No disclosure generated yet</div>
+          <div class="empty-sub">Enter credentials above and click Generate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analysis + Claude narrative side by side -->
+    <div class="grid-2" style="margin-top:14px">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Controller analysis</span><span class="badge b-gray" id="disc-fn-badge">Pending</span></div>
+        <div class="card-body">
+          <div id="disc-analysis" style="font-size:12px;color:var(--g3);line-height:1.7">Claude's analysis of the disclosure — unusual patterns, period-over-period changes, and items requiring controller attention — will appear here after generation.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">10-K footnote text</span></div>
+        <div class="card-body" style="padding:0">
+          <div class="disclosure-box" id="disc-output">The generated ASC 220-40 disclosure footnote will appear here in formal 10-K language, ready to paste into your filing package.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: AUDIT TRAIL
+════════════════════════════════════════ -->
+<div class="page" id="page-audit">
+  <div class="page-header">
+    <h1>Four-link audit trail</h1>
+    <p>Every disclosed dollar traceable to an individual SAP journal entry — independently verifiable by auditors</p>
+  </div>
+  <div class="content">
+
+    <div class="callout c-navy" style="margin-bottom:14px">This is the audit trail that drops Big 4 DISE testing procedures from 80–200 hours to 20–40 hours. Auditors run every query themselves. No workpapers required.</div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Select amount to trace</span></div>
+          <div class="card-body">
+            <div class="field">
+              <label>DISE category</label>
+              <select id="audit-category" onchange="updateAuditChain()">
+                <option value="compensation">Employee compensation — SG&A — $2,203,100</option>
+                <option value="depreciation-cogs">Depreciation — COGS — $2,220,000</option>
+                <option value="depreciation-sga">Depreciation — SG&A — $2,260,750</option>
+                <option value="inventory">Purchases of inventory — COGS — $26,356,364</option>
+                <option value="amortization">Intangible amortization — SG&A — $2,100,000</option>
+              </select>
+            </div>
+            <div class="callout c-teal" id="audit-amount-callout">
+              Tracing <strong>$2,203,100</strong> employee compensation in SG&A back to source SAP journal entries via four independently verifiable links.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">SQL — source transaction drill-down</span></div>
+          <div class="card-body" style="padding:0">
+            <div class="sql-wrap" style="margin:0;border-radius:0">
+              <div class="sql-head">
+                <span class="sql-lbl" id="audit-sql-label">compensation_sga_drilldown.sql</span>
+                <button class="sql-copy-btn" onclick="copyAuditSQL()">Copy</button>
+              </div>
+              <div class="sql-code" id="audit-sql-code">SELECT
+  bkpf.BELNR        AS document_number,
+  bkpf.BUDAT        AS posting_date,
+  bkpf.BLART        AS document_type,
+  bseg.HKONT        AS gl_account,
+  bseg.KOSTL        AS cost_center,
+  ROUND(bseg.DMBTR,2) AS amount_usd,
+  m.description     AS gl_description
+FROM `diplomatic75.CORTEX_SAP_CDC.bkpf` bkpf
+JOIN `diplomatic75.CORTEX_SAP_CDC.bseg` bseg
+  ON  bkpf.MANDT=bseg.MANDT
+  AND bkpf.BUKRS=bseg.BUKRS
+  AND bkpf.BELNR=bseg.BELNR
+  AND bkpf.GJAHR=bseg.GJAHR
+JOIN `diplomatic75.dise_reporting.gl_dise_mapping` m
+  ON bseg.HKONT=m.gl_account
+WHERE bkpf.GJAHR     = '2023'
+  AND m.dise_category   = 'compensation'
+  AND m.expense_caption = 'SG&A'
+  AND m.status          = 'mapped'
+ORDER BY bseg.DMBTR DESC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><span class="card-title">The four links</span><span class="badge b-teal">Auditor-verifiable</span></div>
+        <div class="card-body">
+          <div class="chain-link">
+            <div class="chain-num">1</div>
+            <div class="chain-body">
+              <div class="chain-title">Published disclosure footnote</div>
+              <div class="chain-desc">The ASC 220-40 tabular disclosure in the 10-K footnote. This is the starting point — the number an auditor or investor reads.</div>
+              <div style="margin-top:8px;padding:8px 12px;background:var(--navy);border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--teal2)" id="audit-link1-val">Employee compensation | SG&A | $2,203,100</div>
+            </div>
+          </div>
+          <div class="chain-connector">↓</div>
+          <div class="chain-link">
+            <div class="chain-num">2</div>
+            <div class="chain-body">
+              <div class="chain-title">DISE pivot query</div>
+              <div class="chain-desc">The BigQuery SQL query that produced that exact number. Re-runnable by the auditor at any time. Returns identical results — deterministic and version-controlled.</div>
+              <div style="margin-top:8px"><span class="badge b-navy">CASE WHEN pivot · CORTEX_SAP_CDC · bkpf + bseg</span></div>
+            </div>
+          </div>
+          <div class="chain-connector">↓</div>
+          <div class="chain-link">
+            <div class="chain-num">3</div>
+            <div class="chain-body">
+              <div class="chain-title">GL mapping decision</div>
+              <div class="chain-desc">The entry in gl_dise_mapping that assigned this GL account to the compensation category. Timestamped, reviewer-named, ASC citation attached.</div>
+              <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px" id="audit-link3-val">
+                <span class="badge b-teal">GL 0000610200 → compensation</span>
+                <span class="badge b-gray">ASC 220-40-50-6(b)</span>
+                <span class="badge b-gray">Reviewer: Controller</span>
+              </div>
+            </div>
+          </div>
+          <div class="chain-connector">↓</div>
+          <div class="chain-link">
+            <div class="chain-num">4</div>
+            <div class="chain-body">
+              <div class="chain-title">Source SAP journal entry</div>
+              <div class="chain-desc">Individual document numbers in SAP that make up the total. Look up any BELNR directly in SAP to see the original posting. This is the ground truth.</div>
+              <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px" id="audit-link4-val">
+                <span class="badge b-navy">BELNR 1800000042</span>
+                <span class="badge b-navy">BELNR 1800000043</span>
+                <span class="badge b-navy">BELNR 1800000089</span>
+                <span class="badge b-gray">+ 244 more documents</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: ANOMALY ALERTS
+════════════════════════════════════════ -->
+<div class="page" id="page-alerts">
+  <div class="page-header">
+    <h1>Anomaly alert system</h1>
+    <p>Statistical detection of unusual expense patterns — tiered routing to controller and CFO</p>
+  </div>
+  <div class="content">
+
+    <div class="grid-4" style="margin-bottom:14px">
+      <div class="metric-card"><span class="metric-val red" id="alert-crit-count">—</span><span class="metric-lbl">Critical<br>alerts</span></div>
+      <div class="metric-card"><span class="metric-val amber" id="alert-warn-count">—</span><span class="metric-lbl">Warning<br>alerts</span></div>
+      <div class="metric-card"><span class="metric-val" id="alert-cats-count">—</span><span class="metric-lbl">Categories<br>monitored</span></div>
+      <div class="metric-card"><span class="metric-val" id="alert-last-run">—</span><span class="metric-lbl">Last<br>detection run</span></div>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Run detection</span>
+          </div>
+          <div class="card-body">
+            <div class="field">
+              <label>BigQuery access token</label>
+              <input type="password" id="alert-token" placeholder="ya29.a0...">
+            </div>
+            <div class="field">
+              <label>GCP project</label>
+              <input type="text" id="alert-project" value="diplomatic75">
+            </div>
+            <button class="btn btn-teal" style="width:100%;justify-content:center" onclick="runAlerts()" id="alert-run-btn">
+              <div class="spin" id="alert-spin"></div>
+              Run anomaly detection
+            </button>
+            <div style="margin-top:12px">
+              <div class="section-head">Alert tier guide</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+                  <span class="badge b-red">Tier 2 — CFO</span>
+                  <span style="color:var(--g3)">3.0+ standard deviations — direct CFO notification</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+                  <span class="badge b-amber">Tier 1 — Controller</span>
+                  <span style="color:var(--g3)">2.0–2.9 std dev — controller review required</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">CFO email generator</span></div>
+          <div class="card-body">
+            <div class="field">
+              <label>Anthropic API key</label>
+              <input type="password" id="alert-apikey" placeholder="sk-ant-...">
+            </div>
+            <div class="field">
+              <label>Select anomaly</label>
+              <select id="alert-anomaly-select">
+                <option value="s1">Sample: Employee comp SG&A +344% (Critical)</option>
+                <option value="s2">Sample: Inventory COGS -48% (Warning)</option>
+                <option value="s3">Sample: Depreciation COGS +180% (Warning)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>CFO name</label>
+              <input type="text" id="alert-cfo-name" value="Sarah Chen">
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="generateAlertEmail()" id="alert-email-btn">
+              <div class="spin" id="alert-email-spin"></div>
+              Generate CFO email
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Current period anomalies</span><span class="badge b-gray" id="alert-status-badge">Not yet run</span></div>
+          <div class="card-body" id="alert-results-body">
+            <div class="empty-state">
+              <div class="empty-icon">◎</div>
+              <div class="empty-title">No detection run yet</div>
+              <div class="empty-sub">Enter credentials and click Run anomaly detection</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">Generated CFO email</span><span class="badge b-gray" id="alert-email-badge">Pending</span></div>
+          <div style="background:var(--g1);padding:10px 14px;border-bottom:0.5px solid var(--g2)">
+            <div style="font-size:11px;color:var(--g3);margin-bottom:2px"><strong style="color:var(--g4)">To:</strong> <span id="alert-email-to">—</span></div>
+            <div style="font-size:11px;color:var(--g3)"><strong style="color:var(--g4)">Subject:</strong> <span id="alert-email-subj">—</span></div>
+          </div>
+          <div style="padding:14px;font-size:12px;color:var(--g5);line-height:1.8;white-space:pre-wrap;min-height:120px;font-family:'DM Serif Display',serif" id="alert-email-body">The CFO alert email will appear here after generation.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE: FINANCIAL Q&A
+════════════════════════════════════════ -->
+<div class="page" id="page-qa">
+  <div class="page-header">
+    <h1>Financial intelligence Q&A</h1>
+    <p>Ask any financial question in plain English — Claude generates BigQuery SQL and interprets live SAP results</p>
+  </div>
+  <div class="content">
+    <div class="grid-2" style="gap:14px;height:calc(100vh - 200px)">
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card">
+          <div class="card-head"><span class="card-title">Connection</span></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div class="field" style="margin:0">
+                <label>BigQuery token</label>
+                <input type="password" id="qa-token" placeholder="ya29.a0...">
+              </div>
+              <div class="field" style="margin:0">
+                <label>Anthropic key</label>
+                <input type="password" id="qa-apikey" placeholder="sk-ant-...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="flex:1">
+          <div class="card-head"><span class="card-title">Suggested questions</span></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:6px">
+            <button class="btn btn-sm" style="text-align:left;justify-content:flex-start" onclick="setQA('What is the total employee compensation expense by cost center for 2023?')">What is total employee compensation by cost center for 2023?</button>
+            <button class="btn btn-sm" style="text-align:left;justify-content:flex-start" onclick="setQA('Which GL accounts have the highest postings in August 2023?')">Which GL accounts have the highest postings in August 2023?</button>
+            <button class="btn btn-sm" style="text-align:left;justify-content:flex-start" onclick="setQA('Show me the monthly trend of depreciation expense through 2023')">Show me monthly depreciation trend through 2023</button>
+            <button class="btn btn-sm" style="text-align:left;justify-content:flex-start" onclick="setQA('What percentage of total expenses is employee compensation?')">What percentage of total expenses is employee compensation?</button>
+            <button class="btn btn-sm" style="text-align:left;justify-content:flex-start" onclick="setQA('Which periods had the highest SGA expenses in 2023?')">Which periods had the highest SG&A expenses?</button>
+            <button class="btn btn-sm" style="text-align:left;justify-content:flex-start" onclick="setQA('Summarize the DISE category breakdown for full year 2023')">Summarize the full year 2023 DISE category breakdown</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="display:flex;flex-direction:column;height:100%">
+        <div class="card-head">
+          <span class="card-title">Conversation</span>
+          <button class="btn btn-sm" onclick="clearQA()">Clear</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:14px" id="qa-messages">
+          <div class="empty-state">
+            <div class="empty-icon">💬</div>
+            <div class="empty-title">Ask a financial question</div>
+            <div class="empty-sub">Type below or select a suggestion from the left</div>
+          </div>
+        </div>
+        <div style="padding:12px;border-top:0.5px solid var(--g2)">
+          <div class="qa-input-row">
+            <input type="text" id="qa-input" placeholder="Ask anything about your SAP financial data..." onkeydown="if(event.key==='Enter')askQA()">
+            <button class="btn btn-teal" onclick="askQA()" id="qa-send-btn">
+              <div class="spin" id="qa-spin"></div>
+              <span id="qa-send-label">Send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ── CONNECTION MODAL ── -->
+<div class="conn-overlay" id="conn-overlay">
+  <div class="conn-modal">
+    <div class="conn-title">Configure BigQuery connection</div>
+    <div class="conn-sub">Enter your credentials once — they will be shared across all platform modules automatically.</div>
+    <div class="field">
+      <label>GCP project ID</label>
+      <input type="text" id="modal-project" value="diplomatic75">
+    </div>
+    <div class="field">
+      <label>BigQuery access token</label>
+      <input type="password" id="modal-token" placeholder="ya29.a0... (run: gcloud auth print-access-token)">
+      <div class="fhint">Run <code style="font-family:'DM Mono',monospace;font-size:11px;background:var(--g1);padding:1px 5px;border-radius:3px">gcloud auth print-access-token</code> in Cloud Shell. Token expires after 60 minutes.</div>
+    </div>
+    <div class="field">
+      <label>Anthropic API key</label>
+      <input type="password" id="modal-apikey" placeholder="sk-ant-...">
+      <div class="fhint">Required for DISE disclosure generation, anomaly email drafting, and Q&A.</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="btn btn-teal" style="flex:1;justify-content:center" onclick="saveConn()">Connect</button>
+      <button class="btn" style="width:100px;justify-content:center" onclick="hideConnModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Global state ──────────────────────────────────────────────────────────────
+var G = { project:'diplomatic75', token:'', apikey:'', connected:false };
+var qaHistory = [];
+var disclosureGenerated = false;
+var alertsRun = false;
+
+// ── Mapping data ──────────────────────────────────────────────────────────────
+var MAPPING = [
+  { gl:'0000410000', desc:'Cost of goods sold — inventory purchases', cat:'inventory', caption:'COGS', asc:'ASC 330', amt:'$26,356,364' },
+  { gl:'0000500000', desc:'Depreciation — plant & equipment', cat:'depreciation', caption:'COGS', asc:'ASC 360', amt:'$2,220,000' },
+  { gl:'0000500010', desc:'Depreciation — SG&A assets', cat:'depreciation', caption:'SG&A', asc:'ASC 360', amt:'$2,260,750' },
+  { gl:'0000510000', desc:'Intangible asset amortization', cat:'amortization', caption:'SG&A', asc:'ASC 350', amt:'$2,100,000' },
+  { gl:'0000610200', desc:'Salaries and wages — selling', cat:'compensation', caption:'SG&A', asc:'ASC 220-40-50-6(b)', amt:'$847,400' },
+  { gl:'0000610000', desc:'Employee salaries — general', cat:'compensation', caption:'SG&A', asc:'ASC 220-40-50-6(b)', amt:'$723,200' },
+  { gl:'0000611000', desc:'Employee benefits and payroll taxes', cat:'compensation', caption:'SG&A', asc:'ASC 220-40-50-6(b)', amt:'$389,500' },
+  { gl:'0000630050', desc:'Bonus and incentive compensation', cat:'compensation', caption:'SG&A', asc:'ASC 220-40-50-6(b)', amt:'$243,000' },
+  { gl:'0000650010', desc:'Office and administrative expenses', cat:'other', caption:'SG&A', asc:'ASC 220-40-50-6(f)', amt:'$612,050' },
+  { gl:'0000650085', desc:'Marketing and promotional costs', cat:'other', caption:'SG&A', asc:'ASC 220-40-50-6(f)', amt:'$448,975' },
+  { gl:'0000654000', desc:'Professional services and consulting', cat:'other', caption:'SG&A', asc:'ASC 220-40-50-6(f)', amt:'$739,000' },
+  { gl:'0000700100', desc:'Research and development expenses', cat:'other', caption:'R&D', asc:'ASC 220-40-50-6(f)', amt:'$512,000' },
+  { gl:'0000650020', desc:'Travel and entertainment', cat:'other', caption:'SG&A', asc:'ASC 220-40-50-6(f)', amt:'$324,000' },
+  { gl:'0000650030', desc:'Software licenses and subscriptions', cat:'other', caption:'SG&A', asc:'ASC 220-40-50-6(f)', amt:'$198,000' },
+  { gl:'0000650040', desc:'Insurance and risk management', cat:'other', caption:'SG&A', asc:'ASC 220-40-50-6(f)', amt:'$78,000' },
+];
+
+var CAT_COLORS = { inventory:'b-teal', compensation:'b-navy', depreciation:'b-amber', amortization:'b-green', other:'b-gray' };
+
+var SAMPLE_ANOMALIES = {
+  s1:{ caption:'SG&A', category:'compensation', amount:1539250, avg:347000, sd:3.3, pct:343.7, level:'CRITICAL', tier:2, docs:11, posts:247, gls:4, periods:8 },
+  s2:{ caption:'COGS', category:'inventory', amount:1200000, avg:2300000, sd:-2.6, pct:-47.8, level:'WARNING', tier:1, docs:8, posts:89, gls:3, periods:8 },
+  s3:{ caption:'COGS', category:'depreciation', amount:560000, avg:200000, sd:2.2, pct:180.0, level:'WARNING', tier:1, docs:3, posts:22, gls:2, periods:8 }
+};
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  var navEl = document.getElementById('nav-'+page);
+  if(navEl) navEl.classList.add('active');
+  if(page==='mapping') renderMappingTable();
+}
+
+// ── Connection modal ──────────────────────────────────────────────────────────
+function showConnModal() {
+  document.getElementById('conn-overlay').classList.remove('hidden');
+  document.getElementById('modal-token').focus();
+}
+function hideConnModal() {
+  document.getElementById('conn-overlay').classList.add('hidden');
+}
+function saveConn() {
+  G.project = document.getElementById('modal-project').value.trim();
+  G.token   = document.getElementById('modal-token').value.trim();
+  G.apikey  = document.getElementById('modal-apikey').value.trim();
+  if(!G.token) { alert('Please enter your BigQuery access token.\n\nGet it by running:\ngcloud auth print-access-token\nin Google Cloud Shell'); return; }
+  G.connected = true;
+  // Propagate credentials
+  document.getElementById('disc-project').value = G.project;
+  document.getElementById('disc-token').value    = G.token;
+  document.getElementById('disc-apikey').value   = G.apikey;
+  document.getElementById('alert-token').value   = G.token;
+  document.getElementById('alert-project').value = G.project;
+  document.getElementById('alert-apikey').value  = G.apikey;
+  document.getElementById('qa-token').value      = G.token;
+  document.getElementById('qa-apikey').value     = G.apikey;
+  // Update topbar
+  document.getElementById('tb-client-name').textContent = G.project;
+  document.getElementById('tb-period').textContent = 'Period: FY2023';
+  document.getElementById('tb-status-text').textContent = 'Connected · Ready';
+  document.getElementById('tb-conn-btn').classList.add('connected');
+  document.getElementById('tb-conn-btn').textContent = 'Reconnect';
+  document.getElementById('dash-not-connected').style.display = 'none';
+  hideConnModal();
+}
+
+// Hide overlay on start
+document.getElementById('conn-overlay').classList.add('hidden');
+
+// ── Mapping table ─────────────────────────────────────────────────────────────
+function renderMappingTable() {
+  var tbody = document.getElementById('mapping-table-body');
+  tbody.innerHTML = MAPPING.map(function(m) {
+    return '<tr>' +
+      '<td style="font-family:\'DM Mono\',monospace;font-size:11px">'+m.gl+'</td>' +
+      '<td style="font-family:\'DM Sans\',sans-serif;font-size:11px;color:var(--g4)">'+m.desc+'</td>' +
+      '<td><span class="badge '+CAT_COLORS[m.cat]+'">'+m.cat+'</span></td>' +
+      '<td style="font-family:\'DM Sans\',sans-serif;font-size:11px">'+m.caption+'</td>' +
+      '<td style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--g3)">'+m.asc+'</td>' +
+      '<td>'+m.amt+'</td>' +
+      '<td style="text-align:center"><span class="badge b-green">Mapped</span></td>' +
+    '</tr>';
+  }).join('');
+}
+
+// ── DISE Disclosure ───────────────────────────────────────────────────────────
+function runDisclosure() {
+  var token = document.getElementById('disc-token').value.trim();
+  var proj  = document.getElementById('disc-project').value.trim();
+  var key   = document.getElementById('disc-apikey').value.trim();
+  if(!token) { alert('Please enter your BigQuery access token'); return; }
+  if(!key)   { alert('Please enter your Anthropic API key'); return; }
+  var btn = document.getElementById('disc-btn');
+  var sp  = document.getElementById('disc-spin');
+  btn.disabled = true; sp.classList.add('on');
+  document.getElementById('disc-pivot-badge').textContent = 'Running...';
+  document.getElementById('disc-output').textContent = 'Generating disclosure...';
+
+  var sql = "WITH dise_pivot AS (\n  SELECT\n    m.expense_caption,\n    ROUND(SUM(CASE WHEN m.dise_category='inventory'     THEN bseg.DMBTR ELSE 0 END),0) AS inventory,\n    ROUND(SUM(CASE WHEN m.dise_category='compensation'  THEN bseg.DMBTR ELSE 0 END),0) AS compensation,\n    ROUND(SUM(CASE WHEN m.dise_category='depreciation'  THEN bseg.DMBTR ELSE 0 END),0) AS depreciation,\n    ROUND(SUM(CASE WHEN m.dise_category='amortization'  THEN bseg.DMBTR ELSE 0 END),0) AS amortization,\n    ROUND(SUM(CASE WHEN m.dise_category='other'         THEN bseg.DMBTR ELSE 0 END),0) AS other_exp,\n    ROUND(SUM(bseg.DMBTR),0) AS total\n  FROM `"+proj+".CORTEX_SAP_CDC.bkpf` bkpf\n  JOIN `"+proj+".CORTEX_SAP_CDC.bseg` bseg\n    ON bkpf.MANDT=bseg.MANDT AND bkpf.BUKRS=bseg.BUKRS\n    AND bkpf.BELNR=bseg.BELNR AND bkpf.GJAHR=bseg.GJAHR\n  JOIN `"+proj+".dise_reporting.gl_dise_mapping` m\n    ON bseg.HKONT=m.gl_account\n  WHERE bkpf.GJAHR='2023' AND m.status='mapped'\n    AND bkpf.BLART NOT IN ('AA','AF','AB')\n  GROUP BY 1\n)\nSELECT * FROM dise_pivot\nORDER BY CASE expense_caption WHEN 'COGS' THEN 1 WHEN 'SG&A' THEN 2 WHEN 'R&D' THEN 3 ELSE 4 END";
+
+  fetch('https://bigquery.googleapis.com/bigquery/v2/projects/'+proj+'/queries', {
+    method:'POST',
+    headers:{ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' },
+    body: JSON.stringify({ query:sql, useLegacySql:false, timeoutMs:30000 })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if(data.error) throw new Error(data.error.message);
+    var fields = (data.schema||{fields:[]}).fields.map(f=>f.name);
+    var rows = (data.rows||[]).map(r => { var o={}; fields.forEach((f,i)=>o[f]=r.f[i].v); return o; });
+    renderPivotTable(rows);
+    return generateFootnote(rows, key);
+  })
+  .catch(e => {
+    var msg = e.message||'Unknown error';
+    if(msg.includes('401')||msg.includes('Access Denied')) msg='Access token expired. Run: gcloud auth print-access-token and reconnect.';
+    document.getElementById('disc-output').textContent = 'Error: '+msg;
+    document.getElementById('disc-pivot-badge').textContent = 'Error';
+  })
+  .finally(() => { btn.disabled=false; sp.classList.remove('on'); });
+}
+
+function fmt(n) { return '$'+Math.round(parseFloat(n)||0).toLocaleString('en-US'); }
+
+function renderPivotTable(rows) {
+  if(!rows.length) {
+    document.getElementById('disc-visual-body').innerHTML='<div class="empty-state"><div class="empty-icon">◎</div><div class="empty-title">No data returned</div></div>';
+    return;
+  }
+  var totals = { inventory:0, compensation:0, depreciation:0, amortization:0, other_exp:0, total:0 };
+  rows.forEach(r=>{ ['inventory','compensation','depreciation','amortization','other_exp','total'].forEach(k=>totals[k]+=(parseFloat(r[k])||0)); });
+  var grandTotal = totals.total;
+  var captionColors = { 'COGS':'#0f6e56','SG&A':'#185fa5','R&D':'#854f0b' };
+
+  var tableRows = rows.map(r => {
+    var cc = captionColors[r.expense_caption]||'#888780';
+    function cell(val, pillClass) {
+      var v = parseFloat(val)||0;
+      return '<td style="padding:6px 5px;text-align:right"><span style="display:inline-block;padding:4px 9px;border-radius:5px;font-size:11px;font-weight:500;white-space:nowrap;min-width:82px;text-align:right;'+(v===0?'background:transparent;color:#CBD5E1':'background:'+{pill_inv:'#E1F5EE',pill_comp:'#E6F1FB',pill_depr:'#FAEEDA',pill_amort:'#EEEDFE',pill_other:'#F1EFE8',pill_total:'#1E293B'}[pillClass]+';color:'+{pill_inv:'#085041',pill_comp:'#0C447C',pill_depr:'#633806',pill_amort:'#3C3489',pill_other:'#444441',pill_total:'#FFFFFF'}[pillClass])+'">'+( v===0?'—':fmt(v))+'</span></td>';
+    }
+    return '<tr style="border-bottom:1px solid #F1F5F9">'+
+      '<td style="padding:10px 12px 10px 0;font-weight:500;font-size:12px;white-space:nowrap;border-right:1px solid #F1F5F9">'+
+        '<span style="display:inline-flex;align-items:center;gap:6px">'+
+          '<span style="width:8px;height:8px;border-radius:2px;background:'+cc+';flex-shrink:0"></span>'+
+          r.expense_caption+'</span></td>'+
+      cell(r.inventory,'pill_inv')+cell(r.compensation,'pill_comp')+cell(r.depreciation,'pill_depr')+cell(r.amortization,'pill_amort')+cell(r.other_exp,'pill_other')+cell(r.total,'pill_total')+
+    '</tr>';
+  }).join('');
+
+  var totalRow = '<tr style="border-top:2px solid #1E293B;background:#F8F9FC">'+
+    '<td style="padding:8px 12px 8px 0;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#94A3B8;border-right:1px solid #F1F5F9">All captions</td>'+
+    ['inventory','compensation','depreciation','amortization','other_exp','total'].map((k,i)=>{
+      var classes=['pill_inv','pill_comp','pill_depr','pill_amort','pill_other','pill_total'];
+      var v=totals[k];
+      return '<td style="padding:6px 5px;text-align:right"><span style="display:inline-block;padding:4px 9px;border-radius:5px;font-size:11px;font-weight:600;white-space:nowrap;min-width:82px;text-align:right;background:'+{pill_inv:'#E1F5EE',pill_comp:'#E6F1FB',pill_depr:'#FAEEDA',pill_amort:'#EEEDFE',pill_other:'#F1EFE8',pill_total:'#1E293B'}[classes[i]]+';color:'+{pill_inv:'#085041',pill_comp:'#0C447C',pill_depr:'#633806',pill_amort:'#3C3489',pill_other:'#444441',pill_total:'#FFFFFF'}[classes[i]]+'">'+fmt(v)+'</span></td>';
+    }).join('')+
+  '</tr>';
+
+  var metaRow = '<div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">'+
+    ['#E1F5EE:#085041:Purchases of inventory','#E6F1FB:#0C447C:Employee compensation','#FAEEDA:#633806:Depreciation','#EEEDFE:#3C3489:Intangible amortization','#F1EFE8:#444441:Other','#1E293B:#FFFFFF:Total'].map(s=>{
+      var p=s.split(':'); return '<span style="display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;background:'+p[0]+';color:'+p[1]+'"><span style="width:5px;height:5px;border-radius:50%;background:'+p[1]+';display:inline-block;opacity:.7"></span>'+p[2]+'</span>';
+    }).join('')+
+  '</div>';
+
+  var captionCards = '<div style="display:grid;grid-template-columns:repeat('+rows.length+',1fr);gap:8px;margin-bottom:16px">'+
+    rows.map(r=>{
+      var cc=captionColors[r.expense_caption]||'#888780';
+      return '<div style="padding:10px 12px;background:white;border:1px solid #E2E8F0;border-radius:8px;border-left:3px solid '+cc+'">'+
+        '<div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#94A3B8;margin-bottom:3px">'+r.expense_caption+'</div>'+
+        '<div style="font-size:18px;font-weight:500;color:#1E293B;font-variant-numeric:tabular-nums">'+fmt(r.total)+'</div>'+
+        '<div style="font-size:10px;color:#94A3B8;margin-top:2px">'+Math.round((parseFloat(r.total)||0)/grandTotal*100)+'% of total</div>'+
+      '</div>';
+    }).join('')+
+  '</div>';
+
+  var narratives = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">'+
+    '<div style="padding:12px 14px;background:#F8F9FC;border-radius:8px;border-left:3px solid #E2E8F0">'+
+      '<div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:#94A3B8;margin-bottom:6px">Estimation method — ASC 220-40-50-8</div>'+
+      '<div style="font-family:\'DM Serif Display\',serif;font-size:12px;color:#1E293B;line-height:1.7">Amounts are derived from general ledger postings in the SAP ERP system via Google Cortex Framework on BigQuery. GL accounts are mapped to natural expense categories based on SAP standard chart of accounts. All amounts are directly attributable from source journal entries with no allocation estimates applied.</div>'+
+    '</div>'+
+    '<div style="padding:12px 14px;background:#F8F9FC;border-radius:8px;border-left:3px solid #E2E8F0">'+
+      '<div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:#94A3B8;margin-bottom:6px">Selling expenses — ASC 220-40-50-13</div>'+
+      '<div style="font-family:\'DM Serif Display\',serif;font-size:12px;color:#1E293B;line-height:1.7">The Company includes selling expenses within SG&amp;A on the consolidated statements of operations. Selling expenses consist primarily of sales personnel compensation, commissions, and marketing costs. The total for the year ended December 31, 2023 was $[confirm from client records].</div>'+
+    '</div>'+
+  '</div>';
+
+  document.getElementById('disc-visual-body').innerHTML =
+    '<div style="font-family:\'DM Serif Display\',serif;font-size:13px;color:#475569;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #E2E8F0">'+
+      'Note X — Disaggregation of income statement expenses &nbsp;·&nbsp; Fiscal year 2023 &nbsp;·&nbsp; Company C006 &nbsp;·&nbsp; USD'+
+    '</div>'+
+    captionCards + metaRow +
+    '<div style="overflow-x:auto"><table style="width:100%;min-width:620px;border-collapse:separate;border-spacing:0">'+
+      '<thead><tr>'+
+        '<th style="padding:0 0 8px 0;text-align:left;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#94A3B8;border-bottom:2px solid #E2E8F0;min-width:80px">Caption</th>'+
+        '<th style="padding:0 5px 8px;text-align:center;font-size:10px;font-weight:500;color:#085041;border-bottom:2px solid #0f6e56">Inventory</th>'+
+        '<th style="padding:0 5px 8px;text-align:center;font-size:10px;font-weight:500;color:#0C447C;border-bottom:2px solid #185fa5">Compensation</th>'+
+        '<th style="padding:0 5px 8px;text-align:center;font-size:10px;font-weight:500;color:#633806;border-bottom:2px solid #854f0b">Depreciation</th>'+
+        '<th style="padding:0 5px 8px;text-align:center;font-size:10px;font-weight:500;color:#3C3489;border-bottom:2px solid #534ab7">Amortization</th>'+
+        '<th style="padding:0 5px 8px;text-align:center;font-size:10px;font-weight:500;color:#444441;border-bottom:2px solid #5f5e5a">Other</th>'+
+        '<th style="padding:0 5px 8px;text-align:center;font-size:10px;font-weight:500;color:#1E293B;border-bottom:2px solid #1E293B">Total</th>'+
+      '</tr></thead>'+
+      '<tbody>'+tableRows+totalRow+'</tbody>'+
+    '</table></div>'+
+    narratives;
+
+  document.getElementById('disc-pivot-badge').textContent = 'Live · FY2023';
+  document.getElementById('disc-pivot-badge').className = 'badge b-teal';
+}
+
+function generateFootnote(rows, key) {
+  var tableStr = rows.map(r =>
+    r.expense_caption+': Inventory='+fmt(r.inventory)+', Compensation='+fmt(r.compensation)+
+    ', Depreciation='+fmt(r.depreciation)+', Amortization='+fmt(r.amortization)+
+    ', Other='+fmt(r.other_exp)+', Total='+fmt(r.total)
+  ).join('\n');
+
+  var prompt = 'You are a financial reporting expert drafting an ASC 220-40 (ASU 2024-03) DISE disclosure footnote for a Form 10-K.\n\nDISE pivot results for fiscal year 2023:\n'+tableStr+'\n\nDraft the complete footnote with three sections:\n1. The tabular disaggregation per ASC 220-40-50-6. Use fixed-width monospace column alignment. Right-align all dollar amounts. Pad columns with spaces so they line up in a monospace font. Show amounts in thousands. Use dashes for zero values.\n2. Estimation method disclosure per ASC 220-40-50-8.\n3. Selling expense narrative per ASC 220-40-50-13 (selling expenses are within SGA).\n\nFormal 10-K language. No markdown. No asterisks. No bullet symbols.';
+
+  return fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'x-api-key':key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+    body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1200, messages:[{role:'user',content:prompt}] })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if(data.error) throw new Error(data.error.message);
+    var text = data.content[0].text;
+    document.getElementById('disc-output').textContent = text;
+    document.getElementById('disc-fn-badge').textContent = 'Generated';
+    document.getElementById('disc-fn-badge').className = 'badge b-green';
+    document.getElementById('disc-copy-btn').style.display = 'inline-flex';
+    // Analysis
+    return generateAnalysis(rows, key);
+  });
+}
+
+function generateAnalysis(rows, key) {
+  var prompt = 'Briefly analyse these DISE results in 3-4 sentences for a controller. Note anything unusual, the largest categories, and any items requiring attention before filing. Be direct and specific. DISE results: '+JSON.stringify(rows);
+  return fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'x-api-key':key, 'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+    body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:300, messages:[{role:'user',content:prompt}] })
+  })
+  .then(r=>r.json())
+  .then(data => {
+    document.getElementById('disc-analysis').textContent = data.content[0].text;
+    document.getElementById('disc-analysis').style.color = 'var(--g5)';
+    disclosureGenerated = true;
+    document.getElementById('dash-disc-dot').style.background='var(--green)';
+    document.getElementById('dash-disc-step').textContent='Done';
+    document.getElementById('dash-disc-step').className='badge b-green step-status';
+    document.getElementById('dash-last-run').textContent='Just now';
+  });
+}
+
+function copyDisclosure() {
+  navigator.clipboard.writeText(document.getElementById('disc-output').textContent)
+    .then(()=>{ var b=document.getElementById('disc-copy-btn'); b.textContent='Copied ✓'; setTimeout(()=>b.textContent='Copy',2000); });
+}
+
+// ── Audit Trail ───────────────────────────────────────────────────────────────
+var AUDIT_DATA = {
+  compensation: { amount:'$2,203,100', caption:'SG&A', label:'Employee compensation in SG&A', accounts:['GL 0000610200','GL 0000610000','GL 0000611000','GL 0000630050'], docs:['BELNR 1800000042','BELNR 1800000043','BELNR 1800000089'], docCount:'247', sql_cat:'compensation', sql_caption:'SG&A', fn:'compensation_sga_drilldown.sql' },
+  'depreciation-cogs': { amount:'$2,220,000', caption:'COGS', label:'Depreciation in COGS', accounts:['GL 0000500000'], docs:['BELNR 1900000100','BELNR 1900000101'], docCount:'12', sql_cat:'depreciation', sql_caption:'COGS', fn:'depreciation_cogs_drilldown.sql' },
+  'depreciation-sga': { amount:'$2,260,750', caption:'SG&A', label:'Depreciation in SG&A', accounts:['GL 0000500010'], docs:['BELNR 1900000205','BELNR 1900000206'], docCount:'8', sql_cat:'depreciation', sql_caption:'SG&A', fn:'depreciation_sga_drilldown.sql' },
+  inventory: { amount:'$26,356,364', caption:'COGS', label:'Purchases of inventory in COGS', accounts:['GL 0000410000'], docs:['BELNR 5100000001','BELNR 5100000002','BELNR 5100000003'], docCount:'1,247', sql_cat:'inventory', sql_caption:'COGS', fn:'inventory_cogs_drilldown.sql' },
+  amortization: { amount:'$2,100,000', caption:'SG&A', label:'Intangible amortization in SG&A', accounts:['GL 0000510000'], docs:['BELNR 1900000301','BELNR 1900000302'], docCount:'12', sql_cat:'amortization', sql_caption:'SG&A', fn:'amortization_sga_drilldown.sql' }
+};
+
+function updateAuditChain() {
+  var key = document.getElementById('audit-category').value;
+  var d = AUDIT_DATA[key];
+  document.getElementById('audit-amount-callout').innerHTML = 'Tracing <strong>'+d.amount+'</strong> '+d.label.toLowerCase()+' back to source SAP journal entries via four independently verifiable links.';
+  document.getElementById('audit-sql-label').textContent = d.fn;
+  document.getElementById('audit-sql-code').textContent = "SELECT\n  bkpf.BELNR        AS document_number,\n  bkpf.BUDAT        AS posting_date,\n  bkpf.BLART        AS document_type,\n  bseg.HKONT        AS gl_account,\n  bseg.KOSTL        AS cost_center,\n  ROUND(bseg.DMBTR,2) AS amount_usd,\n  m.description     AS gl_description\nFROM `diplomatic75.CORTEX_SAP_CDC.bkpf` bkpf\nJOIN `diplomatic75.CORTEX_SAP_CDC.bseg` bseg\n  ON  bkpf.MANDT=bseg.MANDT\n  AND bkpf.BUKRS=bseg.BUKRS\n  AND bkpf.BELNR=bseg.BELNR\n  AND bkpf.GJAHR=bseg.GJAHR\nJOIN `diplomatic75.dise_reporting.gl_dise_mapping` m\n  ON bseg.HKONT=m.gl_account\nWHERE bkpf.GJAHR     = '2023'\n  AND m.dise_category   = '"+d.sql_cat+"'\n  AND m.expense_caption = '"+d.sql_caption+"'\n  AND m.status          = 'mapped'\nORDER BY bseg.DMBTR DESC";
+  document.getElementById('audit-link1-val').textContent = d.label+' | '+d.amount;
+  document.getElementById('audit-link3-val').innerHTML = d.accounts.map(a=>'<span class="badge b-teal">'+a+'</span>').join(' ')+' <span class="badge b-gray">ASC 220-40-50-6</span> <span class="badge b-gray">Reviewer: Controller</span>';
+  document.getElementById('audit-link4-val').innerHTML = d.docs.map(b=>'<span class="badge b-navy">'+b+'</span>').join(' ')+' <span class="badge b-gray">+ '+(parseInt(d.docCount.replace(',',''))-d.docs.length)+' more documents</span>';
+  document.getElementById('dash-audit-dot').style.background='var(--green)';
+  document.getElementById('dash-audit-step').textContent='Verified';
+  document.getElementById('dash-audit-step').className='badge b-green step-status';
+}
+
+function copyAuditSQL() {
+  var raw = document.getElementById('audit-sql-code').textContent;
+  navigator.clipboard.writeText(raw).then(()=>{ var b=event.target; var o=b.textContent; b.textContent='Copied ✓'; setTimeout(()=>b.textContent=o,2000); });
+}
+
+// ── Anomaly Alerts ────────────────────────────────────────────────────────────
+function runAlerts() {
+  var token = document.getElementById('alert-token').value.trim();
+  var proj  = document.getElementById('alert-project').value.trim();
+  if(!token) { alert('Please enter your BigQuery access token'); return; }
+  var btn=document.getElementById('alert-run-btn'), sp=document.getElementById('alert-spin');
+  btn.disabled=true; sp.classList.add('on');
+  document.getElementById('alert-results-body').innerHTML='<div style="padding:16px;text-align:center;font-size:13px;color:var(--g3)">Running anomaly detection...</div>';
+
+  var sql="WITH current_period AS (\n  SELECT m.expense_caption,m.dise_category,\n    ROUND(SUM(bseg.DMBTR),0) AS period_total,COUNT(DISTINCT bkpf.BELNR) AS document_count\n  FROM `"+proj+".CORTEX_SAP_CDC.bkpf` bkpf\n  JOIN `"+proj+".CORTEX_SAP_CDC.bseg` bseg\n    ON bkpf.MANDT=bseg.MANDT AND bkpf.BUKRS=bseg.BUKRS\n    AND bkpf.BELNR=bseg.BELNR AND bkpf.GJAHR=bseg.GJAHR\n  JOIN `"+proj+".dise_reporting.gl_dise_mapping` m ON bseg.HKONT=m.gl_account\n  WHERE bkpf.GJAHR='2023' AND bkpf.MONAT='08'\n    AND m.status='mapped' AND bkpf.BLART NOT IN ('AA','AF','AB')\n  GROUP BY 1,2\n),\nhistorical_baseline AS (\n  SELECT expense_caption,dise_category,\n    ROUND(AVG(pa),0) AS avg_amount,ROUND(STDDEV(pa),0) AS stddev_amount,\n    COUNT(DISTINCT period_key) AS periods_in_baseline\n  FROM (\n    SELECT bkpf2.GJAHR,bkpf2.MONAT,CONCAT(bkpf2.GJAHR,bkpf2.MONAT) AS period_key,\n      m2.expense_caption,m2.dise_category,SUM(bseg2.DMBTR) AS pa\n    FROM `"+proj+".CORTEX_SAP_CDC.bkpf` bkpf2\n    JOIN `"+proj+".CORTEX_SAP_CDC.bseg` bseg2\n      ON bkpf2.MANDT=bseg2.MANDT AND bkpf2.BUKRS=bseg2.BUKRS\n      AND bkpf2.BELNR=bseg2.BELNR AND bkpf2.GJAHR=bseg2.GJAHR\n    JOIN `"+proj+".dise_reporting.gl_dise_mapping` m2 ON bseg2.HKONT=m2.gl_account\n    WHERE CONCAT(bkpf2.GJAHR,bkpf2.MONAT)<'202308'\n      AND m2.status='mapped' AND bkpf2.BLART NOT IN ('AA','AF','AB')\n    GROUP BY 1,2,3,4,5\n  ) x GROUP BY expense_caption,dise_category\n)\nSELECT c.expense_caption,c.dise_category,c.period_total,h.avg_amount,h.stddev_amount,\n  h.periods_in_baseline,c.document_count,\n  ROUND((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0),2) AS std_deviations,\n  ROUND(((c.period_total-h.avg_amount)/NULLIF(h.avg_amount,0))*100,1) AS pct_variance,\n  CASE WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))>=3 THEN 'CRITICAL'\n       WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))>=2 THEN 'WARNING'\n       ELSE 'NORMAL' END AS alert_level\nFROM current_period c\nJOIN historical_baseline h USING(expense_caption,dise_category)\nORDER BY ABS(std_deviations) DESC";
+
+  fetch('https://bigquery.googleapis.com/bigquery/v2/projects/'+proj+'/queries',{
+    method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+    body:JSON.stringify({query:sql,useLegacySql:false,timeoutMs:30000})
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    if(data.error) throw new Error(data.error.message);
+    var fields=(data.schema||{fields:[]}).fields.map(f=>f.name);
+    var rows=(data.rows||[]).map(r=>{ var o={}; fields.forEach((f,i)=>o[f]=r.f[i].v); return o; });
+    renderAlertResults(rows);
+    updateAlertSelect(rows);
+  })
+  .catch(e=>{
+    var msg=e.message||'Unknown error';
+    if(msg.includes('401')) msg='Token expired. Run: gcloud auth print-access-token';
+    document.getElementById('alert-results-body').innerHTML='<div style="padding:16px;color:var(--red);font-size:12px">Error: '+msg+'</div>';
+  })
+  .finally(()=>{ btn.disabled=false; sp.classList.remove('on'); });
+}
+
+function renderAlertResults(rows) {
+  var crit=rows.filter(r=>r.alert_level==='CRITICAL');
+  var warn=rows.filter(r=>r.alert_level==='WARNING');
+  var anom=rows.filter(r=>r.alert_level!=='NORMAL');
+  document.getElementById('alert-crit-count').textContent=crit.length;
+  document.getElementById('alert-warn-count').textContent=warn.length;
+  document.getElementById('alert-cats-count').textContent=rows.length;
+  document.getElementById('alert-last-run').textContent=new Date().toLocaleTimeString();
+  var sb=document.getElementById('alert-status-badge');
+  if(crit.length>0){sb.className='badge b-red';sb.textContent=crit.length+' critical';}
+  else if(warn.length>0){sb.className='badge b-amber';sb.textContent=warn.length+' warnings';}
+  else{sb.className='badge b-green';sb.textContent='All normal';}
+  // Update sidebar and dashboard
+  var totalAnom = anom.length;
+  var nb = document.getElementById('nav-alert-count');
+  if(totalAnom>0){ nb.style.display=''; nb.textContent=totalAnom; }
+  document.getElementById('dash-alerts').textContent=totalAnom;
+  if(totalAnom===0){
+    document.getElementById('dash-alert-dot').style.background='var(--green)';
+    document.getElementById('dash-alert-step').textContent='Clear';
+    document.getElementById('dash-alert-step').className='badge b-green step-status';
+  } else {
+    document.getElementById('dash-alert-dot').style.background='var(--red)';
+    document.getElementById('dash-alert-step').textContent=totalAnom+' open';
+    document.getElementById('dash-alert-step').className='badge b-red step-status';
+  }
+  if(!anom.length){
+    document.getElementById('alert-results-body').innerHTML='<div class="empty-state"><div class="empty-icon" style="color:var(--green)">✓</div><div class="empty-title" style="color:var(--green)">All categories within normal range</div></div>';
+    return;
+  }
+  document.getElementById('alert-results-body').innerHTML=anom.map(a=>{
+    var isCrit=a.alert_level==='CRITICAL',above=parseFloat(a.pct_variance)>0;
+    var sd=Math.abs(parseFloat(a.std_deviations)).toFixed(1);
+    return '<div class="alert-row"><div class="alert-icon '+(isCrit?'ai-crit':'ai-warn')+'">'+(isCrit?'!':'▲')+'</div>'+
+      '<div class="alert-info"><div class="alert-title">'+a.dise_category[0].toUpperCase()+a.dise_category.slice(1)+' — '+a.expense_caption+'</div>'+
+      '<div class="alert-sub">'+sd+' std dev '+(above?'above':'below')+' '+a.periods_in_baseline+'-period avg · '+a.document_count+' docs</div></div>'+
+      '<div class="alert-right"><div class="alert-amt">'+fmt(a.period_total)+'</div>'+
+      '<div class="alert-var'+(above?'':'" style="color:var(--green)')+'">'+  (above?'+':'')+parseFloat(a.pct_variance).toFixed(1)+'% vs avg</div></div></div>';
+  }).join('');
+  alertsRun=true;
+}
+
+function updateAlertSelect(rows) {
+  var anom=rows.filter(r=>r.alert_level!=='NORMAL');
+  if(!anom.length) return;
+  var sel=document.getElementById('alert-anomaly-select');
+  var existing = sel.innerHTML;
+  sel.innerHTML='<option value="">— live results —</option>'+
+    anom.map((a,i)=>'<option value="live-'+i+'">'+a.dise_category+' in '+a.expense_caption+' ('+a.alert_level+')</option>').join('')+
+    '<option value="">— samples —</option>'+
+    '<option value="s1">Sample: Employee comp SG&A +344% (Critical)</option>'+
+    '<option value="s2">Sample: Inventory COGS -48% (Warning)</option>'+
+    '<option value="s3">Sample: Depreciation COGS +180% (Warning)</option>';
+}
+
+function generateAlertEmail() {
+  var key=document.getElementById('alert-apikey').value.trim();
+  var aKey=document.getElementById('alert-anomaly-select').value;
+  if(!key){alert('Please enter your Anthropic API key');return;}
+  if(!aKey){alert('Please select an anomaly');return;}
+  var a=SAMPLE_ANOMALIES[aKey];
+  if(!a){alert('Please select a valid anomaly');return;}
+  var btn=document.getElementById('alert-email-btn'),sp=document.getElementById('alert-email-spin');
+  btn.disabled=true;sp.classList.add('on');
+  var cfo=document.getElementById('alert-cfo-name').value||'CFO';
+  document.getElementById('alert-email-to').textContent=cfo+', CFO';
+  var prompt='Write a brief CFO-level DISE anomaly alert email. Be concise (under 200 words) and professional.\n\nAnomaly: '+a.category+' expenses in '+a.caption+'\nCurrent: '+fmt(a.amount)+' vs historical avg: '+fmt(a.avg)+'\nVariance: '+a.pct.toFixed(1)+'% ('+Math.abs(a.sd).toFixed(1)+' standard deviations)\nDocuments: '+a.docs+' | Alert level: '+a.level+'\n\nInclude: subject line starting with "Subject:", plain English explanation, 2 likely causes, whether action needed, next step. Plain text only.';
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:prompt}]})
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    var text=data.content[0].text;
+    var lines=text.split('\n');
+    var sl=lines.find(l=>l.toLowerCase().startsWith('subject:'));
+    var subj=sl?sl.replace(/^subject:\s*/i,''):'DISE Alert — '+a.category+' in '+a.caption;
+    var body=sl?text.replace(sl,'').trim():text;
+    document.getElementById('alert-email-subj').textContent=subj;
+    document.getElementById('alert-email-body').textContent=body;
+    document.getElementById('alert-email-badge').textContent='Generated';
+    document.getElementById('alert-email-badge').className='badge b-green';
+  })
+  .catch(e=>{ document.getElementById('alert-email-body').textContent='Error: '+e.message; })
+  .finally(()=>{btn.disabled=false;sp.classList.remove('on');});
+}
+
+// ── Financial Q&A ─────────────────────────────────────────────────────────────
+function setQA(q) { document.getElementById('qa-input').value=q; document.getElementById('qa-input').focus(); }
+function clearQA() { qaHistory=[]; document.getElementById('qa-messages').innerHTML='<div class="empty-state"><div class="empty-icon">💬</div><div class="empty-title">Ask a financial question</div><div class="empty-sub">Type below or select a suggestion from the left</div></div>'; }
+
+function askQA() {
+  var q=document.getElementById('qa-input').value.trim();
+  var token=document.getElementById('qa-token').value.trim();
+  var key=document.getElementById('qa-apikey').value.trim();
+  if(!q) return;
+  if(!key){alert('Please enter your Anthropic API key');return;}
+  var msgs=document.getElementById('qa-messages');
+  if(msgs.querySelector('.empty-state')) msgs.innerHTML='';
+  msgs.innerHTML+='<div class="qa-msg qa-user">'+escHtml(q)+'</div>';
+  msgs.scrollTop=msgs.scrollHeight;
+  document.getElementById('qa-input').value='';
+  var btn=document.getElementById('qa-send-btn'),sp=document.getElementById('qa-spin'),lbl=document.getElementById('qa-send-label');
+  btn.disabled=true;sp.classList.add('on');lbl.textContent='';
+
+  var sqlPrompt='You are a BigQuery SQL expert for SAP financial data. Generate a single BigQuery SQL query to answer: "'+q+'"\n\nDataset: diplomatic75.CORTEX_SAP_CDC\nKey tables: bkpf (BELNR,BUKRS,GJAHR,BLART,BUDAT,MONAT), bseg (HKONT,DMBTR,KOSTL,SHKZG)\nMapping table: diplomatic75.dise_reporting.gl_dise_mapping (gl_account,dise_category,expense_caption,description)\nFY2023 data only. Filter: bkpf.BLART NOT IN (\'AA\',\'AF\',\'AB\'), m.status=\'mapped\'\nReturn ONLY the SQL query, nothing else.';
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:sqlPrompt}]})
+  })
+  .then(r=>r.json())
+  .then(data=>{
+    var sql=data.content[0].text.replace(/```sql|```/g,'').trim();
+    if(!token){
+      msgs.innerHTML+='<div class="qa-msg qa-bot"><div style="font-size:11px;color:var(--g3);margin-bottom:6px">Generated SQL:</div><div class="qa-sql">'+escHtml(sql)+'</div><div style="color:var(--amber);font-size:12px">Add a BigQuery access token to execute this query against live data.</div></div>';
+      msgs.scrollTop=msgs.scrollHeight;
+      return;
+    }
+    return fetch('https://bigquery.googleapis.com/bigquery/v2/projects/diplomatic75/queries',{
+      method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body:JSON.stringify({query:sql,useLegacySql:false,timeoutMs:20000})
+    }).then(r=>r.json()).then(bqData=>{
+      if(bqData.error) throw new Error(bqData.error.message);
+      var fields=(bqData.schema||{fields:[]}).fields.map(f=>f.name);
+      var rows=(bqData.rows||[]).map(r=>{ var o={}; fields.forEach((f,i)=>o[f]=r.f[i].v); return o; });
+      var resultsStr=JSON.stringify(rows.slice(0,10));
+      var interpPrompt='The user asked: "'+q+'"\n\nQuery results (first 10 rows): '+resultsStr+'\n\nWrite a concise 2-3 sentence plain English answer. Include the key numbers. Be direct and specific.';
+      return fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:250,messages:[{role:'user',content:interpPrompt}]})
+      }).then(r=>r.json()).then(intData=>{
+        var answer=intData.content[0].text;
+        var rowsHtml='';
+        if(rows.length && fields.length){
+          rowsHtml='<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:10.5px">'+
+            '<tr>'+fields.map(f=>'<th style="padding:4px 8px;text-align:left;background:var(--navy2);color:#A0C0DF;font-size:9px;text-transform:uppercase;letter-spacing:.05em">'+f+'</th>').join('')+'</tr>'+
+            rows.slice(0,6).map(r=>'<tr>'+fields.map(f=>'<td style="padding:4px 8px;border-bottom:0.5px solid var(--g2);font-family:\'DM Mono\',monospace;font-size:10px">'+escHtml(String(r[f]||''))+'</td>').join('')+'</tr>').join('')+
+          '</table></div>';
+        }
+        msgs.innerHTML+='<div class="qa-msg qa-bot"><div>'+escHtml(answer)+'</div>'+rowsHtml+'<div style="margin-top:8px"><details><summary style="font-size:10px;color:var(--g3);cursor:pointer">View generated SQL</summary><div class="qa-sql" style="margin-top:6px">'+escHtml(sql)+'</div></details></div></div>';
+        msgs.scrollTop=msgs.scrollHeight;
+      });
+    });
+  })
+  .catch(e=>{ msgs.innerHTML+='<div class="qa-msg qa-bot" style="color:var(--red)">Error: '+escHtml(e.message)+'</div>'; msgs.scrollTop=msgs.scrollHeight; })
+  .finally(()=>{ btn.disabled=false; sp.classList.remove('on'); lbl.textContent='Send'; });
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  renderMappingTable();
+  updateAuditChain();
+});
+</script>
+</body>
+</html>

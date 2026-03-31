@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE Technology — Autonomous GL Mapping Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:       #F7F8FC;
+  --white:    #FFFFFF;
+  --navy:     #0F1E3C;
+  --navy2:    #1A3160;
+  --blue:     #1A56DB;
+  --blue2:    #1648C8;
+  --blue-dim: rgba(26,86,219,0.08);
+  --green:    #0A7C42;
+  --green-dim:rgba(10,124,66,0.08);
+  --amber:    #92580A;
+  --amber-dim:rgba(146,88,10,0.08);
+  --red:      #C81A1A;
+  --red-dim:  rgba(200,26,26,0.07);
+  --text:     #0F1729;
+  --text2:    #3D4D6A;
+  --text3:    #7A8BA8;
+  --border:   #E2E8F4;
+  --border2:  #C8D3E8;
+  --mono:     'JetBrains Mono', monospace;
+  --serif:    'Playfair Display', serif;
+  --sans:     'Inter', sans-serif;
+}
+
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px}
+body{min-height:100vh}
+
+/* ── Header ── */
+.header{
+  background:var(--navy);
+  padding:16px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.header-left{}
+.header-eyebrow{
+  font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2px;
+}
+.header-title{
+  font-family:var(--serif);font-size:20px;color:#FFFFFF;font-weight:600;
+}
+.header-right{
+  display:flex;align-items:center;gap:12px;
+}
+.live-pill{
+  display:flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10px;color:#6EE7B7;
+  padding:4px 10px;border-radius:20px;
+  background:rgba(110,231,183,0.12);border:1px solid rgba(110,231,183,0.2);
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;background:#6EE7B7;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(110,231,183,0.4)}
+  50%{opacity:.7;box-shadow:0 0 0 4px rgba(110,231,183,0)}
+}
+.env-pill{
+  font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.5);
+  padding:4px 10px;border-radius:20px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* ── Layout ── */
+.layout{
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:0;
+  min-height:calc(100vh - 56px);
+}
+
+/* ── Left panel — demo stage ── */
+.stage{
+  padding:28px 32px;
+  border-right:1px solid var(--border);
+}
+.stage-title{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--blue);margin-bottom:20px;
+  display:flex;align-items:center;gap:8px;
+}
+.stage-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── Account card ── */
+.account-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;margin-bottom:16px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+}
+.account-card-head{
+  padding:12px 16px;background:#F1F4F9;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.account-card-title{
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text3);
+}
+.new-badge{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  padding:2px 7px;border-radius:3px;
+  background:#FEF3C7;color:#92580A;border:1px solid #DDB96A;
+  animation:blink 2s ease infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
+.account-card-body{padding:16px}
+.account-row{
+  display:grid;grid-template-columns:140px 1fr;
+  gap:6px;margin-bottom:8px;font-size:12px;
+}
+.account-row:last-child{margin:0}
+.account-key{color:var(--text3);font-family:var(--mono);font-size:10px}
+.account-val{color:var(--text);font-weight:500}
+.account-val.mono{font-family:var(--mono)}
+.account-val.amount{color:var(--navy);font-weight:600;font-size:14px}
+
+/* ── Big run button ── */
+.run-btn{
+  width:100%;padding:16px;border-radius:8px;
+  background:var(--navy);color:#FFFFFF;
+  border:none;cursor:pointer;
+  font-family:var(--sans);font-size:14px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .2s;margin-bottom:16px;
+  letter-spacing:.01em;
+}
+.run-btn:hover{background:var(--navy2);transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(15,30,60,0.2)}
+.run-btn:disabled{background:#94A3B8;cursor:not-allowed;transform:none;box-shadow:none}
+.run-btn .btn-icon{font-size:18px}
+
+/* ── Pipeline steps ── */
+.pipeline{margin-bottom:16px}
+.step-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 0;border-bottom:1px solid var(--border);
+  opacity:.4;transition:opacity .3s;
+}
+.step-row:last-child{border:none}
+.step-row.active{opacity:1}
+.step-row.done{opacity:1}
+.step-num{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  background:var(--border);color:var(--text3);
+  transition:all .3s;margin-top:1px;
+}
+.step-row.active .step-num{background:var(--blue);color:#FFFFFF}
+.step-row.done .step-num{background:var(--green);color:#FFFFFF}
+.step-info{flex:1}
+.step-label{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px}
+.step-detail{font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.5}
+.step-spinner{
+  width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:4px;
+  border:2px solid var(--border2);border-top-color:var(--blue);
+  animation:spin .7s linear infinite;display:none;
+}
+.step-row.active .step-spinner{display:block}
+.step-row.done .step-spinner{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Agent decision card ── */
+.decision-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;margin-bottom:16px;
+  display:none;
+  box-shadow:0 1px 3px rgba(0,0,0,0.04);
+  animation:slideUp .4s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.decision-card.show{display:block}
+.decision-head{
+  padding:12px 16px;background:#F1F4F9;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.decision-title{
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text3);
+}
+.conf-badge{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  padding:2px 8px;border-radius:3px;
+}
+.decision-body{padding:16px}
+.decision-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:8px;margin-bottom:14px;
+}
+.d-cell{
+  background:#F8F9FC;border-radius:6px;padding:10px 12px;
+}
+.d-cell-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:4px;
+}
+.d-cell-val{font-size:12px;font-weight:600;color:var(--text)}
+.d-cell-val.cat{color:var(--blue)}
+.citation-bar{
+  background:var(--blue-dim);border-radius:5px;
+  padding:7px 12px;margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.citation-label{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--blue);
+}
+.citation-val{
+  font-family:var(--mono);font-size:11px;color:var(--blue);font-weight:500;
+}
+.reasoning-box{
+  background:#FFFBF0;border-left:3px solid #C9A84C;
+  border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:12px;
+  font-size:12px;color:var(--text2);line-height:1.7;
+}
+.reasoning-label{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--amber);margin-bottom:6px;
+}
+.similar-section{}
+.similar-label{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;
+  color:var(--text3);margin-bottom:6px;
+}
+.similar-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:5px 8px;background:#F8F9FC;border-radius:4px;
+  margin-bottom:3px;font-size:11px;
+}
+.sim-account{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.sim-desc{color:var(--text2);margin:0 8px;flex:1}
+.sim-cat{
+  font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;
+  background:var(--blue-dim);color:var(--blue);white-space:nowrap;
+}
+.sim-score{font-family:var(--mono);font-size:9px;color:var(--text3);margin-left:6px}
+
+/* ── Right panel — approval ── */
+.approval-panel{
+  background:var(--white);
+  display:flex;flex-direction:column;
+}
+.approval-head{
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--border);
+}
+.approval-eyebrow{
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:6px;
+}
+.approval-title{
+  font-family:var(--serif);font-size:18px;font-weight:600;color:var(--text);
+}
+.approval-body{
+  padding:20px 24px;flex:1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.waiting-state{
+  text-align:center;padding:40px 20px;
+}
+.waiting-icon{font-size:40px;margin-bottom:12px;opacity:.3}
+.waiting-text{
+  font-size:13px;color:var(--text3);line-height:1.7;
+}
+
+/* ── Email preview ── */
+.email-preview{
+  display:none;width:100%;
+  animation:slideUp .4s ease;
+}
+.email-preview.show{display:block}
+.email-chrome{
+  background:#F1F4F9;border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;margin-bottom:16px;
+}
+.email-chrome-bar{
+  padding:8px 12px;background:#E8ECF4;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+.email-dot{width:8px;height:8px;border-radius:50%}
+.email-subject{
+  font-size:11px;color:var(--text2);margin-left:4px;
+  font-weight:500;
+}
+.email-body{padding:16px;max-height:340px;overflow-y:auto}
+
+/* email card inside preview */
+.em-header{
+  background:var(--navy);border-radius:6px 6px 0 0;
+  padding:14px 16px;margin-bottom:0;
+}
+.em-eyebrow{
+  font-size:9px;color:rgba(255,255,255,0.4);
+  text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px;
+}
+.em-title{font-size:15px;font-weight:700;color:#FFFFFF}
+.em-sub{font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px}
+.em-bar{
+  background:var(--blue);padding:10px 16px;
+  display:flex;gap:16px;margin-bottom:12px;border-radius:0 0 6px 6px;
+}
+.em-stat{text-align:center}
+.em-stat-val{font-size:16px;font-weight:700;color:#FFFFFF}
+.em-stat-label{font-size:9px;color:rgba(255,255,255,0.6);text-transform:uppercase}
+.em-card{
+  background:#F8F9FC;border:1px solid var(--border);
+  border-radius:6px;overflow:hidden;margin-bottom:10px;
+  border-left:3px solid var(--green);
+}
+.em-card-head{
+  padding:8px 12px;background:#F1F4F9;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;font-weight:600;color:var(--text);
+}
+.em-card-body{padding:10px 12px;font-size:11px;color:var(--text2);line-height:1.6}
+.em-reasoning{
+  background:#FFFBF0;border-left:2px solid #C9A84C;
+  padding:8px 10px;border-radius:0 4px 4px 0;
+  margin:8px 0;font-size:11px;color:var(--text2);line-height:1.6;
+}
+
+/* ── Approval buttons ── */
+.approval-btns{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-top:12px;
+}
+.btn-approve{
+  padding:12px;border-radius:6px;border:none;cursor:pointer;
+  background:var(--green);color:#FFFFFF;
+  font-family:var(--sans);font-size:13px;font-weight:600;
+  transition:all .15s;
+}
+.btn-approve:hover{background:#0A6B38;transform:translateY(-1px)}
+.btn-override{
+  padding:12px;border-radius:6px;cursor:pointer;
+  background:var(--white);color:var(--text);
+  font-family:var(--sans);font-size:13px;font-weight:500;
+  border:1px solid var(--border2);transition:all .15s;
+}
+.btn-override:hover{background:#F8F9FC}
+
+/* ── Success state ── */
+.success-state{
+  display:none;text-align:center;padding:20px;
+  animation:slideUp .4s ease;
+}
+.success-state.show{display:block}
+.success-icon{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--green-dim);border:2px solid #A8D5BA;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:0 auto 16px;
+}
+.success-title{
+  font-family:var(--serif);font-size:20px;font-weight:600;
+  color:var(--green);margin-bottom:8px;
+}
+.success-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px}
+.audit-chain{
+  background:#F8F9FC;border:1px solid var(--border);
+  border-radius:8px;padding:14px;text-align:left;margin-bottom:16px;
+}
+.audit-chain-title{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:10px;
+}
+.audit-link{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--text2);margin-bottom:6px;
+  padding:6px 8px;background:var(--white);border-radius:4px;
+  border:1px solid var(--border);
+}
+.audit-link:last-child{margin:0}
+.audit-link-num{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--blue-dim);color:var(--blue);
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.t001-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--green-dim);border:1px solid #A8D5BA;
+  color:var(--green);font-family:var(--mono);font-size:11px;
+  font-weight:600;padding:6px 12px;border-radius:20px;
+}
+.reset-btn{
+  width:100%;padding:10px;border-radius:6px;
+  border:1px solid var(--border2);background:transparent;
+  color:var(--text2);font-family:var(--sans);font-size:12px;
+  cursor:pointer;transition:all .15s;margin-top:8px;
+}
+.reset-btn:hover{background:#F8F9FC}
+
+/* ── Prospect question box ── */
+.question-box{
+  margin:16px 24px;padding:14px 16px;
+  background:var(--navy);border-radius:8px;
+  display:none;animation:slideUp .4s ease;
+}
+.question-box.show{display:block}
+.question-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:6px;
+}
+.question-text{
+  font-family:var(--serif);font-size:14px;font-style:italic;
+  color:rgba(255,255,255,0.85);line-height:1.6;
+}
+
+/* ── Responsive ── */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .approval-panel{border-top:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-eyebrow">BE Technology</div>
+    <div class="header-title">Autonomous GL Mapping Agent</div>
+  </div>
+  <div class="header-right">
+    <div class="live-pill"><div class="live-dot"></div>Live Demo</div>
+    <div class="env-pill">diplomatic75 · C006 · FY2023</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ── Left: Demo stage ── -->
+  <div class="stage">
+
+    <div class="stage-title">New unmapped account detected</div>
+
+    <!-- Account card -->
+    <div class="account-card">
+      <div class="account-card-head">
+        <div class="account-card-title">SAP ECC · Just posted overnight</div>
+        <div class="new-badge">⚡ New · Unmapped</div>
+      </div>
+      <div class="account-card-body">
+        <div class="account-row">
+          <div class="account-key">GL Account</div>
+          <div class="account-val mono">0000640090</div>
+        </div>
+        <div class="account-row">
+          <div class="account-key">Description</div>
+          <div class="account-val">Depreciation Expense — Leasehold Improvements</div>
+        </div>
+        <div class="account-row">
+          <div class="account-key">FY2023 Amount</div>
+          <div class="account-val amount">$387,500</div>
+        </div>
+        <div class="account-row">
+          <div class="account-key">Chart of Accounts</div>
+          <div class="account-val mono">CA01 · Company C006</div>
+        </div>
+        <div class="account-row">
+          <div class="account-key">DISE Category</div>
+          <div class="account-val" style="color:var(--red)">⚠ Not classified</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Run button -->
+    <button class="run-btn" id="run-btn" onclick="runDemo()">
+      <span class="btn-icon">▶</span>
+      Run Autonomous Mapping Agent
+    </button>
+
+    <!-- Pipeline steps -->
+    <div class="pipeline" id="pipeline">
+      <div class="step-row" id="step-1">
+        <div class="step-num">1</div>
+        <div class="step-spinner"></div>
+        <div class="step-info">
+          <div class="step-label">Similarity search</div>
+          <div class="step-detail" id="step-1-detail">Finding similar approved accounts in gl_dise_mapping...</div>
+        </div>
+      </div>
+      <div class="step-row" id="step-2">
+        <div class="step-num">2</div>
+        <div class="step-spinner"></div>
+        <div class="step-info">
+          <div class="step-label">Claude reasoning</div>
+          <div class="step-detail" id="step-2-detail">Applying ASC 220-40 classification rules...</div>
+        </div>
+      </div>
+      <div class="step-row" id="step-3">
+        <div class="step-num">3</div>
+        <div class="step-spinner"></div>
+        <div class="step-info">
+          <div class="step-label">Draft written to pending_mappings</div>
+          <div class="step-detail" id="step-3-detail">Storing decision with confidence score and audit metadata...</div>
+        </div>
+      </div>
+      <div class="step-row" id="step-4">
+        <div class="step-num">4</div>
+        <div class="step-spinner"></div>
+        <div class="step-info">
+          <div class="step-label">Approval email sent</div>
+          <div class="step-detail" id="step-4-detail">Notifying mr@betechnology.org with reasoning and one-click approval...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Agent decision card -->
+    <div class="decision-card" id="decision-card">
+      <div class="decision-head">
+        <div class="decision-title">Agent Decision · 0000640090</div>
+        <span class="conf-badge" style="background:var(--green-dim);color:var(--green)">
+          HIGH CONFIDENCE · 95%
+        </span>
+      </div>
+      <div class="decision-body">
+        <div class="decision-grid">
+          <div class="d-cell">
+            <div class="d-cell-label">DISE Category</div>
+            <div class="d-cell-val cat">Depreciation</div>
+          </div>
+          <div class="d-cell">
+            <div class="d-cell-label">IS Caption</div>
+            <div class="d-cell-val">SG&amp;A</div>
+          </div>
+          <div class="d-cell">
+            <div class="d-cell-label">Materiality</div>
+            <div class="d-cell-val" style="color:var(--amber)">MEDIUM</div>
+          </div>
+        </div>
+        <div class="citation-bar">
+          <span class="citation-label">ASC Citation</span>
+          <span class="citation-val">ASC 220-40-50-6(c)</span>
+        </div>
+        <div class="reasoning-label">Agent Reasoning</div>
+        <div class="reasoning-box">
+          Leasehold improvements are tangible fixed assets depreciated over the shorter of their useful life or the remaining lease term under ASC 840/842. As a tangible asset, this maps to <strong>Depreciation</strong> under ASC 220-40-50-6(c) rather than Intangible asset amortization. Similar approved account <code>0000640010</code> Depreciation Expense — Buildings was classified as Depreciation in SG&amp;A, confirming the treatment for building-related tangible assets. Confidence is HIGH because the account description unambiguously identifies a tangible fixed asset with no characteristics of an intangible.
+        </div>
+        <div class="similar-label">Similar approved accounts used as reference</div>
+        <div class="similar-row">
+          <span class="sim-account">0000640010</span>
+          <span class="sim-desc">Depreciation Expense — Buildings</span>
+          <span class="sim-cat">Depreciation</span>
+          <span class="sim-score">sim: 0.71</span>
+        </div>
+        <div class="similar-row">
+          <span class="sim-account">0000640070</span>
+          <span class="sim-desc">Depreciation Expense — Computer Hardware</span>
+          <span class="sim-cat">Depreciation</span>
+          <span class="sim-score">sim: 0.65</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Right: Approval panel ── -->
+  <div class="approval-panel">
+    <div class="approval-head">
+      <div class="approval-eyebrow">Controller inbox · mr@betechnology.org</div>
+      <div class="approval-title">One-click approval</div>
+    </div>
+
+    <div class="approval-body" id="approval-body">
+
+      <!-- Waiting state -->
+      <div class="waiting-state" id="waiting-state">
+        <div class="waiting-icon">📬</div>
+        <div class="waiting-text">
+          Waiting for agent to run...<br>
+          Click the button to start the demo.
+        </div>
+      </div>
+
+      <!-- Email preview -->
+      <div class="email-preview" id="email-preview">
+        <div class="email-chrome">
+          <div class="email-chrome-bar">
+            <div class="email-dot" style="background:#FF5F56"></div>
+            <div class="email-dot" style="background:#FFBD2E"></div>
+            <div class="email-dot" style="background:#27C93F"></div>
+            <div class="email-subject">
+              [GL Intelligence] 1 GL account requires review — $387,500 · C006 FY2023
+            </div>
+          </div>
+          <div class="email-body">
+            <div class="em-header">
+              <div class="em-eyebrow">BE Technology · GL Intelligence Platform</div>
+              <div class="em-title">GL Mapping Review Required</div>
+              <div class="em-sub">diplomatic75 · Company C006 · FY2023</div>
+            </div>
+            <div class="em-bar">
+              <div class="em-stat">
+                <div class="em-stat-val">1</div>
+                <div class="em-stat-label">Pending</div>
+              </div>
+              <div class="em-stat">
+                <div class="em-stat-val" style="color:#FFE4A0">0</div>
+                <div class="em-stat-label">High mat.</div>
+              </div>
+              <div class="em-stat">
+                <div class="em-stat-val">$388K</div>
+                <div class="em-stat-label">Exposure</div>
+              </div>
+            </div>
+            <div class="em-card">
+              <div class="em-card-head">
+                <span>0000640090 — Depreciation Expense — Leasehold Improvements</span>
+                <span style="font-size:10px;color:var(--green);background:var(--green-dim);
+                             padding:1px 6px;border-radius:3px">HIGH 95%</span>
+              </div>
+              <div class="em-card-body">
+                <strong>Category:</strong> Depreciation &nbsp;·&nbsp;
+                <strong>Caption:</strong> SG&amp;A &nbsp;·&nbsp;
+                <strong>Citation:</strong> ASC 220-40-50-6(c)<br>
+                <strong>Amount:</strong> $387,500
+                <div class="em-reasoning">
+                  Leasehold improvements are tangible fixed assets — maps to Depreciation under ASC 220-40-50-6(c). Supported by two similar approved accounts: Buildings (0.71) and Computer Hardware (0.65).
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="approval-btns">
+          <button class="btn-approve" onclick="approve()">
+            ✓ Approve
+          </button>
+          <button class="btn-override" onclick="showOverride()">
+            ✎ Override
+          </button>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div class="success-state" id="success-state">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Approved</div>
+        <div class="success-text">
+          Account <strong>0000640090</strong> mapped as <strong>Depreciation · SG&amp;A</strong><br>
+          and promoted to gl_dise_mapping automatically.
+        </div>
+
+        <div class="audit-chain">
+          <div class="audit-chain-title">Four-link audit trail — complete</div>
+          <div class="audit-link">
+            <div class="audit-link-num">1</div>
+            10-K footnote · Depreciation · SG&amp;A · $387,500
+          </div>
+          <div class="audit-link">
+            <div class="audit-link-num">2</div>
+            gl_dise_mapping · ASC 220-40-50-6(c) · reviewer: mr@betechnology.org
+          </div>
+          <div class="audit-link">
+            <div class="audit-link-num">3</div>
+            mapping_decisions_log · HUMAN_APPROVED · human_agreed: true
+          </div>
+          <div class="audit-link">
+            <div class="audit-link-num">4</div>
+            SAP bkpf/bseg · BELNR → individual journal entries
+          </div>
+        </div>
+
+        <div class="t001-badge">✓ T001 — Zero unmapped exposure</div>
+
+        <button class="reset-btn" onclick="resetDemo()">↺ Reset demo</button>
+      </div>
+
+    </div>
+
+    <!-- Prospect question -->
+    <div class="question-box" id="question-box">
+      <div class="question-label">Ask your prospect now</div>
+      <div class="question-text">
+        "How many GL accounts in your chart of accounts have never been mapped to a DISE category? We can run that query against your data right now."
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const DELAY = ms => new Promise(r => setTimeout(r, ms));
+
+function setStep(n, state) {
+  const el = document.getElementById(`step-${n}`);
+  el.classList.remove('active','done');
+  if(state) el.classList.add(state);
+}
+
+function setStepDetail(n, text) {
+  document.getElementById(`step-${n}-detail`).textContent = text;
+}
+
+async function runDemo() {
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="btn-icon">⟳</span> Agent running...';
+
+  // Hide email/success, show waiting
+  document.getElementById('email-preview').classList.remove('show');
+  document.getElementById('success-state').classList.remove('show');
+  document.getElementById('waiting-state').style.display = 'none';
+  document.getElementById('decision-card').classList.remove('show');
+  document.getElementById('question-box').classList.remove('show');
+
+  // Step 1 — similarity search
+  setStep(1,'active');
+  setStepDetail(1, 'Querying gl_dise_mapping for similar approved accounts...');
+  await DELAY(1200);
+  setStepDetail(1, '✓ Found 2 similar accounts — Buildings (0.71), Computer Hardware (0.65)');
+  setStep(1,'done');
+
+  // Step 2 — Claude reasoning
+  setStep(2,'active');
+  setStepDetail(2, 'Sending to Claude with ASC 220-40 context and similar accounts...');
+  await DELAY(1800);
+  setStepDetail(2, '✓ Decision: Depreciation · SG&A · ASC 220-40-50-6(c) · 95% confidence');
+  setStep(2,'done');
+
+  // Show decision card
+  document.getElementById('decision-card').classList.add('show');
+
+  // Step 3 — write to BigQuery
+  setStep(3,'active');
+  setStepDetail(3, 'Writing draft to pending_mappings with full audit metadata...');
+  await DELAY(1000);
+  setStepDetail(3, '✓ Written · status=PENDING · materiality=MEDIUM · audit log updated');
+  setStep(3,'done');
+
+  // Step 4 — send email
+  setStep(4,'active');
+  setStepDetail(4, 'Sending approval email to mr@betechnology.org...');
+  await DELAY(900);
+  setStepDetail(4, '✓ Email delivered · Subject: 1 GL account requires review — $387,500');
+  setStep(4,'done');
+
+  // Show email in approval panel
+  await DELAY(300);
+  document.getElementById('waiting-state').style.display = 'none';
+  document.getElementById('email-preview').classList.add('show');
+
+  btn.innerHTML = '<span class="btn-icon">✓</span> Agent complete — awaiting approval';
+  btn.style.background = 'var(--green)';
+}
+
+async function approve() {
+  document.getElementById('email-preview').classList.remove('show');
+  await DELAY(200);
+  document.getElementById('success-state').classList.add('show');
+  document.getElementById('question-box').classList.add('show');
+}
+
+function showOverride() {
+  alert('In production this opens an override form where the reviewer can change the category, caption, citation, and document the reason. The override reason is required and stored in the audit log.');
+}
+
+function resetDemo() {
+  const btn = document.getElementById('run-btn');
+  btn.disabled = false;
+  btn.innerHTML = '<span class="btn-icon">▶</span> Run Autonomous Mapping Agent';
+  btn.style.background = 'var(--navy)';
+
+  document.getElementById('success-state').classList.remove('show');
+  document.getElementById('email-preview').classList.remove('show');
+  document.getElementById('decision-card').classList.remove('show');
+  document.getElementById('question-box').classList.remove('show');
+  document.getElementById('waiting-state').style.display = 'block';
+
+  [1,2,3,4].forEach(n => {
+    setStep(n, null);
+    const defaults = {
+      1:'Finding similar approved accounts in gl_dise_mapping...',
+      2:'Applying ASC 220-40 classification rules...',
+      3:'Storing decision with confidence score and audit metadata...',
+      4:'Notifying mr@betechnology.org with reasoning and one-click approval...'
+    };
+    setStepDetail(n, defaults[n]);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DISE Anomaly Alert System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --ink:#1c1c1a;--ink2:#4a4844;--ink3:#8a8880;
+  --bg:#f8f7f4;--bg2:#f0ede8;--bg3:#e8e4dd;
+  --line:#ddd9d0;--line2:#ccc8be;
+  --red:#991b1b;--red-bg:#fef2f2;--red-bd:#fca5a5;
+  --amber:#92400e;--amber-bg:#fffbeb;--amber-bd:#fcd34d;
+  --green:#14532d;--green-bg:#f0fdf4;--green-bd:#86efac;
+  --gold:#8a6a1a;--gold-bg:#fdf5e0;--gold-bd:#e8d08a;
+  --blue:#1e3a5f;--blue-bg:#eff6ff;--blue-bd:#93c5fd;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+header{background:var(--ink);padding:0 28px;height:50px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'DM Serif Display',serif;font-size:16px;color:#f0ede4}
+.logo span{color:#c9a84c;font-style:italic}
+.htag{font-size:11px;color:#5a5852;letter-spacing:.06em;text-transform:uppercase}
+
+/* Connection bar — always visible, no modal */
+.conn-bar{background:var(--gold-bg);border-bottom:2px solid var(--gold-bd);padding:16px 28px}
+.conn-bar.ok{background:var(--green-bg);border-bottom-color:var(--green-bd)}
+.conn-label{font-size:12px;font-weight:500;color:var(--gold);margin-bottom:10px}
+.conn-bar.ok .conn-label{color:var(--green)}
+.conn-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.cf{display:flex;flex-direction:column;gap:3px}
+.cf label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3)}
+.cf input{padding:8px 10px;border:1px solid var(--line2);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:white;outline:none;height:36px}
+.cf input:focus{border-color:var(--gold)}
+.cf-wide{flex:1;min-width:260px}
+.cf-med{width:180px}
+.cf-sm{width:130px}
+.cf-btn{width:100px}
+.conn-btn{height:36px;padding:0 16px;border-radius:7px;border:none;background:var(--ink);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.conn-btn:hover{background:#2e2e28}
+
+.nav{display:flex;background:white;border-bottom:1px solid var(--line);padding:0 28px}
+.ntab{padding:11px 16px;font-size:13px;color:var(--ink3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.ntab:hover{color:var(--ink)}
+.ntab.on{color:var(--ink);border-bottom-color:var(--ink);font-weight:500}
+
+.wrap{max-width:1060px;margin:0 auto;padding:24px 28px 80px}
+.pane{display:none}
+.pane.on{display:block}
+
+.card{background:white;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:var(--bg2);border-bottom:1px solid var(--line)}
+.ct{font-family:'DM Serif Display',serif;font-size:15px;font-weight:400;color:var(--ink)}
+.cb{padding:16px}
+
+.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px}
+.b-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd)}
+.b-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd)}
+.b-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd)}
+.b-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd)}
+.b-gray{background:var(--bg2);color:var(--ink3);border:1px solid var(--line)}
+
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.metric{background:var(--bg2);border-radius:9px;padding:13px 11px;text-align:center}
+.mval{font-size:22px;font-weight:500;color:var(--ink);display:block;margin-bottom:2px}
+.mlbl{font-size:11px;color:var(--ink3);line-height:1.3}
+
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.tc{padding:13px;border-radius:9px;border:1px solid}
+.tc1{background:var(--amber-bg);border-color:var(--amber-bd)}
+.tc2{background:var(--red-bg);border-color:var(--red-bd)}
+.tc3{background:var(--green-bg);border-color:var(--green-bd)}
+.tch{font-size:12px;font-weight:500;margin-bottom:5px}
+.tc1 .tch{color:var(--amber)}.tc2 .tch{color:var(--red)}.tc3 .tch{color:var(--green)}
+.tcb{font-size:11px;color:var(--ink2);line-height:1.5}
+
+.arow{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--bg3)}
+.arow:last-child{border:none;padding-bottom:0}
+.aicon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.ai-c{background:var(--red-bg);border:1px solid var(--red-bd);color:var(--red)}
+.ai-w{background:var(--amber-bg);border:1px solid var(--amber-bd);color:var(--amber)}
+.ainfo{flex:1}
+.atitle{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.asub{font-size:12px;color:var(--ink3);line-height:1.5}
+.ameta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap}
+.apill{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--bg2);color:var(--ink2);border:1px solid var(--line)}
+.aright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.aamt{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--ink)}
+.avar{font-size:11px;font-weight:500;color:var(--red)}
+.avar.pos{color:var(--green)}
+
+.btn{padding:7px 14px;border-radius:7px;border:1px solid var(--line2);background:white;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--bg2)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-dark{background:var(--ink);color:white;border-color:var(--ink)}
+.btn-dark:hover{background:#2e2e28}
+.btn-gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-bd)}
+.btn-gold:hover{background:#fef0c0}
+
+.sqlwrap{background:var(--ink);border-radius:8px;overflow:hidden;margin:10px 0}
+.sqlhead{display:flex;align-items:center;justify-content:space-between;padding:7px 13px;background:#252520;border-bottom:1px solid #3a3a33}
+.sqllbl{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#6a6860;font-family:'DM Mono',monospace}
+.sqlcopy{font-size:11px;color:#6a6860;background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:2px 6px;border-radius:4px;transition:color .15s}
+.sqlcopy:hover{color:#c9a84c}
+.sqlcode{padding:13px 15px;font-family:'DM Mono',monospace;font-size:11px;color:#7ab0e0;line-height:1.8;white-space:pre;overflow-x:auto}
+
+.field{margin-bottom:13px}
+.flabel{display:block;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:4px}
+.field input,.field select{width:100%;padding:8px 11px;border:1px solid var(--line2);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:white;outline:none}
+.field input:focus,.field select:focus{border-color:var(--ink2)}
+.field input[type=password]{font-family:'DM Mono',monospace;font-size:12px}
+
+.email-wrap{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:14px}
+.email-hdr{background:var(--bg2);padding:11px 15px;border-bottom:1px solid var(--line)}
+.efield{display:flex;gap:8px;font-size:12px;margin-bottom:3px;color:var(--ink3)}
+.efield:last-child{margin:0}
+.efield strong{color:var(--ink2);min-width:52px}
+.email-body-pre{padding:15px;font-size:13px;color:var(--ink);line-height:1.8;white-space:pre-wrap;font-family:'DM Serif Display',serif;min-height:200px}
+
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:sp .7s linear infinite;display:none}
+.spin.on{display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.callout{padding:11px 14px;font-size:12px;line-height:1.6;margin:10px 0;border-left:3px solid;border-radius:0 7px 7px 0}
+.c-gold{background:var(--gold-bg);color:var(--gold);border-left-color:var(--gold)}
+.c-blue{background:var(--blue-bg);color:var(--blue);border-left-color:var(--blue)}
+
+.shead{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 8px}
+.sstep{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bg3)}
+.sstep:last-child{border:none}
+.snum{width:26px;height:26px;border-radius:50%;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:1px}
+.stitle{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.sdesc{font-size:12px;color:var(--ink3);line-height:1.6}
+.empty{text-align:center;padding:36px 20px;color:var(--ink3)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">DISE <span>Anomaly Alert</span> System</div>
+  <div class="htag">Tiered CFO intelligence · ASU 2024-03</div>
+</header>
+
+<div class="conn-bar" id="conn-bar">
+  <div class="conn-label" id="conn-label">Connect to BigQuery to run live anomaly detection</div>
+  <div class="conn-row">
+    <div class="cf cf-sm">
+      <label>Project ID</label>
+      <input type="text" id="cfg-project" value="diplomatic75">
+    </div>
+    <div class="cf cf-wide">
+      <label>BigQuery access token (run: gcloud auth print-access-token in Cloud Shell)</label>
+      <input type="password" id="cfg-token" placeholder="ya29.a0...">
+    </div>
+    <div class="cf cf-med">
+      <label>SAP CDC dataset</label>
+      <input type="text" id="cfg-cdc" value="CORTEX_SAP_CDC">
+    </div>
+    <div class="cf cf-med">
+      <label>DISE dataset</label>
+      <input type="text" id="cfg-dise" value="dise_reporting">
+    </div>
+    <div class="cf cf-btn">
+      <label>&nbsp;</label>
+      <button class="conn-btn" onclick="doConnect()">Connect</button>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="ntab on" onclick="showTab('dashboard')">Alert dashboard</div>
+  <div class="ntab" onclick="showTab('email')">CFO email generator</div>
+  <div class="ntab" onclick="showTab('sql')">Detection queries</div>
+  <div class="ntab" onclick="showTab('setup')">Production setup</div>
+</div>
+
+<div class="wrap">
+
+<div class="pane on" id="pane-dashboard">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap">
+    <div>
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);margin-bottom:3px">Anomaly detection dashboard</div>
+      <div style="font-size:13px;color:var(--ink3)">Detects DISE expense categories deviating significantly from historical norms</div>
+    </div>
+    <button class="btn btn-dark" onclick="runDetection()" id="run-btn">
+      <div class="spin" id="run-spin"></div>
+      Run detection now
+    </button>
+  </div>
+
+  <div class="tiers">
+    <div class="tc tc1"><div class="tch">Tier 1 — Controller alert</div><div class="tcb">2.0 to 2.9 standard deviations. Controller notified immediately. CFO alerted only if unresolved after 48 hours.</div></div>
+    <div class="tc tc2"><div class="tch">Tier 2 — CFO alert</div><div class="tcb">3.0+ standard deviations or material amount. CFO receives plain-English summary with source transaction drill-down link.</div></div>
+    <div class="tc tc3"><div class="tch">Tier 3 — Quarterly digest</div><div class="tcb">End-of-quarter summary of all anomalies, investigations, and resolutions for CFO and audit committee.</div></div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><span class="mval" id="m-crit">—</span><span class="mlbl">Critical<br>this period</span></div>
+    <div class="metric"><span class="mval" id="m-warn">—</span><span class="mlbl">Warnings<br>this period</span></div>
+    <div class="metric"><span class="mval" id="m-cats">—</span><span class="mlbl">Categories<br>monitored</span></div>
+    <div class="metric"><span class="mval" id="m-time">—</span><span class="mlbl">Last<br>run</span></div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><span class="ct">Current period anomalies</span><span class="badge b-gray" id="status-badge">Not yet run</span></div>
+    <div class="cb" id="alerts-body">
+      <div class="empty">
+        <div style="font-size:28px;margin-bottom:10px;opacity:.3">◎</div>
+        <div style="font-size:13px;margin-bottom:5px">No detection run yet</div>
+        <div style="font-size:12px">Enter your BigQuery credentials in the bar above and click Connect, then Run detection</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pane" id="pane-email">
+  <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);margin-bottom:3px">CFO email generator</div>
+  <div style="font-size:13px;color:var(--ink3);margin-bottom:18px">Select an anomaly and generate a contextualised CFO alert email powered by Claude</div>
+
+  <div style="display:grid;grid-template-columns:320px 1fr;gap:18px;align-items:start">
+    <div class="card">
+      <div class="ch"><span class="ct">Alert configuration</span></div>
+      <div class="cb">
+        <div class="field">
+          <label class="flabel">Anthropic API key</label>
+          <input type="password" id="email-apikey" placeholder="sk-ant-...">
+        </div>
+        <div class="field">
+          <label class="flabel">Select anomaly</label>
+          <select id="anomaly-select">
+            <option value="">— select or run detection first —</option>
+            <option value="s1">Sample: Employee comp SG&A +344% (Critical)</option>
+            <option value="s2">Sample: Inventory COGS -48% (Warning)</option>
+            <option value="s3">Sample: Depreciation COGS +180% (Warning)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="flabel">Alert tier</label>
+          <select id="alert-tier">
+            <option value="2">Tier 2 — CFO direct alert</option>
+            <option value="1">Tier 1 — Controller alert</option>
+            <option value="3">Tier 3 — Quarterly digest</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="flabel">CFO name</label>
+          <input type="text" id="cfo-name" value="Sarah Chen">
+        </div>
+        <div class="field">
+          <label class="flabel">Company name</label>
+          <input type="text" id="co-name" value="Acme Corp">
+        </div>
+        <button class="btn btn-dark" style="width:100%;justify-content:center" onclick="generateEmail()" id="gen-btn">
+          <div class="spin" id="email-spin"></div>
+          Generate CFO email
+        </button>
+        <button class="btn btn-gold" style="width:100%;justify-content:center;margin-top:8px" onclick="copyEmail()">Copy email text</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ch"><span class="ct">Generated email preview</span><span class="badge b-gray" id="email-tier-badge">Tier 2 — CFO alert</span></div>
+      <div class="email-wrap" style="margin:0;border:none;border-radius:0">
+        <div class="email-hdr">
+          <div class="efield"><strong>To:</strong><span id="email-to">—</span></div>
+          <div class="efield"><strong>From:</strong><span>DISE Intelligence System</span></div>
+          <div class="efield"><strong>Subject:</strong><span id="email-subj">Select an anomaly above and click Generate</span></div>
+        </div>
+        <div class="email-body-pre" id="email-body">The generated email will appear here after you select an anomaly and click Generate.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pane" id="pane-sql">
+  <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);margin-bottom:3px">Detection queries</div>
+  <div style="font-size:13px;color:var(--ink3);margin-bottom:18px">Copy directly into BigQuery Console. Replace <code style="font-family:'DM Mono',monospace;font-size:12px;background:var(--bg2);padding:1px 5px;border-radius:3px">[PROJECT]</code> with your GCP project ID.</div>
+
+  <div class="shead">Query 1 — Current period anomaly detection (run nightly)</div>
+  <div class="callout c-blue">Schedule as a daily BigQuery job at 06:00. Compares current period DISE totals against rolling baseline and flags 2+ standard deviation anomalies.</div>
+  <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">anomaly_detection.sql</span><button class="sqlcopy" onclick="copySql(0)">Copy</button></div>
+  <div class="sqlcode" id="q0">WITH current_period AS (
+  SELECT
+    bkpf.MONAT AS fiscal_period, bkpf.GJAHR AS fiscal_year,
+    m.expense_caption, m.dise_category,
+    ROUND(SUM(bseg.DMBTR),0)       AS period_total,
+    COUNT(DISTINCT bseg.HKONT)     AS gl_account_count,
+    COUNT(*)                       AS posting_count,
+    COUNT(DISTINCT bkpf.BELNR)     AS document_count
+  FROM `[PROJECT].CORTEX_SAP_CDC.bkpf` bkpf
+  JOIN `[PROJECT].CORTEX_SAP_CDC.bseg` bseg
+    ON  bkpf.MANDT=bseg.MANDT AND bkpf.BUKRS=bseg.BUKRS
+    AND bkpf.BELNR=bseg.BELNR AND bkpf.GJAHR=bseg.GJAHR
+  JOIN `[PROJECT].dise_reporting.gl_dise_mapping` m
+    ON bseg.HKONT=m.gl_account
+  WHERE bkpf.GJAHR = FORMAT_DATE('%Y',CURRENT_DATE())
+    AND bkpf.MONAT = FORMAT_DATE('%m',CURRENT_DATE())
+    AND m.status   = 'mapped'
+    AND bkpf.BLART NOT IN ('AA','AF','AB')
+  GROUP BY 1,2,3,4
+),
+historical_baseline AS (
+  SELECT
+    expense_caption, dise_category,
+    ROUND(AVG(pa),0)           AS avg_amount,
+    ROUND(STDDEV(pa),0)        AS stddev_amount,
+    ROUND(MAX(pa),0)           AS max_historical,
+    ROUND(MIN(pa),0)           AS min_historical,
+    COUNT(DISTINCT period_key) AS periods_in_baseline
+  FROM (
+    SELECT
+      bkpf2.GJAHR, bkpf2.MONAT,
+      CONCAT(bkpf2.GJAHR,bkpf2.MONAT) AS period_key,
+      m2.expense_caption, m2.dise_category,
+      SUM(bseg2.DMBTR) AS pa
+    FROM `[PROJECT].CORTEX_SAP_CDC.bkpf` bkpf2
+    JOIN `[PROJECT].CORTEX_SAP_CDC.bseg` bseg2
+      ON  bkpf2.MANDT=bseg2.MANDT AND bkpf2.BUKRS=bseg2.BUKRS
+      AND bkpf2.BELNR=bseg2.BELNR AND bkpf2.GJAHR=bseg2.GJAHR
+    JOIN `[PROJECT].dise_reporting.gl_dise_mapping` m2
+      ON bseg2.HKONT=m2.gl_account
+    WHERE CONCAT(bkpf2.GJAHR,bkpf2.MONAT)
+            &lt; FORMAT_DATE('%Y%m',CURRENT_DATE())
+      AND m2.status  = 'mapped'
+      AND bkpf2.BLART NOT IN ('AA','AF','AB')
+    GROUP BY 1,2,3,4,5
+  ) x
+  GROUP BY expense_caption, dise_category
+)
+SELECT
+  c.fiscal_year, c.fiscal_period,
+  c.expense_caption, c.dise_category,
+  c.period_total, h.avg_amount, h.stddev_amount,
+  h.max_historical, h.min_historical, h.periods_in_baseline,
+  c.gl_account_count, c.posting_count, c.document_count,
+  ROUND((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0),2) AS std_deviations,
+  ROUND(((c.period_total-h.avg_amount)/NULLIF(h.avg_amount,0))*100,1) AS pct_variance,
+  CASE
+    WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))&gt;=3 THEN 'CRITICAL'
+    WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))&gt;=2 THEN 'WARNING'
+    ELSE 'NORMAL'
+  END AS alert_level,
+  CASE
+    WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))&gt;=3 THEN 2
+    WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))&gt;=2 THEN 1
+    ELSE 0
+  END AS alert_tier,
+  CURRENT_TIMESTAMP() AS detected_at
+FROM current_period c
+JOIN historical_baseline h USING(expense_caption,dise_category)
+ORDER BY ABS(std_deviations) DESC</div></div>
+
+  <div class="shead">Query 2 — Drill-down to source transactions</div>
+  <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">anomaly_drilldown.sql</span><button class="sqlcopy" onclick="copySql(1)">Copy</button></div>
+  <div class="sqlcode" id="q1">SELECT
+  bkpf.BELNR AS document_number, bkpf.BUDAT AS posting_date,
+  bkpf.BLART AS document_type, bkpf.MONAT AS fiscal_period,
+  bseg.HKONT AS gl_account, bseg.KOSTL AS cost_center,
+  bseg.SHKZG AS dr_cr, ROUND(bseg.DMBTR,2) AS amount,
+  m.description AS gl_description,
+  m.dise_category, m.expense_caption
+FROM `[PROJECT].CORTEX_SAP_CDC.bkpf` bkpf
+JOIN `[PROJECT].CORTEX_SAP_CDC.bseg` bseg
+  ON  bkpf.MANDT=bseg.MANDT AND bkpf.BUKRS=bseg.BUKRS
+  AND bkpf.BELNR=bseg.BELNR AND bkpf.GJAHR=bseg.GJAHR
+JOIN `[PROJECT].dise_reporting.gl_dise_mapping` m
+  ON bseg.HKONT=m.gl_account
+WHERE bkpf.GJAHR = FORMAT_DATE('%Y',CURRENT_DATE())
+  AND bkpf.MONAT = FORMAT_DATE('%m',CURRENT_DATE())
+  AND m.dise_category   = '[CATEGORY]'
+  AND m.expense_caption = '[CAPTION]'
+  AND m.status = 'mapped'
+  AND bkpf.BLART NOT IN ('AA','AF','AB')
+ORDER BY bkpf.BUDAT DESC, bseg.DMBTR DESC</div></div>
+
+  <div class="shead">Query 3 — Acknowledge an alert</div>
+  <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">acknowledge_alert.sql</span><button class="sqlcopy" onclick="copySql(2)">Copy</button></div>
+  <div class="sqlcode" id="q2">UPDATE `[PROJECT].dise_reporting.anomaly_alerts`
+SET
+  acknowledged     = TRUE,
+  acknowledged_by  = '[REVIEWER_NAME]',
+  acknowledged_at  = CURRENT_TIMESTAMP(),
+  resolution_notes = '[WHAT_CAUSED_THE_ANOMALY]'
+WHERE fiscal_year     = FORMAT_DATE('%Y',CURRENT_DATE())
+  AND fiscal_period   = FORMAT_DATE('%m',CURRENT_DATE())
+  AND dise_category   = '[CATEGORY]'
+  AND expense_caption = '[CAPTION]'</div></div>
+
+  <div class="shead">Query 4 — Quarterly digest</div>
+  <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">quarterly_digest.sql</span><button class="sqlcopy" onclick="copySql(3)">Copy</button></div>
+  <div class="sqlcode" id="q3">SELECT
+  fiscal_year, fiscal_period, expense_caption, dise_category,
+  current_amount, historical_avg,
+  ROUND(std_deviations,1) AS std_deviations,
+  ROUND(pct_variance,1)   AS pct_variance,
+  alert_level, alert_tier, detected_at,
+  CASE WHEN acknowledged THEN 'Resolved' ELSE 'Outstanding' END AS status,
+  acknowledged_by, acknowledged_at, resolution_notes
+FROM `[PROJECT].dise_reporting.anomaly_alerts`
+WHERE fiscal_year = FORMAT_DATE('%Y',CURRENT_DATE())
+ORDER BY
+  CASE alert_level WHEN 'CRITICAL' THEN 1
+                   WHEN 'WARNING'  THEN 2 ELSE 3 END,
+  ABS(std_deviations) DESC</div></div>
+</div>
+
+<div class="pane" id="pane-setup">
+  <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);margin-bottom:3px">Production setup</div>
+  <div style="font-size:13px;color:var(--ink3);margin-bottom:18px">Deploy the alert system to run automatically every day</div>
+
+  <div class="card">
+    <div class="ch"><span class="ct">Step 1 — Create alerts table</span></div>
+    <div class="cb">
+      <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">create_alerts_table.sql</span><button class="sqlcopy" onclick="copySql(4)">Copy</button></div>
+      <div class="sqlcode" id="q4">CREATE TABLE IF NOT EXISTS
+  `[PROJECT].dise_reporting.anomaly_alerts` (
+  fiscal_year         STRING,    fiscal_period      STRING,
+  expense_caption     STRING,    dise_category      STRING,
+  current_amount      FLOAT64,   historical_avg     FLOAT64,
+  historical_stddev   FLOAT64,   max_historical     FLOAT64,
+  min_historical      FLOAT64,   periods_in_baseline INT64,
+  gl_account_count    INT64,     posting_count      INT64,
+  document_count      INT64,     std_deviations     FLOAT64,
+  pct_variance        FLOAT64,   alert_level        STRING,
+  alert_tier          INT64,     detected_at        TIMESTAMP,
+  acknowledged        BOOL,      acknowledged_by    STRING,
+  acknowledged_at     TIMESTAMP, resolution_notes   STRING
+)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><span class="ct">Step 2 — Store Anthropic API key in Secret Manager</span></div>
+    <div class="cb">
+      <div class="callout c-gold">Never hardcode API keys. Store in Secret Manager and retrieve at runtime.</div>
+      <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">secret_manager.sh</span><button class="sqlcopy" onclick="copySql(5)">Copy</button></div>
+      <div class="sqlcode" id="q5">echo -n "sk-ant-YOUR_KEY_HERE" | \
+  gcloud secrets create anthropic-api-key \
+  --data-file=- --project=[PROJECT]
+
+gcloud secrets add-iam-policy-binding anthropic-api-key \
+  --member="serviceAccount:cortex-sa@[PROJECT].iam.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor" \
+  --project=[PROJECT]</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><span class="ct">Step 3 — Test with a synthetic alert row</span></div>
+    <div class="cb">
+      <div class="callout c-blue">Insert this test row to verify the full pipeline fires without needing real anomalous data. Delete after verification.</div>
+      <div class="sqlwrap"><div class="sqlhead"><span class="sqllbl">test_pipeline.sql</span><button class="sqlcopy" onclick="copySql(6)">Copy</button></div>
+      <div class="sqlcode" id="q6">INSERT INTO `[PROJECT].dise_reporting.anomaly_alerts` VALUES (
+  FORMAT_DATE('%Y',CURRENT_DATE()),
+  FORMAT_DATE('%m',CURRENT_DATE()),
+  'SG&A', 'compensation',
+  1539250, 347000, 120000, 520000, 180000,
+  8, 4, 247, 11, 3.3, 343.7,
+  'CRITICAL', 2, CURRENT_TIMESTAMP(),
+  FALSE, NULL, NULL,
+  'TEST ROW - delete after verification'
+)</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+var cfg = null;
+var liveRows = [];
+var SAMPLES = {
+  s1:{caption:'SG&A',category:'compensation',amount:1539250,avg:347000,stddev:120000,sd:3.3,pct:343.7,level:'CRITICAL',tier:2,docs:11,posts:247,gls:4,costs:'US061000, US066000',periods:8,maxH:520000,minH:180000},
+  s2:{caption:'COGS',category:'inventory',amount:1200000,avg:2300000,stddev:420000,sd:-2.6,pct:-47.8,level:'WARNING',tier:1,docs:8,posts:89,gls:3,costs:'US061000',periods:8,maxH:2800000,minH:1900000},
+  s3:{caption:'COGS',category:'depreciation',amount:560000,avg:200000,stddev:45000,sd:2.2,pct:180.0,level:'WARNING',tier:1,docs:3,posts:22,gls:2,costs:'US066000',periods:8,maxH:280000,minH:160000}
+};
+
+function showTab(t){
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ntab').forEach(function(n){n.classList.remove('on');});
+  document.getElementById('pane-'+t).classList.add('on');
+  var tabs=document.querySelectorAll('.ntab');
+  ['dashboard','email','sql','setup'].forEach(function(n,i){if(n===t)tabs[i].classList.add('on');});
+}
+
+function doConnect(){
+  var tok=document.getElementById('cfg-token').value.trim();
+  var proj=document.getElementById('cfg-project').value.trim();
+  if(!tok){alert('Please paste your BigQuery access token.\n\nGet it by running this command in Google Cloud Shell:\ngcloud auth print-access-token');return;}
+  if(!proj){alert('Please enter your GCP Project ID (e.g. diplomatic75)');return;}
+  cfg={project:proj,token:tok,cdc:document.getElementById('cfg-cdc').value.trim()||'CORTEX_SAP_CDC',dise:document.getElementById('cfg-dise').value.trim()||'dise_reporting'};
+  var bar=document.getElementById('conn-bar');
+  bar.classList.add('ok');
+  document.getElementById('conn-label').textContent='Connected to '+proj+' — click Run detection to analyse your DISE data';
+}
+
+function fmt(n){return '$'+Math.round(parseFloat(n)).toLocaleString('en-US');}
+
+function runDetection(){
+  if(!cfg){
+    window.scrollTo({top:0,behavior:'smooth'});
+    document.getElementById('cfg-token').focus();
+    document.getElementById('alerts-body').innerHTML='<div style="padding:16px;color:var(--amber);font-size:13px">Please enter your BigQuery access token in the connection bar at the top and click Connect first.</div>';
+    return;
+  }
+  var btn=document.getElementById('run-btn'),sp=document.getElementById('run-spin');
+  btn.disabled=true;sp.classList.add('on');
+  document.getElementById('alerts-body').innerHTML='<div style="padding:20px;text-align:center;font-size:13px;color:var(--ink3)">Running anomaly detection against '+cfg.project+'...</div>';
+  var p=cfg.project,c=cfg.cdc,d=cfg.dise;
+  var sql="WITH current_period AS (\n  SELECT bkpf.MONAT AS fiscal_period, bkpf.GJAHR AS fiscal_year,\n    m.expense_caption, m.dise_category,\n    ROUND(SUM(bseg.DMBTR),0) AS period_total,\n    COUNT(DISTINCT bseg.HKONT) AS gl_account_count,\n    COUNT(*) AS posting_count,\n    COUNT(DISTINCT bkpf.BELNR) AS document_count\n  FROM `"+p+"."+c+".bkpf` bkpf\n  JOIN `"+p+"."+c+".bseg` bseg\n    ON bkpf.MANDT=bseg.MANDT AND bkpf.BUKRS=bseg.BUKRS\n    AND bkpf.BELNR=bseg.BELNR AND bkpf.GJAHR=bseg.GJAHR\n  JOIN `"+p+"."+d+".gl_dise_mapping` m ON bseg.HKONT=m.gl_account\n  WHERE bkpf.GJAHR='2023' AND bkpf.MONAT='08'\n    AND m.status='mapped' AND bkpf.BLART NOT IN ('AA','AF','AB')\n  GROUP BY 1,2,3,4\n),\nhistorical_baseline AS (\n  SELECT expense_caption, dise_category,\n    ROUND(AVG(pa),0) AS avg_amount, ROUND(STDDEV(pa),0) AS stddev_amount,\n    ROUND(MAX(pa),0) AS max_historical, ROUND(MIN(pa),0) AS min_historical,\n    COUNT(DISTINCT period_key) AS periods_in_baseline\n  FROM (\n    SELECT bkpf2.GJAHR, bkpf2.MONAT,\n      CONCAT(bkpf2.GJAHR,bkpf2.MONAT) AS period_key,\n      m2.expense_caption, m2.dise_category,\n      SUM(bseg2.DMBTR) AS pa\n    FROM `"+p+"."+c+".bkpf` bkpf2\n    JOIN `"+p+"."+c+".bseg` bseg2\n      ON bkpf2.MANDT=bseg2.MANDT AND bkpf2.BUKRS=bseg2.BUKRS\n      AND bkpf2.BELNR=bseg2.BELNR AND bkpf2.GJAHR=bseg2.GJAHR\n    JOIN `"+p+"."+d+".gl_dise_mapping` m2 ON bseg2.HKONT=m2.gl_account\n    WHERE CONCAT(bkpf2.GJAHR,bkpf2.MONAT)<'202308'\n      AND m2.status='mapped' AND bkpf2.BLART NOT IN ('AA','AF','AB')\n    GROUP BY 1,2,3,4,5\n  ) x\n  GROUP BY expense_caption, dise_category\n)\nSELECT c.fiscal_year, c.fiscal_period, c.expense_caption, c.dise_category,\n  c.period_total, h.avg_amount, h.stddev_amount, h.max_historical, h.min_historical,\n  h.periods_in_baseline, c.gl_account_count, c.posting_count, c.document_count,\n  ROUND((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0),2) AS std_deviations,\n  ROUND(((c.period_total-h.avg_amount)/NULLIF(h.avg_amount,0))*100,1) AS pct_variance,\n  CASE WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))>=3 THEN 'CRITICAL'\n       WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))>=2 THEN 'WARNING'\n       ELSE 'NORMAL' END AS alert_level,\n  CASE WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))>=3 THEN 2\n       WHEN ABS((c.period_total-h.avg_amount)/NULLIF(h.stddev_amount,0))>=2 THEN 1\n       ELSE 0 END AS alert_tier\nFROM current_period c\nJOIN historical_baseline h USING(expense_caption,dise_category)\nORDER BY ABS(std_deviations) DESC";
+  fetch('https://bigquery.googleapis.com/bigquery/v2/projects/'+cfg.project+'/queries',{method:'POST',headers:{'Authorization':'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({query:sql,useLegacySql:false,timeoutMs:30000})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.error)throw new Error(data.error.message);
+    var fields=(data.schema||{fields:[]}).fields.map(function(f){return f.name;});
+    liveRows=(data.rows||[]).map(function(r){var o={};fields.forEach(function(f,i){o[f]=r.f[i].v;});return o;});
+    renderAlerts(liveRows);
+    addLiveToSelect(liveRows);
+  })
+  .catch(function(e){
+    var msg=e.message||'Unknown error';
+    if(msg.indexOf('401')>-1||msg.indexOf('Access Denied')>-1)msg='Access token expired. Run: gcloud auth print-access-token and reconnect.';
+    document.getElementById('alerts-body').innerHTML='<div style="padding:16px;color:var(--red);font-size:13px"><strong>Error:</strong> '+msg+'</div>';
+  })
+  .finally(function(){btn.disabled=false;sp.classList.remove('on');});
+}
+
+function renderAlerts(rows){
+  var crit=rows.filter(function(r){return r.alert_level==='CRITICAL';});
+  var warn=rows.filter(function(r){return r.alert_level==='WARNING';});
+  var anom=rows.filter(function(r){return r.alert_level!=='NORMAL';});
+  document.getElementById('m-crit').textContent=crit.length;
+  document.getElementById('m-warn').textContent=warn.length;
+  document.getElementById('m-cats').textContent=rows.length;
+  document.getElementById('m-time').textContent=new Date().toLocaleTimeString();
+  var sb=document.getElementById('status-badge');
+  if(crit.length>0){sb.className='badge b-red';sb.textContent=crit.length+' critical';}
+  else if(warn.length>0){sb.className='badge b-amber';sb.textContent=warn.length+' warnings';}
+  else{sb.className='badge b-green';sb.textContent='All normal';}
+  if(anom.length===0){document.getElementById('alerts-body').innerHTML='<div class="empty"><div style="font-size:28px;margin-bottom:10px;color:var(--green);opacity:.6">✓</div><div style="font-size:13px;font-weight:500;color:var(--green)">All categories within normal range</div></div>';return;}
+  document.getElementById('alerts-body').innerHTML=anom.map(function(a){
+    var iC=a.alert_level==='CRITICAL',ab=parseFloat(a.pct_variance)>0,sd=Math.abs(parseFloat(a.std_deviations)).toFixed(1);
+    return '<div class="arow"><div class="aicon '+(iC?'ai-c':'ai-w')+'">'+(iC?'!':'▲')+'</div>'+
+      '<div class="ainfo"><div class="atitle">'+a.dise_category[0].toUpperCase()+a.dise_category.slice(1)+' in '+a.expense_caption+'</div>'+
+      '<div class="asub">'+sd+' std deviations '+(ab?'above':'below')+' '+a.periods_in_baseline+'-period average &nbsp;&middot;&nbsp; '+a.document_count+' documents &nbsp;&middot;&nbsp; '+a.gl_account_count+' GL accounts</div>'+
+      '<div class="ameta"><span class="apill">'+(iC?'Tier 2 — CFO':'Tier 1 — Controller')+'</span><span class="apill">Avg: '+fmt(a.avg_amount)+'</span><span class="apill">Max: '+fmt(a.max_historical)+'</span></div></div>'+
+      '<div class="aright"><div class="aamt">'+fmt(a.period_total)+'</div>'+
+      '<div class="avar'+(ab?'':' pos')+'">'+(ab?'+':'')+parseFloat(a.pct_variance).toFixed(1)+'% vs avg</div>'+
+      '<button class="btn btn-gold" style="font-size:11px;padding:4px 10px" onclick="jumpEmail(\'live-'+rows.indexOf(a)+'\')">Generate alert ↗</button>'+
+      '</div></div>';
+  }).join('');
+}
+
+function addLiveToSelect(rows){
+  var sel=document.getElementById('anomaly-select'),anom=rows.filter(function(r){return r.alert_level!=='NORMAL';});
+  if(anom.length>0){
+    sel.innerHTML='<option value="">— select anomaly —</option><option value="">— samples —</option><option value="s1">Sample: Employee comp SG&A +344% (Critical)</option><option value="s2">Sample: Inventory COGS -48% (Warning)</option><option value="s3">Sample: Depreciation COGS +180% (Warning)</option><option value="">— live results —</option>';
+    anom.forEach(function(a,i){sel.innerHTML+='<option value="live-'+rows.indexOf(a)+'">'+a.dise_category+' in '+a.expense_caption+' ('+a.alert_level+')</option>';});
+  }
+}
+
+function jumpEmail(val){showTab('email');document.getElementById('anomaly-select').value=val;}
+
+function getAnomaly(key){
+  if(SAMPLES[key])return SAMPLES[key];
+  if(key&&key.startsWith('live-')){
+    var idx=parseInt(key.split('-')[1]);
+    var a=liveRows.filter(function(r){return r.alert_level!=='NORMAL';})[idx];
+    if(!a)return null;
+    return{caption:a.expense_caption,category:a.dise_category,amount:parseFloat(a.period_total),avg:parseFloat(a.avg_amount),stddev:parseFloat(a.stddev_amount),sd:parseFloat(a.std_deviations),pct:parseFloat(a.pct_variance),level:a.alert_level,tier:parseInt(a.alert_tier),docs:parseInt(a.document_count),posts:parseInt(a.posting_count),gls:parseInt(a.gl_account_count),costs:'—',periods:parseInt(a.periods_in_baseline),maxH:parseFloat(a.max_historical),minH:parseFloat(a.min_historical)};
+  }
+  return null;
+}
+
+function generateEmail(){
+  var apiKey=document.getElementById('email-apikey').value.trim();
+  var anomKey=document.getElementById('anomaly-select').value;
+  var tier=document.getElementById('alert-tier').value;
+  var cfo=document.getElementById('cfo-name').value||'CFO';
+  var co=document.getElementById('co-name').value||'Company';
+  if(!apiKey){alert('Please enter your Anthropic API key from console.anthropic.com');return;}
+  if(!anomKey){alert('Please select an anomaly from the dropdown');return;}
+  var a=getAnomaly(anomKey);
+  if(!a){alert('Could not load anomaly data — try selecting a sample');return;}
+  var btn=document.getElementById('gen-btn'),sp=document.getElementById('email-spin');
+  btn.disabled=true;sp.classList.add('on');
+  var tl=tier==='2'?'Tier 2 — CFO direct alert':tier==='1'?'Tier 1 — Controller alert':'Tier 3 — Quarterly digest';
+  document.getElementById('email-tier-badge').textContent=tl;
+  document.getElementById('email-to').textContent=tier==='2'?cfo+', CFO':'Controller, Finance';
+  var prompt='You are a financial reporting expert writing a '+(tier==='2'?'CFO-level':'controller-level')+' anomaly alert email for a DISE (ASU 2024-03) compliance system.\n\nAnomaly: '+a.category+' expenses in '+a.caption+' for '+co+'\nCurrent period: '+fmt(a.amount)+'\nHistorical average: '+fmt(a.avg)+'\nStandard deviations: '+Math.abs(a.sd).toFixed(1)+' ('+(a.pct>0?'above':'below')+' average)\nVariance: '+a.pct.toFixed(1)+'%\nDocuments: '+a.docs+' | Postings: '+a.posts+' | GL accounts: '+a.gls+'\nCost centers: '+a.costs+'\nHistorical max: '+fmt(a.maxH)+' | Historical min: '+fmt(a.minH)+'\nPeriods in baseline: '+a.periods+'\nAlert level: '+a.level+'\n\nWrite a '+(tier==='2'?'CFO':'controller')+' alert email:\n1. Subject line starting with "Subject:"\n2. Plain English opening explaining what happened\n3. Key numbers formatted clearly\n4. 2-3 most likely business explanations based on the pattern\n5. Whether action is required\n6. One recommended next step\n7. Note that source transactions are available in BigQuery\n\nProfessional, direct, under 300 words. Plain text only.';
+  fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.error)throw new Error(data.error.message);
+    var text=data.content[0].text;
+    var lines=text.split('\n');
+    var sl=lines.find(function(l){return l.toLowerCase().startsWith('subject:');});
+    var subj=sl?sl.replace(/^subject:\s*/i,''):'DISE Alert — '+a.category+' in '+a.caption;
+    var body=sl?text.replace(sl,'').trim():text;
+    document.getElementById('email-subj').textContent=subj;
+    document.getElementById('email-body').textContent=body;
+  })
+  .catch(function(e){document.getElementById('email-body').textContent='Error: '+e.message;})
+  .finally(function(){btn.disabled=false;sp.classList.remove('on');});
+}
+
+function copyEmail(){
+  var t='Subject: '+document.getElementById('email-subj').textContent+'\n\n'+document.getElementById('email-body').textContent;
+  navigator.clipboard.writeText(t).then(function(){var b=event.target,o=b.textContent;b.textContent='Copied ✓';setTimeout(function(){b.textContent=o;},2000);});
+}
+
+var qids=['q0','q1','q2','q3','q4','q5','q6'];
+function copySql(i){
+  var el=document.getElementById(qids[i]);
+  var txt=el.textContent.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+  navigator.clipboard.writeText(txt).then(function(){
+    var btns=document.querySelectorAll('.sqlcopy');
+    var o=btns[i].textContent;btns[i].textContent='Copied ✓';
+    setTimeout(function(){btns[i].textContent=o;},2000);
+  });
+}
+</script>
+</body>
+</html>

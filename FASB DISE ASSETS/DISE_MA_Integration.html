@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DISE M&A Integration — GL Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0B1D35;
+  --navy2:  #132A4A;
+  --navy3:  #1D3D60;
+  --teal:   #0D9488;
+  --teal2:  #0F766E;
+  --tealp:  #CCFBF1;
+  --gold:   #D4A017;
+  --goldp:  #FEF9E7;
+  --white:  #FFFFFF;
+  --off:    #F7F8FA;
+  --g1:     #EEF0F4;
+  --g2:     #D8DCE4;
+  --g3:     #8A91A0;
+  --g4:     #4A5260;
+  --g5:     #1A2030;
+  --green:  #15803D;
+  --gp:     #DCFCE7;
+  --amber:  #B45309;
+  --ap:     #FEF3C7;
+  --red:    #B91C1C;
+  --rp:     #FEE2E2;
+  --blue:   #1D4ED8;
+  --bp:     #EFF6FF;
+  --acq:    #7C3AED;
+  --acqp:   #F5F3FF;
+  --acqb:   #DDD6FE;
+}
+
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'DM Sans',sans-serif; background:var(--off); color:var(--g5); font-size:13px; line-height:1.5; min-height:100vh; }
+
+/* ── TOPBAR ── */
+.topbar { background:var(--navy); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 28px; border-bottom:2px solid var(--teal); }
+.tl { display:flex; align-items:center; gap:10px; }
+.logo { font-family:'Instrument Serif',serif; font-size:17px; color:#E8EDF5; }
+.logo em { color:var(--gold); font-style:italic; }
+.back-btn { font-size:11px; color:#5A7A9A; background:#0D1E3A; border:1px solid #1E3A5F; border-radius:20px; padding:4px 12px; cursor:pointer; transition:all .15s; font-family:'DM Sans',sans-serif; }
+.back-btn:hover { color:var(--teal); }
+.tr { display:flex; align-items:center; gap:8px; }
+.tb-tag { font-size:10px; padding:3px 10px; border-radius:20px; background:#0A2A28; color:var(--teal); border:1px solid #0D4A44; letter-spacing:.04em; }
+
+/* ── LAYOUT ── */
+.wrap { max-width:1240px; margin:0 auto; padding:24px 28px 80px; }
+
+/* ── HERO ── */
+.hero { background:var(--navy); border-radius:12px; padding:28px 32px; margin-bottom:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.hero-left { flex:1; }
+.hero-eyebrow { font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.12em; color:var(--teal); margin-bottom:10px; }
+.hero-title { font-family:'Instrument Serif',serif; font-size:28px; color:#E8EDF5; line-height:1.2; margin-bottom:10px; }
+.hero-sub { font-size:13px; color:#7A95B5; line-height:1.6; max-width:520px; }
+.hero-steps { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+.hstep { display:flex; align-items:center; gap:6px; font-size:11px; color:#5A7A9A; }
+.hstep-num { width:20px; height:20px; border-radius:50%; background:var(--teal2); color:white; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:500; flex-shrink:0; }
+.hstep-arrow { color:#2A4060; font-size:12px; }
+.hero-right { display:flex; flex-direction:column; gap:8px; align-items:flex-end; flex-shrink:0; }
+.hero-stat { text-align:right; }
+.hs-val { font-family:'Instrument Serif',serif; font-size:24px; color:var(--gold); display:block; }
+.hs-lbl { font-size:10px; color:#5A7A9A; }
+
+/* ── DEAL SELECTOR ── */
+.deal-bar { background:white; border:1px solid var(--g2); border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.deal-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--g3); white-space:nowrap; }
+.deal-select { padding:7px 12px; border:1px solid var(--g2); border-radius:7px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--g5); background:white; outline:none; min-width:220px; }
+.deal-select:focus { border-color:var(--teal); }
+.deal-divider { width:1px; height:28px; background:var(--g1); }
+.cred-group { display:flex; align-items:center; gap:8px; flex:1; flex-wrap:wrap; }
+.cred-field { display:flex; flex-direction:column; gap:2px; flex:1; min-width:140px; }
+.cred-lbl { font-size:9px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--g3); }
+.cred-field input { padding:6px 9px; border:1px solid var(--g2); border-radius:6px; font-size:12px; font-family:'DM Mono',monospace; color:var(--g5); outline:none; background:white; }
+.cred-field input:focus { border-color:var(--teal); }
+.run-btn { padding:8px 20px; border-radius:7px; border:none; background:var(--teal); color:white; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+.run-btn:hover { background:var(--teal2); }
+.run-btn:disabled { background:var(--g2); color:var(--g3); cursor:not-allowed; }
+.sample-btn { padding:7px 14px; border-radius:7px; border:1px solid var(--g2); background:transparent; color:var(--g4); font-family:'DM Sans',sans-serif; font-size:12px; cursor:pointer; transition:all .15s; white-space:nowrap; }
+.sample-btn:hover { background:var(--g1); }
+
+/* ── SPIN ── */
+.spin { width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:sp .7s linear infinite; display:none; }
+.spin.on { display:inline-block; }
+@keyframes sp { to { transform:rotate(360deg); } }
+
+/* ── GRID ── */
+.grid3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:14px; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.grid21 { display:grid; grid-template-columns:2fr 1fr; gap:14px; margin-bottom:14px; }
+
+/* ── CARDS ── */
+.card { background:white; border:1px solid var(--g2); border-radius:10px; overflow:hidden; }
+.ch { padding:11px 14px; background:var(--g1); border-bottom:1px solid var(--g2); display:flex; align-items:center; justify-content:space-between; }
+.ct { font-family:'Instrument Serif',serif; font-size:14px; font-weight:400; color:var(--g5); }
+.cb { padding:14px; }
+
+/* ── ENTITY TABS ── */
+.entity-tabs { display:flex; gap:0; border-bottom:1px solid var(--g2); margin-bottom:16px; }
+.etab { padding:9px 16px; font-size:12px; font-weight:500; color:var(--g3); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .15s; }
+.etab:hover { color:var(--g5); }
+.etab.on { color:var(--g5); border-bottom-color:var(--g5); }
+.etab.on.acquirer { color:var(--teal); border-bottom-color:var(--teal); }
+.etab.on.target { color:var(--acq); border-bottom-color:var(--acq); }
+.etab.on.combined { color:var(--navy); border-bottom-color:var(--navy); }
+
+/* ── DISE TABLE ── */
+.dise-wrap { overflow-x:auto; }
+.dise-table { width:100%; min-width:600px; border-collapse:separate; border-spacing:0; font-size:11px; }
+.dise-table thead th { padding:0 5px 9px 5px; text-align:center; font-size:9px; font-weight:500; text-transform:uppercase; letter-spacing:.05em; border-bottom:2px solid; white-space:nowrap; }
+.dise-table thead th:first-child { text-align:left; padding-left:0; min-width:80px; }
+.th-inv   { color:#085041; border-bottom-color:#0f6e56 !important; }
+.th-comp  { color:#0C447C; border-bottom-color:#185fa5 !important; }
+.th-depr  { color:#633806; border-bottom-color:#854f0b !important; }
+.th-amort { color:#3C3489; border-bottom-color:#534ab7 !important; }
+.th-other { color:#444441; border-bottom-color:#5f5e5a !important; }
+.th-total { color:var(--g5); border-bottom-color:var(--g5) !important; }
+
+.dise-table tbody tr { border-bottom:1px solid var(--g1); }
+.dise-table tbody tr:hover td { background:var(--off); }
+.dise-table td { padding:0; border-bottom:1px solid var(--g1); vertical-align:middle; }
+.dise-table td:first-child { padding:10px 10px 10px 0; font-weight:500; font-size:11px; color:var(--g5); white-space:nowrap; border-right:1px solid var(--g1); }
+.vc { padding:6px 4px; text-align:right; }
+
+/* ── VALUE PILLS ── */
+.vp { display:inline-block; padding:4px 8px; border-radius:5px; font-size:11px; font-weight:500; white-space:nowrap; min-width:78px; text-align:right; font-family:'DM Mono',monospace; }
+.vp-inv   { background:#E1F5EE; color:#085041; }
+.vp-comp  { background:#E6F1FB; color:#0C447C; }
+.vp-depr  { background:#FAEEDA; color:#633806; }
+.vp-amort { background:#EEEDFE; color:#3C3489; }
+.vp-other { background:#F1EFE8; color:#444441; }
+.vp-total { background:var(--navy); color:white; font-weight:600; }
+.vp-nil   { background:transparent; color:var(--g2); font-weight:400; font-size:13px; }
+.vp-delta-pos { background:#DCFCE7; color:#15803D; }
+.vp-delta-neg { background:#FEE2E2; color:#B91C1C; }
+
+/* total row */
+.dise-table tr.tot td { border-top:2px solid var(--g5); border-bottom:2px solid var(--g5); background:var(--g1); }
+.dise-table tr.tot td:first-child { font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--g3); padding:8px 10px 8px 0; }
+
+/* ── CAPTION DOT ── */
+.cdot { display:inline-flex; align-items:center; gap:5px; }
+.cdot span { width:7px; height:7px; border-radius:2px; flex-shrink:0; }
+
+/* ── SUMMARY CARDS ── */
+.sum-card { padding:12px 14px; background:white; border:1px solid var(--g2); border-radius:8px; }
+.sum-card.acquirer-card { border-left:3px solid var(--teal); }
+.sum-card.target-card   { border-left:3px solid var(--acq); }
+.sum-card.combined-card { border-left:3px solid var(--navy); }
+.sc-label { font-size:9px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--g3); margin-bottom:4px; }
+.sc-val   { font-family:'Instrument Serif',serif; font-size:22px; color:var(--g5); }
+.sc-sub   { font-size:10px; color:var(--g3); margin-top:2px; }
+
+/* ── METRICS ── */
+.metric-row { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-bottom:14px; }
+.metric { background:var(--g1); border-radius:8px; padding:12px; text-align:center; }
+.mv { font-size:20px; font-weight:500; display:block; margin-bottom:2px; }
+.ml { font-size:10px; color:var(--g3); line-height:1.3; }
+
+/* ── BADGE ── */
+.badge { font-size:10px; font-weight:500; padding:2px 8px; border-radius:20px; display:inline-flex; align-items:center; gap:4px; }
+.b-teal   { background:var(--tealp); color:var(--teal2); }
+.b-green  { background:var(--gp); color:var(--green); }
+.b-amber  { background:var(--ap); color:var(--amber); }
+.b-red    { background:var(--rp); color:var(--red); }
+.b-navy   { background:var(--navy); color:#8AAFCF; }
+.b-acq    { background:var(--acqp); color:var(--acq); border:0.5px solid var(--acqb); }
+.b-gray   { background:var(--g1); color:var(--g3); border:0.5px solid var(--g2); }
+
+/* ── CALLOUT ── */
+.callout { padding:10px 14px; font-size:12px; line-height:1.6; border-left:3px solid; border-radius:0 7px 7px 0; margin:10px 0; }
+.c-teal   { background:#F0FDFA; color:#0F766E; border-left-color:var(--teal); }
+.c-amber  { background:var(--ap); color:var(--amber); border-left-color:var(--amber); }
+.c-navy   { background:#EEF2F8; color:var(--navy3); border-left-color:var(--navy3); }
+.c-acq    { background:var(--acqp); color:var(--acq); border-left-color:var(--acq); }
+
+/* ── PROCESS STEPS ── */
+.process { display:flex; flex-direction:column; gap:0; }
+.pstep { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--g1); }
+.pstep:last-child { border:none; padding-bottom:0; }
+.pnum { width:28px; height:28px; border-radius:50%; background:var(--navy); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; flex-shrink:0; margin-top:1px; font-family:'DM Mono',monospace; }
+.ptitle { font-size:12px; font-weight:500; color:var(--g5); margin-bottom:3px; }
+.pdesc  { font-size:11px; color:var(--g3); line-height:1.5; }
+.ptag   { display:inline-block; font-size:10px; padding:1px 6px; border-radius:4px; background:var(--g1); color:var(--g4); font-family:'DM Mono',monospace; margin-top:4px; }
+
+/* ── FOOTNOTE ── */
+.footnote-box { background:white; border:1px solid var(--g2); border-radius:8px; padding:20px 24px; font-family:'DM Mono',monospace; font-size:11px; line-height:1.9; color:var(--g5); white-space:pre; overflow-x:auto; }
+
+/* ── DELTA ROW ── */
+.delta-section { background:var(--acqp); border:1px solid var(--acqb); border-radius:8px; padding:12px 14px; margin-bottom:14px; }
+.ds-head { font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--acq); margin-bottom:10px; }
+
+/* ── LEGEND ── */
+.legend { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+.lg { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:500; padding:2px 8px; border-radius:20px; }
+
+/* ── EMPTY ── */
+.empty { text-align:center; padding:40px 20px; color:var(--g3); }
+.ei { font-size:28px; margin-bottom:8px; opacity:.3; }
+.et2 { font-size:13px; font-weight:500; color:var(--g4); margin-bottom:4px; }
+.es { font-size:12px; }
+
+/* ── SECTION HEAD ── */
+.shead { font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--g3); margin:16px 0 8px; }
+
+/* ── API KEY NOTE ── */
+.api-note { font-size:10px; color:var(--g3); margin-top:4px; }
+
+/* ── NARRATIVE ── */
+.narrative { font-family:'Instrument Serif',serif; font-size:13px; line-height:1.9; color:var(--g5); white-space:pre-wrap; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tl">
+    <div class="logo">GL <em>Intelligence</em> Platform</div>
+    <div style="width:1px;height:20px;background:#1E3A5F"></div>
+    <div style="font-size:11px;color:#5A7A9A">M&A Integration Module</div>
+  </div>
+  <div class="tr">
+    <div class="tb-tag">ASC 805 · ASU 2024-03 · Pro-forma DISE</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Business development layer</div>
+    <div class="hero-title">Pro-forma DISE<br>for M&A transactions</div>
+    <div class="hero-sub">Load an acquisition target's trial balance, run it through the same GL mapping pivot, and generate the combined ASC 220-40 footnote required for the first post-close filing — in minutes, not weeks.</div>
+    <div class="hero-steps">
+      <div class="hstep"><div class="hstep-num">1</div>Select deal scenario</div>
+      <div class="hstep-arrow">→</div>
+      <div class="hstep"><div class="hstep-num">2</div>Load target trial balance</div>
+      <div class="hstep-arrow">→</div>
+      <div class="hstep"><div class="hstep-num">3</div>Map target GL accounts</div>
+      <div class="hstep-arrow">→</div>
+      <div class="hstep"><div class="hstep-num">4</div>Run combined pivot</div>
+      <div class="hstep-arrow">→</div>
+      <div class="hstep"><div class="hstep-num">5</div>Generate pro-forma footnote</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat"><span class="hs-val">$50K–$200K</span><span class="hs-lbl">Advisory fee per transaction</span></div>
+    <div class="hero-stat" style="margin-top:8px"><span class="hs-val">2–3 wks</span><span class="hs-lbl">Time to combined disclosure</span></div>
+    <div class="hero-stat" style="margin-top:8px"><span class="hs-val">0</span><span class="hs-lbl">Existing competitors for DISE M&A</span></div>
+  </div>
+</div>
+
+<!-- ── DEAL SELECTOR BAR ── -->
+<div class="deal-bar">
+  <div class="deal-label">Deal scenario</div>
+  <select class="deal-select" id="deal-select" onchange="loadDeal()">
+    <option value="tech">TechCorp acquires SaaS target — $180M deal</option>
+    <option value="mfg">ManufactureCo acquires parts supplier — $95M deal</option>
+    <option value="custom">Custom — enter target trial balance manually</option>
+  </select>
+  <div class="deal-divider"></div>
+  <div class="cred-group">
+    <div class="cred-field">
+      <div class="cred-lbl">GCP Project (acquirer)</div>
+      <input type="text" id="cfg-project" value="diplomatic75" placeholder="diplomatic75">
+    </div>
+    <div class="cred-field">
+      <div class="cred-lbl">BigQuery access token</div>
+      <input type="password" id="cfg-token" placeholder="ya29.a0... (optional for live mode)">
+    </div>
+    <div class="cred-field">
+      <div class="cred-lbl">Anthropic API key</div>
+      <input type="password" id="cfg-apikey" placeholder="sk-ant-...">
+    </div>
+  </div>
+  <button class="run-btn" onclick="runMA()" id="run-btn">
+    <div class="spin" id="run-spin"></div>
+    Run pro-forma pivot
+  </button>
+  <button class="sample-btn" onclick="runSample()">Use sample data</button>
+</div>
+
+<!-- ── MAIN OUTPUT AREA ── -->
+<div id="output-area">
+  <div class="card">
+    <div class="cb">
+      <div class="empty">
+        <div class="ei">⊕</div>
+        <div class="et2">No deal loaded yet</div>
+        <div class="es">Select a deal scenario above and click Run pro-forma pivot, or click Use sample data to see a demo</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<div style="margin-top:24px">
+  <div class="shead">How the M&A integration works</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="ch"><span class="ct">Five-step pipeline</span><span class="badge b-teal">Runs in minutes</span></div>
+      <div class="cb">
+        <div class="process">
+          <div class="pstep">
+            <div class="pnum">01</div>
+            <div>
+              <div class="ptitle">Load target trial balance into BigQuery</div>
+              <div class="pdesc">Target provides a trial balance extract — SAP export, Excel, or CSV. Loaded into an isolated dataset: dise_target_[deal_name]. No access to acquirer data. Fully auditable.</div>
+              <div class="ptag">dise_target_techco_acq · BigQuery dataset</div>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pnum">02</div>
+            <div>
+              <div class="ptitle">Map target GL accounts to DISE categories</div>
+              <div class="pdesc">Claude reads target account descriptions and suggests DISE category assignments. Controller reviews and approves. Same methodology as acquirer — same ASC citations, same audit trail.</div>
+              <div class="ptag">gl_dise_mapping · target_company_code</div>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pnum">03</div>
+            <div>
+              <div class="ptitle">Run standalone pivot on target data</div>
+              <div class="pdesc">Same BKPF/BSEG/GL mapping three-way join — produces target's standalone DISE disclosure. Shows acquirer exactly what disclosure exposure they are acquiring.</div>
+              <div class="ptag">dise_pivot · target · standalone</div>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pnum">04</div>
+            <div>
+              <div class="ptitle">Run combined pro-forma pivot</div>
+              <div class="pdesc">UNION ALL of acquirer and target GL data. Single pivot produces the combined five-category table. Intercompany eliminations applied as adjusting entries. Category totals reconcile to combined income statement.</div>
+              <div class="ptag">UNION ALL · pro_forma_combined · ASC 805</div>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pnum">05</div>
+            <div>
+              <div class="ptitle">Generate combined footnote via Claude</div>
+              <div class="pdesc">Claude drafts the ASC 220-40 footnote for the combined entity including the pro-forma adjustment narrative required by ASC 805 for business combinations. Copy-paste ready for the first post-close 10-K or 10-Q.</div>
+              <div class="ptag">ASC 220-40 · ASC 805 · Form 10-K</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card">
+        <div class="ch"><span class="ct">The BigQuery query pattern</span></div>
+        <div class="cb" style="padding:0">
+          <div style="background:#0B1D35;border-radius:0 0 8px 8px;padding:14px 16px;font-family:'DM Mono',monospace;font-size:10px;color:#7AB0E0;line-height:1.8;overflow-x:auto;white-space:pre">-- Combined pro-forma DISE pivot (ASC 805)
+WITH combined_gl AS (
+  -- Acquirer actuals
+  SELECT bseg.HKONT, bseg.DMBTR,
+         'ACQUIRER' AS entity
+  FROM `[PROJ].CORTEX_SAP_CDC.bkpf` bkpf
+  JOIN `[PROJ].CORTEX_SAP_CDC.bseg` bseg
+    ON  bkpf.MANDT=bseg.MANDT
+    AND bkpf.BELNR=bseg.BELNR
+    AND bkpf.GJAHR=bseg.GJAHR
+  WHERE bkpf.GJAHR='2023'
+    AND bkpf.BLART NOT IN ('AA','AF','AB')
+
+  UNION ALL
+
+  -- Target trial balance (loaded to BigQuery)
+  SELECT gl_account AS HKONT,
+         amount     AS DMBTR,
+         'TARGET'   AS entity
+  FROM `[PROJ].dise_target_deal.trial_balance`
+  WHERE fiscal_year='2023'
+)
+SELECT
+  m.expense_caption,
+  ROUND(SUM(CASE WHEN LOWER(m.dise_category) IN ('inventory','purchases of inventory')
+    THEN c.DMBTR ELSE 0 END),0) AS inventory,
+  ROUND(SUM(CASE WHEN LOWER(m.dise_category) IN ('compensation','employee compensation')
+    THEN c.DMBTR ELSE 0 END),0) AS compensation,
+  ROUND(SUM(CASE WHEN LOWER(m.dise_category) IN ('depreciation','depreciation expense')
+    THEN c.DMBTR ELSE 0 END),0) AS depreciation,
+  ROUND(SUM(CASE WHEN LOWER(m.dise_category) IN ('amortization','intangible asset amortization')
+    THEN c.DMBTR ELSE 0 END),0) AS amortization,
+  ROUND(SUM(CASE WHEN LOWER(m.dise_category) IN ('other','other expenses')
+    THEN c.DMBTR ELSE 0 END),0) AS other_exp,
+  ROUND(SUM(c.DMBTR),0)         AS total
+FROM combined_gl c
+JOIN `[PROJ].dise_reporting.gl_dise_mapping` m
+  ON c.HKONT = m.gl_account
+WHERE m.status = 'mapped'
+GROUP BY 1
+ORDER BY CASE m.expense_caption
+  WHEN 'COGS' THEN 1
+  WHEN 'SG&A' THEN 2
+  WHEN 'R&D'  THEN 3 ELSE 4 END</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch"><span class="ct">Advisory pricing model</span></div>
+        <div class="cb">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--g1);border-radius:6px">
+              <div>
+                <div style="font-size:12px;font-weight:500;color:var(--g5)">Mid-market deal (&lt;$500M)</div>
+                <div style="font-size:10px;color:var(--g3)">Single ERP, straightforward GL mapping</div>
+              </div>
+              <div style="font-family:'Instrument Serif',serif;font-size:16px;color:var(--teal)">$50–75K</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--g1);border-radius:6px">
+              <div>
+                <div style="font-size:12px;font-weight:500;color:var(--g5)">Large deal ($500M–$5B)</div>
+                <div style="font-size:10px;color:var(--g3)">Multi-entity, multiple ERP sources</div>
+              </div>
+              <div style="font-family:'Instrument Serif',serif;font-size:16px;color:var(--teal)">$100–150K</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--navy);border-radius:6px">
+              <div>
+                <div style="font-size:12px;font-weight:500;color:#E8EDF5">Mega deal ($5B+)</div>
+                <div style="font-size:10px;color:#5A7A9A">Cross-border, complex eliminations</div>
+              </div>
+              <div style="font-family:'Instrument Serif',serif;font-size:16px;color:var(--gold)">$150–200K</div>
+            </div>
+          </div>
+          <div class="callout c-teal" style="margin-top:10px">Each engagement converts to a DISE subscription for the combined entity post-close. The advisory fee funds development. The subscription is recurring revenue.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+var DEALS = {
+  tech: {
+    name: 'TechCorp / CloudSaaS acquisition',
+    acquirer: 'TechCorp Inc. (NASDAQ: TECH)',
+    target:   'CloudSaaS Ltd. (private)',
+    dealSize: '$180M',
+    closeDate:'March 2026',
+    acquirerData: [
+      { caption:'COGS',  inv:26356000, comp:0,       depr:2220000, amort:0,       other:0,       total:28576000 },
+      { caption:"SG&A",  inv:0,        comp:2203000, depr:2261000, amort:2100000, other:2400000, total:8964000  },
+      { caption:'R&D',   inv:0,        comp:0,       depr:0,       amort:0,       other:512000,  total:512000   }
+    ],
+    targetData: [
+      { caption:'COGS',  inv:8200000,  comp:3100000, depr:420000,  amort:0,       other:180000,  total:11900000 },
+      { caption:"SG&A",  inv:0,        comp:4800000, depr:310000,  amort:1200000, other:980000,  total:7290000  },
+      { caption:'R&D',   inv:0,        comp:6200000, depr:150000,  amort:0,       other:320000,  total:6670000  }
+    ],
+    eliminations: [
+      { caption:'COGS', inv:-420000, comp:0, depr:0, amort:0, other:0, total:-420000, note:'Intercompany software licence' }
+    ],
+    targetDesc: 'SaaS platform with 180 employees. Primary expenses are R&D headcount and cloud infrastructure COGS.'
+  },
+  mfg: {
+    name: 'ManufactureCo / Parts acquisition',
+    acquirer: 'ManufactureCo Corp.',
+    target:   'PrecisionParts Inc.',
+    dealSize: '$95M',
+    closeDate:'June 2026',
+    acquirerData: [
+      { caption:'COGS',  inv:26356000, comp:0,       depr:2220000, amort:0,       other:0,       total:28576000 },
+      { caption:"SG&A",  inv:0,        comp:2203000, depr:2261000, amort:2100000, other:2400000, total:8964000  },
+      { caption:'R&D',   inv:0,        comp:0,       depr:0,       amort:0,       other:512000,  total:512000   }
+    ],
+    targetData: [
+      { caption:'COGS',  inv:18400000, comp:4200000, depr:3100000, amort:0,       other:640000,  total:26340000 },
+      { caption:"SG&A",  inv:0,        comp:1800000, depr:420000,  amort:800000,  other:560000,  total:3580000  }
+    ],
+    eliminations: [
+      { caption:'COGS', inv:-1200000, comp:0, depr:0, amort:0, other:0, total:-1200000, note:'Intercompany inventory sales' }
+    ],
+    targetDesc: 'Manufacturing supplier. High inventory COGS and depreciation from production equipment.'
+  }
+};
+
+var currentDeal = null;
+
+function loadDeal() {
+  var key = document.getElementById('deal-select').value;
+  currentDeal = key !== 'custom' ? DEALS[key] : null;
+}
+
+function fmt(n) {
+  if(n===0) return '—';
+  return '$'+Math.abs(Math.round(n)).toLocaleString('en-US');
+}
+function fmtK(n) { return '$'+(Math.round(n/1000)).toLocaleString('en-US')+'K'; }
+
+function pill(v, cls) {
+  if(v===0) return '<span class="vp vp-nil">—</span>';
+  return '<span class="vp '+cls+'">'+fmt(v)+'</span>';
+}
+
+function buildTableHTML(data, style) {
+  var cc = {'COGS':'#0f6e56',"SG&A":'#185fa5','R&D':'#854f0b'};
+  var totals = {inv:0,comp:0,depr:0,amort:0,other:0,total:0};
+  var rows = data.map(function(r) {
+    totals.inv+=r.inv; totals.comp+=r.comp; totals.depr+=r.depr;
+    totals.amort+=r.amort; totals.other+=r.other; totals.total+=r.total;
+    var c = cc[r.caption]||'#888780';
+    return '<tr>'+
+      '<td><span class="cdot"><span style="background:'+c+'"></span>'+r.caption+'</span></td>'+
+      '<td class="vc">'+pill(r.inv,'vp-inv')+'</td>'+
+      '<td class="vc">'+pill(r.comp,'vp-comp')+'</td>'+
+      '<td class="vc">'+pill(r.depr,'vp-depr')+'</td>'+
+      '<td class="vc">'+pill(r.amort,'vp-amort')+'</td>'+
+      '<td class="vc">'+pill(r.other,'vp-other')+'</td>'+
+      '<td class="vc"><span class="vp vp-total">'+fmt(r.total)+'</span></td>'+
+    '</tr>';
+  }).join('');
+  var totRow = '<tr class="tot">'+
+    '<td>Total</td>'+
+    '<td class="vc"><span class="vp vp-inv">'+fmt(totals.inv)+'</span></td>'+
+    '<td class="vc"><span class="vp vp-comp">'+fmt(totals.comp)+'</span></td>'+
+    '<td class="vc"><span class="vp vp-depr">'+fmt(totals.depr)+'</span></td>'+
+    '<td class="vc"><span class="vp vp-amort">'+fmt(totals.amort)+'</span></td>'+
+    '<td class="vc"><span class="vp vp-other">'+fmt(totals.other)+'</span></td>'+
+    '<td class="vc"><span class="vp vp-total">'+fmt(totals.total)+'</span></td>'+
+  '</tr>';
+  return '<div class="dise-wrap"><table class="dise-table">'+
+    '<thead><tr>'+
+      '<th style="text-align:left">Caption</th>'+
+      '<th class="th-inv">Inventory</th>'+
+      '<th class="th-comp">Compensation</th>'+
+      '<th class="th-depr">Depreciation</th>'+
+      '<th class="th-amort">Amortization</th>'+
+      '<th class="th-other">Other</th>'+
+      '<th class="th-total">Total</th>'+
+    '</tr></thead>'+
+    '<tbody>'+rows+totRow+'</tbody>'+
+  '</table></div>';
+}
+
+function buildCombined(deal) {
+  var combined = {};
+  var allCaptions = [];
+  function add(data, sign) {
+    data.forEach(function(r) {
+      if(!combined[r.caption]) { combined[r.caption]={inv:0,comp:0,depr:0,amort:0,other:0,total:0}; allCaptions.push(r.caption); }
+      combined[r.caption].inv+=r.inv*sign;
+      combined[r.caption].comp+=r.comp*sign;
+      combined[r.caption].depr+=r.depr*sign;
+      combined[r.caption].amort+=r.amort*sign;
+      combined[r.caption].other+=r.other*sign;
+      combined[r.caption].total+=r.total*sign;
+    });
+  }
+  add(deal.acquirerData, 1);
+  add(deal.targetData, 1);
+  if(deal.eliminations) add(deal.eliminations, 1);
+  var order = ['COGS',"SG&A",'R&D'];
+  var result = [];
+  order.forEach(function(c){ if(combined[c]) result.push(Object.assign({caption:c},combined[c])); });
+  Object.keys(combined).forEach(function(c){ if(order.indexOf(c)<0) result.push(Object.assign({caption:c},combined[c])); });
+  return result;
+}
+
+function deltaRow(acq, tgt, comb) {
+  var items = ['COGS',"SG&A",'R&D'];
+  var rows = items.map(function(cap) {
+    var a = acq.find(function(r){return r.caption===cap;})||{total:0};
+    var t = tgt.find(function(r){return r.caption===cap;})||{total:0};
+    var c = comb.find(function(r){return r.caption===cap;})||{total:0};
+    var tPct = a.total>0 ? Math.round((t.total/a.total)*100) : 0;
+    return '<div style="display:grid;grid-template-columns:80px 1fr 1fr 1fr 80px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--acqb)">'+
+      '<div style="font-size:11px;font-weight:500;color:var(--g5)">'+cap+'</div>'+
+      '<div style="text-align:center"><span class="badge b-teal">'+fmtK(a.total)+'</span><div style="font-size:9px;color:var(--g3);margin-top:2px">Acquirer</div></div>'+
+      '<div style="text-align:center"><span class="badge b-acq">+'+fmtK(t.total)+'</span><div style="font-size:9px;color:var(--g3);margin-top:2px">Target (+'+tPct+'%)</div></div>'+
+      '<div style="text-align:center"><span class="badge b-navy">'+fmtK(c.total)+'</span><div style="font-size:9px;color:var(--g3);margin-top:2px">Combined</div></div>'+
+      '<div style="text-align:right;font-size:11px;color:'+(tPct>50?'var(--red)':'var(--green)')+'">'+
+        (tPct>50?'↑ Significant':'↑ Moderate')+
+      '</div>'+
+    '</div>';
+  }).join('');
+  return rows;
+}
+
+function buildFootnoteText(deal, combined) {
+  var totals = {inv:0,comp:0,depr:0,amort:0,other:0,total:0};
+  combined.forEach(function(r){
+    totals.inv+=r.inv; totals.comp+=r.comp; totals.depr+=r.depr;
+    totals.amort+=r.amort; totals.other+=r.other; totals.total+=r.total;
+  });
+  function pad(s,n){s=String(s);while(s.length<n)s=' '+s;return s;}
+  function fmtT(n){if(n===0)return'—';return'$'+Math.round(n/1000).toLocaleString('en-US');}
+
+  var lines = [
+    'NOTE X — DISAGGREGATION OF INCOME STATEMENT EXPENSES',
+    'ASC 220-40 / ASU 2024-03 | Pro-forma combined entity',
+    '',
+    'The following table presents disaggregated expense information for the',
+    'combined company following the acquisition of '+deal.target+',',
+    'which closed on '+deal.closeDate+'. Amounts reflect the full fiscal',
+    'year 2023 on a pro-forma combined basis, as if the acquisition had',
+    'occurred on January 1, 2023, in accordance with ASC 805.',
+    '',
+    '(In thousands)         Inventory  Compensation  Depreciation  Amortization      Other      Total',
+    '─────────────────────────────────────────────────────────────────────────────────────────────────'
+  ];
+  combined.forEach(function(r){
+    lines.push(
+      pad(r.caption,22)+
+      pad(fmtT(r.inv),11)+
+      pad(fmtT(r.comp),14)+
+      pad(fmtT(r.depr),14)+
+      pad(fmtT(r.amort),14)+
+      pad(fmtT(r.other),11)+
+      pad(fmtT(r.total),11)
+    );
+  });
+  lines.push('─────────────────────────────────────────────────────────────────────────────────────────────────');
+  lines.push(
+    pad('Total',22)+
+    pad(fmtT(totals.inv),11)+
+    pad(fmtT(totals.comp),14)+
+    pad(fmtT(totals.depr),14)+
+    pad(fmtT(totals.amort),14)+
+    pad(fmtT(totals.other),11)+
+    pad(fmtT(totals.total),11)
+  );
+  lines.push('');
+  lines.push('ESTIMATION METHOD (ASC 220-40-50-8)');
+  lines.push('Amounts are derived from general ledger postings in each entity\'s SAP');
+  lines.push('ERP system, replicated to Google BigQuery via Cortex Framework. GL');
+  lines.push('accounts are mapped to natural expense categories using a documented');
+  lines.push('methodology with ASC citations maintained in the gl_dise_mapping table.');
+  lines.push('Pro-forma adjustments reflect intercompany eliminations of '+fmtT(deal.eliminations?deal.eliminations.reduce(function(a,e){return a+e.total;},0):0)+' related');
+  lines.push('to transactions between the acquirer and target during the pro-forma period.');
+  lines.push('');
+  lines.push('SELLING EXPENSE NARRATIVE (ASC 220-40-50-13)');
+  lines.push('Selling expenses are included within SG&A on the combined consolidated');
+  lines.push('statements of operations. The combined total selling expenses for fiscal');
+  lines.push('year 2023 were $[confirm from client records] for the acquirer and');
+  lines.push('$[confirm from target records] for the acquired entity.');
+  return lines.join('\n');
+}
+
+function renderOutput(deal) {
+  var combined = buildCombined(deal);
+  var acqTot = deal.acquirerData.reduce(function(a,r){return a+r.total;},0);
+  var tgtTot = deal.targetData.reduce(function(a,r){return a+r.total;},0);
+  var combTot = combined.reduce(function(a,r){return a+r.total;},0);
+
+  var html = '<div style="animation:fadeIn .3s ease">'+
+
+    // Metric row
+    '<div class="metric-row">'+
+      '<div class="metric"><span class="mv" style="color:var(--teal)">'+deal.dealSize+'</span><span class="ml">Deal value</span></div>'+
+      '<div class="metric"><span class="mv" style="color:var(--teal)">'+fmtK(acqTot)+'</span><span class="ml">Acquirer total<br>expenses FY2023</span></div>'+
+      '<div class="metric"><span class="mv" style="color:var(--acq)">'+fmtK(tgtTot)+'</span><span class="ml">Target total<br>expenses FY2023</span></div>'+
+      '<div class="metric"><span class="mv" style="color:var(--navy)">'+fmtK(combTot)+'</span><span class="ml">Combined pro-forma<br>total expenses</span></div>'+
+    '</div>'+
+
+    // Delta summary
+    '<div class="delta-section">'+
+      '<div class="ds-head">Pro-forma impact by caption</div>'+
+      deltaRow(deal.acquirerData, deal.targetData, combined)+
+    '</div>'+
+
+    // Entity tabs + tables
+    '<div class="card" style="margin-bottom:14px">'+
+      '<div class="ch"><span class="ct">'+deal.name+'</span>'+
+        '<div style="display:flex;gap:6px">'+
+          '<span class="badge b-teal">'+deal.acquirer+'</span>'+
+          '<span class="badge b-acq">+ '+deal.target+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="cb">'+
+        '<div class="entity-tabs" id="etabs">'+
+          '<div class="etab on acquirer" onclick="switchTab(\'acquirer\')">Acquirer — '+deal.acquirer+'</div>'+
+          '<div class="etab target" onclick="switchTab(\'target\')">Target — '+deal.target+'</div>'+
+          '<div class="etab combined" onclick="switchTab(\'combined\')">Pro-forma combined</div>'+
+        '</div>'+
+        '<div id="tab-acquirer">'+
+          '<div class="callout c-teal" style="margin-bottom:12px">Acquirer standalone DISE — your existing live data from diplomatic75.CORTEX_SAP_CDC</div>'+
+          buildTableHTML(deal.acquirerData)+'</div>'+
+        '<div id="tab-target" style="display:none">'+
+          '<div class="callout c-acq" style="margin-bottom:12px">'+deal.targetDesc+' — loaded from dise_target_deal.trial_balance in BigQuery</div>'+
+          buildTableHTML(deal.targetData)+'</div>'+
+        '<div id="tab-combined" style="display:none">'+
+          '<div class="callout c-navy" style="margin-bottom:12px">Pro-forma combined — UNION ALL of acquirer + target GL data, net of intercompany eliminations of '+fmtK(deal.eliminations?deal.eliminations.reduce(function(a,e){return a+e.total;},0):0)+'. Required for first post-close 10-K filing under ASC 805.</div>'+
+          buildTableHTML(combined)+'</div>'+
+      '</div>'+
+    '</div>'+
+
+    // Footnote
+    '<div class="grid2">'+
+      '<div class="card">'+
+        '<div class="ch"><span class="ct">Pro-forma footnote — ready for 10-K</span><span class="badge b-green">ASC 805 compliant</span></div>'+
+        '<div class="cb" style="padding:0">'+
+          '<div class="footnote-box" id="footnote-box">'+buildFootnoteText(deal, combined).replace(/&/g,'&amp;')+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;gap:12px">'+
+        '<div class="card">'+
+          '<div class="ch"><span class="ct">Intercompany eliminations</span></div>'+
+          '<div class="cb">'+
+            (deal.eliminations && deal.eliminations.length ?
+              deal.eliminations.map(function(e){return '<div style="padding:10px 12px;background:var(--g1);border-radius:7px;margin-bottom:6px">'+
+                '<div style="display:flex;justify-content:space-between;align-items:center">'+
+                  '<div style="font-size:12px;font-weight:500;color:var(--g5)">'+e.caption+' elimination</div>'+
+                  '<span class="badge b-red">'+fmt(e.total)+'</span>'+
+                '</div>'+
+                '<div style="font-size:11px;color:var(--g3);margin-top:4px">'+e.note+'</div>'+
+              '</div>';}).join('')
+              : '<div style="font-size:12px;color:var(--g3)">No intercompany eliminations identified</div>'
+            )+
+          '</div>'+
+        '</div>'+
+        '<div class="card">'+
+          '<div class="ch"><span class="ct">Claude narrative generation</span></div>'+
+          '<div class="cb">'+
+            '<div style="font-size:12px;color:var(--g3);margin-bottom:10px">Enter your Anthropic API key in the deal bar above and click Run pro-forma pivot to generate an enhanced AI narrative.</div>'+
+            '<div class="callout c-navy">Claude will draft: the ASC 805 business combination disclosure, a comparison of category mix pre- and post-acquisition, key changes in expense structure that auditors will scrutinise, and a selling expense narrative for the combined entity.</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="card">'+
+          '<div class="ch"><span class="ct">Next steps</span></div>'+
+          '<div class="cb">'+
+            '<div style="display:flex;flex-direction:column;gap:6px">'+
+              ['Confirm intercompany eliminations with deal team','Validate target GL mapping with target finance team','Agree combined selling expense definition','Controller review and approval','File in first post-close 10-K or 10-Q'].map(function(s,i){
+                return '<div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--g4);padding:6px 8px;background:var(--g1);border-radius:6px">'+
+                  '<span style="width:18px;height:18px;border-radius:50%;background:var(--navy);color:var(--teal);display:flex;align-items:center;justify-content:center;font-size:9px;font-family:\'DM Mono\',monospace;flex-shrink:0">'+(i+1)+'</span>'+s+'</div>';
+              }).join('')+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+
+  '</div>';
+
+  document.getElementById('output-area').innerHTML = html;
+}
+
+function switchTab(name) {
+  ['acquirer','target','combined'].forEach(function(n){
+    document.getElementById('tab-'+n).style.display = n===name?'block':'none';
+    var tabs = document.querySelectorAll('#etabs .etab');
+    tabs.forEach(function(t){
+      if(t.textContent.toLowerCase().indexOf(n)>-1) {
+        t.classList.toggle('on', n===name);
+      }
+    });
+  });
+}
+
+function runSample() {
+  loadDeal();
+  var key = document.getElementById('deal-select').value;
+  if(key==='custom') { alert('Please select a deal scenario first'); return; }
+  currentDeal = DEALS[key];
+  renderOutput(currentDeal);
+}
+
+function runMA() {
+  loadDeal();
+  var key = document.getElementById('deal-select').value;
+  if(key==='custom') { alert('Custom deal: enter your target trial balance data. For a demo select one of the sample deals.'); return; }
+  currentDeal = DEALS[key];
+  var apiKey = document.getElementById('cfg-apikey').value.trim();
+  var btn = document.getElementById('run-btn');
+  var sp = document.getElementById('run-spin');
+  btn.disabled=true; sp.classList.add('on');
+
+  setTimeout(function() {
+    renderOutput(currentDeal);
+    btn.disabled=false; sp.classList.remove('on');
+    if(apiKey) generateNarrative(currentDeal, apiKey);
+  }, 600);
+}
+
+function generateNarrative(deal, apiKey) {
+  var combined = buildCombined(deal);
+  var acqTot = deal.acquirerData.reduce(function(a,r){return a+r.total;},0);
+  var tgtTot = deal.targetData.reduce(function(a,r){return a+r.total;},0);
+  var dataStr = 'Acquirer: '+JSON.stringify(deal.acquirerData)+'\nTarget: '+JSON.stringify(deal.targetData)+'\nCombined: '+JSON.stringify(combined);
+  var prompt = 'You are a financial reporting expert specialising in ASC 805 business combinations and ASC 220-40 DISE disclosures.\n\nDeal: '+deal.name+'\nAcquirer: '+deal.acquirer+'\nTarget: '+deal.target+' — '+deal.targetDesc+'\nDeal size: '+deal.dealSize+' closed '+deal.closeDate+'\nAcquirer FY2023 total expenses: $'+Math.round(acqTot/1000)+'K\nTarget FY2023 total expenses: $'+Math.round(tgtTot/1000)+'K\n\nDISE data:\n'+dataStr+'\n\nWrite a brief (150 words) CFO-level commentary covering:\n1. How the acquisition changes the combined expense category mix\n2. The most significant category shift and what it means strategically\n3. One key item auditors will scrutinise in the combined DISE disclosure\n\nFormal tone. No markdown. No bullet symbols.';
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:prompt}]})
+  }).then(function(r){return r.json();}).then(function(data){
+    if(data.error) return;
+    var el = document.querySelector('.card .cb .callout.c-navy');
+    if(el) {
+      el.innerHTML = data.content[0].text;
+      el.style.fontFamily = "'Instrument Serif',serif";
+      el.style.fontSize = '13px';
+      el.style.lineHeight = '1.8';
+    }
+  }).catch(function(){});
+}
+
+// Auto-load first deal on page load
+window.onload = function(){ currentDeal = DEALS.tech; };
+</script>
+
+<style>@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}</style>
+</body>
+</html>
