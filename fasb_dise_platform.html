@@ -962,6 +962,7 @@ nav {
     <button class="nav-link" onclick="showModule('income-tax')">Income Tax</button>
     <button class="nav-link" onclick="showModule('segment')">Segments</button>
     <button class="nav-link" onclick="showModule('lease')">Leases</button>
+    <a class="nav-link" href="/dashboard" style="text-decoration:none;color:var(--teal);font-weight:600">GL Dashboard →</a>
   </div>
   <div class="nav-right">
     <button class="nav-chat-btn" onclick="openChat()">
@@ -984,6 +985,10 @@ nav {
     <p class="hero-sub">
       End-to-end compliance tooling for FASB mandates — from DISE interrogation to segment disclosures. Built for finance teams navigating complex regulatory requirements.
     </p>
+    <div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap">
+      <button class="action-btn btn-primary" onclick="showModule('dise')" style="font-size:14px;padding:12px 28px">Start DISE Compliance</button>
+      <a href="/dashboard" style="text-decoration:none"><button class="action-btn btn-secondary" style="font-size:14px;padding:12px 28px">📊 Open GL Dashboard</button></a>
+    </div>
     <div class="hero-stats">
       <div>
         <div class="hero-stat-value">6</div>
