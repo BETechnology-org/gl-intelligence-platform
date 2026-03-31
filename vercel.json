@@ -30,7 +30,7 @@
     },
     {
       "src": "/api/(.*)",
-      "dest": "https://api.be-technology.io/api/$1"
+      "dest": "http://13.200.5.36:8080/api/$1"
     }
   ]
 }

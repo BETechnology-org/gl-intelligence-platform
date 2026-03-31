@@ -33,6 +33,9 @@ def load_offline_data() -> list[dict]:
     paths = [
         os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS", "dise_full_mapping.json"),
         os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS", "dise_mapping_results.json"),
+        # Docker / container path
+        "/app/data/dise_full_mapping.json",
+        "/app/data/dise_mapping_results.json",
     ]
     for p in paths:
         try:
