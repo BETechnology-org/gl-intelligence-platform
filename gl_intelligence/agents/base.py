@@ -171,7 +171,15 @@ class BaseAgent:
     # ── BigQuery DISE Tables (Max's 86 demo accounts) ─────
 
     def get_approved_mappings(self) -> list[dict]:
-        """Returns all approved GL-to-DISE mappings."""
+        """Returns all approved GL-to-DISE mappings. Falls back to offline data."""
+        if not self.cx.available:
+            return [{
+                **a,
+                "dise_category": a.get("suggested_category", ""),
+                "expense_caption": a.get("suggested_caption", ""),
+                "asc_citation": a.get("suggested_citation", ""),
+                "status": "mapped",
+            } for a in self.get_classified_accounts()]
         sql = f"""
         SELECT gl_account, description, dise_category, expense_caption, asc_citation, status, reviewer
         FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.gl_dise_mapping`
@@ -182,6 +190,8 @@ class BaseAgent:
 
     def get_pending_mappings(self) -> list[dict]:
         """Returns all pending mapping decisions awaiting human review."""
+        if not self.cx.available:
+            return []
         sql = f"""
         SELECT * FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.pending_mappings`
         WHERE status = 'PENDING'
@@ -192,7 +202,9 @@ class BaseAgent:
         return self.cx.query(sql)
 
     def get_dise_pivot(self, fiscal_year: str | None = None) -> list[dict]:
-        """Returns the live DISE pivot from the BigQuery view."""
+        """Returns the live DISE pivot from the BigQuery view. Falls back to offline data."""
+        if not self.cx.available:
+            return self.get_classified_pivot()
         fy = fiscal_year or cfg.FISCAL_YEAR
         sql = f"""
         SELECT * FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.v_dise_pivot`
@@ -203,6 +215,8 @@ class BaseAgent:
 
     def get_close_tracker(self) -> list[dict]:
         """Returns current close task status."""
+        if not self.cx.available:
+            return []
         sql = f"""
         SELECT * FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.v_close_tracker`
         ORDER BY sort_order
@@ -211,6 +225,8 @@ class BaseAgent:
 
     def get_anomaly_alerts(self, status: str = "open") -> list[dict]:
         """Returns anomaly alerts."""
+        if not self.cx.available:
+            return []
         sql = f"""
         SELECT * FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.v_anomaly_alerts`
         WHERE status = @status

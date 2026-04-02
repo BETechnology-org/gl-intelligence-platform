@@ -51,16 +51,23 @@ class MappingAgent(BaseAgent):
         self.sap = SAPConnector(self.cx)
 
     def run(self, batch_size: int = 20, dry_run: bool = False,
-            source: str = "bigquery", **kwargs) -> AgentResult:
+            source: str = "auto", **kwargs) -> AgentResult:
         """
         Main agent loop.
-        source: "bigquery" uses live SAP data, "excel" uses offline spreadsheet.
+        source: "auto" tries BigQuery first, falls back to offline.
+                "bigquery" forces live SAP data. "offline" uses classified JSON.
         """
         start = time.time()
         result = AgentResult(agent_id=self.AGENT_ID, status="success", started_at=self.now_iso())
 
         # Get unmapped accounts
-        if source == "bigquery":
+        use_offline = source == "offline" or (source == "auto" and not self.cx.available)
+        if use_offline:
+            accounts = [a for a in self.get_classified_accounts()
+                        if a.get("confidence_label", "").upper() in ("LOW", "MEDIUM")]
+            dry_run = True  # can't write back without BQ
+            log.info(f"Using offline data ({len(accounts)} accounts needing review)")
+        elif source in ("bigquery", "auto"):
             accounts = self.sap.get_unmapped_accounts()
         else:
             raise ValueError(f"Unknown source: {source}")

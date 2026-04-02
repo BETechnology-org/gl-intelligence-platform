@@ -23,12 +23,23 @@ class CortexClient:
 
     def __init__(self, project: str | None = None):
         self.project = project or cfg.PROJECT
-        self._bq = bigquery.Client(project=self.project)
+        self._bq: bigquery.Client | None = None
         log.info(f"CortexClient initialized — project={self.project}")
 
     @property
     def bq(self) -> bigquery.Client:
+        if self._bq is None:
+            self._bq = bigquery.Client(project=self.project)
         return self._bq
+
+    @property
+    def available(self) -> bool:
+        """Check if BigQuery is available without raising."""
+        try:
+            _ = self.bq
+            return True
+        except Exception:
+            return False
 
     def query(self, sql: str, params: list | None = None, timeout: float = 120) -> list[dict]:
         """Execute a parameterized query and return rows as dicts with JSON-safe types."""
@@ -36,7 +47,7 @@ class CortexClient:
         job_config = None
         if params:
             job_config = bigquery.QueryJobConfig(query_parameters=params)
-        rows = self._bq.query(sql, job_config=job_config).result(timeout=timeout)
+        rows = self.bq.query(sql, job_config=job_config).result(timeout=timeout)
         results = []
         for r in rows:
             d = dict(r)
@@ -54,7 +65,7 @@ class CortexClient:
 
     def insert_rows(self, table_ref: str, rows: list[dict]) -> list:
         """Insert rows via streaming API. Returns list of errors (empty = success)."""
-        return self._bq.insert_rows_json(table_ref, rows)
+        return self.bq.insert_rows_json(table_ref, rows)
 
     def table_ref(self, dataset: str, table: str) -> str:
         """Build fully-qualified table reference."""
@@ -62,11 +73,11 @@ class CortexClient:
 
     def list_tables(self, dataset: str) -> list[str]:
         """List all table names in a dataset."""
-        return [t.table_id for t in self._bq.list_tables(dataset)]
+        return [t.table_id for t in self.bq.list_tables(dataset)]
 
     def get_schema(self, dataset: str, table: str) -> list[dict]:
         """Get column names and types for a table."""
-        ref = self._bq.get_table(f"{self.project}.{dataset}.{table}")
+        ref = self.bq.get_table(f"{self.project}.{dataset}.{table}")
         return [{"name": f.name, "type": f.field_type, "mode": f.mode} for f in ref.schema]
 
     def param(self, name: str, type: str, value: Any) -> bigquery.ScalarQueryParameter:

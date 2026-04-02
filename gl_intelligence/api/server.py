@@ -167,12 +167,15 @@ def generate_disclosure():
     fy = body.get("fiscal_year", cfg.FISCAL_YEAR)
 
     orch = get_orchestrator()
-    result = orch.run_agent("disclosure", fiscal_year=fy)
-    return jsonify({
-        "status": result.status,
-        "summary": result.summary,
-        "disclosure": result.results[0] if result.results else None,
-    })
+    try:
+        result = orch.run_agent("disclosure", fiscal_year=fy)
+        return jsonify({
+            "status": result.status,
+            "summary": result.summary,
+            "disclosure": result.results[0] if result.results else None,
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 # ── AI Chat ─────────────────────────────────────────────────
@@ -236,6 +239,13 @@ def static_files(filename):
     if os.path.isfile(root_path):
         return send_from_directory(ROOT_DIR, filename)
     return send_from_directory(ASSETS_DIR, filename)
+
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    """Return JSON for all unhandled errors instead of HTML."""
+    log.exception("Unhandled error")
+    return jsonify({"error": str(e)}), 500
 
 
 def create_app() -> Flask:
