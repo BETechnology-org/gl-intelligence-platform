@@ -178,6 +178,40 @@ def generate_disclosure():
         return jsonify({"error": str(e)}), 500
 
 
+# ── Tax Data (ASC 740) ─────────────────────────────────────
+
+@app.route("/api/tax/provision")
+def tax_provision():
+    """Returns the full tax provision dataset."""
+    from gl_intelligence.agents.tax_agent import load_tax_data
+    data = load_tax_data()
+    return jsonify(data)
+
+
+@app.route("/api/tax/rate-reconciliation")
+def tax_rate_reconciliation():
+    """Returns rate reconciliation line items."""
+    from gl_intelligence.agents.tax_agent import load_tax_data
+    data = load_tax_data()
+    return jsonify({
+        "statutory_rate": data.get("statutory_rate"),
+        "effective_rate": data.get("effective_rate"),
+        "items": data.get("rate_reconciliation", []),
+    })
+
+
+@app.route("/api/tax/jurisdictions")
+def tax_jurisdictions():
+    """Returns jurisdictional disaggregation per ASU 2023-09."""
+    from gl_intelligence.agents.tax_agent import load_tax_data
+    data = load_tax_data()
+    return jsonify({
+        "pretax_income": data.get("pretax_income"),
+        "jurisdictions": data.get("jurisdictions", []),
+        "cash_taxes_paid": data.get("cash_taxes_paid"),
+    })
+
+
 # ── AI Chat ─────────────────────────────────────────────────
 
 @app.route("/api/chat", methods=["POST"])

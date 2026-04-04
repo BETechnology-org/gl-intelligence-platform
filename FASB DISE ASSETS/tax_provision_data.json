@@ -1,0 +1,176 @@
+{
+  "company": "BE Technology Corp",
+  "fiscal_year": "2025",
+  "prior_year": "2024",
+  "statutory_rate": 0.21,
+  "pretax_income": {
+    "domestic": 198400000,
+    "foreign": 98200000,
+    "total": 296600000
+  },
+  "prior_pretax_income": {
+    "domestic": 182100000,
+    "foreign": 87600000,
+    "total": 269700000
+  },
+  "rate_reconciliation": [
+    {
+      "item": "US Federal statutory rate",
+      "rate": 0.2100,
+      "amount": 62286000,
+      "status": "confirmed",
+      "category": "statutory",
+      "note": "IRC §11(b) — 21% flat corporate rate"
+    },
+    {
+      "item": "State and local taxes, net of federal benefit",
+      "rate": 0.0210,
+      "amount": 6229000,
+      "status": "confirmed",
+      "category": "state_local",
+      "note": "Blended state rate 2.66% net of federal deduction"
+    },
+    {
+      "item": "Foreign rate differential",
+      "rate": 0.0180,
+      "amount": 5339000,
+      "status": "pending",
+      "category": "foreign",
+      "note": "Primarily Ireland (12.5%) and Singapore (17%) — net unfavorable due to GILTI inclusion"
+    },
+    {
+      "item": "GILTI inclusion",
+      "rate": 0.0085,
+      "amount": 2521000,
+      "status": "confirmed",
+      "category": "foreign",
+      "note": "Global Intangible Low-Taxed Income per IRC §951A"
+    },
+    {
+      "item": "R&D tax credits — IRC §41",
+      "rate": -0.0090,
+      "amount": -2669000,
+      "status": "confirmed",
+      "category": "credits",
+      "note": "Qualified research expenditures — ASC 730-10"
+    },
+    {
+      "item": "Foreign-derived intangible income (FDII)",
+      "rate": -0.0045,
+      "amount": -1335000,
+      "status": "confirmed",
+      "category": "foreign",
+      "note": "IRC §250 deduction for FDII"
+    },
+    {
+      "item": "Stock-based compensation — excess tax benefits",
+      "rate": 0.0040,
+      "amount": 1186000,
+      "status": "confirmed",
+      "category": "compensation",
+      "note": "ASC 718 — discrete items per ASU 2016-09"
+    },
+    {
+      "item": "Nondeductible executive compensation — §162(m)",
+      "rate": 0.0032,
+      "amount": 949000,
+      "status": "confirmed",
+      "category": "permanent",
+      "note": "Covered employees exceeding $1M threshold"
+    },
+    {
+      "item": "Valuation allowance changes",
+      "rate": 0.0015,
+      "amount": 445000,
+      "status": "in_review",
+      "category": "valuation_allowance",
+      "note": "Increase for state NOL carryforwards — ASC 740-10-30"
+    },
+    {
+      "item": "Return-to-provision adjustments",
+      "rate": -0.0008,
+      "amount": -237000,
+      "status": "confirmed",
+      "category": "other",
+      "note": "True-up of FY2024 provision to filed returns"
+    },
+    {
+      "item": "Other, net",
+      "rate": 0.0011,
+      "amount": 326000,
+      "status": "confirmed",
+      "category": "other",
+      "note": "Meals & entertainment, lobbying, other permanent items"
+    }
+  ],
+  "effective_rate": 0.2530,
+  "total_provision": 75040000,
+  "deferred_tax_assets": [
+    {"item": "Accrued compensation and benefits", "current_year": 28400000, "prior_year": 26100000, "category": "DTA"},
+    {"item": "Operating lease liabilities", "current_year": 22800000, "prior_year": 21400000, "category": "DTA"},
+    {"item": "Allowance for credit losses", "current_year": 8900000, "prior_year": 7600000, "category": "DTA"},
+    {"item": "Stock-based compensation", "current_year": 14200000, "prior_year": 12800000, "category": "DTA"},
+    {"item": "Net operating loss carryforwards — state", "current_year": 12600000, "prior_year": 11200000, "category": "DTA"},
+    {"item": "Net operating loss carryforwards — foreign", "current_year": 6800000, "prior_year": 5400000, "category": "DTA"},
+    {"item": "Research credit carryforwards", "current_year": 9400000, "prior_year": 8100000, "category": "DTA"},
+    {"item": "Deferred revenue", "current_year": 18600000, "prior_year": 16200000, "category": "DTA"},
+    {"item": "Capitalized R&D — IRC §174", "current_year": 31200000, "prior_year": 22400000, "category": "DTA"},
+    {"item": "Other deferred tax assets", "current_year": 4100000, "prior_year": 3800000, "category": "DTA"}
+  ],
+  "deferred_tax_liabilities": [
+    {"item": "Right-of-use assets", "current_year": -21600000, "prior_year": -20200000, "category": "DTL"},
+    {"item": "Depreciation and amortization", "current_year": -38400000, "prior_year": -34600000, "category": "DTL"},
+    {"item": "Intangible assets — acquired", "current_year": -15200000, "prior_year": -17800000, "category": "DTL"},
+    {"item": "Unremitted foreign earnings", "current_year": -4800000, "prior_year": -3600000, "category": "DTL"},
+    {"item": "Prepaid expenses", "current_year": -2400000, "prior_year": -2100000, "category": "DTL"},
+    {"item": "Other deferred tax liabilities", "current_year": -1900000, "prior_year": -1600000, "category": "DTL"}
+  ],
+  "valuation_allowance": {
+    "beginning_balance": -8200000,
+    "increases": -1400000,
+    "decreases": 600000,
+    "ending_balance": -9000000,
+    "note": "Primarily related to state NOL carryforwards in jurisdictions with limited profitability history"
+  },
+  "jurisdictions": [
+    {"name": "United States — Federal", "pretax_income": 198400000, "tax_expense": 44150000, "effective_rate": 0.2225, "cash_taxes_paid": 41200000},
+    {"name": "United States — State & Local", "pretax_income": 198400000, "tax_expense": 6229000, "effective_rate": 0.0314, "cash_taxes_paid": 5800000},
+    {"name": "Ireland", "pretax_income": 38200000, "tax_expense": 4775000, "effective_rate": 0.125, "cash_taxes_paid": 4200000},
+    {"name": "Singapore", "pretax_income": 22400000, "tax_expense": 3808000, "effective_rate": 0.170, "cash_taxes_paid": 3400000},
+    {"name": "United Kingdom", "pretax_income": 14800000, "tax_expense": 3700000, "effective_rate": 0.250, "cash_taxes_paid": 3200000},
+    {"name": "Germany", "pretax_income": 8600000, "tax_expense": 2580000, "effective_rate": 0.300, "cash_taxes_paid": 2100000},
+    {"name": "Japan", "pretax_income": 5400000, "tax_expense": 1566000, "effective_rate": 0.290, "cash_taxes_paid": 1400000},
+    {"name": "India", "pretax_income": 3200000, "tax_expense": 800000, "effective_rate": 0.250, "cash_taxes_paid": 700000},
+    {"name": "Canada", "pretax_income": 2400000, "tax_expense": 624000, "effective_rate": 0.260, "cash_taxes_paid": 580000},
+    {"name": "Australia", "pretax_income": 1800000, "tax_expense": 540000, "effective_rate": 0.300, "cash_taxes_paid": 480000},
+    {"name": "Netherlands", "pretax_income": 900000, "tax_expense": 232000, "effective_rate": 0.258, "cash_taxes_paid": 200000},
+    {"name": "Brazil", "pretax_income": 500000, "tax_expense": 170000, "effective_rate": 0.340, "cash_taxes_paid": 140000}
+  ],
+  "uncertain_tax_positions": {
+    "beginning_balance": 7200000,
+    "increases_current_year": 1800000,
+    "increases_prior_years": 400000,
+    "decreases_settlements": -600000,
+    "decreases_statute_expiry": -400000,
+    "ending_balance": 8400000,
+    "interest_and_penalties": 1200000,
+    "positions_expected_to_resolve_12mo": 2100000,
+    "note": "Relates primarily to transfer pricing positions in Ireland and R&D credit methodology"
+  },
+  "cash_taxes_paid": {
+    "federal": 41200000,
+    "state": 5800000,
+    "foreign": 16400000,
+    "total": 63400000
+  },
+  "completion_status": {
+    "rate_reconciliation": 100,
+    "us_federal_deferred": 100,
+    "state_deferred": 90,
+    "foreign_jurisdictions": 67,
+    "valuation_allowance": 85,
+    "utp_analysis": 80,
+    "asu_2023_09_compliance": 75,
+    "disclosure_draft": 60
+  }
+}

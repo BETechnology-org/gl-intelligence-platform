@@ -16,6 +16,7 @@ from gl_intelligence.agents.mapping_agent import MappingAgent
 from gl_intelligence.agents.recon_agent import ReconciliationAgent
 from gl_intelligence.agents.anomaly_agent import AnomalyAgent
 from gl_intelligence.agents.disclosure_agent import DisclosureAgent
+from gl_intelligence.agents.tax_agent import TaxReconciliationAgent
 
 log = logging.getLogger("agents.orchestrator")
 
@@ -38,6 +39,7 @@ class AgentOrchestrator:
             "recon": ReconciliationAgent(self.cx),
             "anomaly": AnomalyAgent(self.cx),
             "disclosure": DisclosureAgent(self.cx),
+            "tax": TaxReconciliationAgent(self.cx),
         }
         log.info(f"Orchestrator initialized with {len(self.agents)} agents — project={cfg.PROJECT}")
 

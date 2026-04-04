@@ -42,6 +42,8 @@ body {
 /* ── Page system ── */
 .page { display: none; min-height: 100vh; }
 .page.active { display: flex; flex-direction: column; }
+.tax-panel { display: none; }
+.tax-panel.active { display: block; }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 6px; }
@@ -1368,72 +1370,123 @@ nav {
     <div class="module-page-tags">
       <span class="tag teal">ASU 2023-09 Active</span>
       <span class="tag">Effective FY2025</span>
-      <span class="tag">1 Item Pending</span>
+      <span class="tag" id="tax-pending-tag">Loading…</span>
     </div>
   </div>
   <div class="module-body">
     <div class="module-main">
-      <div class="status-bar">
-        <div class="status-card">
-          <div class="status-card-label">Effective Tax Rate</div>
-          <div class="status-card-value status-teal">24.3%</div>
-          <div class="status-card-sub">vs 21% statutory</div>
-        </div>
-        <div class="status-card">
-          <div class="status-card-label">Deferred Tax Assets</div>
-          <div class="status-card-value">$142M</div>
-          <div class="status-card-sub">Net of valuation allowance</div>
-        </div>
-        <div class="status-card">
-          <div class="status-card-label">Jurisdictions</div>
-          <div class="status-card-value status-amber">12</div>
-          <div class="status-card-sub">Disaggregation required</div>
-        </div>
-        <div class="status-card">
-          <div class="status-card-label">UTPs</div>
-          <div class="status-card-value">$8.4M</div>
-          <div class="status-card-sub">Unrecognized tax positions</div>
+
+      <!-- Status bar -->
+      <div class="status-bar" id="tax-status-bar">
+        <div class="status-card"><div class="status-card-label">Effective Tax Rate</div><div class="status-card-value status-teal" id="tax-etr">—</div><div class="status-card-sub" id="tax-etr-sub">vs 21% statutory</div></div>
+        <div class="status-card"><div class="status-card-label">Net Deferred Tax</div><div class="status-card-value" id="tax-net-dta">—</div><div class="status-card-sub">Net DTA after VA</div></div>
+        <div class="status-card"><div class="status-card-label">Jurisdictions</div><div class="status-card-value status-amber" id="tax-jurisdictions">—</div><div class="status-card-sub">Disaggregation required</div></div>
+        <div class="status-card"><div class="status-card-label">UTPs</div><div class="status-card-value" id="tax-utps">—</div><div class="status-card-sub">Unrecognized tax positions</div></div>
+      </div>
+
+      <!-- Tab strip -->
+      <div style="display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0">
+        <button class="tax-tab active" onclick="showTaxTab('recon')" id="tab-recon" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid var(--teal);color:var(--teal);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer">Rate Reconciliation</button>
+        <button class="tax-tab" onclick="showTaxTab('deferred')" id="tab-deferred" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">Deferred Tax Schedule</button>
+        <button class="tax-tab" onclick="showTaxTab('jurisdictions')" id="tab-jurisdictions" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">Jurisdictions</button>
+        <button class="tax-tab" onclick="showTaxTab('cash')" id="tab-cash" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">Cash Taxes Paid</button>
+        <button class="tax-tab" onclick="showTaxTab('utp')" id="tab-utp" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">UTPs</button>
+      </div>
+
+      <!-- Rate Reconciliation tab -->
+      <div class="tax-panel active" id="panel-recon">
+        <div class="content-section">
+          <div class="content-section-title">Rate Reconciliation — FY2025</div>
+          <table class="data-table"><thead><tr><th>Item</th><th>Rate Impact</th><th>Amount ($K)</th><th>Category</th><th>Status</th></tr></thead><tbody id="tax-recon-tbody"></tbody></table>
         </div>
       </div>
-      <div class="content-section">
-        <div class="content-section-title">Rate Reconciliation — FY2025</div>
-        <table class="data-table">
-          <thead><tr><th>Item</th><th>Rate Impact</th><th>Amount ($M)</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>US Federal statutory rate</td><td>21.0%</td><td>$62.4</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
-            <tr><td>State and local taxes, net</td><td>+2.1%</td><td>$6.2</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
-            <tr><td>Foreign rate differential</td><td>+1.8%</td><td>$5.3</td><td><span class="status-pill pill-amber">⏳ Pending</span></td></tr>
-            <tr><td>R&D tax credits</td><td>-0.9%</td><td>($2.7)</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
-            <tr><td>Stock-based compensation</td><td>+0.4%</td><td>$1.2</td><td><span class="status-pill pill-green">✓ Confirmed</span></td></tr>
-            <tr><td>Effective tax rate</td><td><strong>24.3%</strong></td><td><strong>$72.4</strong></td><td><span class="status-pill pill-blue">→ In Review</span></td></tr>
-          </tbody>
-        </table>
+
+      <!-- Deferred Tax tab -->
+      <div class="tax-panel" id="panel-deferred">
+        <div class="content-section">
+          <div class="content-section-title">Deferred Tax Assets</div>
+          <table class="data-table"><thead><tr><th>Item</th><th>FY2025 ($K)</th><th>FY2024 ($K)</th><th>Change ($K)</th></tr></thead><tbody id="tax-dta-tbody"></tbody></table>
+        </div>
+        <div class="content-section" style="margin-top:20px">
+          <div class="content-section-title">Deferred Tax Liabilities</div>
+          <table class="data-table"><thead><tr><th>Item</th><th>FY2025 ($K)</th><th>FY2024 ($K)</th><th>Change ($K)</th></tr></thead><tbody id="tax-dtl-tbody"></tbody></table>
+        </div>
+        <div class="content-section" style="margin-top:20px">
+          <div class="content-section-title">Valuation Allowance Rollforward</div>
+          <div id="tax-va-detail" style="font-size:13px;line-height:1.8;color:var(--white)"></div>
+        </div>
       </div>
-      <div class="content-section">
-        <div class="content-section-title">Deferred Tax Schedule Completion</div>
-        <div class="progress-item"><div class="progress-label"><span>US Federal deferred items</span><span>100%</span></div><div class="progress-track"><div class="progress-fill" style="width:100%"></div></div></div>
-        <div class="progress-item"><div class="progress-label"><span>State deferred items</span><span>90%</span></div><div class="progress-track"><div class="progress-fill" style="width:90%"></div></div></div>
-        <div class="progress-item"><div class="progress-label"><span>Foreign jurisdictions (12)</span><span>67%</span></div><div class="progress-track"><div class="progress-fill amber" style="width:67%"></div></div></div>
-        <div class="progress-item"><div class="progress-label"><span>Valuation allowance analysis</span><span>85%</span></div><div class="progress-track"><div class="progress-fill" style="width:85%"></div></div></div>
+
+      <!-- Jurisdictions tab -->
+      <div class="tax-panel" id="panel-jurisdictions">
+        <div class="content-section">
+          <div class="content-section-title">Jurisdictional Disaggregation — ASU 2023-09</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Jurisdictions with pretax income ≥5% of total are individually disclosed per ASU 2023-09.</p>
+          <table class="data-table"><thead><tr><th>Jurisdiction</th><th>Pretax Income ($K)</th><th>% of Total</th><th>Tax Expense ($K)</th><th>Effective Rate</th></tr></thead><tbody id="tax-jurisdictions-tbody"></tbody></table>
+        </div>
+        <div class="content-section" style="margin-top:20px">
+          <div class="content-section-title">Domestic vs. Foreign Split</div>
+          <div id="tax-dom-foreign" style="display:flex;gap:16px"></div>
+        </div>
       </div>
-      <div class="btn-row">
-        <button class="action-btn btn-primary" onclick="openChat()">✦ Ask AI Assistant</button>
+
+      <!-- Cash Taxes Paid tab -->
+      <div class="tax-panel" id="panel-cash">
+        <div class="content-section">
+          <div class="content-section-title">Cash Income Taxes Paid — ASU 2023-09</div>
+          <table class="data-table"><thead><tr><th>Category</th><th>Amount ($K)</th><th>% of Total</th></tr></thead><tbody id="tax-cash-tbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- UTP tab -->
+      <div class="tax-panel" id="panel-utp">
+        <div class="content-section">
+          <div class="content-section-title">Uncertain Tax Positions — ASC 740-10-50</div>
+          <div id="tax-utp-detail" style="font-size:13px;line-height:1.8"></div>
+        </div>
+      </div>
+
+      <!-- Completion progress -->
+      <div class="content-section" style="margin-top:24px">
+        <div class="content-section-title">Workpaper Completion</div>
+        <div id="tax-progress-bars"></div>
+      </div>
+
+      <!-- Agent + actions -->
+      <div class="btn-row" style="margin-top:20px">
+        <button class="action-btn btn-primary" id="tax-run-agent-btn" onclick="runTaxAgent()">✦ Run Tax Agent</button>
+        <button class="action-btn btn-secondary" onclick="openChat()">Ask AI Assistant</button>
         <button class="action-btn btn-secondary">↓ Export Tax Package</button>
       </div>
+
+      <!-- Agent result / disclosure narrative -->
+      <div class="content-section" id="tax-narrative-section" style="display:none;margin-top:20px">
+        <div class="content-section-title">AI-Generated ASC 740 Disclosure Draft</div>
+        <div id="tax-narrative" style="font-size:13px;line-height:1.7;color:var(--white);white-space:pre-wrap;font-family:var(--sans)"></div>
+      </div>
+
     </div>
     <div class="module-sidebar">
+
+      <!-- ASU 2023-09 compliance -->
       <div class="sidebar-widget">
-        <div class="sidebar-widget-title">ASU 2023-09 Requirements</div>
-        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Rate reconciliation — 8 required categories</span></div>
-        <div class="checklist-item"><div class="check-icon check-done">✓</div><span>Cash taxes paid disaggregated by federal/state/foreign</span></div>
-        <div class="checklist-item"><div class="check-icon check-pending">!</div><span>Individual jurisdiction disclosures ≥5% of pretax income</span></div>
-        <div class="checklist-item"><div class="check-icon check-open">○</div><span>Income taxes paid tabular reconciliation</span></div>
+        <div class="sidebar-widget-title">ASU 2023-09 Compliance</div>
+        <div id="tax-compliance-checklist"></div>
       </div>
+
+      <!-- AI Insight -->
       <div class="sidebar-widget" style="border-color:rgba(13,148,136,0.2);background:var(--teal-glow)">
         <div class="sidebar-widget-title" style="color:var(--teal-light)">AI Insight</div>
-        <p style="font-size:12px;line-height:1.6;color:var(--white);margin-bottom:10px;">Your foreign rate differential (+1.8%) is unconfirmed. Under ASU 2023-09, you must disclose the individual jurisdiction breakdown — Ireland and Singapore likely exceed the 5% threshold.</p>
+        <p id="tax-ai-insight" style="font-size:12px;line-height:1.6;color:var(--white);margin-bottom:10px;">Loading tax provision data…</p>
         <button class="action-btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="openChat()">Ask AI about this →</button>
       </div>
+
+      <!-- Key metrics -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Key Metrics</div>
+        <div id="tax-key-metrics" style="font-size:12px;line-height:2;color:var(--white)"></div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1769,6 +1822,270 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.querySelectorAll('.page').forEach(p => observer.observe(p, {attributeFilter:['class']}));
 });
+
+// ═══════════════════════════════════════════════════════════
+//  ASC 740 — INCOME TAX MODULE
+// ═══════════════════════════════════════════════════════════
+
+let taxDataLoaded = false;
+
+function showTaxTab(id) {
+  document.querySelectorAll('.tax-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tax-tab').forEach(t => {
+    t.classList.remove('active');
+    t.style.borderBottomColor = 'transparent';
+    t.style.color = 'var(--muted)';
+  });
+  const panel = document.getElementById('panel-' + id);
+  const tab = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+  if (tab) { tab.classList.add('active'); tab.style.borderBottomColor = 'var(--teal)'; tab.style.color = 'var(--teal)'; }
+}
+
+function fmtK(n) { return (n / 1000).toLocaleString('en-US', {maximumFractionDigits: 0}); }
+function fmtM(n) { return '$' + (n / 1e6).toFixed(1) + 'M'; }
+function fmtPct(n) { return (n * 100).toFixed(1) + '%'; }
+function fmtRate(n) { const v = (n * 100); return (v >= 0 ? '+' : '') + v.toFixed(2) + '%'; }
+function pillStatus(s) {
+  if (s === 'confirmed') return '<span class="status-pill pill-green">✓ Confirmed</span>';
+  if (s === 'pending') return '<span class="status-pill pill-amber">⏳ Pending</span>';
+  if (s === 'in_review') return '<span class="status-pill pill-blue">→ In Review</span>';
+  return '<span class="status-pill">' + s + '</span>';
+}
+function catLabel(c) {
+  const map = {statutory:'Federal',state_local:'State/Local',foreign:'Foreign',credits:'Credits',compensation:'Comp',permanent:'Permanent',valuation_allowance:'Val. Allow.',other:'Other'};
+  return map[c] || c;
+}
+
+async function loadTaxData() {
+  if (taxDataLoaded) return;
+  try {
+    const res = await fetch(API_BASE + '/api/tax/provision');
+    if (!res.ok) throw new Error('API ' + res.status);
+    const d = await res.json();
+    renderTaxModule(d);
+    taxDataLoaded = true;
+  } catch(e) {
+    console.error('Tax data load error:', e);
+    document.getElementById('tax-ai-insight').textContent = 'Unable to load tax data: ' + e.message;
+  }
+}
+
+function renderTaxModule(d) {
+  // Status bar
+  document.getElementById('tax-etr').textContent = fmtPct(d.effective_rate);
+  document.getElementById('tax-etr-sub').textContent = 'vs ' + fmtPct(d.statutory_rate) + ' statutory (+' + Math.round((d.effective_rate - d.statutory_rate) * 10000) + ' bps)';
+
+  const grossDTA = d.deferred_tax_assets.reduce((s,x) => s + x.current_year, 0);
+  const grossDTL = d.deferred_tax_liabilities.reduce((s,x) => s + x.current_year, 0);
+  const netDTA = grossDTA + grossDTL + (d.valuation_allowance?.ending_balance || 0);
+  document.getElementById('tax-net-dta').textContent = fmtM(netDTA);
+
+  document.getElementById('tax-jurisdictions').textContent = d.jurisdictions.length;
+  document.getElementById('tax-utps').textContent = fmtM(d.uncertain_tax_positions.ending_balance);
+
+  const pendingCount = d.rate_reconciliation.filter(r => r.status !== 'confirmed').length;
+  document.getElementById('tax-pending-tag').textContent = pendingCount ? pendingCount + ' Item' + (pendingCount > 1 ? 's' : '') + ' Pending' : 'All Confirmed';
+
+  // Rate reconciliation table
+  const reconTbody = document.getElementById('tax-recon-tbody');
+  let reconHTML = '';
+  let totalRate = 0, totalAmt = 0;
+  d.rate_reconciliation.forEach(r => {
+    totalRate += r.rate; totalAmt += r.amount;
+    reconHTML += `<tr><td>${r.item}</td><td>${fmtRate(r.rate)}</td><td>$${fmtK(r.amount)}</td><td><span style="font-size:11px;padding:3px 8px;border-radius:6px;background:var(--navy-light);color:var(--muted)">${catLabel(r.category)}</span></td><td>${pillStatus(r.status)}</td></tr>`;
+  });
+  reconHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Effective tax rate</td><td>${fmtRate(totalRate)}</td><td>$${fmtK(totalAmt)}</td><td></td><td></td></tr>`;
+  reconTbody.innerHTML = reconHTML;
+
+  // Deferred tax assets
+  const dtaTbody = document.getElementById('tax-dta-tbody');
+  let dtaHTML = ''; let dtaTotalCY = 0, dtaTotalPY = 0;
+  d.deferred_tax_assets.forEach(a => {
+    dtaTotalCY += a.current_year; dtaTotalPY += a.prior_year;
+    const chg = a.current_year - a.prior_year;
+    dtaHTML += `<tr><td>${a.item}</td><td>$${fmtK(a.current_year)}</td><td>$${fmtK(a.prior_year)}</td><td style="color:${chg >= 0 ? 'var(--teal)' : '#DC2626'}">$${fmtK(chg)}</td></tr>`;
+  });
+  dtaHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Gross deferred tax assets</td><td>$${fmtK(dtaTotalCY)}</td><td>$${fmtK(dtaTotalPY)}</td><td>$${fmtK(dtaTotalCY - dtaTotalPY)}</td></tr>`;
+  dtaTbody.innerHTML = dtaHTML;
+
+  // Deferred tax liabilities
+  const dtlTbody = document.getElementById('tax-dtl-tbody');
+  let dtlHTML = ''; let dtlTotalCY = 0, dtlTotalPY = 0;
+  d.deferred_tax_liabilities.forEach(l => {
+    dtlTotalCY += l.current_year; dtlTotalPY += l.prior_year;
+    const chg = l.current_year - l.prior_year;
+    dtlHTML += `<tr><td>${l.item}</td><td>($${fmtK(Math.abs(l.current_year))})</td><td>($${fmtK(Math.abs(l.prior_year))})</td><td style="color:${chg <= 0 ? 'var(--teal)' : '#DC2626'}">($${fmtK(Math.abs(chg))})</td></tr>`;
+  });
+  dtlHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Gross deferred tax liabilities</td><td>($${fmtK(Math.abs(dtlTotalCY))})</td><td>($${fmtK(Math.abs(dtlTotalPY))})</td><td>($${fmtK(Math.abs(dtlTotalCY - dtlTotalPY))})</td></tr>`;
+  dtlTbody.innerHTML = dtlHTML;
+
+  // Valuation allowance
+  const va = d.valuation_allowance;
+  document.getElementById('tax-va-detail').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr auto;gap:6px 20px;max-width:400px">
+      <span>Beginning balance</span><span style="text-align:right">($${fmtK(Math.abs(va.beginning_balance))})</span>
+      <span>Increases charged to expense</span><span style="text-align:right">($${fmtK(Math.abs(va.increases))})</span>
+      <span>Decreases (releases)</span><span style="text-align:right">$${fmtK(va.decreases)}</span>
+      <span style="font-weight:600;border-top:1px solid var(--border);padding-top:6px">Ending balance</span><span style="font-weight:600;text-align:right;border-top:1px solid var(--border);padding-top:6px">($${fmtK(Math.abs(va.ending_balance))})</span>
+    </div>
+    <p style="margin-top:10px;font-size:12px;color:var(--muted)">${va.note}</p>`;
+
+  // Jurisdictions
+  const jTbody = document.getElementById('tax-jurisdictions-tbody');
+  const pretax = d.pretax_income.total;
+  let jHTML = '';
+  const materialThreshold = 0.05;
+  d.jurisdictions.forEach(j => {
+    const pct = j.pretax_income / pretax;
+    const isMaterial = pct >= materialThreshold;
+    jHTML += `<tr${isMaterial ? '' : ' style="color:var(--muted)"'}><td>${j.name}${isMaterial ? ' <span style="font-size:10px;color:var(--teal)">≥5%</span>' : ''}</td><td>$${fmtK(j.pretax_income)}</td><td>${(pct * 100).toFixed(1)}%</td><td>$${fmtK(j.tax_expense)}</td><td>${fmtPct(j.effective_rate)}</td></tr>`;
+  });
+  jTbody.innerHTML = jHTML;
+
+  // Domestic vs foreign
+  document.getElementById('tax-dom-foreign').innerHTML = `
+    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Domestic</div>
+      <div style="font-size:20px;font-weight:600">${fmtM(d.pretax_income.domestic)}</div>
+      <div style="font-size:12px;color:var(--muted)">${(d.pretax_income.domestic / pretax * 100).toFixed(1)}% of total pretax</div>
+    </div>
+    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Foreign</div>
+      <div style="font-size:20px;font-weight:600">${fmtM(d.pretax_income.foreign)}</div>
+      <div style="font-size:12px;color:var(--muted)">${(d.pretax_income.foreign / pretax * 100).toFixed(1)}% of total pretax</div>
+    </div>`;
+
+  // Cash taxes paid
+  const cash = d.cash_taxes_paid;
+  const cashTbody = document.getElementById('tax-cash-tbody');
+  cashTbody.innerHTML = `
+    <tr><td>Federal</td><td>$${fmtK(cash.federal)}</td><td>${(cash.federal / cash.total * 100).toFixed(1)}%</td></tr>
+    <tr><td>State and local</td><td>$${fmtK(cash.state)}</td><td>${(cash.state / cash.total * 100).toFixed(1)}%</td></tr>
+    <tr><td>Foreign</td><td>$${fmtK(cash.foreign)}</td><td>${(cash.foreign / cash.total * 100).toFixed(1)}%</td></tr>
+    <tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total cash taxes paid</td><td>$${fmtK(cash.total)}</td><td>100.0%</td></tr>`;
+
+  // UTP rollforward
+  const utp = d.uncertain_tax_positions;
+  document.getElementById('tax-utp-detail').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr auto;gap:6px 20px;max-width:500px">
+      <span>Beginning balance</span><span style="text-align:right">$${fmtK(utp.beginning_balance)}</span>
+      <span>Increases — current year positions</span><span style="text-align:right">$${fmtK(utp.increases_current_year)}</span>
+      <span>Increases — prior year positions</span><span style="text-align:right">$${fmtK(utp.increases_prior_years)}</span>
+      <span>Decreases — settlements</span><span style="text-align:right">($${fmtK(Math.abs(utp.decreases_settlements))})</span>
+      <span>Decreases — statute of limitations expiry</span><span style="text-align:right">($${fmtK(Math.abs(utp.decreases_statute_expiry))})</span>
+      <span style="font-weight:600;border-top:1px solid var(--border);padding-top:6px">Ending balance</span><span style="font-weight:600;text-align:right;border-top:1px solid var(--border);padding-top:6px">$${fmtK(utp.ending_balance)}</span>
+    </div>
+    <p style="margin-top:12px;font-size:12px;color:var(--muted)">Interest and penalties accrued: $${fmtK(utp.interest_and_penalties)} | Expected to resolve within 12 months: $${fmtK(utp.positions_expected_to_resolve_12mo)}</p>
+    <p style="margin-top:6px;font-size:12px;color:var(--muted)">${utp.note}</p>`;
+
+  // Progress bars
+  const comp = d.completion_status;
+  const progressItems = [
+    {label: 'Rate reconciliation', pct: comp.rate_reconciliation},
+    {label: 'US Federal deferred items', pct: comp.us_federal_deferred},
+    {label: 'State deferred items', pct: comp.state_deferred},
+    {label: 'Foreign jurisdictions (' + d.jurisdictions.length + ')', pct: comp.foreign_jurisdictions},
+    {label: 'Valuation allowance analysis', pct: comp.valuation_allowance},
+    {label: 'UTP analysis', pct: comp.utp_analysis},
+    {label: 'ASU 2023-09 compliance', pct: comp.asu_2023_09_compliance},
+    {label: 'Disclosure draft', pct: comp.disclosure_draft},
+  ];
+  document.getElementById('tax-progress-bars').innerHTML = progressItems.map(p =>
+    `<div class="progress-item"><div class="progress-label"><span>${p.label}</span><span>${p.pct}%</span></div><div class="progress-track"><div class="progress-fill${p.pct < 70 ? ' amber' : p.pct < 50 ? ' red' : ''}" style="width:${p.pct}%"></div></div></div>`
+  ).join('');
+
+  // Compliance checklist
+  const materialJurisdictions = d.jurisdictions.filter(j => j.pretax_income / pretax >= materialThreshold);
+  const complianceItems = [
+    {text: 'Rate reconciliation — 8 required categories', done: true},
+    {text: 'Cash taxes paid — federal/state/foreign', done: true},
+    {text: 'Domestic vs. foreign pretax income split', done: true},
+    {text: `Individual jurisdictions ≥5% disclosed (${materialJurisdictions.length} found)`, done: materialJurisdictions.length > 0},
+    {text: 'Uncertain tax positions rollforward', done: utp.ending_balance > 0},
+    {text: 'Valuation allowance changes disclosed', done: true},
+    {text: 'All rate recon items confirmed', done: pendingCount === 0, pending: pendingCount > 0},
+  ];
+  document.getElementById('tax-compliance-checklist').innerHTML = complianceItems.map(c => {
+    const icon = c.done ? '<div class="check-icon check-done">✓</div>' : (c.pending ? '<div class="check-icon check-pending">!</div>' : '<div class="check-icon check-open">○</div>');
+    return `<div class="checklist-item">${icon}<span>${c.text}</span></div>`;
+  }).join('');
+
+  // AI Insight
+  const foreignPending = d.rate_reconciliation.find(r => r.category === 'foreign' && r.status === 'pending');
+  let insightText = '';
+  if (foreignPending) {
+    insightText = `Your foreign rate differential (${fmtRate(foreignPending.rate)}) is unconfirmed. Under ASU 2023-09, you must disclose the individual jurisdiction breakdown. `;
+    insightText += `${materialJurisdictions.filter(j => !j.name.startsWith('United States')).map(j => j.name).join(' and ')} exceed the 5% threshold and require separate disclosure.`;
+  } else {
+    insightText = `All rate reconciliation items confirmed. ${materialJurisdictions.length} jurisdictions exceed the 5% materiality threshold for individual disclosure under ASU 2023-09.`;
+  }
+  document.getElementById('tax-ai-insight').textContent = insightText;
+
+  // Key metrics sidebar
+  document.getElementById('tax-key-metrics').innerHTML = `
+    Pretax income: <strong>${fmtM(pretax)}</strong><br>
+    Total provision: <strong>${fmtM(d.total_provision)}</strong><br>
+    Current tax: <strong>${fmtM(cash.total)}</strong><br>
+    Deferred tax: <strong>${fmtM(d.total_provision - cash.total)}</strong><br>
+    Gross DTA: <strong>${fmtM(grossDTA)}</strong><br>
+    Gross DTL: <strong>(${fmtM(Math.abs(grossDTL))})</strong><br>
+    Valuation allowance: <strong>(${fmtM(Math.abs(va.ending_balance))})</strong><br>
+    Net DTA: <strong>${fmtM(netDTA)}</strong>`;
+}
+
+async function runTaxAgent() {
+  const btn = document.getElementById('tax-run-agent-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Running tax agent…';
+
+  try {
+    const res = await fetch(API_BASE + '/api/agents/run', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({agent: 'tax'}),
+    });
+    const data = await res.json();
+
+    if (data.error) throw new Error(data.error);
+
+    btn.textContent = `✓ Complete — ${data.elapsed_seconds.toFixed(1)}s`;
+
+    // Show narrative if available
+    if (data.result_count > 0) {
+      // Fetch full results via run endpoint with detail
+      const detailRes = await fetch(API_BASE + '/api/agents/run', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({agent: 'tax'}),
+      });
+      const detail = await detailRes.json();
+      // The narrative comes back in the first run — show summary
+      const section = document.getElementById('tax-narrative-section');
+      section.style.display = 'block';
+      document.getElementById('tax-narrative').textContent =
+        'Agent completed successfully.\n\n' +
+        'Effective rate: ' + data.summary.effective_rate + '% (vs ' + data.summary.statutory_rate + '% statutory)\n' +
+        'Rate spread: ' + data.summary.rate_spread_bps + ' bps\n' +
+        'Jurisdictions analyzed: ' + data.summary.jurisdictions + ' (' + data.summary.material_jurisdictions + ' material)\n' +
+        'UTP balance: ' + fmtM(data.summary.utp_balance) + '\n' +
+        'Compliance gaps: ' + data.summary.compliance_gaps + '\n' +
+        'Pending items: ' + data.summary.pending_items;
+    }
+
+  } catch(e) {
+    btn.textContent = '✗ Error: ' + e.message;
+  }
+
+  setTimeout(() => { btn.disabled = false; btn.textContent = '✦ Run Tax Agent'; }, 8000);
+}
+
+// Auto-load tax data when income-tax page becomes visible
+const _origShowModule = showModule;
+showModule = function(id) {
+  _origShowModule(id);
+  if (id === 'income-tax') loadTaxData();
+};
 </script>
 </body>
 </html>

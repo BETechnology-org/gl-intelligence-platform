@@ -377,11 +377,25 @@ tr:hover{background:var(--surface2)}
         </div>
         <div class="agent-result" id="ar-disclosure"></div>
       </div>
+
+      <div class="agent-card" id="ac-tax">
+        <div class="agent-card-head">
+          <div><div class="agent-card-icon" style="background:rgba(220,38,38,0.08);color:#DC2626">T</div></div>
+          <div style="flex:1">
+            <div class="agent-card-title">Tax Reconciliation Agent</div>
+            <div class="agent-card-desc">ASC 740 rate reconciliation, deferred tax scheduling, ASU 2023-09 jurisdictional disaggregation and disclosure</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('tax',{})">Run Tax Analysis</button>
+        </div>
+        <div class="agent-result" id="ar-tax"></div>
+      </div>
     </div>
 
     <!-- Run All -->
     <div style="text-align:center;margin-bottom:24px">
-      <button class="agent-btn-run-all" onclick="runAllAgents()">Run Full Pipeline (all 4 agents)</button>
+      <button class="agent-btn-run-all" onclick="runAllAgents()">Run Full Pipeline (all 5 agents)</button>
     </div>
 
     <!-- Agent log -->
@@ -774,6 +788,8 @@ async function runAgent(name, params) {
       });
       const discData = await discResp.json();
       resultEl.innerHTML = renderDisclosureResult(discData);
+    } else if (name === 'tax') {
+      resultEl.innerHTML = renderTaxResult(data);
     } else {
       resultEl.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
@@ -792,14 +808,14 @@ async function runAllAgents() {
   const btn = document.querySelector('.agent-btn-run-all');
   btn.disabled = true;
   btn.textContent = 'Running pipeline...';
-  agentLog('Starting full agent pipeline (4 agents)...', 'info');
+  agentLog('Starting full agent pipeline (5 agents)...', 'info');
 
-  for (const name of ['mapping', 'recon', 'anomaly', 'disclosure']) {
+  for (const name of ['mapping', 'recon', 'anomaly', 'disclosure', 'tax']) {
     await runAgent(name, name === 'mapping' ? {dry_run: true} : {});
   }
 
   btn.disabled = false;
-  btn.textContent = 'Run Full Pipeline (all 4 agents)';
+  btn.textContent = 'Run Full Pipeline (all 5 agents)';
   agentLog('Full pipeline complete.', 'success');
 }
 
@@ -848,6 +864,14 @@ function renderDisclosureResult(data) {
     html += `<div class="narrative">${esc(d.narrative)}</div>`;
   }
   return html;
+}
+
+function renderTaxResult(data) {
+  const s = data.summary || {};
+  return `<div style="margin-top:8px">
+    <span class="conf-badge ${s.compliance_gaps ? 'MEDIUM' : 'HIGH'}">${data.status}</span>
+    <span style="margin-left:8px">ETR: ${s.effective_rate||0}% (vs ${s.statutory_rate||21}% statutory) | ${s.jurisdictions||0} jurisdictions (${s.material_jurisdictions||0} material) | UTPs: $${((s.utp_balance||0)/1e6).toFixed(1)}M | Gaps: ${s.compliance_gaps||0}</span>
+  </div>`;
 }
 
 // Load live status from API on tab switch
