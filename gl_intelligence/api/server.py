@@ -11,6 +11,7 @@ import os
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask.wrappers import Response
+from flask_cors import CORS
 
 from gl_intelligence.config import cfg
 from gl_intelligence.cortex.client import CortexClient
@@ -19,6 +20,7 @@ from gl_intelligence.agents.orchestrator import AgentOrchestrator
 log = logging.getLogger("api.server")
 
 app = Flask(__name__, static_folder=None)
+CORS(app)
 _orchestrator: AgentOrchestrator | None = None
 
 
@@ -212,6 +214,154 @@ def tax_jurisdictions():
     })
 
 
+@app.route("/api/tax/expense-components")
+def tax_expense_components():
+    """Returns income tax expense components — current/deferred by jurisdiction (ASC 740-10-50-9/10)."""
+    from gl_intelligence.agents.tax_agent import load_tax_data
+    data = load_tax_data()
+    return jsonify({
+        "current_year": data.get("income_tax_expense_components", {}),
+        "prior_year": data.get("prior_income_tax_expense_components", {}),
+    })
+
+
+@app.route("/api/tax/carryforwards")
+def tax_carryforwards():
+    """Returns NOL and credit carryforward schedules (ASC 740-10-50-3)."""
+    from gl_intelligence.agents.tax_agent import load_tax_data
+    data = load_tax_data()
+    return jsonify({
+        "carryforwards": data.get("carryforwards", []),
+        "unremitted_foreign_earnings": data.get("unremitted_foreign_earnings", {}),
+    })
+
+
+# ── Tax GL Classifier (ASC 740 / ASU 2023-09) ─────────────
+
+@app.route("/api/tax/classifier/accounts")
+def tax_classifier_accounts():
+    """Returns the SAP GL accounts in the tax account range (160000-199999)."""
+    from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+    agent = TaxClassifierAgent(get_orchestrator().cx)
+    accounts = agent.get_all_accounts()
+    return jsonify({"count": len(accounts), "accounts": accounts})
+
+
+@app.route("/api/tax/classifier/run", methods=["POST"])
+def tax_classifier_run():
+    """Run the Tax Classifier Agent — Claude classifies SAP GL tax accounts into ASC 740 categories."""
+    from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+    body = request.get_json(silent=True) or {}
+    batch_size = body.get("batch_size", 18)
+    dry_run = body.get("dry_run", False)
+    source = body.get("source", "auto")
+
+    agent = TaxClassifierAgent(get_orchestrator().cx)
+    try:
+        result = agent.run(batch_size=batch_size, dry_run=dry_run, source=source)
+        return jsonify({
+            "status": result.status,
+            "summary": result.summary,
+            "results": result.results,
+            "elapsed_seconds": result.elapsed_seconds,
+        })
+    except Exception as e:
+        log.exception("Tax classifier error")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/tax/classifier/pending")
+def tax_classifier_pending():
+    """Returns pending tax GL mappings awaiting controller review."""
+    from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+    agent = TaxClassifierAgent(get_orchestrator().cx)
+    pending = agent.get_pending_tax_mappings()
+    return jsonify({"count": len(pending), "pending": pending})
+
+
+@app.route("/api/tax/classifier/approved")
+def tax_classifier_approved():
+    """Returns all approved tax GL mappings."""
+    from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+    agent = TaxClassifierAgent(get_orchestrator().cx)
+    approved = agent.get_approved_tax_mappings()
+    return jsonify({"count": len(approved), "approved": approved})
+
+
+@app.route("/api/tax/classifier/approve", methods=["POST"])
+def tax_classifier_approve():
+    """Approve a pending tax GL mapping.
+    Body: {"gl_account": "...", "reviewer": "...", "override_category": "..." (optional)}
+    """
+    from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+    body = request.get_json(silent=True) or {}
+    gl_account = body.get("gl_account")
+    reviewer = body.get("reviewer", "controller")
+    override = body.get("override_category")
+
+    if not gl_account:
+        return jsonify({"error": "gl_account required"}), 400
+
+    agent = TaxClassifierAgent(get_orchestrator().cx)
+    ok = agent.approve_mapping(gl_account, reviewer=reviewer, override_category=override)
+    return jsonify({"success": ok, "gl_account": gl_account, "action": "approved"})
+
+
+@app.route("/api/tax/classifier/reject", methods=["POST"])
+def tax_classifier_reject():
+    """Reject a pending tax GL mapping.
+    Body: {"gl_account": "...", "reviewer": "...", "reason": "..."}
+    """
+    from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+    body = request.get_json(silent=True) or {}
+    gl_account = body.get("gl_account")
+    reviewer = body.get("reviewer", "controller")
+    reason = body.get("reason", "")
+
+    if not gl_account:
+        return jsonify({"error": "gl_account required"}), 400
+
+    agent = TaxClassifierAgent(get_orchestrator().cx)
+    ok = agent.reject_mapping(gl_account, reviewer=reviewer, reason=reason)
+    return jsonify({"success": ok, "gl_account": gl_account, "action": "rejected"})
+
+
+@app.route("/api/tax/etr-bridge/run", methods=["POST"])
+def etr_bridge_run():
+    """Run the ETR Bridge Agent — produces Tables A, B, C from approved tax mappings."""
+    from gl_intelligence.agents.etr_bridge_agent import ETRBridgeAgent
+    body = request.get_json(silent=True) or {}
+    fy = body.get("fiscal_year", cfg.FISCAL_YEAR)
+
+    agent = ETRBridgeAgent(get_orchestrator().cx)
+    try:
+        result = agent.run(fiscal_year=fy)
+        return jsonify({
+            "status": result.status,
+            "summary": result.summary,
+            "output": result.results[0] if result.results else None,
+            "elapsed_seconds": result.elapsed_seconds,
+        })
+    except Exception as e:
+        log.exception("ETR bridge error")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/tax/etr-bridge/output")
+def etr_bridge_output():
+    """Returns the latest ETR bridge output (Tables A, B, C) — runs bridge if not yet computed."""
+    from gl_intelligence.agents.etr_bridge_agent import ETRBridgeAgent
+    fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
+    agent = ETRBridgeAgent(get_orchestrator().cx)
+    try:
+        result = agent.run(fiscal_year=fy)
+        if result.results:
+            return jsonify(result.results[0])
+        return jsonify({"error": "No ETR output produced"}), 500
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 # ── AI Chat ─────────────────────────────────────────────────
 
 @app.route("/api/chat", methods=["POST"])
@@ -226,7 +376,14 @@ def chat():
         return jsonify({"error": "messages required"}), 400
 
     try:
-        client = anthropic.Anthropic(api_key=cfg.ANTHROPIC_API_KEY)
+        if cfg.use_bedrock():
+            client = anthropic.AnthropicBedrock(
+                aws_access_key=cfg.AWS_ACCESS_KEY_ID,
+                aws_secret_key=cfg.AWS_SECRET_ACCESS_KEY,
+                aws_region=cfg.AWS_BEDROCK_REGION,
+            )
+        else:
+            client = anthropic.Anthropic(api_key=cfg.ANTHROPIC_API_KEY)
         response = client.messages.create(
             model=cfg.CLAUDE_MODEL,
             max_tokens=1200,
@@ -259,6 +416,11 @@ ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
 @app.route("/")
 def index():
     return send_from_directory(ROOT_DIR, "fasb_dise_platform.html")
+
+
+@app.route("/app")
+def app_dashboard():
+    return send_from_directory(ROOT_DIR, "dashboard.html")
 
 
 @app.route("/dashboard")

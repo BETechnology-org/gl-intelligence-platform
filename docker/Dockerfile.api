@@ -16,6 +16,11 @@ COPY ["FASB DISE ASSETS/dise_full_mapping.json", "/app/data/dise_full_mapping.js
 COPY ["FASB DISE ASSETS/tax_provision_data.json", "/app/data/tax_provision_data.json"]
 COPY run.py /app/run.py
 
+# Frontend HTML + static assets (served by Flask)
+COPY fasb_dise_platform.html /app/fasb_dise_platform.html
+COPY dashboard.html /app/dashboard.html
+COPY ["FASB DISE ASSETS/", "/app/FASB DISE ASSETS/"]
+
 # Non-root user
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser

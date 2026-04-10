@@ -1,0 +1,13 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - build
+  - -f
+  - docker/Dockerfile.api
+  - -t
+  - us-central1-docker.pkg.dev/trufflesai-loans/gl-intelligence/api:latest
+  - .
+images:
+- us-central1-docker.pkg.dev/trufflesai-loans/gl-intelligence/api:latest
+options:
+  machineType: E2_MEDIUM

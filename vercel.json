@@ -1,36 +1,26 @@
 {
   "version": 2,
-  "name": "gl-intelligence-platform",
-  "builds": [
+  "name": "truffles-ai",
+  "buildCommand": "cd web && npm run build",
+  "outputDirectory": "web/.next",
+  "framework": "nextjs",
+  "installCommand": "cd web && npm install",
+  "rewrites": [
     {
-      "src": "fasb_dise_platform.html",
-      "use": "@vercel/static"
+      "source": "/legacy",
+      "destination": "/fasb_dise_platform.html"
     },
     {
-      "src": "FASB DISE ASSETS/DISE_Dashboard.html",
-      "use": "@vercel/static"
+      "source": "/dashboard",
+      "destination": "/FASB DISE ASSETS/DISE_Dashboard.html"
     },
     {
-      "src": "FASB DISE ASSETS/dise_full_mapping.json",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/fasb_dise_platform.html"
+      "source": "/dise_full_mapping.json",
+      "destination": "/FASB DISE ASSETS/dise_full_mapping.json"
     },
     {
-      "src": "/dashboard",
-      "dest": "/FASB DISE ASSETS/DISE_Dashboard.html"
-    },
-    {
-      "src": "/dise_full_mapping.json",
-      "dest": "/FASB DISE ASSETS/dise_full_mapping.json"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "http://13.235.56.30:8080/api/$1"
+      "source": "/api/:path*",
+      "destination": "https://gl-intelligence-462410669395.us-central1.run.app/api/:path*"
     }
   ]
 }

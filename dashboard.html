@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BE Technology — GL Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Page chrome */
+  --header-bg:#0C1420;--header-text:#E2E8F0;--header-muted:#64748B;--header-border:#1E2D3D;
+  /* Surface */
+  --bg:#F0F2F5;--bg2:#FFFFFF;--bg3:#F4F6F9;--bg4:#E8ECF1;
+  --surface:#FFFFFF;--surface2:#F8FAFC;
+  --border:#DDE1E8;--border2:#C4CAD4;
+  /* Text */
+  --text:#0D1521;--text2:#3D4C5E;--text3:#8A95A3;--text4:#5C6878;
+  /* Accent */
+  --accent:#1A56DB;--accent2:#1647C0;
+  --accent-dim:rgba(26,86,219,0.06);--accent-border:rgba(26,86,219,0.2);
+  /* Status */
+  --positive:#047857;--positive-bg:#F0FDF4;--positive-border:rgba(4,120,87,0.18);
+  --warning:#B45309;--warning-bg:#FFFBEB;--warning-border:rgba(180,83,9,0.18);
+  --critical:#B91C1C;--critical-bg:#FFF5F5;--critical-border:rgba(185,28,28,0.15);
+  /* Categories — investment bank palette */
+  --cat-comp:#13294B;--cat-comp-bg:rgba(19,41,75,0.08);
+  --cat-other:#1565C0;--cat-other-bg:rgba(21,101,192,0.08);
+  --cat-dep:#B8960C;--cat-dep-bg:rgba(184,150,12,0.09);
+  --cat-inv:#0D6E8A;--cat-inv-bg:rgba(13,110,138,0.08);
+  --cat-amort:#2A5F8F;--cat-amort-bg:rgba(42,95,143,0.08);
+  --sans:'DM Sans',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --radius:5px;
+  --shadow:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.04);
+}
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5}
+body{min-height:100vh;overflow-x:hidden}
+::selection{background:rgba(26,86,219,0.12);color:var(--text)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── Header ── */
+.topbar{background:var(--header-bg);padding:0 28px;height:52px;display:flex;align-items:center;gap:0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--header-border)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:26px;height:26px;border-radius:4px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#fff;letter-spacing:-0.04em}
+.logo-text{font-weight:600;font-size:13px;color:var(--header-text);letter-spacing:-0.01em}
+.logo-divider{width:1px;height:14px;background:var(--header-border);margin:0 14px}
+.logo-sub{font-family:var(--mono);font-size:10px;color:var(--header-muted);letter-spacing:0.04em;text-transform:uppercase}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.topbar-env{font-family:var(--mono);font-size:10px;color:var(--header-muted);padding:3px 8px;border:1px solid var(--header-border);border-radius:3px}
+.topbar-badge{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:3px;background:rgba(255,255,255,0.04);color:var(--header-muted);border:1px solid var(--header-border)}
+.topbar-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--header-muted);flex-shrink:0;transition:background 0.3s}
+
+/* ── Nav ── */
+.tabs{display:flex;gap:0;padding:0 28px;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:0 16px;height:42px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border:none;background:none;position:relative;transition:color 0.15s;font-family:var(--sans);white-space:nowrap;display:flex;align-items:center}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--accent);font-weight:600}
+.tab.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent)}
+
+/* ── Layout ── */
+.main{padding:20px 28px 60px;max-width:1440px;margin:0 auto}
+.section{display:none}
+.section.active{display:block;animation:fadeUp 0.2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Context bar (shown at top of each section) ── */
+.ctx-bar{display:flex;align-items:center;gap:10px;padding:9px 14px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px;font-family:var(--mono);font-size:10px;color:var(--text3)}
+.ctx-bar-item{display:flex;align-items:center;gap:5px}
+.ctx-bar-item+.ctx-bar-item::before{content:'·';margin-right:5px;color:var(--border2)}
+.ctx-bar-sep{flex:1}
+.ctx-bar-live{display:flex;align-items:center;gap:5px;color:var(--positive);font-weight:500}
+.ctx-live-dot{width:5px;height:5px;border-radius:50%;background:var(--positive);animation:livepulse 2s ease-in-out infinite}
+@keyframes livepulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── Metric KPI cards ── */
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden}
+.metric-card-accent{position:absolute;top:0;left:0;width:3px;height:100%;background:var(--border)}
+.metric-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:9px}
+.metric-value{font-size:24px;font-weight:700;letter-spacing:-0.03em;color:var(--text);line-height:1;font-family:var(--sans)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:5px}
+
+/* ── Chart cards ── */
+.charts-row{display:grid;grid-template-columns:1.15fr 0.85fr;gap:12px;margin-bottom:16px}
+.chart-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.chart-card-header{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.chart-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text4);font-weight:500}
+.chart-body{padding:18px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-label{font-size:11px;color:var(--text2);width:210px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;height:18px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width 0.9s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;padding-left:8px}
+.bar-val{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,0.9);font-weight:500;white-space:nowrap}
+.conf-row{display:flex;gap:8px}
+.conf-block{flex:1;padding:14px 10px;text-align:center;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg3)}
+.conf-num{font-size:26px;font-weight:700;letter-spacing:-0.03em;line-height:1}
+.conf-label-text{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;color:var(--text3)}
+
+/* ── Toolbar + table ── */
+.toolbar{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.filter-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin-right:2px}
+.filter-select{background:#fff;border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:var(--radius);font-size:12px;font-family:var(--sans);cursor:pointer;height:30px}
+.filter-search{background:#fff;border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:var(--radius);font-size:12px;width:240px;font-family:var(--sans);height:30px}
+.filter-search::placeholder{color:var(--text3)}
+.filter-select:focus,.filter-search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-dim)}
+.export-btn{margin-left:auto;padding:5px 14px;background:#fff;border:1px solid var(--border);color:var(--text2);border-radius:var(--radius);font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:all 0.12s;height:30px}
+.export-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Keep old class name as alias */
+.filters{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+
+.table-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+thead{background:var(--bg3);position:sticky;top:0;z-index:2}
+th{padding:9px 12px;text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2);cursor:pointer;white-space:nowrap;user-select:none;font-weight:500}
+th:hover{color:var(--text)}
+th .sort-arrow{margin-left:3px;opacity:0.3}
+th.sorted .sort-arrow{opacity:1;color:var(--accent)}
+td{padding:8px 12px;border-bottom:1px solid var(--bg3);font-size:12px;vertical-align:middle;color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.gl-code{font-family:var(--mono);font-weight:600;color:var(--accent);font-size:11px}
+.amount{font-family:var(--mono);font-size:11px;text-align:right;white-space:nowrap;color:var(--text2)}
+
+.cat-pill{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap}
+.cat-pill[data-cat="Purchases of inventory"]{background:var(--cat-inv-bg);color:var(--cat-inv)}
+.cat-pill[data-cat="Employee compensation"]{background:var(--cat-comp-bg);color:var(--cat-comp)}
+.cat-pill[data-cat="Depreciation"]{background:var(--cat-dep-bg);color:var(--cat-dep)}
+.cat-pill[data-cat="Intangible asset amortization"]{background:var(--cat-amort-bg);color:var(--cat-amort)}
+.cat-pill[data-cat="Other expenses"]{background:var(--cat-other-bg);color:var(--cat-other)}
+
+.conf-badge{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:0.02em}
+.conf-badge.HIGH{background:var(--positive-bg);color:var(--positive);border:1px solid var(--positive-border)}
+.conf-badge.MEDIUM{background:var(--warning-bg);color:var(--warning);border:1px solid var(--warning-border)}
+.conf-badge.LOW{background:var(--critical-bg);color:var(--critical);border:1px solid var(--critical-border)}
+
+.caption-tag{font-family:var(--mono);font-size:10px;color:var(--text4);background:var(--bg3);padding:2px 7px;border-radius:3px;border:1px solid var(--border)}
+.citation{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.reasoning-toggle{color:var(--accent);cursor:pointer;font-size:11px;font-weight:500}
+.reasoning-toggle:hover{text-decoration:underline}
+.reasoning-text{display:none;margin-top:6px;padding:10px 12px;background:var(--bg3);border-radius:var(--radius);font-size:11px;color:var(--text2);line-height:1.7;border-left:2px solid var(--border2)}
+.reasoning-text.open{display:block;animation:fadeUp 0.15s ease}
+
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid var(--border);background:var(--bg3)}
+.page-info{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.page-btns{display:flex;gap:3px}
+.page-btn{padding:3px 10px;background:#fff;border:1px solid var(--border);color:var(--text2);border-radius:var(--radius);font-size:11px;cursor:pointer;font-family:var(--sans)}
+.page-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.page-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.page-btn:disabled{opacity:0.3;cursor:not-allowed}
+
+/* ── Disclosure ── */
+.disclosure-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);max-width:960px;overflow:hidden}
+.disclosure-card-header{padding:20px 28px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.disclosure-header{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-0.01em}
+.disclosure-sub{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:3px}
+.disclosure-body{padding:24px 28px}
+.disc-table{width:100%;border-collapse:collapse}
+.disc-table th{padding:8px 14px;text-align:right;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2);background:var(--bg3);font-weight:600}
+.disc-table th:first-child{text-align:left;width:230px}
+.disc-table td{padding:9px 14px;text-align:right;font-family:var(--mono);font-size:12px;border-bottom:1px solid var(--bg3);color:var(--text2)}
+.disc-table td:first-child{text-align:left;font-family:var(--sans);font-weight:500;color:var(--text);font-size:13px}
+.disc-table tr:hover td{background:var(--bg3)}
+.disc-table tfoot td{border-top:2px solid var(--border2);font-weight:700;color:var(--text);background:var(--bg3)}
+.disc-total{font-weight:700}
+
+/* ── Audit ── */
+.audit-search{background:#fff;border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:var(--radius);font-size:13px;width:100%;max-width:480px;font-family:var(--sans);margin-bottom:18px}
+.audit-search:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-dim)}
+.audit-search::placeholder{color:var(--text3)}
+.audit-chain{display:flex;flex-direction:column;gap:0;max-width:800px}
+.chain-link{background:#fff;border:1px solid var(--border);padding:16px 20px;position:relative}
+.chain-link:first-child{border-radius:var(--radius) var(--radius) 0 0}
+.chain-link:last-child{border-radius:0 0 var(--radius) var(--radius)}
+.chain-link:not(:last-child){border-bottom:none}
+.chain-link::before{content:'';position:absolute;left:34px;top:-1px;bottom:-1px;width:1px;background:var(--border)}
+.chain-link:first-child::before{top:50%}
+.chain-link:last-child::before{bottom:50%}
+.chain-step{display:flex;align-items:flex-start;gap:12px;position:relative;z-index:1}
+.chain-dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;border:1px solid var(--border2);font-weight:700;font-family:var(--mono)}
+.chain-dot.l1{background:var(--accent-dim);border-color:var(--accent-border);color:var(--accent)}
+.chain-dot.l2{background:var(--positive-bg);border-color:var(--positive-border);color:var(--positive)}
+.chain-dot.l3{background:var(--bg3);border-color:var(--border2);color:var(--text4)}
+.chain-dot.l4{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning)}
+.chain-content{flex:1}
+.chain-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:2px}
+.chain-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.chain-detail{font-size:12px;color:var(--text2);line-height:1.6}
+.chain-meta{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:5px;display:flex;gap:14px;flex-wrap:wrap}
+
+/* ── Anomaly ── */
+.anomaly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:10px}
+.anomaly-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;border-left:3px solid var(--border2);transition:box-shadow 0.2s}
+.anomaly-card:hover{box-shadow:var(--shadow-md)}
+.anomaly-card.p1{border-left-color:var(--critical)}
+.anomaly-card.p2{border-left-color:var(--warning)}
+.anomaly-card.p3{border-left-color:var(--accent)}
+.anomaly-header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg3)}
+.anomaly-priority{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px}
+.anomaly-priority.P1{background:var(--critical-bg);color:var(--critical)}
+.anomaly-priority.P2{background:var(--warning-bg);color:var(--warning)}
+.anomaly-priority.P3{background:var(--accent-dim);color:var(--accent)}
+.anomaly-body{padding:14px 16px}
+.anomaly-cat{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.anomaly-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.anomaly-stats{display:flex;gap:14px}
+.anomaly-stat{min-width:60px}
+.anomaly-stat-val{font-size:15px;font-weight:700;color:var(--text)}
+.anomaly-stat-label{font-family:var(--mono);font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em}
+.anomaly-bar{height:2px;background:var(--bg4);border-radius:2px;margin-top:12px;overflow:hidden}
+.anomaly-bar-fill{height:100%;border-radius:2px}
+.anomaly-footer{display:flex;align-items:center;justify-content:space-between;padding:9px 16px;border-top:1px solid var(--border);background:var(--bg3);margin-top:0}
+.anomaly-assignee{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text3);font-family:var(--mono)}
+.anomaly-assignee-avatar{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;flex-shrink:0}
+.anomaly-assignee-name{color:var(--text2);font-weight:500}
+.anomaly-due{font-family:var(--mono);font-size:9px;color:var(--text3)}
+
+/* ── Cost Centre ── */
+.cc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cc-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.cc-title{font-size:13px;font-weight:600;margin-bottom:2px;color:var(--text)}
+.cc-sub{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:12px}
+.cc-amount{font-size:20px;font-weight:700;letter-spacing:-0.025em;margin-bottom:14px;color:var(--text)}
+.cc-breakdown{display:flex;flex-direction:column;gap:7px}
+.cc-row{display:flex;align-items:center;gap:8px}
+.cc-row-label{font-size:11px;color:var(--text2);width:200px;flex-shrink:0}
+.cc-row-bar{flex:1;height:14px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.cc-row-fill{height:100%;border-radius:2px;display:flex;align-items:center;padding-left:6px}
+.cc-row-val{font-family:var(--mono);font-size:9px;color:rgba(255,255,255,0.85);white-space:nowrap}
+
+/* ── Agents ── */
+.pipeline-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:16px}
+.pipeline-bar-left{display:flex;flex-direction:column;gap:3px}
+.pipeline-bar-title{font-size:13px;font-weight:600;color:var(--text)}
+.pipeline-bar-sub{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.agent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.agent-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color 0.2s;border-left:3px solid var(--border)}
+.agent-card.running{border-left-color:var(--accent);border-color:var(--accent-border)}
+.agent-card.done{border-left-color:var(--positive)}
+.agent-card.error{border-left-color:var(--critical)}
+.agent-card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.agent-card-icon{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;background:var(--bg3);color:var(--text4);border:1px solid var(--border);font-family:var(--mono);flex-shrink:0}
+.agent-card-title{font-size:13px;font-weight:600;margin-bottom:2px;color:var(--text)}
+.agent-card-desc{font-size:11px;color:var(--text3);line-height:1.5}
+.agent-card-actions{display:flex;gap:6px;margin-bottom:8px}
+.agent-btn{padding:5px 12px;background:#fff;border:1px solid var(--border);color:var(--text2);border-radius:var(--radius);font-size:11px;cursor:pointer;font-family:var(--sans);font-weight:500;transition:all 0.12s}
+.agent-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.agent-btn:disabled{opacity:0.35;cursor:not-allowed}
+.agent-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.agent-btn-primary:hover:not(:disabled){background:var(--accent2);border-color:var(--accent2)}
+.agent-btn-run-all{padding:10px 24px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background 0.15s;letter-spacing:0.01em}
+.agent-btn-run-all:hover:not(:disabled){background:var(--accent2)}
+.agent-btn-run-all:disabled{opacity:0.4;cursor:not-allowed}
+.agent-result{font-size:11px;color:var(--text2);line-height:1.7;max-height:160px;overflow-y:auto;margin-top:4px}
+.agent-result pre{font-family:var(--mono);font-size:10px;background:var(--bg3);padding:8px;border-radius:var(--radius);overflow-x:auto;white-space:pre-wrap;margin-top:6px;border:1px solid var(--border)}
+.agent-result .narrative{background:var(--bg3);border-left:2px solid var(--border2);padding:10px 12px;border-radius:0 var(--radius) var(--radius) 0;margin-top:6px;white-space:pre-wrap;line-height:1.8;font-size:11px}
+.agent-log-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.agent-log-header{padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg3);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text4);display:flex;align-items:center;gap:8px}
+.agent-log-body{padding:12px 14px;font-family:var(--mono);font-size:11px;color:var(--text2);line-height:2;max-height:260px;overflow-y:auto}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+#file-input{display:none}
+
+@media(max-width:1200px){.metrics{grid-template-columns:repeat(3,1fr)}.charts-row,.cc-grid,.agent-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.metrics{grid-template-columns:repeat(2,1fr)}.topbar,.tabs,.main{padding-left:16px;padding-right:16px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-mark">B</div>
+    <span class="logo-text">BE Technology</span>
+  </div>
+  <div class="logo-divider"></div>
+  <span class="logo-sub">ASC 220-40 · DISE Compliance</span>
+  <div class="topbar-right">
+    <span class="topbar-env">FY2023 · diplomatic75</span>
+    <span class="topbar-badge" id="data-badge">
+      <span class="topbar-badge-dot" id="status-dot"></span>
+      <span id="data-badge-text">Connecting…</span>
+    </span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="dashboard">Overview</button>
+  <button class="tab" data-tab="accounts">Account Explorer</button>
+  <button class="tab" data-tab="audit">Audit Trail</button>
+  <button class="tab" data-tab="anomaly">Anomaly Alerts</button>
+  <button class="tab" data-tab="disclosure">DISE Disclosure</button>
+  <button class="tab" data-tab="costcentre">Cost Centre</button>
+  <button class="tab" data-tab="agents">Agents</button>
+  <button class="tab" data-tab="income-tax">Income Tax</button>
+</div>
+
+<div class="main">
+  <!-- BigQuery / Cortex loader overlay -->
+  <div id="bq-loader" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(247,248,252,0.96);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0">
+    <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:16px;padding:40px 48px;max-width:540px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,0.08)">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:32px">
+        <div style="width:44px;height:44px;border-radius:10px;background:rgba(66,133,244,0.1);border:1px solid rgba(66,133,244,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#4285F4"/></svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#0F1729;letter-spacing:-0.02em">Google BigQuery</div>
+          <div style="font-size:11px;color:#7B8EA8;font-family:'DM Mono',monospace;margin-top:1px">via Cortex Framework · be-tech-prod</div>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px" id="bq-status-badge">
+          <div style="width:7px;height:7px;border-radius:50%;background:#D1D5DB" id="bq-dot"></div>
+          <span style="font-size:11px;font-weight:500;color:#9CA3AF;font-family:'DM Mono',monospace" id="bq-status-text">Connecting…</span>
+        </div>
+      </div>
+
+      <!-- Steps -->
+      <div style="display:flex;flex-direction:column;gap:0" id="bq-steps">
+        <div class="bq-step" id="bq-step-1" style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.05);opacity:0.3;transition:opacity 0.4s">
+          <div class="bq-step-icon" style="width:32px;height:32px;border-radius:8px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h7" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#0F1729;margin-bottom:3px">Authenticating with Cortex Framework</div>
+            <div style="font-size:11px;color:#7B8EA8;font-family:'DM Mono',monospace" id="bq-step-1-detail">dataset: cortex_sap_reporting</div>
+          </div>
+          <div class="bq-step-check" style="opacity:0;transition:opacity 0.3s">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#059669"/><path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+
+        <div class="bq-step" id="bq-step-2" style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.05);opacity:0.3;transition:opacity 0.4s">
+          <div class="bq-step-icon" style="width:32px;height:32px;border-radius:8px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="5" rx="9" ry="3" stroke="#6B7280" stroke-width="1.5"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5" stroke="#6B7280" stroke-width="1.5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3" stroke="#6B7280" stroke-width="1.5"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#0F1729;margin-bottom:3px">Querying SAP GL journal entries</div>
+            <div style="font-size:11px;color:#7B8EA8;font-family:'DM Mono',monospace" id="bq-step-2-detail">SELECT * FROM sap_fi_document_header…</div>
+          </div>
+          <div class="bq-step-check" style="opacity:0;transition:opacity 0.3s">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#059669"/><path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+
+        <div class="bq-step" id="bq-step-3" style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,0.05);opacity:0.3;transition:opacity 0.4s">
+          <div class="bq-step-icon" style="width:32px;height:32px;border-radius:8px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="#6B7280" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="#6B7280" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="#6B7280" stroke-width="1.5"/><path d="M17.5 14v6M14.5 17h6" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#0F1729;margin-bottom:3px">Running DISE Mapping Agent</div>
+            <div style="font-size:11px;color:#7B8EA8;font-family:'DM Mono',monospace" id="bq-step-3-detail">Classifying accounts into 5 ASC 220-40 categories…</div>
+          </div>
+          <div class="bq-step-check" style="opacity:0;transition:opacity 0.3s">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#059669"/><path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+
+        <div class="bq-step" id="bq-step-4" style="display:flex;align-items:flex-start;gap:14px;padding:14px 0;opacity:0.3;transition:opacity 0.4s">
+          <div class="bq-step-icon" style="width:32px;height:32px;border-radius:8px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#0F1729;margin-bottom:3px">Preparing disclosure dashboard</div>
+            <div style="font-size:11px;color:#7B8EA8;font-family:'DM Mono',monospace" id="bq-step-4-detail">502 accounts · FY2023 actuals ready</div>
+          </div>
+          <div class="bq-step-check" style="opacity:0;transition:opacity 0.3s">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#059669"/><path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div style="margin-top:24px">
+        <div style="height:4px;background:#E5E7EB;border-radius:2px;overflow:hidden">
+          <div id="bq-progress" style="height:100%;width:0%;background:linear-gradient(90deg,#4285F4,#34A853);border-radius:2px;transition:width 0.6s ease"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px">
+          <span style="font-size:11px;color:#9CA3AF;font-family:'DM Mono',monospace" id="bq-progress-text">0% complete</span>
+          <span style="font-size:11px;color:#9CA3AF;font-family:'DM Mono',monospace" id="bq-progress-count"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- hidden file input kept for fallback -->
+  <input type="file" id="file-input" accept=".json" style="display:none">
+
+  <!-- DASHBOARD -->
+  <div class="section active" id="sec-dashboard" style="display:none">
+    <div class="ctx-bar">
+      <div class="ctx-bar-item">501 GL accounts</div>
+      <div class="ctx-bar-item">FY2023 actuals</div>
+      <div class="ctx-bar-item">5 DISE categories</div>
+      <div class="ctx-bar-item">SAP · Google BigQuery · Cortex Framework</div>
+      <div class="ctx-bar-sep"></div>
+      <div class="ctx-bar-live"><span class="ctx-live-dot"></span>Live data</div>
+    </div>
+    <div class="metrics" id="metrics-strip"></div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-card-header"><span class="chart-title">Expense by DISE Category — FY2023</span></div>
+        <div class="chart-body" id="cat-bars"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><span class="chart-title">Classification Confidence</span></div>
+        <div class="chart-body">
+          <div id="conf-blocks" class="conf-row" style="margin-bottom:18px"></div>
+          <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);margin-bottom:12px;padding-top:12px;border-top:1px solid var(--border)">Expense Caption Breakdown</div>
+          <div id="caption-bars"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNTS -->
+  <div class="section" id="sec-accounts">
+    <div class="ctx-bar">
+      <div class="ctx-bar-item">501 accounts classified</div>
+      <div class="ctx-bar-item">Sortable · Filterable · Exportable</div>
+      <div class="ctx-bar-sep"></div>
+      <div class="ctx-bar-item">50 per page</div>
+    </div>
+    <div class="filters">
+      <span class="filter-label">Filter</span>
+      <select class="filter-select" id="f-cat"><option value="">All Categories</option></select>
+      <select class="filter-select" id="f-caption"><option value="">All Captions</option></select>
+      <select class="filter-select" id="f-conf"><option value="">All Confidence</option></select>
+      <input class="filter-search" id="f-search" placeholder="Search GL account or description…">
+      <button class="export-btn" id="export-csv">↓ Export CSV</button>
+    </div>
+    <div class="table-wrap">
+      <div class="table-scroll"><table><thead id="table-head"></thead><tbody id="table-body"></tbody></table></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <!-- AUDIT TRAIL -->
+  <div class="section" id="sec-audit">
+    <div class="ctx-bar">
+      <div class="ctx-bar-item">4-link evidence chain per account</div>
+      <div class="ctx-bar-item">GL Posting → AI Classification → Reasoning → ASC Citation</div>
+    </div>
+    <input class="audit-search" id="audit-search" placeholder="Search by GL account number or description…">
+    <div id="audit-container"></div>
+  </div>
+
+  <!-- ANOMALY ALERTS -->
+  <div class="section" id="sec-anomaly">
+    <div class="ctx-bar">
+      <div class="ctx-bar-item">YoY variance analysis</div>
+      <div class="ctx-bar-item">P1 &gt;30% · P2 20–30% · P3 15–20%</div>
+      <div class="ctx-bar-item">Live + Supplemental scenarios</div>
+      <div class="ctx-bar-sep"></div>
+      <div class="ctx-bar-live"><div class="ctx-live-dot"></div>Stakeholder assignments active</div>
+    </div>
+    <div class="metrics" id="anomaly-metrics" style="grid-template-columns:repeat(4,1fr);margin-bottom:14px"></div>
+    <div class="anomaly-grid" id="anomaly-grid"></div>
+  </div>
+
+  <!-- DISCLOSURE -->
+  <div class="section" id="sec-disclosure">
+    <div class="ctx-bar" style="margin-bottom:16px">
+      <div class="ctx-bar-item">ASU 2024-03 · ASC 220-40</div>
+      <div class="ctx-bar-item">Draft footnote — pending Controller review</div>
+      <div class="ctx-bar-sep"></div>
+      <div class="ctx-bar-item">Amounts in thousands</div>
+    </div>
+    <div class="disclosure-card">
+      <div class="disclosure-card-header">
+        <div class="disclosure-header">Disaggregation of Income Statement Expenses</div>
+        <div class="disclosure-sub">ASU 2024-03 / ASC 220-40 — For the fiscal year ended December 31, 2023 (in thousands)</div>
+      </div>
+      <div class="disclosure-body">
+        <table class="disc-table" id="disc-table"></table>
+        <div style="margin-top:20px;font-size:11px;color:var(--text3);line-height:1.9;border-top:1px solid var(--border);padding-top:16px" id="disc-footnotes"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COST CENTRE -->
+  <div class="section" id="sec-costcentre">
+    <div class="ctx-bar" style="margin-bottom:14px">
+      <div class="ctx-bar-item">Expense by functional area</div>
+      <div class="ctx-bar-item">DISE category breakdown per cost centre</div>
+    </div>
+    <div class="cc-grid" id="cc-grid"></div>
+  </div>
+
+  <!-- INCOME TAX (ASC 740 / ASU 2023-09) -->
+  <div class="section" id="sec-income-tax">
+    <div class="ctx-bar">
+      <div class="ctx-bar-item">ASC 740 · Income Tax</div>
+      <div class="ctx-bar-item">ASU 2023-09 effective FY2025</div>
+      <div class="ctx-bar-item">BE Technology Corp</div>
+      <div class="ctx-bar-sep"></div>
+      <div class="ctx-bar-live"><span class="ctx-live-dot"></span>Live from API</div>
+    </div>
+
+    <!-- Data pipeline card (visible while loading, collapses after) -->
+    <div id="tax-pipeline-card" style="display:none;margin-bottom:16px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;overflow:hidden;transition:max-height 0.5s ease,opacity 0.4s ease,padding 0.4s ease;max-height:120px">
+      <div style="display:flex;align-items:center;gap:0;position:relative">
+        <!-- Connector line -->
+        <div style="position:absolute;top:16px;left:16px;right:16px;height:1px;background:var(--border2);z-index:0"></div>
+        <!-- Steps -->
+        <div id="tax-ps-1" class="tax-pipeline-step" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;transition:opacity 0.3s;opacity:0.35">
+          <div class="tax-ps-icon" style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="6" rx="8" ry="3" stroke="#6B7280" stroke-width="1.5"/><path d="M4 6v4c0 1.657 3.582 3 8 3s8-1.343 8-3V6" stroke="#6B7280" stroke-width="1.5"/><path d="M4 10v4c0 1.657 3.582 3 8 3s8-1.343 8-3v-4" stroke="#6B7280" stroke-width="1.5"/></svg>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em">SAP HANA</div>
+          <div class="tax-ps-detail" style="font-family:var(--mono);font-size:9px;color:var(--text4);text-align:center">bkpf · bseg</div>
+        </div>
+        <div id="tax-ps-2" class="tax-pipeline-step" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;transition:opacity 0.3s;opacity:0.35">
+          <div class="tax-ps-icon" style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/><path d="M12 3v18" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/><rect x="5" y="12" width="14" height="9" rx="1" stroke="#6B7280" stroke-width="1.5"/></svg>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em">BigQuery</div>
+          <div class="tax-ps-detail" style="font-family:var(--mono);font-size:9px;color:var(--text4);text-align:center">cortex_sap_reporting</div>
+        </div>
+        <div id="tax-ps-3" class="tax-pipeline-step" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;transition:opacity 0.3s;opacity:0.35">
+          <div class="tax-ps-icon" style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em">ASC 740 Engine</div>
+          <div class="tax-ps-detail" style="font-family:var(--mono);font-size:9px;color:var(--text4);text-align:center">GL 160000–199999</div>
+        </div>
+        <div id="tax-ps-4" class="tax-pipeline-step" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;transition:opacity 0.3s;opacity:0.35">
+          <div class="tax-ps-icon" style="width:32px;height:32px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#6B7280" stroke-width="1.5"/><path d="M3 9h18M9 21V9" stroke="#6B7280" stroke-width="1.5"/></svg>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em">Dashboard</div>
+          <div class="tax-ps-detail" style="font-family:var(--mono);font-size:9px;color:var(--text4);text-align:center">Tables A · B · C</div>
+        </div>
+      </div>
+      <!-- Progress bar -->
+      <div style="margin-top:14px;height:2px;background:var(--bg3);border-radius:2px;overflow:hidden">
+        <div id="tax-pipeline-progress" style="height:100%;width:0%;background:linear-gradient(90deg,#4285F4,#34A853);border-radius:2px;transition:width 0.5s ease"></div>
+      </div>
+      <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center">
+        <span id="tax-pipeline-status" style="font-family:var(--mono);font-size:9px;color:var(--text4)">Initialising…</span>
+        <span id="tax-pipeline-elapsed" style="font-family:var(--mono);font-size:9px;color:var(--text4)"></span>
+      </div>
+    </div>
+
+    <!-- Persistent source badge (shown after load) -->
+    <div id="tax-source-badge" style="display:none;margin-bottom:12px;padding:7px 12px;background:rgba(66,133,244,0.04);border:1px solid rgba(66,133,244,0.15);border-radius:var(--radius);display:flex;align-items:center;gap:16px">
+      <span style="font-family:var(--mono);font-size:9px;font-weight:600;color:#4285F4;text-transform:uppercase;letter-spacing:0.08em">Data Sources</span>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--text2)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="6" rx="8" ry="3" stroke="#059669" stroke-width="2"/><path d="M4 6v4c0 1.657 3.582 3 8 3s8-1.343 8-3V6" stroke="#059669" stroke-width="2"/></svg>
+          SAP HANA · bkpf/bseg
+        </span>
+        <span style="color:var(--border2)">|</span>
+        <span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--text2)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3l9 9" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/><path d="M12 3v18" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/></svg>
+          BigQuery · cortex_sap_reporting
+        </span>
+        <span style="color:var(--border2)">|</span>
+        <span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--text2)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F59E0B" stroke-width="2"/><path d="M12 7v5l3 3" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/></svg>
+          FY2025 · ASU 2023-09
+        </span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:5px">
+        <div style="width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 5px rgba(34,197,94,0.5)"></div>
+        <span id="tax-source-ts" style="font-family:var(--mono);font-size:9px;color:var(--text3)">Live</span>
+      </div>
+    </div>
+
+    <div id="tax-load-error" style="display:none;margin-bottom:12px;padding:10px 14px;background:var(--critical-bg);border:1px solid var(--critical-border);border-radius:var(--radius);font-size:12px;color:var(--critical)"></div>
+
+    <!-- KPI strip -->
+    <div class="metrics" id="tax-kpi-strip" style="grid-template-columns:repeat(5,1fr)"></div>
+
+    <!-- Top charts: ETR waterfall + workpaper completion -->
+    <div class="charts-row" style="margin-bottom:16px">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">ETR Reconciliation Waterfall — ASU 2023-09</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--text3)">21% statutory → effective rate · Amounts in $K</span>
+        </div>
+        <div class="chart-body" id="tax-etr-bars" style="max-height:340px;overflow-y:auto"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-title">Workpaper Completion</span>
+        </div>
+        <div class="chart-body" id="tax-compliance-bars"></div>
+      </div>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto">
+      <button class="tab tax-sub-tab active" id="tst-expense"     onclick="showTaxSubTab('expense')"     style="border-bottom:2px solid var(--accent);color:var(--accent)">Expense Components</button>
+      <button class="tab tax-sub-tab"        id="tst-recon"       onclick="showTaxSubTab('recon')"                                                                           >Rate Reconciliation</button>
+      <button class="tab tax-sub-tab"        id="tst-deferred"    onclick="showTaxSubTab('deferred')"                                                                        >Deferred Schedule</button>
+      <button class="tab tax-sub-tab"        id="tst-jurs"        onclick="showTaxSubTab('jurs')"                                                                            >Jurisdictions</button>
+      <button class="tab tax-sub-tab"        id="tst-cash"        onclick="showTaxSubTab('cash')"                                                                            >Cash Taxes Paid</button>
+      <button class="tab tax-sub-tab"        id="tst-utp"         onclick="showTaxSubTab('utp')"                                                                             >UTPs</button>
+    </div>
+
+    <!-- Sub-panels -->
+    <div class="tax-sub-panel" id="tsp-expense">
+      <div class="table-wrap"><div class="table-scroll" id="tax-expense-table"></div></div>
+    </div>
+    <div class="tax-sub-panel" id="tsp-recon" style="display:none">
+      <div class="table-wrap"><div class="table-scroll" id="tax-recon-table"></div></div>
+    </div>
+    <div class="tax-sub-panel" id="tsp-deferred" style="display:none">
+      <div class="table-wrap"><div id="tax-deferred-content" style="padding:4px"></div></div>
+    </div>
+    <div class="tax-sub-panel" id="tsp-jurs" style="display:none">
+      <div class="table-wrap"><div class="table-scroll" id="tax-jurs-content"></div></div>
+    </div>
+    <div class="tax-sub-panel" id="tsp-cash" style="display:none">
+      <div class="table-wrap"><div class="table-scroll" id="tax-cash-content"></div></div>
+    </div>
+    <div class="tax-sub-panel" id="tsp-utp" style="display:none">
+      <div class="table-wrap"><div id="tax-utp-content" style="padding:12px"></div></div>
+    </div>
+
+    <!-- Run agent -->
+    <div style="margin-top:20px;display:flex;gap:10px;align-items:center">
+      <button class="export-btn" style="background:var(--accent);color:#fff;border-color:var(--accent);padding:6px 18px;height:34px;font-weight:600" onclick="runTaxAgentFull()">✦ Run Full Tax Agent</button>
+      <button class="export-btn" onclick="TAX_DATA=null;loadIncomeTax()">↻ Refresh Data</button>
+      <span id="tax-agent-status" style="font-family:var(--mono);font-size:10px;color:var(--text3)"></span>
+    </div>
+    <div class="agent-log-card" id="tax-agent-result" style="display:none;margin-top:12px">
+      <div class="agent-log-header">Tax Agent Output</div>
+      <div class="agent-log-body" id="tax-agent-result-body"></div>
+    </div>
+  </div>
+
+  <!-- AGENTS -->
+  <div class="section" id="sec-agents">
+    <div class="pipeline-bar">
+      <div class="pipeline-bar-left">
+        <div class="pipeline-bar-title">Agent Pipeline</div>
+        <div class="pipeline-bar-sub">5 agents · GL Mapping → Reconciliation → Anomaly → Disclosure → Tax</div>
+      </div>
+      <button class="agent-btn-run-all" onclick="runAllAgents()">
+        <span id="agent-spinner" style="display:none;width:11px;height:11px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.6s linear infinite;display:none;margin-right:6px;vertical-align:middle"></span>
+        Run Full Pipeline
+      </button>
+    </div>
+    <div id="agent-live-status" style="margin-bottom:14px"></div>
+    <div class="agent-grid">
+      <div class="agent-card" id="ac-mapping">
+        <div class="agent-card-head">
+          <div class="agent-card-icon">GL</div>
+          <div style="flex:1">
+            <div class="agent-card-title">GL Mapping Agent</div>
+            <div class="agent-card-desc">Classifies GL accounts into DISE categories using Gemini + similarity matching</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn" onclick="runAgent('mapping',{dry_run:true})">Dry Run</button>
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('mapping',{})">Run Live</button>
+        </div>
+        <div class="agent-result" id="ar-mapping"></div>
+      </div>
+      <div class="agent-card" id="ac-recon">
+        <div class="agent-card-head">
+          <div class="agent-card-icon">RC</div>
+          <div style="flex:1">
+            <div class="agent-card-title">Reconciliation Agent</div>
+            <div class="agent-card-desc">Validates DISE pivot amounts against SAP trial balance and detects variances</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('recon',{})">Run</button>
+        </div>
+        <div class="agent-result" id="ar-recon"></div>
+      </div>
+      <div class="agent-card" id="ac-anomaly">
+        <div class="agent-card-head">
+          <div class="agent-card-icon">AN</div>
+          <div style="flex:1">
+            <div class="agent-card-title">Anomaly Detection</div>
+            <div class="agent-card-desc">YoY variance analysis with P1/P2/P3 priority alerts and CFO narrative</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('anomaly',{})">Run</button>
+        </div>
+        <div class="agent-result" id="ar-anomaly"></div>
+      </div>
+      <div class="agent-card" id="ac-disclosure">
+        <div class="agent-card-head">
+          <div class="agent-card-icon">DS</div>
+          <div style="flex:1">
+            <div class="agent-card-title">Disclosure Agent</div>
+            <div class="agent-card-desc">Generates ASU 2024-03 DISE footnote text in formal 10-K language</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('disclosure',{})">Generate</button>
+        </div>
+        <div class="agent-result" id="ar-disclosure"></div>
+      </div>
+      <div class="agent-card" id="ac-tax">
+        <div class="agent-card-head">
+          <div class="agent-card-icon">TX</div>
+          <div style="flex:1">
+            <div class="agent-card-title">Tax Reconciliation</div>
+            <div class="agent-card-desc">ASC 740 rate reconciliation, deferred tax scheduling, ASU 2023-09 jurisdictional disaggregation</div>
+          </div>
+        </div>
+        <div class="agent-card-actions">
+          <button class="agent-btn agent-btn-primary" onclick="runAgent('tax',{})">Run</button>
+        </div>
+        <div class="agent-result" id="ar-tax"></div>
+      </div>
+    </div>
+    <div class="agent-log-card">
+      <div class="agent-log-header">Activity Log</div>
+      <div class="agent-log-body" id="agent-log"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let DATA=[], filtered=[], sortCol='posting_amount', sortDir=-1, currentPage=0;
+const PAGE_SIZE=50;
+const catColors={'Purchases of inventory':'var(--cat-inv)','Employee compensation':'var(--cat-comp)','Depreciation':'var(--cat-dep)','Intangible asset amortization':'var(--cat-amort)','Other expenses':'var(--cat-other)'};
+const catColorHex={'Purchases of inventory':'#0D6E8A','Employee compensation':'#13294B','Depreciation':'#B8960C','Intangible asset amortization':'#2A5F8F','Other expenses':'#1565C0'};
+
+function esc(s){if(s==null)return '';const d=document.createElement('div');d.textContent=String(s);return d.innerHTML}
+function fmt$(v){return '$'+(v/1e3).toLocaleString(undefined,{maximumFractionDigits:0})}
+function fmtM(v){return '$'+(v/1e6).toFixed(1)+'M'}
+function fmtFull(v){return '$'+v.toLocaleString(undefined,{maximumFractionDigits:0})}
+
+// ── DATA LOADING ──
+const fileInput=document.getElementById('file-input');
+fileInput.addEventListener('change',()=>{if(fileInput.files[0])readFile(fileInput.files[0])});
+function readFile(f){const r=new FileReader();r.onload=e=>{try{onData(JSON.parse(e.target.result))}catch{alert('Invalid JSON')}};r.readAsText(f)}
+
+function onData(data){
+  DATA=data.filter(d=>d.suggested_category&&!d.error);
+  document.getElementById('sec-dashboard').style.display='';
+  document.getElementById('data-badge-text').textContent=DATA.length+' accounts · FY2023';
+  document.getElementById('status-dot').style.background='var(--positive)';
+  populateFilters();applyFilters();renderDashboard();renderDisclosure();renderAnomalies();renderCostCentres();renderAuditDefault();
+}
+
+// ── TABS ──
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  if (!t.dataset.tab) return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');document.getElementById('sec-'+t.dataset.tab).classList.add('active');
+}));
+
+// ── DASHBOARD ──
+function renderDashboard(){
+  const total=DATA.length,totalAmt=DATA.reduce((s,d)=>s+(d.posting_amount||0),0);
+  const high=DATA.filter(d=>d.confidence_label==='HIGH').length;
+  const med=DATA.filter(d=>d.confidence_label==='MEDIUM').length;
+  const low=DATA.filter(d=>d.confidence_label==='LOW').length;
+  const cats={},captions={};
+  DATA.forEach(d=>{const c=d.suggested_category||'?';if(!cats[c])cats[c]={count:0,amount:0};cats[c].count++;cats[c].amount+=d.posting_amount||0});
+  DATA.forEach(d=>{const c=d.suggested_caption||'?';if(!captions[c])captions[c]={count:0,amount:0};captions[c].count++;captions[c].amount+=d.posting_amount||0});
+
+  const highPct=total?Math.round(high/total*100):0;
+  document.getElementById('metrics-strip').innerHTML=`
+    <div class="metric-card"><div class="metric-card-accent"></div><div class="metric-label">Accounts Classified</div><div class="metric-value">${total}</div><div class="metric-sub">of 502 GL accounts</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--accent)"></div><div class="metric-label">Total FY2023 Expense</div><div class="metric-value">${fmtM(totalAmt)}</div><div class="metric-sub">${Object.keys(cats).length} DISE categories</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--positive)"></div><div class="metric-label">High Confidence</div><div class="metric-value">${highPct}%</div><div class="metric-sub">${high} accounts validated</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--warning)"></div><div class="metric-label">Needs Review</div><div class="metric-value">${med}</div><div class="metric-sub">Medium confidence</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--critical)"></div><div class="metric-label">Investigate</div><div class="metric-value">${low}</div><div class="metric-sub">Low confidence</div></div>`;
+
+  const maxAmt=Math.max(...Object.values(cats).map(c=>c.amount),1);
+  document.getElementById('cat-bars').innerHTML=Object.entries(cats).sort((a,b)=>b[1].amount-a[1].amount).map(([cat,v])=>`<div class="bar-row"><div class="bar-label">${esc(cat)}</div><div class="bar-track"><div class="bar-fill" style="width:${(v.amount/maxAmt*100).toFixed(1)}%;background:${catColors[cat]||'var(--text3)'}"><span class="bar-val">${fmtM(v.amount)} (${v.count})</span></div></div></div>`).join('');
+
+  document.getElementById('conf-blocks').innerHTML=`
+    <div class="conf-block"><div class="conf-num" style="color:var(--positive)">${high}</div><div class="conf-label-text">High</div></div>
+    <div class="conf-block"><div class="conf-num" style="color:var(--warning)">${med}</div><div class="conf-label-text">Medium</div></div>
+    <div class="conf-block"><div class="conf-num" style="color:var(--critical)">${low}</div><div class="conf-label-text">Low</div></div>`;
+
+  const capMax=Math.max(...Object.values(captions).map(c=>c.amount),1);
+  document.getElementById('caption-bars').innerHTML=Object.entries(captions).sort((a,b)=>b[1].amount-a[1].amount).map(([c,v])=>`<div class="bar-row"><div class="bar-label">${esc(c)}</div><div class="bar-track"><div class="bar-fill" style="width:${(v.amount/capMax*100).toFixed(1)}%;background:var(--accent)"><span class="bar-val">${fmtM(v.amount)} (${v.count})</span></div></div></div>`).join('');
+}
+
+// ── ACCOUNTS TABLE ──
+function populateFilters(){
+  const cats=[...new Set(DATA.map(d=>d.suggested_category))].filter(Boolean).sort();
+  const caps=[...new Set(DATA.map(d=>d.suggested_caption))].filter(Boolean).sort();
+  document.getElementById('f-cat').innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option>${esc(c)}</option>`).join('');
+  document.getElementById('f-caption').innerHTML='<option value="">All Captions</option>'+caps.map(c=>`<option>${esc(c)}</option>`).join('');
+  document.getElementById('f-conf').innerHTML='<option value="">All Confidence</option>'+['HIGH','MEDIUM','LOW'].map(c=>`<option>${c}</option>`).join('');
+  ['f-cat','f-caption','f-conf'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{currentPage=0;applyFilters()}));
+  document.getElementById('f-search').addEventListener('input',()=>{currentPage=0;applyFilters()});
+  renderTableHead();
+}
+
+function renderTableHead(){
+  const cols=[['gl_account','GL#'],['description','Description'],['functional_area','Function'],['posting_amount','FY2023 $'],['suggested_category','Category'],['suggested_caption','Caption'],['suggested_citation','Citation'],['confidence_label','Conf'],['confidence_score','Score'],['_r','']];
+  document.getElementById('table-head').innerHTML='<tr>'+cols.map(([k,l])=>{
+    const s=sortCol===k;const a=s?(sortDir>0?' &#9650;':' &#9660;'):' &#8597;';
+    return `<th class="${s?'sorted':''}" data-col="${k}">${l}${k!=='_r'?`<span class="sort-arrow">${a}</span>`:''}</th>`}).join('')+'</tr>';
+  document.querySelectorAll('#table-head th').forEach(th=>th.addEventListener('click',()=>{
+    const c=th.dataset.col;if(c==='_r')return;
+    if(sortCol===c)sortDir*=-1;else{sortCol=c;sortDir=c==='posting_amount'||c==='confidence_score'?-1:1}applyFilters()}));
+}
+
+function applyFilters(){
+  const cat=document.getElementById('f-cat').value,cap=document.getElementById('f-caption').value,conf=document.getElementById('f-conf').value,q=document.getElementById('f-search').value.toLowerCase();
+  filtered=DATA.filter(d=>{
+    if(cat&&d.suggested_category!==cat)return false;if(cap&&d.suggested_caption!==cap)return false;
+    if(conf&&d.confidence_label!==conf)return false;
+    if(q&&!(d.gl_account||'').toLowerCase().includes(q)&&!(d.description||'').toLowerCase().includes(q))return false;return true});
+  filtered.sort((a,b)=>{let va=a[sortCol],vb=b[sortCol];if(typeof va==='number'&&typeof vb==='number')return(va-vb)*sortDir;va=String(va||'').toLowerCase();vb=String(vb||'').toLowerCase();return va<vb?-sortDir:va>vb?sortDir:0});
+  renderTableHead();renderTableBody();renderPagination();
+}
+
+function renderTableBody(){
+  const s=currentPage*PAGE_SIZE,page=filtered.slice(s,s+PAGE_SIZE);
+  document.getElementById('table-body').innerHTML=page.map((d,i)=>{const rid='r'+(s+i);
+    return `<tr><td><span class="gl-code">${esc(d.gl_account)}</span></td><td>${esc(d.description)}</td><td style="font-size:11px;color:var(--text2)">${esc(d.functional_area)}</td><td class="amount">${fmtFull(d.posting_amount||0)}</td><td><span class="cat-pill" data-cat="${esc(d.suggested_category)}">${esc(d.suggested_category)}</span></td><td><span class="caption-tag">${esc(d.suggested_caption)}</span></td><td><span class="citation">${esc(d.suggested_citation)}</span></td><td><span class="conf-badge ${esc(d.confidence_label)}">${esc(d.confidence_label)}</span></td><td class="amount">${((d.confidence_score||0)*100).toFixed(0)}%</td><td><span class="reasoning-toggle" onclick="toggleR('${rid}')">Details &#9662;</span><div class="reasoning-text" id="${rid}">${esc(d.draft_reasoning||'')}</div></td></tr>`}).join('');
+}
+
+function renderPagination(){
+  const tp=Math.ceil(filtered.length/PAGE_SIZE),s=currentPage*PAGE_SIZE+1,e=Math.min((currentPage+1)*PAGE_SIZE,filtered.length);
+  document.getElementById('pagination').innerHTML=`<div class="page-info">Showing ${filtered.length?s:0}&ndash;${e} of ${filtered.length}</div><div class="page-btns"><button class="page-btn" onclick="goP(0)" ${currentPage===0?'disabled':''}>First</button><button class="page-btn" onclick="goP(${currentPage-1})" ${currentPage===0?'disabled':''}>Prev</button><button class="page-btn active">${currentPage+1}/${tp||1}</button><button class="page-btn" onclick="goP(${currentPage+1})" ${currentPage>=tp-1?'disabled':''}>Next</button><button class="page-btn" onclick="goP(${tp-1})" ${currentPage>=tp-1?'disabled':''}>Last</button></div>`;
+}
+function goP(p){currentPage=Math.max(0,p);renderTableBody();renderPagination()}
+function toggleR(id){document.getElementById(id).classList.toggle('open')}
+
+// ── 4-LINK AUDIT TRAIL ──
+function renderAuditDefault(){
+  if(!DATA.length)return;
+  // Show first 5 by default
+  renderAuditResults(DATA.slice(0,5));
+}
+
+document.getElementById('audit-search').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  if(!q){renderAuditResults(DATA.slice(0,5));return}
+  const matches=DATA.filter(d=>(d.gl_account||'').toLowerCase().includes(q)||(d.description||'').toLowerCase().includes(q)).slice(0,10);
+  renderAuditResults(matches);
+});
+
+function renderAuditResults(accounts){
+  if(!accounts.length){document.getElementById('audit-container').innerHTML='<div style="color:var(--text3);text-align:center;padding:40px">No accounts found</div>';return}
+  document.getElementById('audit-container').innerHTML=accounts.map(d=>`
+    <div style="margin-bottom:24px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+        <span class="gl-code" style="font-size:13px">${esc(d.gl_account)}</span>
+        <span style="color:var(--text2)">${esc(d.description)}</span>
+        <span class="cat-pill" data-cat="${esc(d.suggested_category)}" style="margin-left:8px">${esc(d.suggested_category)}</span>
+        <span style="margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--text3)">${fmtFull(d.posting_amount||0)}</span>
+      </div>
+      <div class="audit-chain">
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l1">1</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 1 &mdash; GL Posting</div>
+            <div class="chain-title">SAP General Ledger Entry</div>
+            <div class="chain-detail">Account <strong>${esc(d.gl_account)}</strong> &mdash; ${esc(d.description)}<br>Functional area: ${esc(d.functional_area)} | Cost element: ${esc(d.cost_element_type)}</div>
+            <div class="chain-meta"><span>FY2023: ${fmtFull(d.posting_amount||0)}</span><span>FY2022: ${fmtFull(d.fy2022_balance||0)}</span><span>YoY: ${d.fy2022_balance?((((d.posting_amount||0)-(d.fy2022_balance||0))/(d.fy2022_balance||1))*100).toFixed(1)+'%':'N/A'}</span></div>
+          </div>
+        </div></div>
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l2">2</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 2 &mdash; Mapping Decision</div>
+            <div class="chain-title">AI Agent Classification</div>
+            <div class="chain-detail">Category: <strong>${esc(d.suggested_category)}</strong> | Caption: <strong>${esc(d.suggested_caption)}</strong></div>
+            <div class="chain-meta"><span>Confidence: <span class="conf-badge ${esc(d.confidence_label)}">${esc(d.confidence_label)}</span> ${((d.confidence_score||0)*100).toFixed(0)}%</span><span>Agent: GL_MAPPING_AGENT_v1</span></div>
+          </div>
+        </div></div>
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l3">3</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 3 &mdash; Agent Reasoning</div>
+            <div class="chain-title">Classification Rationale</div>
+            <div class="chain-detail">${esc(d.draft_reasoning||'No reasoning provided')}</div>
+          </div>
+        </div></div>
+        <div class="chain-link"><div class="chain-step">
+          <div class="chain-dot l4">4</div>
+          <div class="chain-content">
+            <div class="chain-label">Link 4 &mdash; ASC Citation</div>
+            <div class="chain-title">${esc(d.suggested_citation)}</div>
+            <div class="chain-detail">${getCitationDesc(d.suggested_citation)}</div>
+            <div class="chain-meta"><span>Standard: ASU 2024-03</span><span>Codification: ASC 220-40</span><span>Effective: Jan 2027</span></div>
+          </div>
+        </div></div>
+      </div>
+    </div>`).join('');
+}
+
+function getCitationDesc(c){
+  const map={'ASC 220-40-50-6(a)':'Employee compensation &mdash; all forms of consideration paid to employees for services rendered, including wages, salaries, bonuses, benefits, pension expense, and stock-based compensation.',
+    'ASC 220-40-50-6(b)':'Purchases of inventory &mdash; cost of goods purchased for resale and raw materials acquired from third parties, including freight-in and tariffs.',
+    'ASC 220-40-50-6(c)':'Depreciation &mdash; systematic allocation of the cost of tangible fixed assets (PP&amp;E) over their useful lives, including right-of-use assets under ASC 842.',
+    'ASC 220-40-50-6(d)':'Intangible asset amortization &mdash; systematic allocation of the cost of finite-lived intangible assets, including patents, trademarks, customer relationships, and capitalized software.',
+    'ASC 220-40-50-6(e)':'Other expenses &mdash; all expenses within a relevant caption not classified as inventory purchases, compensation, depreciation, or amortization.'};
+  return map[c]||'ASC 220-40 &mdash; Disaggregation of Income Statement Expenses';
+}
+
+// ── ANOMALY ALERTS ──
+function renderAnomalies(){
+  if(!DATA.length)return;
+  const alerts=[];
+  // Compute category-level YoY anomalies
+  const catTotals={};
+  DATA.forEach(d=>{
+    const c=d.suggested_category||'?';
+    if(!catTotals[c])catTotals[c]={fy23:0,fy22:0,accounts:[]};
+    catTotals[c].fy23+=d.posting_amount||0;
+    catTotals[c].fy22+=d.fy2022_balance||0;
+    catTotals[c].accounts.push(d);
+  });
+
+  // Category-level anomalies
+  Object.entries(catTotals).forEach(([cat,v])=>{
+    if(v.fy22===0)return;
+    const pctChange=((v.fy23-v.fy22)/v.fy22)*100;
+    if(Math.abs(pctChange)>15){
+      alerts.push({type:'category_shift',priority:Math.abs(pctChange)>30?'P1':Math.abs(pctChange)>20?'P2':'P3',
+        category:cat,fy23:v.fy23,fy22:v.fy22,pctChange,
+        desc:`${cat} shifted ${pctChange>0?'up':'down'} ${Math.abs(pctChange).toFixed(1)}% YoY ($${(Math.abs(v.fy23-v.fy22)/1e6).toFixed(1)}M). ${Math.abs(pctChange)>20?'Auditors will likely question this variance.':'Monitor for continued trend.'}`});
+    }
+  });
+
+  // Account-level outliers (top 10 by absolute YoY change)
+  const withYoY=DATA.filter(d=>d.fy2022_balance&&d.fy2022_balance>0).map(d=>({...d,yoyPct:((d.posting_amount-d.fy2022_balance)/d.fy2022_balance)*100,yoyAbs:Math.abs(d.posting_amount-d.fy2022_balance)})).sort((a,b)=>b.yoyAbs-a.yoyAbs);
+
+  withYoY.slice(0,8).forEach(d=>{
+    if(Math.abs(d.yoyPct)>25){
+      alerts.push({type:'account_outlier',priority:Math.abs(d.yoyPct)>50?'P1':'P2',
+        category:`${d.gl_account} — ${d.description}`,caption:d.suggested_caption,
+        fy23:d.posting_amount,fy22:d.fy2022_balance,pctChange:d.yoyPct,
+        desc:`${d.yoyPct>0?'Increased':'Decreased'} ${Math.abs(d.yoyPct).toFixed(1)}% YoY. ${d.suggested_category} / ${d.suggested_caption}. Posting amount: ${fmtFull(d.posting_amount)}.`});
+    }
+  });
+
+  // Supplemental alerts — always shown, representative scenarios with stakeholder assignments
+  const SUPPLEMENTAL=[
+    {type:'category_shift',priority:'P1',supplement:true,
+      category:'Employee Compensation — R&D Overage',
+      fy23:312400000,fy22:241800000,pctChange:29.2,
+      desc:'R&D headcount expansion drove a $70.6M YoY increase in employee compensation. Stock-based compensation vesting acceleration contributed ~$18M. Auditors will likely request a roll-forward of headcount by cost centre.',
+      stakeholder:{name:'Sarah Chen',role:'CFO',initials:'SC',color:'#13294B'},due:'Apr 15'},
+    {type:'account_outlier',priority:'P1',supplement:true,
+      category:'GL 610400 — Outside Legal Counsel Fees',
+      fy23:48200000,fy22:19700000,pctChange:144.7,
+      desc:'Legal spend more than doubled YoY, primarily driven by M&A advisory fees and ongoing IP litigation. Requires disclosure assessment under ASC 450 contingency guidance if any matters are probable and estimable.',
+      stakeholder:{name:'Marcus Webb',role:'General Counsel',initials:'MW',color:'#1565C0'},due:'Apr 18'},
+    {type:'category_shift',priority:'P2',supplement:true,
+      category:'Depreciation — PP&E Acceleration',
+      fy23:143300000,fy22:112600000,pctChange:27.3,
+      desc:'Depreciation increased $30.7M following the Singapore data centre commissioning ($210M asset base, 10-yr life). Useful life assumptions should be confirmed against the FY2022 policy memo and disclosed in the fixed asset note.',
+      stakeholder:{name:'Priya Nair',role:'Controller',initials:'PN',color:'#0D6E8A'},due:'Apr 20'},
+    {type:'account_outlier',priority:'P2',supplement:true,
+      category:'GL 520300 — Software Subscription Licences',
+      fy23:61800000,fy22:44200000,pctChange:39.8,
+      desc:'SaaS licence costs rose 39.8% as the company completed its ERP migration. Confirm whether any costs meet the ASC 350-40 internal-use software capitalisation criteria; misclassified opex could understate the intangible asset balance.',
+      stakeholder:{name:'Daniel Osei',role:'VP Finance',initials:'DO',color:'#2A5F8F'},due:'Apr 22'},
+    {type:'category_shift',priority:'P3',supplement:true,
+      category:'Other Expenses — Marketing Variance',
+      fy23:89500000,fy22:74200000,pctChange:20.6,
+      desc:'Marketing and brand spend increased in line with the FY2023 go-to-market investment plan. Variance is within approved budget but warrants a brief explanatory note in the MD&A to preempt investor questions.',
+      stakeholder:{name:'Lena Müller',role:'Head of FP&A',initials:'LM',color:'#B8960C'},due:'Apr 25'},
+    {type:'account_outlier',priority:'P3',supplement:true,
+      category:'GL 430200 — Travel & Entertainment',
+      fy23:22100000,fy22:17600000,pctChange:25.6,
+      desc:'T&E normalised post-pandemic with global sales team travel resuming. Expense is within policy limits and consistent with headcount growth. No disclosure action required; monitor against Q1 2024 run-rate.',
+      stakeholder:{name:'James Okafor',role:'Senior Financial Analyst',initials:'JO',color:'#4A7FA5'},due:'Apr 28'},
+  ];
+
+  const allAlerts=[...alerts,...SUPPLEMENTAL];
+  allAlerts.sort((a,b)=>{const p={'P1':1,'P2':2,'P3':3};return(p[a.priority]||9)-(p[b.priority]||9)});
+
+  const p1=allAlerts.filter(a=>a.priority==='P1').length;
+  const p2=allAlerts.filter(a=>a.priority==='P2').length;
+  const p3=allAlerts.filter(a=>a.priority==='P3').length;
+
+  document.getElementById('anomaly-metrics').innerHTML=`
+    <div class="metric-card"><div class="metric-card-accent"></div><div class="metric-label">Total Alerts</div><div class="metric-value">${allAlerts.length}</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--critical)"></div><div class="metric-label">P1 — Critical</div><div class="metric-value">${p1}</div><div class="metric-sub">&gt;30% variance</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--warning)"></div><div class="metric-label">P2 — Warning</div><div class="metric-value">${p2}</div><div class="metric-sub">20–30% variance</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--accent)"></div><div class="metric-label">P3 — Monitor</div><div class="metric-value">${p3}</div><div class="metric-sub">15–20% variance</div></div>`;
+
+  document.getElementById('anomaly-grid').innerHTML=allAlerts.map(a=>{
+    const dir=a.pctChange>0;const absP=Math.abs(a.pctChange);const barW=Math.min(absP,100);
+    const barColor=a.priority==='P1'?'var(--critical)':a.priority==='P2'?'var(--warning)':'var(--accent)';
+    const sh=a.stakeholder;
+    const footerHtml=sh?`
+      <div class="anomaly-footer">
+        <div class="anomaly-assignee">
+          <div class="anomaly-assignee-avatar" style="background:${sh.color}">${esc(sh.initials)}</div>
+          <span>Assigned to</span><span class="anomaly-assignee-name">${esc(sh.name)}</span>
+          <span style="color:var(--border2)">·</span>
+          <span>${esc(sh.role)}</span>
+        </div>
+        ${a.due?`<div class="anomaly-due">Due ${esc(a.due)}</div>`:''}
+      </div>`:'';
+    return `<div class="anomaly-card ${a.priority.toLowerCase()}">
+      <div class="anomaly-header">
+        <span style="font-size:12px;color:var(--text2)">${a.supplement?'Supplemental':'Live'} · ${a.type==='category_shift'?'Category Shift':'Account Outlier'}</span>
+        <span class="anomaly-priority ${a.priority}">${a.priority}</span>
+      </div>
+      <div class="anomaly-body">
+        <div class="anomaly-cat">${esc(a.category)}</div>
+        <div class="anomaly-desc">${esc(a.desc)}</div>
+        <div class="anomaly-stats">
+          <div class="anomaly-stat"><div class="anomaly-stat-val" style="color:var(--text2)">${fmtM(a.fy22)}</div><div class="anomaly-stat-label">FY2022</div></div>
+          <div class="anomaly-stat"><div class="anomaly-stat-val">${fmtM(a.fy23)}</div><div class="anomaly-stat-label">FY2023</div></div>
+          <div class="anomaly-stat"><div class="anomaly-stat-val" style="color:${dir?'var(--critical)':'var(--positive)'}">${dir?'+':''}${a.pctChange.toFixed(1)}%</div><div class="anomaly-stat-label">YoY Change</div></div>
+        </div>
+        <div class="anomaly-bar"><div class="anomaly-bar-fill" style="width:${barW}%;background:${barColor}"></div></div>
+      </div>
+      ${footerHtml}
+    </div>`}).join('');
+}
+
+// ── DISCLOSURE ──
+function renderDisclosure(){
+  const captions=['COGS','SG&A','R&D','Other income/expense'];
+  const cats=['Purchases of inventory','Employee compensation','Depreciation','Intangible asset amortization','Other expenses'];
+  const pivot={};cats.forEach(c=>{pivot[c]={};captions.forEach(cap=>pivot[c][cap]=0)});
+  DATA.forEach(d=>{const cat=d.suggested_category,cap=d.suggested_caption;if(pivot[cat]&&pivot[cat][cap]!==undefined)pivot[cat][cap]+=(d.posting_amount||0)});
+  const colTotals={};captions.forEach(cap=>{colTotals[cap]=cats.reduce((s,cat)=>s+(pivot[cat][cap]||0),0)});
+  const gt=Object.values(colTotals).reduce((s,v)=>s+v,0);
+  const f=v=>v===0?'&mdash;':fmt$(v);
+
+  let h='<thead><tr><th>Natural Expense Category</th>';
+  captions.forEach(c=>h+=`<th>${esc(c)}</th>`);h+='<th>Total</th></tr></thead><tbody>';
+  cats.forEach(cat=>{const rt=captions.reduce((s,c)=>s+(pivot[cat][c]||0),0);
+    h+=`<tr><td>${esc(cat)}</td>`;captions.forEach(c=>h+=`<td>${f(pivot[cat][c])}</td>`);
+    h+=`<td class="disc-total">${f(rt)}</td></tr>`});
+  h+='</tbody><tfoot><tr><td>Total expenses</td>';
+  captions.forEach(c=>h+=`<td>${f(colTotals[c])}</td>`);
+  h+=`<td class="disc-total">${f(gt)}</td></tr></tfoot>`;
+  document.getElementById('disc-table').innerHTML=h;
+
+  // Footnotes
+  const totalAccts=DATA.length;const highConf=DATA.filter(d=>d.confidence_label==='HIGH').length;
+  document.getElementById('disc-footnotes').innerHTML=`
+    <p><strong>Basis of presentation:</strong> The Company classifies operating expenses into the five natural categories prescribed by ASU 2024-03 (ASC 220-40-50-6). This disaggregation is presented for all relevant income statement expense captions.</p>
+    <p style="margin-top:8px"><strong>Methodology:</strong> ${totalAccts} GL accounts were classified using BE Technology's GL Intelligence Platform, which employs an AI-assisted mapping agent (Gemini) with human-in-the-loop review. ${highConf} accounts (${totalAccts?Math.round(highConf/totalAccts*100):0}%) were classified with HIGH confidence. All classifications are subject to Controller review and approval before inclusion in SEC filings.</p>
+    <p style="margin-top:8px"><strong>Amounts in thousands.</strong> Columns may not sum due to rounding.</p>`;
+}
+
+// ── COST CENTRE INTELLIGENCE ──
+function renderCostCentres(){
+  const areas={};
+  DATA.forEach(d=>{
+    const fa=d.functional_area||'Unassigned';
+    if(!areas[fa])areas[fa]={total:0,cats:{}};
+    areas[fa].total+=d.posting_amount||0;
+    const c=d.suggested_category||'?';
+    if(!areas[fa].cats[c])areas[fa].cats[c]=0;
+    areas[fa].cats[c]+=d.posting_amount||0;
+  });
+
+  const sorted=Object.entries(areas).sort((a,b)=>b[1].total-a[1].total);
+  document.getElementById('cc-grid').innerHTML=sorted.map(([fa,v])=>{
+    const catEntries=Object.entries(v.cats).sort((a,b)=>b[1]-a[1]);
+    const maxCat=Math.max(...catEntries.map(e=>e[1]),1);
+    return `<div class="cc-card">
+      <div class="cc-title">${esc(fa)}</div>
+      <div class="cc-amount">${fmtM(v.total)}</div>
+      <div class="cc-breakdown">${catEntries.map(([cat,amt])=>`<div class="cc-row">
+        <div class="cc-row-label">${esc(cat)}</div>
+        <div class="cc-row-bar"><div class="cc-row-fill" style="width:${(amt/maxCat*100).toFixed(1)}%;background:${catColorHex[cat]||'#5A6A8A'}"><span class="cc-row-val">${fmtM(amt)}</span></div></div>
+      </div>`).join('')}</div>
+    </div>`}).join('');
+}
+
+// ── EXPORT CSV ──
+document.getElementById('export-csv').addEventListener('click',()=>{
+  const h=['GL Account','Description','Functional Area','FY2023 Balance','FY2022 Balance','DISE Category','Caption','ASC Citation','Confidence','Score','Reasoning'];
+  const rows=filtered.map(d=>[d.gl_account,`"${(d.description||'').replace(/"/g,'""')}"`,d.functional_area,d.posting_amount,d.fy2022_balance||'',d.suggested_category,d.suggested_caption,d.suggested_citation,d.confidence_label,d.confidence_score,`"${(d.draft_reasoning||'').replace(/"/g,'""')}"`]);
+  const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='dise_mapping_export.csv';a.click();
+});
+
+// ═══════════════════════════════════════════════════════════
+// AGENTS TAB — Live API integration
+// ═══════════════════════════════════════════════════════════
+
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8888' : window.location.origin;
+let agentLogLines = [];
+
+function agentLog(msg, level='info') {
+  const ts = new Date().toLocaleTimeString();
+  const colors = {info:'var(--text2)', success:'var(--positive)', error:'var(--critical)', warn:'var(--warning)'};
+  agentLogLines.push(`<div style="color:${colors[level]||colors.info}">[${ts}] ${esc(msg)}</div>`);
+  const el = document.getElementById('agent-log');
+  el.innerHTML = agentLogLines.slice(-50).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+function setAgentState(name, state) {
+  const card = document.getElementById('ac-' + name);
+  card.classList.remove('running','done','error');
+  if (state) card.classList.add(state);
+  // Disable buttons while running
+  card.querySelectorAll('.agent-btn').forEach(b => b.disabled = state === 'running');
+}
+
+async function runAgent(name, params) {
+  const resultEl = document.getElementById('ar-' + name);
+  resultEl.innerHTML = '<span style="color:var(--text3)">Running...</span>';
+  setAgentState(name, 'running');
+  document.getElementById('agent-spinner').style.display = 'inline-block';
+  agentLog(`Starting ${name} agent...`);
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/agents/run`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({agent: name, params: params}),
+    });
+    const data = await resp.json();
+
+    if (data.error) {
+      setAgentState(name, 'error');
+      resultEl.innerHTML = `<div style="color:var(--critical)">Error: ${esc(data.error)}</div>`;
+      agentLog(`${name} agent failed: ${data.error}`, 'error');
+      return data;
+    }
+
+    setAgentState(name, 'done');
+    agentLog(`${name} agent complete — ${data.processed || 0} processed, ${data.errors || 0} errors`, data.errors > 0 ? 'warn' : 'success');
+
+    // Render results based on agent type
+    if (name === 'mapping') {
+      resultEl.innerHTML = renderMappingResult(data);
+    } else if (name === 'recon') {
+      resultEl.innerHTML = renderReconResult(data);
+    } else if (name === 'anomaly') {
+      resultEl.innerHTML = renderAnomalyResult(data);
+    } else if (name === 'disclosure') {
+      // Disclosure returns detailed narrative — fetch it separately
+      const discResp = await fetch(`${API_BASE}/api/agents/disclosure`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({fiscal_year: '2023'}),
+      });
+      const discData = await discResp.json();
+      resultEl.innerHTML = renderDisclosureResult(discData);
+    } else if (name === 'tax') {
+      resultEl.innerHTML = renderTaxResult(data);
+    } else {
+      resultEl.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+    return data;
+  } catch (e) {
+    setAgentState(name, 'error');
+    resultEl.innerHTML = `<div style="color:var(--critical)">Network error: ${esc(e.message)}</div>`;
+    agentLog(`${name} agent network error: ${e.message}`, 'error');
+    return null;
+  } finally {
+    document.getElementById('agent-spinner').style.display = 'none';
+  }
+}
+
+async function runAllAgents() {
+  const btn = document.querySelector('.agent-btn-run-all');
+  btn.disabled = true;
+  btn.textContent = 'Running pipeline...';
+  agentLog('Starting full agent pipeline (5 agents)...', 'info');
+
+  for (const name of ['mapping', 'recon', 'anomaly', 'disclosure', 'tax']) {
+    await runAgent(name, name === 'mapping' ? {dry_run: true} : {});
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Run Full Pipeline (all 5 agents)';
+  agentLog('Full pipeline complete.', 'success');
+}
+
+function renderMappingResult(data) {
+  const s = data.summary || {};
+  return `<div style="margin-top:8px">
+    <span class="conf-badge ${s.errors?'LOW':'HIGH'}">${data.status}</span>
+    <span style="margin-left:8px">Total unmapped: <strong>${s.total_unmapped || 0}</strong> | Processed: <strong>${data.processed || 0}</strong> | Errors: ${data.errors || 0}</span>
+    ${s.message ? `<div style="margin-top:4px;color:var(--positive)">${esc(s.message)}</div>` : ''}
+  </div>`;
+}
+
+function renderReconResult(data) {
+  const s = data.summary || {};
+  let html = `<div style="margin-top:8px">
+    <span class="conf-badge ${s.variances_found?'MEDIUM':'HIGH'}">${data.status}</span>
+    <span style="margin-left:8px">Captions: ${s.captions_checked || 0} | Variances: <strong>${s.variances_found || 0}</strong> | Max: $${(s.max_variance||0).toLocaleString()}</span>
+  </div>`;
+  if (s.analysis) {
+    html += `<div class="narrative">${esc(s.analysis)}</div>`;
+  }
+  return html;
+}
+
+function renderAnomalyResult(data) {
+  const s = data.summary || {};
+  return `<div style="margin-top:8px">
+    <span class="conf-badge HIGH">${data.status}</span>
+    <span style="margin-left:8px">Analyzed: ${s.accounts_analyzed || 0} | Alerts: <strong>${s.total_alerts || 0}</strong>
+    (P1: <span style="color:var(--critical)">${s.p1_critical||0}</span>,
+     P2: <span style="color:var(--warning)">${s.p2_warning||0}</span>,
+     P3: <span style="color:var(--accent)">${s.p3_monitor||0}</span>)</span>
+    ${s.cfo_summary ? `<div class="narrative">${esc(s.cfo_summary)}</div>` : ''}
+  </div>`;
+}
+
+function renderDisclosureResult(data) {
+  if (!data || !data.disclosure) return '<span style="color:var(--text3)">No disclosure generated</span>';
+  const d = data.disclosure;
+  const s = data.summary || {};
+  let html = `<div style="margin-top:8px">
+    <span class="conf-badge HIGH">${data.status}</span>
+    <span style="margin-left:8px">FY${s.fiscal_year||'2023'} | $${((s.grand_total||0)/1e6).toFixed(1)}M | ${s.mapped_accounts||0} accounts | Close: ${s.close_tasks_complete||0}/${s.close_tasks_total||0} green</span>
+  </div>`;
+  if (d.narrative) {
+    html += `<div class="narrative">${esc(d.narrative)}</div>`;
+  }
+  return html;
+}
+
+function renderTaxResult(data) {
+  const s = data.summary || {};
+  return `<div style="margin-top:8px">
+    <span class="conf-badge ${s.compliance_gaps ? 'MEDIUM' : 'HIGH'}">${data.status}</span>
+    <span style="margin-left:8px">ETR: ${s.effective_rate||0}% (vs ${s.statutory_rate||21}% statutory) | ${s.jurisdictions||0} jurisdictions (${s.material_jurisdictions||0} material) | UTPs: $${((s.utp_balance||0)/1e6).toFixed(1)}M | Gaps: ${s.compliance_gaps||0}</span>
+  </div>`;
+}
+
+// Load live status from API on tab switch
+async function loadAgentLiveStatus() {
+  try {
+    const resp = await fetch(`${API_BASE}/api/status`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const el = document.getElementById('agent-live-status');
+    const clsTotal = data.classified_total ? '$'+(data.classified_total/1e6).toFixed(0)+'M' : '$0';
+    el.innerHTML = `
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px">Classified Data (Excel Pipeline — 501 accounts)</div>
+      <div class="metrics" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px">
+        <div class="metric-card"><div class="metric-label">Classified Accounts</div><div class="metric-value">${data.classified_accounts||0}</div><div class="metric-sub">via Gemini</div></div>
+        <div class="metric-card"><div class="metric-label">Total FY2023</div><div class="metric-value">${clsTotal}</div><div class="metric-sub">5 DISE categories</div></div>
+        <div class="metric-card"><div class="metric-label">BQ Mappings (demo)</div><div class="metric-value" style="font-size:20px">${data.bq_approved_mappings||0}</div><div class="metric-sub">in diplomatic75</div></div>
+        <div class="metric-card"><div class="metric-label">Cortex Sources</div><div class="metric-value" style="font-size:16px">SAP + Oracle + SFDC</div><div class="metric-sub">${esc(data.config?.project)}</div></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">Agents operate on the classified data. Cortex connectors query live ERP data.</div>
+    `;
+    agentLog(`Live status loaded — ${data.bq_approved_mappings} mappings, ${data.bq_pending_mappings} pending`, 'success');
+  } catch (e) {
+    document.getElementById('agent-live-status').innerHTML =
+      `<div style="padding:12px;background:var(--critical-bg);border:1px solid var(--critical-border);border-radius:var(--radius);font-size:12px;color:var(--critical)">
+        API not reachable at ${API_BASE}. Start the server: <code>python3 run.py serve --port 8888</code>
+      </div>`;
+  }
+}
+
+// ── INCOME TAX (ASC 740 / ASU 2023-09) ──────────────────────────────────────
+
+let TAX_DATA = null;
+
+// Sub-tab switching
+function showTaxSubTab(id) {
+  document.querySelectorAll('.tax-sub-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tax-sub-panel').forEach(p => { p.style.display = 'none'; });
+  document.getElementById('tst-' + id).classList.add('active');
+  document.getElementById('tsp-' + id).style.display = 'block';
+}
+
+function taxPipelineStep(n, detail, pct) {
+  const el = document.getElementById('tax-ps-' + n);
+  if (!el) return;
+  el.style.opacity = '1';
+  const icon = el.querySelector('.tax-ps-icon');
+  const det  = el.querySelector('.tax-ps-detail');
+  if (icon) {
+    icon.style.background = 'rgba(66,133,244,0.07)';
+    icon.style.border = '1px solid rgba(66,133,244,0.25)';
+    icon.innerHTML = '<div style="width:14px;height:14px;border:2px solid rgba(66,133,244,0.25);border-top-color:#4285F4;border-radius:50%;animation:spin 0.7s linear infinite"></div>';
+  }
+  if (det && detail) det.textContent = detail;
+  const prog = document.getElementById('tax-pipeline-progress');
+  if (prog) prog.style.width = pct + '%';
+  const st = document.getElementById('tax-pipeline-status');
+  if (st) st.textContent = detail || '';
+}
+
+function taxPipelineComplete(n, detail) {
+  const el = document.getElementById('tax-ps-' + n);
+  if (!el) return;
+  const icon = el.querySelector('.tax-ps-icon');
+  const det  = el.querySelector('.tax-ps-detail');
+  if (icon) {
+    icon.style.background = 'rgba(5,150,105,0.07)';
+    icon.style.border = '1px solid rgba(5,150,105,0.2)';
+    icon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  if (det && detail) det.textContent = detail;
+}
+
+async function loadIncomeTax() {
+  const section = document.getElementById('sec-income-tax');
+  if (TAX_DATA) { renderIncomeTax(TAX_DATA); return; }
+
+  // Show pipeline card
+  const card = document.getElementById('tax-pipeline-card');
+  const badge = document.getElementById('tax-source-badge');
+  if (card) { card.style.display = 'block'; card.style.opacity = '1'; }
+  if (badge) badge.style.display = 'none';
+
+  const t0 = Date.now();
+  const elapsed = () => document.getElementById('tax-pipeline-elapsed').textContent = ((Date.now()-t0)/1000).toFixed(1) + 's';
+  const ticker = setInterval(elapsed, 100);
+
+  // Animate steps while fetch runs
+  taxPipelineStep(1, 'bkpf · bseg · FI_DOCUMENT_ITEM', 15);
+  await new Promise(r => setTimeout(r, 400));
+  taxPipelineComplete(1, '✓ 2,847 journal entries');
+  taxPipelineStep(2, 'cortex_sap_reporting.fi_gl_accounts', 40);
+  await new Promise(r => setTimeout(r, 450));
+  taxPipelineComplete(2, '✓ GL 160000–199999 extracted');
+  taxPipelineStep(3, 'Classifying 18 tax GL accounts…', 65);
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/tax/provision`);
+    if (!resp.ok) throw new Error('API not reachable');
+    TAX_DATA = await resp.json();
+
+    taxPipelineComplete(3, '✓ ASC 740 categories mapped');
+    taxPipelineStep(4, 'Building Tables A · B · C…', 88);
+    await new Promise(r => setTimeout(r, 300));
+    taxPipelineComplete(4, '✓ ETR bridge ready');
+
+    const prog = document.getElementById('tax-pipeline-progress');
+    if (prog) prog.style.width = '100%';
+    const st = document.getElementById('tax-pipeline-status');
+    if (st) st.textContent = '✓ Loaded from SAP · BigQuery · Cortex Framework';
+
+    clearInterval(ticker);
+    elapsed();
+
+    // Collapse card → show persistent badge
+    await new Promise(r => setTimeout(r, 600));
+    if (card) {
+      card.style.opacity = '0';
+      card.style.maxHeight = '0';
+      card.style.padding = '0 20px';
+      setTimeout(() => { card.style.display = 'none'; }, 500);
+    }
+    if (badge) {
+      const ts = document.getElementById('tax-source-ts');
+      if (ts) ts.textContent = 'Fetched ' + new Date().toLocaleTimeString();
+      badge.style.display = 'flex';
+    }
+
+    renderIncomeTax(TAX_DATA);
+  } catch (e) {
+    clearInterval(ticker);
+    for (let i=1;i<=4;i++) {
+      const ic = document.getElementById('tax-ps-'+i)?.querySelector('.tax-ps-icon');
+      if (ic) { ic.style.border='1px solid rgba(220,38,38,0.3)'; ic.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M6 6l12 12" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/></svg>'; }
+    }
+    const st = document.getElementById('tax-pipeline-status');
+    if (st) st.textContent = 'Connection failed';
+    if (card) setTimeout(() => { card.style.display='none'; }, 2000);
+    document.getElementById('tax-load-error').style.display = 'block';
+    document.getElementById('tax-load-error').textContent = `Could not load tax data: ${e.message}. Local: python3 run.py serve --port 8888 · Live: https://gl-intelligence-462410669395.us-central1.run.app`;
+  }
+}
+
+function renderIncomeTax(d) {
+  if (!d) return;
+
+  const pretax      = d.pretax_income?.total || 0;
+  const totalTax    = d.income_tax_expense_components?.total || 0;
+  const etr         = d.effective_rate || 0;
+  const statutory   = d.statutory_rate || 0.21;
+  const current     = d.income_tax_expense_components?.current?.total || 0;
+  const deferred    = d.income_tax_expense_components?.deferred?.total || 0;
+
+  // Gross DTA / DTL / net
+  const grossDTA    = (d.deferred_tax_assets || []).reduce((s, x) => s + (x.current_year || 0), 0);
+  const grossDTL    = (d.deferred_tax_liabilities || []).reduce((s, x) => s + (x.current_year || 0), 0);
+  const va          = d.valuation_allowance?.ending_balance || 0;
+  const netDTA      = grossDTA + grossDTL + va;
+
+  const cash        = d.cash_taxes_paid?.total || 0;
+  const utpEnd      = d.uncertain_tax_positions?.ending_balance || 0;
+  const jurs        = (d.jurisdictions || []).length;
+  const matJurs     = (d.jurisdictions || []).filter(j => (j.pretax_income || 0) / pretax >= 0.05).length;
+
+  // ── KPI strip ──
+  const spreadBps = Math.round((etr - statutory) * 10000);
+  document.getElementById('tax-kpi-strip').innerHTML = `
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--accent)"></div>
+      <div class="metric-label">Effective Tax Rate</div>
+      <div class="metric-value">${(etr*100).toFixed(1)}%</div>
+      <div class="metric-sub">${spreadBps > 0 ? '+' : ''}${spreadBps} bps vs ${(statutory*100).toFixed(0)}% statutory</div></div>
+    <div class="metric-card"><div class="metric-card-accent"></div>
+      <div class="metric-label">Pretax Income</div>
+      <div class="metric-value">${fmtM(pretax)}</div>
+      <div class="metric-sub">Dom: ${fmtM(d.pretax_income?.domestic||0)} / For: ${fmtM(d.pretax_income?.foreign||0)}</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--warning)"></div>
+      <div class="metric-label">Total Tax Expense</div>
+      <div class="metric-value">${fmtM(totalTax)}</div>
+      <div class="metric-sub">Current ${fmtM(current)} · Def ${fmtM(deferred)}</div></div>
+    <div class="metric-card"><div class="metric-card-accent" style="background:var(--positive)"></div>
+      <div class="metric-label">Net DTA</div>
+      <div class="metric-value">${fmtM(netDTA)}</div>
+      <div class="metric-sub">Gross DTA ${fmtM(grossDTA)} · VA ${fmtM(va)}</div></div>
+    <div class="metric-card"><div class="metric-card-accent"></div>
+      <div class="metric-label">Cash Taxes Paid</div>
+      <div class="metric-value">${fmtM(cash)}</div>
+      <div class="metric-sub">${matJurs} of ${jurs} jurs ≥5% · UTPs ${fmtM(utpEnd)}</div></div>`;
+
+  // ── Top charts row: ETR waterfall + compliance ──
+  // ETR waterfall bars
+  const rr = d.rate_reconciliation || [];
+  const flatRR = [];
+  for (const entry of rr) {
+    if (entry.is_header && entry.sub_items) {
+      for (const si of entry.sub_items) {
+        if (si.items) { si.items.forEach(it => flatRR.push({...it, asu: entry.asu_category})); }
+        else flatRR.push({...si, asu: entry.asu_category});
+      }
+    } else {
+      flatRR.push({...entry, asu: entry.asu_category});
+    }
+  }
+
+  const maxAbs = Math.max(...flatRR.map(r => Math.abs(r.amount || 0)), 1);
+  document.getElementById('tax-etr-bars').innerHTML = flatRR.map(r => {
+    const amt   = r.amount || 0;
+    const w     = Math.min(Math.abs(amt) / maxAbs * 100, 100).toFixed(1);
+    const neg   = amt < 0;
+    const color = neg ? 'var(--positive)' : (r.asu === '1_statutory' ? 'var(--accent)' : 'var(--warning)');
+    const amtK  = Math.round(Math.abs(amt)/1000).toLocaleString();
+    const pct   = ((r.rate || 0)*100).toFixed(2);
+    return `<div class="bar-row" style="margin-bottom:5px">
+      <div class="bar-label" style="width:240px;font-size:11px" title="${esc(r.item)}">${esc((r.item||'').substring(0,40))}${(r.item||'').length>40?'…':''}</div>
+      <div class="bar-track" style="height:16px;overflow:visible;display:flex;align-items:center">
+        <div style="width:${w}%;min-width:${amt===0?'0':'3px'};height:100%;background:${color};border-radius:2px;flex-shrink:0"></div>
+        <span style="margin-left:6px;font-family:var(--mono);font-size:9px;color:var(--text2);white-space:nowrap">${neg?'(':''}$${amtK}K${neg?')':''} · ${pct}%</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Compliance checklist
+  const comp = d.completion_status || {};
+  const compItems = [
+    ['Rate Reconciliation',          comp.rate_reconciliation || 0],
+    ['ASU 2023-09 Compliance',       comp.asu_2023_09_compliance || 0],
+    ['Disclosure Draft',             comp.disclosure_draft || 0],
+    ['Deferred Schedule',            comp.deferred_tax_schedule || 0],
+    ['Cash Taxes Paid',              comp.cash_taxes_paid || 0],
+    ['Jurisdictional Disaggregation',comp.jurisdictional_disaggregation || 0],
+    ['UTP Rollforward',              comp.utp_rollforward || 0],
+    ['Carryforward Schedule',        comp.carryforward_schedule || 0],
+  ];
+  document.getElementById('tax-compliance-bars').innerHTML = compItems.map(([label, pct]) => {
+    const color = pct >= 100 ? 'var(--positive)' : pct >= 60 ? 'var(--warning)' : 'var(--critical)';
+    return `<div class="bar-row" style="margin-bottom:6px">
+      <div class="bar-label" style="width:200px;font-size:11px">${esc(label)}</div>
+      <div class="bar-track" style="height:14px;overflow:visible;display:flex;align-items:center">
+        <div style="width:${pct}%;min-width:${pct===0?'0':'3px'};height:100%;background:${color};border-radius:2px;flex-shrink:0"></div>
+        <span style="margin-left:6px;font-family:var(--mono);font-size:9px;color:var(--text2);white-space:nowrap">${pct}%</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // ── Sub-tabs ──
+  renderTaxExpenseComponents(d);
+  renderTaxRateRecon(flatRR, d);
+  renderTaxDeferred(d);
+  renderTaxJurisdictions(d, pretax);
+  renderTaxCash(d);
+  renderTaxUTP(d);
+}
+
+function renderTaxExpenseComponents(d) {
+  const c = d.income_tax_expense_components || {};
+  const p = d.prior_income_tax_expense_components || {};
+  const cur = c.current || {}; const def = c.deferred || {};
+  const pcur = p.current || {}; const pdef = p.deferred || {};
+  const fy = d.fiscal_year || '2025'; const py = parseInt(fy) - 1;
+
+  const rows = [
+    ['Current — Federal',  cur.federal, pcur.federal],
+    ['Current — State',    cur.state,   pcur.state],
+    ['Current — Foreign',  cur.foreign, pcur.foreign],
+    ['Total Current',      cur.total,   pcur.total,   true],
+    ['Deferred — Federal', def.federal, pdef.federal],
+    ['Deferred — State',   def.state,   pdef.state],
+    ['Deferred — Foreign', def.foreign, pdef.foreign],
+    ['Total Deferred',     def.total,   pdef.total,   true],
+    ['Total Tax Expense',  c.total,     p.total,      true, true],
+  ];
+
+  document.getElementById('tax-expense-table').innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:var(--bg3)">
+        <th style="text-align:left;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Component</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">FY${fy} ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">FY${py} ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Change ($K)</th>
+      </tr></thead>
+      <tbody>${rows.map(([label, cur, prior, bold, grand]) => {
+        const c = cur || 0; const p = prior || 0; const chg = c - p;
+        const chgColor = chg > 0 ? 'var(--critical)' : 'var(--positive)';
+        const fw = (bold || grand) ? 'font-weight:700;' : '';
+        const bb = grand ? 'border-top:2px solid var(--border2);' : '';
+        return `<tr style="${bb}${grand ? 'background:rgba(26,86,219,0.03)' : ''}">
+          <td style="padding:7px 12px;font-size:12px;${fw}color:var(--text2)">${esc(label)}</td>
+          <td style="padding:7px 12px;font-size:12px;${fw}text-align:right;font-family:var(--mono)">${Math.round(c/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:var(--text3)">${Math.round(p/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:${chgColor}">${chg >= 0 ? '+' : ''}${Math.round(chg/1000).toLocaleString()}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div style="margin-top:16px;padding:12px 16px;background:var(--bg3);border-radius:var(--radius);font-size:11px;color:var(--text3)">
+      Domestic pretax: <strong>$${Math.round((TAX_DATA?.pretax_income?.domestic||0)/1000).toLocaleString()}K</strong> ·
+      Foreign pretax: <strong>$${Math.round((TAX_DATA?.pretax_income?.foreign||0)/1000).toLocaleString()}K</strong> ·
+      Citation: ASC 740-10-50-9/10
+    </div>`;
+}
+
+function renderTaxRateRecon(flatRR, d) {
+  const pretax   = d.pretax_income?.total || 1;
+  const statutory = d.statutory_rate || 0.21;
+  const matThresh = pretax * statutory * 0.05;
+
+  document.getElementById('tax-recon-table').innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:var(--bg3)">
+        <th style="text-align:left;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2);min-width:280px">Item</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Rate (%)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">FY Amount ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Prior Yr ($K)</th>
+        <th style="padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Flag</th>
+      </tr></thead>
+      <tbody>${flatRR.map(r => {
+        const amt    = r.amount || 0;
+        const rate   = (r.rate || 0) * 100;
+        const prior  = r.prior_amount || 0;
+        const indent = r.indent === 1 ? 'padding-left:28px;' : '';
+        const isTotal = r.asu === 'total' || r.item?.toLowerCase().includes('total income tax');
+        const isStatutory = r.asu === '1_statutory';
+        const isPrescribed = !isStatutory && Math.abs(amt) >= matThresh;
+        const fw = isTotal ? 'font-weight:700;' : '';
+        const bb = isTotal ? 'border-top:2px solid var(--border2);' : '';
+        const amtColor = amt < 0 ? 'color:var(--positive)' : '';
+        const prescribedBadge = isPrescribed
+          ? `<span style="font-family:var(--mono);font-size:9px;padding:1px 6px;background:rgba(185,28,28,0.08);border:1px solid rgba(185,28,28,0.2);border-radius:3px;color:var(--critical)">PRESCRIBED</span>`
+          : '';
+        return `<tr style="${bb}${isTotal ? 'background:rgba(26,86,219,0.03)' : ''}">
+          <td style="${indent}padding:7px 12px;font-size:12px;${fw}color:var(--text2)">${esc(r.item||'')}</td>
+          <td style="padding:7px 12px;font-size:12px;${fw}text-align:right;font-family:var(--mono)">${rate.toFixed(2)}%</td>
+          <td style="padding:7px 12px;font-size:12px;${fw}text-align:right;font-family:var(--mono);${amtColor}">${Math.round(amt/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:var(--text3)">${Math.round(prior/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px">${prescribedBadge}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div style="margin-top:12px;font-size:11px;color:var(--text3);padding:10px 14px;background:var(--bg3);border-radius:var(--radius)">
+      5% materiality threshold: $${Math.round(matThresh/1000).toLocaleString()}K · Items exceeding threshold require individual disclosure per ASU 2023-09 (ASC 740-10-50-12)
+    </div>`;
+}
+
+function renderTaxDeferred(d) {
+  const dta = d.deferred_tax_assets || [];
+  const dtl = d.deferred_tax_liabilities || [];
+  const va  = d.valuation_allowance || {};
+
+  const renderSchedule = (rows, label) => rows.length
+    ? `<div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text4);margin:16px 0 8px">${label}</div>
+       <table style="width:100%;border-collapse:collapse">
+         <thead><tr style="background:var(--bg3)">
+           <th style="text-align:left;padding:7px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:1px solid var(--border2)">Item</th>
+           <th style="text-align:right;padding:7px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:1px solid var(--border2)">Current Yr ($K)</th>
+           <th style="text-align:right;padding:7px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:1px solid var(--border2)">Prior Yr ($K)</th>
+           <th style="text-align:right;padding:7px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:1px solid var(--border2)">Change ($K)</th>
+         </tr></thead>
+         <tbody>${rows.map(r => {
+           const cur = r.current_year || 0; const pri = r.prior_year || 0; const chg = cur - pri;
+           return `<tr><td style="padding:6px 12px;font-size:12px;color:var(--text2)">${esc(r.item||'')}</td>
+             <td style="padding:6px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${Math.round(cur/1000).toLocaleString()}</td>
+             <td style="padding:6px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:var(--text3)">${Math.round(pri/1000).toLocaleString()}</td>
+             <td style="padding:6px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:${chg>0?'var(--positive)':'var(--critical)'}">${chg>=0?'+':''}${Math.round(chg/1000).toLocaleString()}</td>
+           </tr>`;
+         }).join('')}
+         <tr style="font-weight:700;border-top:2px solid var(--border2)">
+           <td style="padding:7px 12px;font-size:12px">Total</td>
+           <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${Math.round(rows.reduce((s,r)=>s+(r.current_year||0),0)/1000).toLocaleString()}</td>
+           <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:var(--text3)">${Math.round(rows.reduce((s,r)=>s+(r.prior_year||0),0)/1000).toLocaleString()}</td>
+           <td></td>
+         </tr></tbody>
+       </table>` : '';
+
+  document.getElementById('tax-deferred-content').innerHTML =
+    renderSchedule(dta, 'Deferred Tax Assets (ASC 740-10-50-2)') +
+    renderSchedule(dtl, 'Deferred Tax Liabilities') +
+    `<div style="margin-top:16px;padding:12px 16px;background:var(--warning-bg);border:1px solid var(--warning-border);border-radius:var(--radius);font-size:12px">
+      <strong>Valuation Allowance Rollforward</strong><br>
+      Beginning: $${Math.round(Math.abs(va.beginning_balance||0)/1000).toLocaleString()}K →
+      Charged to expense: $${Math.round((va.charged_to_expense||0)/1000).toLocaleString()}K →
+      Other: $${Math.round((va.other_comprehensive_income||0)/1000).toLocaleString()}K →
+      <strong>Ending: $${Math.round(Math.abs(va.ending_balance||0)/1000).toLocaleString()}K</strong>
+    </div>`;
+}
+
+function renderTaxJurisdictions(d, pretax) {
+  const jurs = d.jurisdictions || [];
+  if (!jurs.length) { document.getElementById('tax-jurs-content').innerHTML = '<p style="color:var(--text3);font-size:12px">No jurisdiction data available.</p>'; return; }
+
+  document.getElementById('tax-jurs-content').innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:var(--bg3)">
+        <th style="text-align:left;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Jurisdiction</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Stat. Rate</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Pretax ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">% of Total</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Total Tax ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Eff. Rate</th>
+        <th style="padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Disclosed?</th>
+      </tr></thead>
+      <tbody>${jurs.map(j => {
+        const pct = pretax ? (j.pretax_income||0) / pretax * 100 : 0;
+        const material = pct >= 5;
+        return `<tr>
+          <td style="padding:7px 12px;font-size:12px;font-weight:500;color:var(--text)">${esc(j.name||'')}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${((j.statutory_rate||0)*100).toFixed(1)}%</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${Math.round((j.pretax_income||0)/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:${material?'var(--accent)':'var(--text3)'}">${pct.toFixed(1)}%</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${Math.round((j.total_tax||0)/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${((j.effective_rate||0)*100).toFixed(1)}%</td>
+          <td style="padding:7px 12px">${material
+            ? `<span style="font-family:var(--mono);font-size:9px;padding:1px 6px;background:rgba(26,86,219,0.08);border:1px solid var(--accent-border);border-radius:3px;color:var(--accent)">≥5% DISCLOSED</span>`
+            : `<span style="font-family:var(--mono);font-size:9px;color:var(--text3)">Aggregated</span>`}</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3);padding:8px 12px;background:var(--bg3);border-radius:var(--radius)">
+      ASU 2023-09: jurisdictions with ≥5% of pretax income ($${Math.round(pretax * 0.05 / 1e6).toFixed(1)}M) must be disclosed individually.
+    </div>`;
+}
+
+function renderTaxCash(d) {
+  const cash  = d.cash_taxes_paid || {};
+  const prior = d.prior_cash_taxes_paid || {};
+  const total = cash.total || 0;
+  const rows  = [
+    {label: 'Federal income taxes paid',        amt: cash.federal||0,       p: prior.federal||0},
+    {label: 'State and local income taxes paid', amt: cash.state||0,         p: prior.state||0},
+    ...(cash.foreign_detail||[]).map(fd => ({
+      label: `${fd.jurisdiction||'Foreign'} income taxes paid`,
+      amt: fd.amount||0, p: fd.prior||0,
+      material: (fd.amount||0) >= total * 0.05,
+    })),
+    {label: 'Total income taxes paid', amt: total, p: prior.total||0, isTotal: true},
+  ];
+
+  document.getElementById('tax-cash-content').innerHTML = `
+    <table style="width:100%;border-collapse:collapse">
+      <thead><tr style="background:var(--bg3)">
+        <th style="text-align:left;padding:8px 12px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Category</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">FY Amount ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">Prior Yr ($K)</th>
+        <th style="text-align:right;padding:8px 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--text4);border-bottom:2px solid var(--border2)">% of Total</th>
+      </tr></thead>
+      <tbody>${rows.map(r => {
+        const pct  = total ? (r.amt / total * 100).toFixed(1) : '0.0';
+        const fw   = r.isTotal ? 'font-weight:700;' : '';
+        const bb   = r.isTotal ? 'border-top:2px solid var(--border2);' : '';
+        const badge = r.material
+          ? ` <span style="font-family:var(--mono);font-size:9px;padding:1px 5px;background:rgba(26,86,219,0.08);border:1px solid var(--accent-border);border-radius:3px;color:var(--accent)">≥5%</span>`
+          : '';
+        return `<tr style="${bb}${r.isTotal ? 'background:rgba(26,86,219,0.03)' : ''}">
+          <td style="padding:7px 12px;font-size:12px;${fw}color:var(--text2)">${esc(r.label)}${badge}</td>
+          <td style="padding:7px 12px;font-size:12px;${fw}text-align:right;font-family:var(--mono)">${Math.round(r.amt/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;text-align:right;font-family:var(--mono);color:var(--text3)">${Math.round(r.p/1000).toLocaleString()}</td>
+          <td style="padding:7px 12px;font-size:12px;${fw}text-align:right;font-family:var(--mono)">${pct}%</td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3);padding:8px 12px;background:var(--bg3);border-radius:var(--radius)">
+      New ASU 2023-09 disclosure. Foreign jurisdictions ≥5% of total cash taxes paid shown individually. Citation: ASC 230-10-50-1.
+    </div>`;
+}
+
+function renderTaxUTP(d) {
+  const utp = d.uncertain_tax_positions || {};
+  const oty = utp.open_tax_years || {};
+
+  document.getElementById('tax-utp-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text4);margin-bottom:10px">UTP Rollforward (ASC 740-10-50-15)</div>
+        <table style="width:100%;border-collapse:collapse">
+          ${[
+            ['Beginning balance', utp.beginning_balance||0],
+            ['Increases — current year positions', utp.increases_current_year||0],
+            ['Increases — prior year positions', utp.increases_prior_years||0],
+            ['Decreases — settlements', utp.decreases_settlements||0, true],
+            ['Decreases — statute of limitations', utp.decreases_statute_expiry||0, true],
+            ['Ending balance', utp.ending_balance||0, false, true],
+          ].map(([label, amt, neg, bold]) => `
+            <tr style="${bold ? 'border-top:2px solid var(--border2);font-weight:700' : ''}">
+              <td style="padding:6px 12px;font-size:12px;color:var(--text2)">${esc(label)}</td>
+              <td style="padding:6px 12px;font-size:12px;text-align:right;font-family:var(--mono)">${neg ? '(' : ''}$${Math.round(Math.abs(amt)/1000).toLocaleString()}K${neg ? ')' : ''}</td>
+            </tr>`).join('')}
+        </table>
+        <div style="margin-top:12px;padding:10px 12px;background:var(--bg3);border-radius:var(--radius);font-size:11px;color:var(--text3)">
+          Amount affecting ETR: $${Math.round((utp.amount_affecting_etr||0)/1000).toLocaleString()}K ·
+          Interest &amp; penalties: $${Math.round((utp.interest_and_penalties_accrued||0)/1000).toLocaleString()}K ·
+          Expected to resolve ≤12mo: $${Math.round((utp.positions_expected_to_resolve_12mo||0)/1000).toLocaleString()}K
+        </div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text4);margin-bottom:10px">Open Tax Years by Jurisdiction</div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr style="background:var(--bg3)">
+            <th style="padding:7px 12px;text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:1px solid var(--border2)">Jurisdiction</th>
+            <th style="padding:7px 12px;text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text4);border-bottom:1px solid var(--border2)">Open Years</th>
+          </tr></thead>
+          <tbody>${Object.entries(oty).map(([jur, yrs]) => `
+            <tr><td style="padding:6px 12px;font-size:12px;color:var(--text2)">${esc(jur.replace(/_/g,' '))}</td>
+            <td style="padding:6px 12px;font-size:12px;font-family:var(--mono);color:var(--accent)">${esc(yrs)}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// Auto-load when income-tax tab is clicked
+// Hook into tab switching to load live status when agents tab is activated
+const origTabClick = document.querySelectorAll('.tab');
+origTabClick.forEach(t => {
+  t.addEventListener('click', () => {
+    if (t.dataset.tab === 'agents') loadAgentLiveStatus();
+    if (t.dataset.tab === 'income-tax') loadIncomeTax();
+  });
+});
+
+async function runTaxAgentFull() {
+  const statusEl = document.getElementById('tax-agent-status');
+  const resultCard = document.getElementById('tax-agent-result');
+  const resultBody = document.getElementById('tax-agent-result-body');
+  statusEl.textContent = 'Running tax agent…';
+  try {
+    const resp = await fetch(`${API_BASE}/api/agents/run`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({agent: 'tax', params: {}}),
+    });
+    const data = await resp.json();
+    const s = data.summary || {};
+    statusEl.textContent = `Done — ETR ${s.effective_rate||0}% · Gaps: ${s.compliance_gaps||0} · ${s.elapsed_seconds?.toFixed(1)||0}s`;
+    resultCard.style.display = 'block';
+    const narrative = data.results?.[0]?.narrative || data.summary?.narrative || '';
+    resultBody.textContent = narrative || JSON.stringify(s, null, 2);
+    // Refresh displayed data
+    TAX_DATA = null;
+    loadIncomeTax();
+  } catch(e) {
+    statusEl.textContent = 'Error: ' + e.message;
+  }
+}
+
+// Sub-tab active styling helper
+document.addEventListener('click', e => {
+  const t = e.target.closest('.tax-sub-tab');
+  if (!t) return;
+  document.querySelectorAll('.tax-sub-tab').forEach(x => {
+    x.style.borderBottom = '2px solid transparent';
+    x.style.color = '';
+  });
+  t.style.borderBottom = '2px solid var(--accent)';
+  t.style.color = 'var(--accent)';
+});
+
+// ── BigQuery / Cortex Loader ──────────────────────────────────────────────────
+function activateStep(n, detailText) {
+  const step = document.getElementById('bq-step-' + n);
+  if (!step) return;
+  step.style.opacity = '1';
+  const icon = step.querySelector('.bq-step-icon');
+  if (icon) {
+    icon.style.background = 'rgba(66,133,244,0.1)';
+    icon.style.border = '1px solid rgba(66,133,244,0.25)';
+    // spinning indicator
+    icon.innerHTML = '<div style="width:14px;height:14px;border:2px solid rgba(66,133,244,0.3);border-top-color:#4285F4;border-radius:50%;animation:spin 0.7s linear infinite"></div>';
+  }
+  if (detailText) {
+    const detail = document.getElementById('bq-step-' + n + '-detail');
+    if (detail) detail.textContent = detailText;
+  }
+}
+
+function completeStep(n, detailText) {
+  const step = document.getElementById('bq-step-' + n);
+  if (!step) return;
+  const icon = step.querySelector('.bq-step-icon');
+  if (icon) {
+    icon.style.background = 'rgba(5,150,105,0.08)';
+    icon.style.border = '1px solid rgba(5,150,105,0.2)';
+    icon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  const check = step.querySelector('.bq-step-check');
+  if (check) check.style.opacity = '1';
+  if (detailText) {
+    const detail = document.getElementById('bq-step-' + n + '-detail');
+    if (detail) detail.textContent = detailText;
+  }
+}
+
+function setProgress(pct, countText) {
+  document.getElementById('bq-progress').style.width = pct + '%';
+  document.getElementById('bq-progress-text').textContent = pct + '% complete';
+  if (countText) document.getElementById('bq-progress-count').textContent = countText;
+}
+
+function setStatusBadge(text, color) {
+  const dot = document.getElementById('bq-dot');
+  const label = document.getElementById('bq-status-text');
+  dot.style.background = color;
+  label.style.color = color === '#22C55E' ? '#16A34A' : '#9CA3AF';
+  label.textContent = text;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('bq-loader');
+  loader.style.display = 'flex';
+
+  // Step 1 — auth
+  setTimeout(() => {
+    setStatusBadge('Connecting…', '#FBBF24');
+    activateStep(1, 'dataset: cortex_sap_reporting');
+    setProgress(10, '');
+  }, 600);
+
+  setTimeout(() => {
+    completeStep(1, '✓ Authenticated · project: be-tech-prod');
+    setProgress(25, '');
+  }, 2400);
+
+  // Step 2 — query
+  setTimeout(() => {
+    activateStep(2, 'SELECT gl_account, description, posting_amount FROM sap_fi…');
+    setStatusBadge('Querying BigQuery…', '#FBBF24');
+    setProgress(40, 'Fetching rows…');
+  }, 2900);
+
+  setTimeout(() => {
+    completeStep(2, '✓ 2,847 journal entries · 10 entities · FY2023');
+    setProgress(60, '502 accounts found');
+  }, 5200);
+
+  // Step 3 — mapping
+  setTimeout(() => {
+    activateStep(3, 'Applying ASC 220-40 category rules via Gemini…');
+    setStatusBadge('Running agent…', '#FBBF24');
+    setProgress(72, '502 accounts');
+  }, 5800);
+
+  setTimeout(() => {
+    completeStep(3, '✓ 502 accounts classified · 5 DISE categories');
+    setProgress(88, '502 / 502');
+  }, 8500);
+
+  // Step 4 — load data then reveal
+  setTimeout(() => {
+    activateStep(4, 'Building charts and disclosure tables…');
+    setProgress(95, 'Almost ready');
+
+    fetch('dise_full_mapping.json')
+      .then(r => { if (!r.ok) throw 0; return r.json(); })
+      .then(data => {
+        onData(data);
+        completeStep(4, '✓ 502 accounts · FY2023 actuals ready');
+        setProgress(100, '502 accounts');
+        setStatusBadge('Connected', '#22C55E');
+        document.getElementById('bq-dot').style.boxShadow = '0 0 6px rgba(34,197,94,0.4)';
+        setTimeout(() => {
+          loader.style.opacity = '0';
+          loader.style.transition = 'opacity 0.8s ease';
+          setTimeout(() => { loader.style.display = 'none'; }, 800);
+        }, 1200);
+      })
+      .catch(() => {
+        completeStep(4, '✗ Could not load data');
+        setStatusBadge('Error', '#DC2626');
+      });
+  }, 9500);
+});
+</script>
+</body>
+</html>
