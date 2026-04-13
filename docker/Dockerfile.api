@@ -19,7 +19,11 @@ COPY run.py /app/run.py
 # Frontend HTML + static assets (served by Flask)
 COPY fasb_dise_platform.html /app/fasb_dise_platform.html
 COPY dashboard.html /app/dashboard.html
+COPY ["GL_Intelligence_Platform (6).html", "/app/GL_Intelligence_Platform_6.html"]
 COPY ["FASB DISE ASSETS/", "/app/FASB DISE ASSETS/"]
+
+# Next.js static landing page
+COPY web/out/ /app/landing/
 
 # Non-root user
 RUN adduser --disabled-password --gecos "" appuser && chown -R appuser /app

@@ -60,23 +60,31 @@ class MappingAgent(BaseAgent):
         start = time.time()
         result = AgentResult(agent_id=self.AGENT_ID, status="success", started_at=self.now_iso())
 
-        # Get unmapped accounts
+        # Get accounts to process
+        import random
         use_offline = source == "offline" or (source == "auto" and not self.cx.available)
         if use_offline:
-            accounts = [a for a in self.get_classified_accounts()
-                        if a.get("confidence_label", "").upper() in ("LOW", "MEDIUM")]
-            dry_run = True  # can't write back without BQ
-            log.info(f"Using offline data ({len(accounts)} accounts needing review)")
+            all_classified = self.get_classified_accounts()
+            low_med = [a for a in all_classified if a.get("confidence_label", "").upper() in ("LOW", "MEDIUM")]
+            accounts = low_med if low_med else random.sample(all_classified, min(batch_size, len(all_classified)))
+            dry_run = True
+            log.info(f"Offline mode: {len(accounts)} accounts selected for validation")
         elif source in ("bigquery", "auto"):
             accounts = self.sap.get_unmapped_accounts()
+            # If BQ has no unmapped accounts, fall back to validating a sample from offline data
+            if not accounts:
+                log.info("No unmapped accounts in BQ — running validation sample from offline data")
+                all_classified = self.get_classified_accounts()
+                accounts = random.sample(all_classified, min(batch_size, len(all_classified)))
+                dry_run = True
         else:
             raise ValueError(f"Unknown source: {source}")
 
         if not accounts:
-            log.info("No unmapped accounts found.")
+            log.info("No accounts to process.")
             result.completed_at = self.now_iso()
             result.elapsed_seconds = time.time() - start
-            result.summary = {"message": "All accounts mapped"}
+            result.summary = {"message": "No accounts available"}
             return result
 
         # Get reference library

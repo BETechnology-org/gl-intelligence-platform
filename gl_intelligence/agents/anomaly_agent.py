@@ -95,19 +95,30 @@ class AnomalyAgent(BaseAgent):
                     "priority": "P1" if abs(pct) > 30 else "P2" if abs(pct) > 20 else "P3",
                 })
 
-        # CFO summary from Claude for P1 alerts
-        p1 = [a for a in alerts if a["priority"] == "P1"]
-        cfo_summary = None
-        if p1:
+        # CFO summary — always generate using top alerts (P1 first, then P2, then P3)
+        top_alerts = (
+            [a for a in alerts if a["priority"] == "P1"] or
+            [a for a in alerts if a["priority"] == "P2"] or
+            alerts
+        )[:10]
+        if top_alerts:
             lines = "\n".join(
-                f"  {a['gl_account']} {a['description']}: {a['pct_change']:+.1f}% YoY "
+                f"  [{a['priority']}] {a['gl_account']} {a['description']}: {a['pct_change']:+.1f}% YoY "
                 f"(${a['abs_change']:,.0f} change) — {a['dise_category']}"
-                for a in p1[:10]
+                for a in top_alerts
             )
             cfo_summary = self.call_claude(
                 "You are a CFO alert system. Be concise and actionable. 3-5 bullet points max.",
-                f"Summarize these critical expense anomalies:\n\n{lines}",
+                f"Summarize these expense anomalies for CFO review:\n\n{lines}",
                 max_tokens=500, expect_json=False,
+            )
+        else:
+            cfo_summary = self.call_claude(
+                "You are a CFO alert system. Be concise and actionable.",
+                f"No significant YoY anomalies detected in {len(classified)} GL accounts "
+                f"(thresholds: P1>100%, P2>50%, P3>25%, min $100K). "
+                "Generate a brief clean-bill-of-health statement for the CFO.",
+                max_tokens=300, expect_json=False,
             )
 
         result.results = alerts

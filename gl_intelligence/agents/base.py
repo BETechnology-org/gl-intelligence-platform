@@ -89,7 +89,16 @@ class BaseAgent:
 
     def __init__(self, cortex: CortexClient | None = None):
         self.cx = cortex or CortexClient()
-        self.claude = anthropic.Anthropic(api_key=cfg.ANTHROPIC_API_KEY)
+        if cfg.use_bedrock():
+            self.claude = anthropic.AnthropicBedrock(
+                aws_access_key=cfg.AWS_ACCESS_KEY_ID,
+                aws_secret_key=cfg.AWS_SECRET_ACCESS_KEY,
+                aws_region=cfg.AWS_BEDROCK_REGION,
+            )
+            log.info(f"Using AWS Bedrock ({cfg.AWS_BEDROCK_REGION})")
+        else:
+            self.claude = anthropic.Anthropic(api_key=cfg.ANTHROPIC_API_KEY)
+            log.info("Using Anthropic direct API")
         self.model = cfg.CLAUDE_MODEL
         self._run_id = str(uuid.uuid4())[:8]
 
@@ -211,7 +220,12 @@ class BaseAgent:
         WHERE fiscal_year = @fy
         ORDER BY expense_caption, dise_category
         """
-        return self.cx.query(sql, [self.cx.param("fy", "STRING", fy)])
+        try:
+            rows = self.cx.query(sql, [self.cx.param("fy", "STRING", fy)])
+            return rows if rows else self.get_classified_pivot()
+        except Exception as e:
+            log.warning(f"get_dise_pivot BQ error, falling back to offline: {e}")
+            return self.get_classified_pivot()
 
     def get_close_tracker(self) -> list[dict]:
         """Returns current close task status."""
@@ -221,7 +235,11 @@ class BaseAgent:
         SELECT * FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.v_close_tracker`
         ORDER BY sort_order
         """
-        return self.cx.query(sql)
+        try:
+            return self.cx.query(sql)
+        except Exception as e:
+            log.warning(f"get_close_tracker BQ error: {e}")
+            return []
 
     def get_anomaly_alerts(self, status: str = "open") -> list[dict]:
         """Returns anomaly alerts."""
@@ -231,7 +249,11 @@ class BaseAgent:
         SELECT * FROM `{cfg.PROJECT}.{cfg.DISE_DATASET}.v_anomaly_alerts`
         WHERE status = @status
         """
-        return self.cx.query(sql, [self.cx.param("status", "STRING", status)])
+        try:
+            return self.cx.query(sql, [self.cx.param("status", "STRING", status)])
+        except Exception as e:
+            log.warning(f"get_anomaly_alerts BQ error: {e}")
+            return []
 
     def write_audit_event(self, event_type: str, gl_account: str, data: dict) -> None:
         """Writes an immutable event to the mapping_decisions_log."""

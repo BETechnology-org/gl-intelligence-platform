@@ -1,0 +1,65 @@
+# Cloud Build source upload — only ship what Docker actually COPYs
+# Reduces tarball from ~300 MB → ~20 MB
+
+# Git internals
+.git/
+.gitignore
+
+# Node / Next.js dev artifacts (only web/out/ is needed, built separately)
+web/node_modules/
+web/.next/
+web/.turbo/
+# web/out/ is pre-built locally and uploaded — do NOT exclude it
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+
+# Terraform
+files*/
+*.zip
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# Loose root-level binaries / screenshots / design assets
+# Root-anchored (/) so web/out/ assets like hero-model.gltf and logo images are NOT excluded
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.svg
+/*.ico
+/*.gltf
+/*.glb
+/*.pptx
+/*.pdf
+/*.md
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Playwright MCP
+.playwright-mcp/
+
+# Landing page source (only the built output web/out/ is needed)
+web/app/
+web/public/
+web/src/
+web/components/
+web/lib/
+web/styles/
+web/*.ts
+web/*.tsx
+web/*.js
+web/*.json
+web/*.mjs
+web/*.config.*

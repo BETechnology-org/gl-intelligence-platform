@@ -17,6 +17,8 @@ from gl_intelligence.agents.recon_agent import ReconciliationAgent
 from gl_intelligence.agents.anomaly_agent import AnomalyAgent
 from gl_intelligence.agents.disclosure_agent import DisclosureAgent
 from gl_intelligence.agents.tax_agent import TaxReconciliationAgent
+from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
+from gl_intelligence.agents.etr_bridge_agent import ETRBridgeAgent
 
 log = logging.getLogger("agents.orchestrator")
 
@@ -35,11 +37,13 @@ class AgentOrchestrator:
     def __init__(self, cortex: CortexClient | None = None):
         self.cx = cortex or CortexClient()
         self.agents = {
-            "mapping": MappingAgent(self.cx),
-            "recon": ReconciliationAgent(self.cx),
-            "anomaly": AnomalyAgent(self.cx),
-            "disclosure": DisclosureAgent(self.cx),
-            "tax": TaxReconciliationAgent(self.cx),
+            "mapping":        MappingAgent(self.cx),
+            "recon":          ReconciliationAgent(self.cx),
+            "anomaly":        AnomalyAgent(self.cx),
+            "disclosure":     DisclosureAgent(self.cx),
+            "tax":            TaxReconciliationAgent(self.cx),
+            "tax_classifier": TaxClassifierAgent(self.cx),
+            "etr_bridge":     ETRBridgeAgent(self.cx),
         }
         log.info(f"Orchestrator initialized with {len(self.agents)} agents — project={cfg.PROJECT}")
 

@@ -93,14 +93,12 @@ class ReconciliationAgent(BaseAgent):
 
         has_variance = any(c["status"] == "VARIANCE" for c in checks)
 
-        # Step 6: Claude analysis
-        analysis = None
-        if has_variance or low > 0:
-            variance_text = "\n".join(
-                f"  {c['category']:35} FY23: ${c['fy2023']/1e6:.1f}M  FY22: ${c['fy2022']/1e6:.1f}M  YoY: {c['yoy_change_pct']:+.1f}%  [{c['status']}]"
-                for c in checks
-            )
-            prompt = f"""Analyze this DISE reconciliation for a company with ${fy23_total/1e6:.0f}M total expenses:
+        # Step 6: Claude analysis — always run
+        variance_text = "\n".join(
+            f"  {c['category']:35} FY23: ${c['fy2023']/1e6:.1f}M  FY22: ${c['fy2022']/1e6:.1f}M  YoY: {c['yoy_change_pct']:+.1f}%  [{c['status']}]"
+            for c in checks
+        )
+        prompt = f"""Analyze this DISE reconciliation for a company with ${fy23_total/1e6:.0f}M total expenses:
 
 CATEGORY RECONCILIATION:
 {variance_text}
@@ -108,13 +106,13 @@ CATEGORY RECONCILIATION:
 TOTAL YoY: {yoy_change:.1f}% (${fy23_total/1e6:.0f}M vs ${fy22_total/1e6:.0f}M)
 CONFIDENCE: {high} HIGH, {med} MEDIUM, {low} LOW out of {len(classified)} accounts
 
-Provide: (1) assessment of each category variance, (2) whether the overall mix is reasonable,
-(3) any categories that look anomalous and why, (4) recommended actions."""
+Provide: (1) assessment of each category variance, (2) whether the overall expense mix is reasonable for this industry,
+(3) any categories that look anomalous and why, (4) recommended actions or sign-off if clean."""
 
-            analysis = self.call_claude(
-                "You are a financial reconciliation expert reviewing a DISE expense disaggregation. Be specific and actionable.",
-                prompt, max_tokens=1024, expect_json=False,
-            )
+        analysis = self.call_claude(
+            "You are a financial reconciliation expert reviewing a DISE expense disaggregation. Be specific and actionable.",
+            prompt, max_tokens=1024, expect_json=False,
+        )
 
         result.results = checks
         result.processed = len(checks)

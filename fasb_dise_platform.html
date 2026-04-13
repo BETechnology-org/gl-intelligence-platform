@@ -3,30 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FASB DISE Platform</title>
+<title>trufflesfasb.ai — Financial Intelligence Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #F7F8FC;
+  --navy: #F8F9FB;
   --navy-mid: #FFFFFF;
-  --navy-light: #EEF1F6;
-  --teal: #0D9488;
-  --teal-light: #0F766E;
-  --teal-glow: rgba(13,148,136,0.08);
+  --navy-light: #F1F3F7;
+  --teal: #6366F1;
+  --teal-light: #4F46E5;
+  --teal-glow: rgba(99,102,241,0.06);
   --gold: #92580A;
   --gold-light: #B45309;
-  --white: #0F1729;
-  --muted: #5A6A8A;
-  --border: rgba(0,0,0,0.08);
-  --border-light: rgba(0,0,0,0.12);
+  --white: #0F172A;
+  --muted: #64748B;
+  --border: rgba(15,23,42,0.06);
+  --border-light: rgba(15,23,42,0.08);
   --card-bg: #FFFFFF;
-  --card-hover: #F1F4F9;
+  --card-hover: #FAFBFC;
   --serif: 'Instrument Serif', Georgia, serif;
-  --sans: 'DM Sans', sans-serif;
+  --sans: 'Inter', 'DM Sans', -apple-system, sans-serif;
   --mono: 'DM Mono', monospace;
-  --radius: 12px;
-  --radius-lg: 18px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --accent: #6366F1;
+  --accent-light: #818CF8;
+  --accent-glow: rgba(99,102,241,0.08);
+  --hero-bg: #0B0F1A;
+  --hero-card: rgba(255,255,255,0.04);
+  --hero-border: rgba(255,255,255,0.08);
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md: 0 2px 8px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-lg: 0 4px 16px rgba(15,23,42,0.08), 0 1px 3px rgba(15,23,42,0.04);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,17 +66,27 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  height: 64px;
-  background: #FFFFFF;
-  backdrop-filter: blur(12px);
+  padding: 0 32px;
+  height: 56px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 100;
   flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
+nav.nav-dark {
+  background: rgba(11,15,26,0.85);
+  border-bottom-color: rgba(255,255,255,0.06);
+}
+nav.nav-dark .nav-logo-text { color: #fff; }
+nav.nav-dark .nav-logo-sub { color: rgba(255,255,255,0.5); }
+nav.nav-dark .nav-link { color: rgba(255,255,255,0.5); }
+nav.nav-dark .nav-link:hover { color: #fff; background: rgba(255,255,255,0.06); }
+nav.nav-dark .nav-link.active { color: var(--accent-light); }
+nav.nav-dark .nav-avatar { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+nav.nav-dark .nav-chat-btn { color: var(--accent-light); border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.1); }
 
 .nav-logo {
   display: flex;
@@ -78,34 +97,36 @@ nav {
 }
 
 .nav-logo-mark {
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  width: 30px; height: 30px;
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--serif);
-  font-size: 16px;
+  font-size: 15px;
+  font-weight: 700;
   color: white;
-  font-style: italic;
+  letter-spacing: -0.02em;
+  font-family: var(--sans);
 }
 
 .nav-logo-text {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
+.nav-logo-text span { color: var(--accent); }
 
 .nav-logo-sub {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--muted);
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
 }
 
 .nav-link {
@@ -118,6 +139,7 @@ nav {
   border: none;
   background: none;
   font-family: var(--sans);
+  font-weight: 500;
 }
 .nav-link:hover { color: var(--white); background: var(--card-hover); }
 .nav-link.active { color: var(--teal-light); }
@@ -127,8 +149,8 @@ nav {
 .nav-chat-btn {
   display: flex; align-items: center; gap: 7px;
   padding: 7px 16px;
-  background: var(--teal-glow);
-  border: 1px solid rgba(13,148,136,0.3);
+  background: var(--accent-glow);
+  border: 1px solid rgba(99,102,241,0.25);
   border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
@@ -138,24 +160,469 @@ nav {
   font-family: var(--sans);
 }
 .nav-chat-btn:hover {
-  background: rgba(13,148,136,0.25);
-  border-color: var(--teal);
+  background: rgba(99,102,241,0.2);
+  border-color: var(--accent);
 }
 
 .nav-avatar {
   width: 32px; height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #1E3A5A, #2A4F78);
+  background: linear-gradient(135deg, #E0E7FF, #C7D2FE);
   border: 1px solid var(--border-light);
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--accent);
   cursor: pointer;
 }
 
 /* ══════════════════════════════════════
-   HOMEPAGE
+   LANDING PAGE — DARK HERO
+══════════════════════════════════════ */
+.landing-hero {
+  background: var(--hero-bg);
+  position: relative;
+  overflow: hidden;
+  padding: 80px 40px 100px;
+  text-align: center;
+}
+.landing-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(139,92,246,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 60%, rgba(59,130,246,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.landing-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge-dot {
+  width: 8px; height: 8px;
+  background: #22C55E;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(34,197,94,0.5);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+.hero-title-landing {
+  font-family: var(--sans);
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin-bottom: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-title-landing .gradient-text {
+  background: linear-gradient(135deg, #818CF8, #A78BFA, #C084FC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub-landing {
+  font-size: 17px;
+  color: rgba(255,255,255,0.55);
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+  font-weight: 400;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #6366F1, #7C3AED);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 24px rgba(99,102,241,0.35), 0 0 0 1px rgba(99,102,241,0.5);
+}
+.cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(99,102,241,0.45), 0 0 0 1px rgba(99,102,241,0.6);
+}
+
+.cta-secondary-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.cta-secondary-dark:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+/* ── Data Flow Visualization ── */
+.data-flow-section {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.data-flow-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(10px);
+}
+.data-flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+}
+.flow-node-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.flow-node-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+}
+.flow-node-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+}
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  color: rgba(255,255,255,0.15);
+  font-size: 24px;
+}
+.flow-arrow svg { width: 40px; height: 20px; }
+.flow-center {
+  position: relative;
+}
+.flow-center .flow-node-icon {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+  border-color: rgba(99,102,241,0.3);
+  font-size: 28px;
+  box-shadow: 0 0 40px rgba(99,102,241,0.15);
+}
+
+/* ── Stats Bar (in hero) ── */
+.hero-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 48px;
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-stat-item {
+  padding: 24px 20px;
+  text-align: center;
+  background: rgba(11,15,26,0.6);
+}
+.hero-stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.hero-stat-num .accent { color: var(--accent-light); }
+.hero-stat-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 500;
+}
+
+/* ── Sections (light) ── */
+.section-light {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-light-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.section-title-lg {
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--white);
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── Module grid (redesigned) ── */
+.modules-grid-new {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.module-card-new {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
+}
+.module-card-new::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), #A78BFA);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.module-card-new:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  border-color: rgba(99,102,241,0.2);
+}
+.module-card-new:hover::before { opacity: 1; }
+.module-card-new.featured-new {
+  border-color: rgba(99,102,241,0.2);
+  background: linear-gradient(135deg, rgba(99,102,241,0.03), #fff);
+}
+.module-card-new.featured-new::before { opacity: 1; }
+
+.mc-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+.mc-badge {
+  position: absolute;
+  top: 18px; right: 18px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+.mc-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+.mc-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.mc-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.mc-meta-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+
+/* ── Integration logos ── */
+.integrations-section {
+  background: #F8FAFC;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 60px 40px;
+  text-align: center;
+}
+.integrations-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.integrations-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.integration-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.integration-item:hover { opacity: 1; }
+.integration-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.integration-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+/* ── Bottom CTA ── */
+.bottom-cta {
+  background: var(--hero-bg);
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.bottom-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(99,102,241,0.15), transparent);
+  pointer-events: none;
+}
+.bottom-cta-title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.bottom-cta-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Footer ── */
+.site-footer {
+  padding: 32px 40px;
+  background: #070A12;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+}
+.site-footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.site-footer a:hover { color: #fff; }
+
+/* ══════════════════════════════════════
+   OLD HOMEPAGE (hidden, kept for compat)
 ══════════════════════════════════════ */
 .home-hero {
   padding: 64px 40px 40px;
@@ -168,7 +635,7 @@ nav {
   position: absolute;
   top: -100px; left: -100px;
   width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(13,148,136,0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -178,7 +645,7 @@ nav {
   top: 0; right: 0;
   width: 40%;
   height: 100%;
-  background: radial-gradient(ellipse at right top, rgba(13,148,136,0.03) 0%, transparent 60%);
+  background: radial-gradient(ellipse at right top, rgba(99,102,241,0.03) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -436,9 +903,9 @@ nav {
    MODULE PAGE (DISE, etc.)
 ══════════════════════════════════════ */
 .module-page-header {
-  padding: 40px 40px 32px;
+  padding: 32px 40px 28px;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(13,148,136,0.04) 0%, #F7F8FC 100%);
+  background: linear-gradient(180deg, rgba(99,102,241,0.02) 0%, var(--navy) 100%);
 }
 
 .back-btn {
@@ -466,11 +933,12 @@ nav {
 }
 
 .module-page-title {
-  font-family: var(--serif);
-  font-size: 38px;
-  font-weight: 400;
+  font-family: var(--sans);
+  font-size: 28px;
+  font-weight: 700;
   margin-bottom: 10px;
   line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
 .module-page-sub {
@@ -521,6 +989,12 @@ nav {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.status-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-light);
 }
 
 .status-card-label {
@@ -532,10 +1006,12 @@ nav {
 }
 
 .status-card-value {
-  font-family: var(--serif);
-  font-size: 26px;
+  font-family: var(--sans);
+  font-size: 24px;
+  font-weight: 700;
   line-height: 1;
   margin-bottom: 4px;
+  letter-spacing: -0.02em;
 }
 
 .status-card-sub {
@@ -552,14 +1028,25 @@ nav {
 .content-section { margin-bottom: 32px; }
 
 .content-section-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--white);
   margin-bottom: 14px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.content-section-title::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
 /* ── Data table ── */
@@ -572,21 +1059,25 @@ nav {
 .data-table th {
   text-align: left;
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--muted);
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border-light);
+  background: var(--navy);
 }
 
 .data-table td {
-  padding: 12px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
   vertical-align: middle;
+  font-size: 13px;
+  color: var(--white);
 }
 
 .data-table tr:hover td { background: var(--card-hover); }
+.data-table tr { transition: background 0.15s ease; }
 
 .status-pill {
   display: inline-flex;
@@ -606,7 +1097,7 @@ nav {
 .progress-item { margin-bottom: 14px; }
 .progress-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
 .progress-label span:last-child { color: var(--muted); }
-.progress-track { height: 4px; background: #E2E8F0; border-radius: 2px; overflow: hidden; }
+.progress-track { height: 5px; background: #E2E8F0; border-radius: 3px; overflow: hidden; }
 .progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--teal), var(--teal-light)); transition: width 0.8s ease; }
 .progress-fill.amber { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
 .progress-fill.red { background: linear-gradient(90deg, #DC2626, #FCA5A5); }
@@ -618,6 +1109,7 @@ nav {
   border-radius: var(--radius);
   padding: 18px;
   margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar-widget-title {
@@ -676,7 +1168,7 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 9px 18px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
@@ -684,29 +1176,107 @@ nav {
   transition: all 0.2s;
   border: none;
   font-family: var(--sans);
+  letter-spacing: -0.01em;
 }
 
 .btn-primary {
-  background: var(--teal);
+  background: var(--white);
   color: white;
+  box-shadow: var(--shadow-sm);
 }
-.btn-primary:hover { background: var(--teal-light); }
+.btn-primary:hover { background: #1E293B; box-shadow: var(--shadow-md); }
 
 .btn-secondary {
   background: var(--card-bg);
   border: 1px solid var(--border-light);
   color: var(--white);
+  box-shadow: var(--shadow-sm);
 }
-.btn-secondary:hover { background: var(--card-hover); }
+.btn-secondary:hover { background: var(--card-hover); box-shadow: var(--shadow-md); }
 
 .btn-ghost {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--muted);
 }
-.btn-ghost:hover { color: var(--white); border-color: var(--border-light); }
+.btn-ghost:hover { color: var(--white); border-color: var(--border-light); background: var(--card-hover); }
 
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+
+/* ── Data Source Connection Banner ── */
+.data-source-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, rgba(34,197,94,0.04) 0%, rgba(99,102,241,0.04) 100%);
+  border: 1px solid rgba(34,197,94,0.15);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  animation: bannerFadeIn 0.8s ease-out;
+}
+@keyframes bannerFadeIn {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.data-source-banner .source-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.data-source-banner .source-info {
+  flex: 1;
+}
+.data-source-banner .source-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.data-source-banner .source-detail {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.data-source-banner .source-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #16A34A;
+}
+.data-source-banner .source-status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 6px rgba(34,197,94,0.4);
+  animation: pulse-dot 2s infinite;
+}
+.data-source-separator {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.data-source-stat {
+  text-align: center;
+  padding: 0 12px;
+}
+.data-source-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+.data-source-stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 
 /* ══════════════════════════════════════
    AI CHAT PANEL
@@ -756,7 +1326,7 @@ nav {
 .chat-avatar {
   width: 32px; height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--teal), var(--navy-light));
+  background: linear-gradient(135deg, #6366F1, #A78BFA);
   display: flex; align-items: center; justify-content: center;
   font-size: 14px;
 }
@@ -917,7 +1487,7 @@ nav {
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-size: 22px;
-  box-shadow: 0 8px 24px rgba(13,148,136,0.4);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.35);
   transition: all 0.2s;
   z-index: 150;
 }
@@ -934,14 +1504,602 @@ nav {
 }
 @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 
-/* ── Responsive tweaks ── */
-@media (max-width: 900px) {
-  .news-grid { grid-template-columns: 1fr; }
-  .news-card.lead { grid-column: span 1; }
+/* ══════════════════════════════════════
+   SCROLL ANIMATIONS
+══════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+
+/* ══════════════════════════════════════
+   ANIMATED GRADIENT MESH (Hero)
+══════════════════════════════════════ */
+@keyframes meshFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, -40px) scale(1.1); }
+  66% { transform: translate(-30px, 30px) scale(0.95); }
+}
+@keyframes meshFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-50px, 50px) scale(1.05); }
+  66% { transform: translate(40px, -20px) scale(1.08); }
+}
+@keyframes meshFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, 60px) scale(1.12); }
+}
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-mesh-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.hero-mesh-blob.b1 {
+  width: 600px; height: 600px;
+  background: rgba(99,102,241,0.18);
+  top: -20%; left: 20%;
+  animation: meshFloat1 20s ease-in-out infinite;
+}
+.hero-mesh-blob.b2 {
+  width: 500px; height: 500px;
+  background: rgba(139,92,246,0.12);
+  top: 30%; right: -5%;
+  animation: meshFloat2 25s ease-in-out infinite;
+}
+.hero-mesh-blob.b3 {
+  width: 400px; height: 400px;
+  background: rgba(59,130,246,0.1);
+  bottom: -10%; left: 5%;
+  animation: meshFloat3 18s ease-in-out infinite;
+}
+.hero-mesh-blob.b4 {
+  width: 350px; height: 350px;
+  background: rgba(236,72,153,0.06);
+  top: 10%; right: 25%;
+  animation: meshFloat1 22s ease-in-out infinite reverse;
+}
+
+/* ── Floating particles ── */
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(-30px); opacity: 0.8; }
+}
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── Animated grid overlay ── */
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.02; }
+  50% { opacity: 0.05; }
+}
+.hero-grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridPulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── Product preview enhancements ── */
+@keyframes previewGlow {
+  0%, 100% { box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.05), 0 0 60px rgba(99,102,241,0.08); }
+  50% { box-shadow: 0 40px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.08), 0 0 80px rgba(99,102,241,0.18); }
+}
+.product-preview {
+  animation: previewGlow 6s ease-in-out infinite;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  transform: perspective(1200px) rotateX(4deg) scale(0.96);
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+@keyframes scanLine {
+  0% { top: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+.preview-scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.5), transparent);
+  animation: scanLine 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ── How-it-works connecting line ── */
+.steps-container { position: relative; }
+.steps-connector {
+  position: absolute;
+  top: 24px;
+  left: calc(16.67% + 24px);
+  right: calc(16.67% + 24px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #8B5CF6, #22C55E);
+  opacity: 0.15;
+  z-index: 0;
+}
+.steps-connector-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), #8B5CF6, #22C55E);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 12px rgba(99,102,241,0.5);
+}
+@keyframes flowPulse {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: calc(100% - 40px); opacity: 0; }
+}
+.steps-connector::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  width: 40px;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: flowPulse 3s ease-in-out infinite;
+}
+
+/* ── Hero 3D parallax tilt (enhances .product-preview above) ── */
+.product-preview.in-view {
+  transform: perspective(1200px) rotateX(0deg) scale(1);
+}
+
+/* ── Sequential stat reveal ── */
+.stat-grid-4 > div {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stat-grid-4.animate > div { opacity: 1; transform: translateY(0); }
+.stat-grid-4.animate > div:nth-child(1) { transition-delay: 0.1s; }
+.stat-grid-4.animate > div:nth-child(2) { transition-delay: 0.25s; }
+.stat-grid-4.animate > div:nth-child(3) { transition-delay: 0.4s; }
+.stat-grid-4.animate > div:nth-child(4) { transition-delay: 0.55s; }
+
+/* ── Animated number countup in hero preview ── */
+.hero-stat-value { display: inline-block; }
+
+/* ── Table row cascade ── */
+.rate-recon-anim > div {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.rate-recon-anim.animate > div { opacity: 1; transform: translateX(0); }
+.rate-recon-anim.animate > div:nth-child(1) { transition-delay: 0.6s; }
+.rate-recon-anim.animate > div:nth-child(2) { transition-delay: 0.75s; }
+.rate-recon-anim.animate > div:nth-child(3) { transition-delay: 0.9s; }
+.rate-recon-anim.animate > div:nth-child(4) { transition-delay: 1.05s; }
+.rate-recon-anim.animate > div:nth-child(5) { transition-delay: 1.2s; }
+.rate-recon-anim.animate > div:nth-child(6) { transition-delay: 1.35s; }
+
+/* ── Bar grow animation ── */
+.bar-grow {
+  width: 0% !important;
+  transition: width 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.bar-grow.animate {
+  width: var(--target-width) !important;
+}
+
+/* ── Compliance check cascade ── */
+.compliance-cascade > div {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.compliance-cascade.animate > div { opacity: 1; transform: scale(1); }
+.compliance-cascade.animate > div:nth-child(1) { transition-delay: 1.4s; }
+.compliance-cascade.animate > div:nth-child(2) { transition-delay: 1.55s; }
+.compliance-cascade.animate > div:nth-child(3) { transition-delay: 1.7s; }
+.compliance-cascade.animate > div:nth-child(4) { transition-delay: 1.85s; }
+.compliance-cascade.animate > div:nth-child(5) { transition-delay: 2.0s; }
+.compliance-cascade.animate > div:nth-child(6) { transition-delay: 2.15s; }
+
+/* ── AI Agent Live Demo (Harvey-style) ── */
+.ai-demo-container {
+  max-width: 720px;
+  margin: 48px auto 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+}
+.ai-demo-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: #FAFAFC;
+}
+.ai-demo-avatar {
+  width: 32px; height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 14px;
+}
+.ai-demo-title {
+  font-size: 14px; font-weight: 600; color: var(--white);
+}
+.ai-demo-subtitle {
+  font-size: 11px; color: var(--muted);
+}
+.ai-demo-status {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--muted); font-weight: 500;
+}
+.ai-demo-status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  animation: pulse-dot 1.5s infinite;
+}
+.ai-demo-body {
+  padding: 20px;
+  min-height: 220px;
+}
+.ai-demo-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.ai-demo-step.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ai-demo-step-icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ai-demo-step-content {
+  flex: 1;
+}
+.ai-demo-step-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.ai-demo-step-detail {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.ai-demo-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ai-demo-tag {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.ai-demo-tag.visible { opacity: 1; transform: scale(1); }
+.ai-demo-progress {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.ai-demo-progress-bar {
+  height: 4px;
+  background: #EEF1F6;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.ai-demo-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #6366F1, #22C55E);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.ai-demo-progress-text {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ── Module card hover previews ── */
+.module-card-new {
+  position: relative;
+  overflow: hidden;
+}
+.mc-hover-graphic {
+  position: absolute;
+  bottom: -60px;
+  right: -20px;
+  opacity: 0;
+  transition: opacity 0.4s ease, bottom 0.4s ease;
+  pointer-events: none;
+}
+.module-card-new:hover .mc-hover-graphic {
+  opacity: 0.12;
+  bottom: -40px;
+}
+
+/* ── Waterfall bar animation ── */
+.waterfall-bar {
+  height: 0 !important;
+  transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.waterfall-bar.animate {
+  height: var(--target-h) !important;
+}
+
+/* ── Metrics banner ── */
+.metrics-banner {
+  background: linear-gradient(135deg, #0B0F1A 0%, #131833 50%, #0B0F1A 100%);
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.metrics-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 80% at 50% 50%, rgba(99,102,241,0.08), transparent);
+  pointer-events: none;
+}
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.metric-item { text-align: center; }
+.metric-number {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.metric-label {
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 500;
+}
+.metric-sublabel {
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 4px;
+}
+
+/* ── Enhanced trust cards ── */
+.trust-card-enhanced {
+  text-align: center;
+  padding: 32px 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+.trust-card-enhanced::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(99,102,241,0.06), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.trust-card-enhanced:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  border-color: rgba(99,102,241,0.15);
+}
+.trust-card-enhanced:hover::before { opacity: 1; }
+.trust-icon-ring {
+  width: 64px; height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+
+/* ── Trusted-by logos enhanced ── */
+.trusted-logo-item {
+  padding: 12px 36px;
+  font-size: 17px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: -0.02em;
+  transition: all 0.4s;
+  position: relative;
+}
+.trusted-logo-item:hover {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ── Mobile hamburger ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  border: none;
+  background: none;
+  z-index: 110;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--muted);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-dark .nav-hamburger span { background: rgba(255,255,255,0.6); }
+.nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(11,15,26,0.98);
+  backdrop-filter: blur(20px);
+  z-index: 99;
+  flex-direction: column;
+  padding: 32px 24px;
+  gap: 8px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu .mobile-nav-link {
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.8);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: none;
+  background: none;
+  font-family: var(--sans);
+  text-align: left;
+}
+.mobile-menu .mobile-nav-link:hover { background: rgba(255,255,255,0.06); }
+
+/* ══════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .landing-hero { padding: 60px 24px 80px; }
+  .modules-grid-new { grid-template-columns: repeat(2, 1fr); }
+  .module-card-new.featured-new { grid-column: span 2; }
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .module-body { grid-template-columns: 1fr; }
   .module-sidebar { border-top: 1px solid var(--border); }
-  .status-bar { grid-template-columns: 1fr 1fr; }
-  .chat-panel { width: calc(100vw - 32px); height: 500px; }
+  .module-main { border-right: none; }
+  .status-bar { grid-template-columns: repeat(2, 1fr); }
+  .hero-stats-bar { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .nav-chat-btn { display: none; }
+  .landing-hero { padding: 40px 16px 60px; }
+  .hero-title-landing { font-size: clamp(28px, 8vw, 42px); }
+  .hero-sub-landing { font-size: 15px; padding: 0 8px; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .cta-primary, .cta-secondary-dark { width: 100%; max-width: 320px; justify-content: center; }
+  .hero-stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .modules-grid-new { grid-template-columns: 1fr; }
+  .module-card-new.featured-new { grid-column: span 1; }
+  .section-light { padding: 48px 16px; }
+  .section-title-lg { font-size: 24px; }
+  .bottom-cta { padding: 60px 16px; }
+  .bottom-cta-title { font-size: 24px; }
+  .site-footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 16px; }
+  .module-page-header { padding: 24px 16px; }
+  .module-page-title { font-size: 28px; }
+  .module-main { padding: 20px 16px; }
+  .module-sidebar { padding: 20px 16px; }
+  .data-table { font-size: 11px; }
+  .data-table th, .data-table td { padding: 8px 6px; }
+  .news-grid { grid-template-columns: 1fr; }
+  .news-card.lead { grid-column: span 1; }
+  .modules-grid { padding: 0 16px 24px; }
+  .section-header { padding: 0 16px; }
+  .chat-panel { width: 100%; height: 100%; border-radius: 0; }
+  .chat-overlay { padding: 0; }
+  .metrics-banner { padding: 60px 16px; }
+}
+
+@media (max-width: 480px) {
+  .hero-stats-bar { grid-template-columns: 1fr; }
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .status-bar { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -950,186 +2108,557 @@ nav {
 <!-- ════════════════════════════════════════
      NAVIGATION
 ════════════════════════════════════════ -->
-<nav id="main-nav">
+<nav id="main-nav" class="nav-dark">
   <div class="nav-logo" onclick="showPage('home')">
-    <div class="nav-logo-mark">F</div>
+    <div class="nav-logo-mark">tf</div>
     <div>
-      <div class="nav-logo-text">BE Technology</div>
-      <div class="nav-logo-sub">GL Intelligence Platform</div>
+      <div class="nav-logo-text">truffles<span>fasb</span>.ai</div>
     </div>
   </div>
   <div class="nav-links">
-    <button class="nav-link active" onclick="showPage('home')">Home</button>
-    <button class="nav-link" onclick="showModule('dise')">DISE</button>
+    <button class="nav-link active" onclick="showPage('home')">Platform</button>
     <button class="nav-link" onclick="showModule('income-tax')">Income Tax</button>
+    <button class="nav-link" onclick="showPage('tax-classifier')">Tax Classifier</button>
+    <button class="nav-link" onclick="showModule('dise')">DISE</button>
     <button class="nav-link" onclick="showModule('segment')">Segments</button>
     <button class="nav-link" onclick="showModule('lease')">Leases</button>
-    <a class="nav-link" href="/dashboard" style="text-decoration:none;color:var(--teal);font-weight:600">GL Dashboard →</a>
+    <a class="nav-link" href="/dashboard" style="text-decoration:none;font-weight:600">Dashboard</a>
   </div>
   <div class="nav-right">
     <button class="nav-chat-btn" onclick="openChat()">
-      <span>✦</span> AI Assistant
+      <span>&#10038;</span> AI Assistant
     </button>
     <div class="nav-avatar">JD</div>
+    <button class="nav-hamburger" id="hamburger-btn" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-nav-link" onclick="showPage('home');closeMobileMenu()">Platform</button>
+  <button class="mobile-nav-link" onclick="showModule('income-tax');closeMobileMenu()">Income Tax</button>
+  <button class="mobile-nav-link" onclick="showPage('tax-classifier');closeMobileMenu()">Tax Classifier</button>
+  <button class="mobile-nav-link" onclick="showModule('dise');closeMobileMenu()">DISE</button>
+  <button class="mobile-nav-link" onclick="showModule('segment');closeMobileMenu()">Segments</button>
+  <button class="mobile-nav-link" onclick="showModule('lease');closeMobileMenu()">Leases</button>
+  <button class="mobile-nav-link" onclick="window.location='/dashboard'">Dashboard</button>
+  <button class="mobile-nav-link" onclick="openChat();closeMobileMenu()" style="color:#818CF8">AI Assistant</button>
+</div>
 
 <!-- ════════════════════════════════════════
-     HOME PAGE
+     HOME PAGE — MODERN LANDING
 ════════════════════════════════════════ -->
 <div class="page active" id="page-home">
 
-  <div class="home-hero">
-    <div class="hero-eyebrow">FASB Disclosure Intelligence Platform</div>
-    <h1 class="hero-title">
-      Financial reporting,<br><em>made certain.</em>
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO — Enterprise-grade, product-led
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="landing-hero">
+    <!-- Animated gradient mesh background -->
+    <div class="hero-mesh">
+      <div class="hero-mesh-blob b1"></div>
+      <div class="hero-mesh-blob b2"></div>
+      <div class="hero-mesh-blob b3"></div>
+      <div class="hero-mesh-blob b4"></div>
+    </div>
+    <div class="hero-grid-overlay"></div>
+    <!-- Floating particles (generated by JS) -->
+    <div class="hero-particles" id="hero-particles"></div>
+
+    <div class="hero-badge reveal">
+      <div class="hero-badge-dot"></div>
+      Now processing FY2025 10-K filings under ASU 2023-09
+    </div>
+
+    <h1 class="hero-title-landing reveal stagger-1">
+      The disclosure engine<br>for <span class="gradient-text">enterprise finance.</span>
     </h1>
-    <p class="hero-sub">
-      End-to-end compliance tooling for FASB mandates — from DISE interrogation to segment disclosures. Built for finance teams navigating complex regulatory requirements.
+
+    <p class="hero-sub-landing reveal stagger-2">
+      trufflesfasb.ai automates FASB compliance from source ledger to signed 10-K. Five AI agents continuously reconcile your SAP and Oracle data against ASC 740, 280, 842, 606, and 326 requirements&mdash;so your team files on time, every time.
     </p>
-    <div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap">
-      <button class="action-btn btn-primary" onclick="showModule('dise')" style="font-size:14px;padding:12px 28px">Start DISE Compliance</button>
-      <a href="/dashboard" style="text-decoration:none"><button class="action-btn btn-secondary" style="font-size:14px;padding:12px 28px">📊 Open GL Dashboard</button></a>
+
+    <div class="hero-ctas reveal stagger-3">
+      <button class="cta-primary" onclick="showModule('income-tax')">
+        Explore the Platform
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="cta-secondary-dark" onclick="openChat()">
+        Request a Demo
+      </button>
     </div>
-    <div class="hero-stats">
-      <div>
-        <div class="hero-stat-value">6</div>
-        <div class="hero-stat-label">Active Modules</div>
+
+    <!-- ── Live Product Preview (the hero graphic) ── -->
+    <div style="position:relative;z-index:1;max-width:960px;margin:0 auto" class="reveal-scale stagger-4">
+      <div class="product-preview">
+        <div class="preview-scan-line"></div>
+
+        <!-- Mock browser chrome -->
+        <div style="display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.05)">
+          <div style="display:flex;gap:6px"><div style="width:10px;height:10px;border-radius:50%;background:#FF5F57"></div><div style="width:10px;height:10px;border-radius:50%;background:#FEBC2E"></div><div style="width:10px;height:10px;border-radius:50%;background:#28C840"></div></div>
+          <div style="flex:1;text-align:center;font-size:11px;color:rgba(255,255,255,0.25);font-family:var(--mono)">trufflesfasb.ai/income-tax</div>
+        </div>
+
+        <!-- Dashboard preview content -->
+        <div class="stat-grid-4 product-preview-inner" style="padding:24px 28px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px">
+          <!-- Stat cards -->
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Effective Rate</div>
+            <div style="font-size:24px;font-weight:700;color:#818CF8;line-height:1">25.3%</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px">+430 bps vs statutory</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Total Provision</div>
+            <div style="font-size:24px;font-weight:700;color:#fff;line-height:1">$75.0M</div>
+            <div style="font-size:10px;color:rgba(34,197,94,0.8);margin-top:4px">Current $62.5M + Deferred $12.5M</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Jurisdictions</div>
+            <div style="font-size:24px;font-weight:700;color:#FBBF24;line-height:1">10</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px">2 material (&ge;5% threshold)</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:16px">
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px">Compliance</div>
+            <div style="font-size:24px;font-weight:700;color:#22C55E;line-height:1">91%</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px">10 of 11 checks passed</div>
+          </div>
+        </div>
+
+        <!-- Mini rate recon table -->
+        <div style="padding:0 28px 20px">
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;overflow:hidden">
+            <div style="padding:10px 16px;font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between">
+              <span>Rate Reconciliation &mdash; ASU 2023-09</span><span style="color:#818CF8">FY2025</span>
+            </div>
+            <div class="rate-recon-anim" style="font-size:11px;font-family:var(--mono)">
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.03)">
+                <span style="color:rgba(255,255,255,0.7)">Federal statutory rate</span><span style="color:rgba(255,255,255,0.5);text-align:right">+21.00%</span><span style="color:rgba(255,255,255,0.4);text-align:right">$62,286K</span>
+              </div>
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.03)">
+                <span style="color:rgba(255,255,255,0.7)">State &amp; local, net of federal</span><span style="color:rgba(255,255,255,0.5);text-align:right">+2.10%</span><span style="color:rgba(255,255,255,0.4);text-align:right">$6,229K</span>
+              </div>
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.03)">
+                <span style="color:rgba(255,255,255,0.5);padding-left:12px">Ireland &mdash; Rate difference (12.5%)</span><span style="color:#818CF8;text-align:right">-1.09%</span><span style="color:rgba(255,255,255,0.4);text-align:right">($3,244K)</span>
+              </div>
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.03)">
+                <span style="color:rgba(255,255,255,0.5);padding-left:12px">Singapore &mdash; Pioneer incentive</span><span style="color:#818CF8;text-align:right">-0.22%</span><span style="color:rgba(255,255,255,0.4);text-align:right">($652K)</span>
+              </div>
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 16px;border-bottom:1px solid rgba(255,255,255,0.03)">
+                <span style="color:rgba(255,255,255,0.7)">Federal R&amp;D credit &mdash; IRC &sect;41</span><span style="color:#22C55E;text-align:right">-0.90%</span><span style="color:rgba(255,255,255,0.4);text-align:right">($2,669K)</span>
+              </div>
+              <div style="display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 16px;background:rgba(99,102,241,0.06)">
+                <span style="color:#fff;font-weight:600">Effective tax rate</span><span style="color:#818CF8;text-align:right;font-weight:600">25.30%</span><span style="color:rgba(255,255,255,0.6);text-align:right;font-weight:600">$75,040K</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini bar chart + compliance -->
+        <div class="preview-bottom-grid product-preview-inner" style="padding:0 28px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <!-- Jurisdictional bar chart -->
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:14px 16px">
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px">Pretax Income by Jurisdiction</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px"><span style="color:rgba(255,255,255,0.6)">United States</span><span style="color:rgba(255,255,255,0.4)">$198.4M</span></div><div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div class="bar-grow" style="--target-width:67%;height:100%;background:linear-gradient(90deg,#6366F1,#818CF8);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px"><span style="color:rgba(255,255,255,0.6)">Ireland</span><span style="color:rgba(255,255,255,0.4)">$38.2M</span></div><div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div class="bar-grow" style="--target-width:13%;height:100%;background:linear-gradient(90deg,#22C55E,#4ADE80);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px"><span style="color:rgba(255,255,255,0.6)">Singapore</span><span style="color:rgba(255,255,255,0.4)">$22.4M</span></div><div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div class="bar-grow" style="--target-width:8%;height:100%;background:linear-gradient(90deg,#FBBF24,#FCD34D);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px"><span style="color:rgba(255,255,255,0.6)">United Kingdom</span><span style="color:rgba(255,255,255,0.4)">$14.8M</span></div><div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div class="bar-grow" style="--target-width:5%;height:100%;background:linear-gradient(90deg,#A78BFA,#C4B5FD);border-radius:3px"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px"><span style="color:rgba(255,255,255,0.4)">Other (6 jurisdictions)</span><span style="color:rgba(255,255,255,0.4)">$22.8M</span></div><div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div class="bar-grow" style="--target-width:7%;height:100%;background:rgba(255,255,255,0.15);border-radius:3px"></div></div></div>
+            </div>
+          </div>
+          <!-- ASU 2023-09 checklist -->
+          <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:14px 16px">
+            <div style="font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px">ASU 2023-09 Compliance</div>
+            <div class="compliance-cascade" style="display:flex;flex-direction:column;gap:6px;font-size:11px">
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:14px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#22C55E">&#10003;</div><span style="color:rgba(255,255,255,0.6)">Rate recon &mdash; 8 categories</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:14px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#22C55E">&#10003;</div><span style="color:rgba(255,255,255,0.6)">Dual format (% and $)</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:14px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#22C55E">&#10003;</div><span style="color:rgba(255,255,255,0.6)">Cash taxes &mdash; per-jurisdiction</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:14px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#22C55E">&#10003;</div><span style="color:rgba(255,255,255,0.6)">Jurisdictions &ge;5% disclosed</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:14px;border-radius:50%;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#22C55E">&#10003;</div><span style="color:rgba(255,255,255,0.6)">Carryforward schedules</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:14px;height:14px;border-radius:50%;background:rgba(251,191,36,0.15);border:1px solid rgba(251,191,36,0.3);display:flex;align-items:center;justify-content:center;font-size:8px;color:#FBBF24">!</div><span style="color:rgba(255,255,255,0.5)">VA item in review</span></div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div>
-        <div class="hero-stat-value">ASC 740</div>
-        <div class="hero-stat-label">Latest Standard</div>
-      </div>
-      <div>
-        <div class="hero-stat-value">Q2 2025</div>
-        <div class="hero-stat-label">Next Filing Cycle</div>
-      </div>
-      <div>
-        <div class="hero-stat-value">3</div>
-        <div class="hero-stat-label">Items Need Attention</div>
+    </div>
+
+    <!-- Trusted by bar -->
+    <div style="margin-top:72px;position:relative;z-index:1;text-align:center" class="reveal">
+      <div style="font-size:11px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:28px;font-weight:500">Trusted by finance teams at</div>
+      <div style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap">
+        <div class="trusted-logo-item">Deloitte</div>
+        <div class="trusted-logo-item">PwC</div>
+        <div class="trusted-logo-item">KPMG</div>
+        <div class="trusted-logo-item">EY</div>
+        <div class="trusted-logo-item">BDO</div>
+        <div class="trusted-logo-item">Grant Thornton</div>
       </div>
     </div>
   </div>
 
-  <!-- Modules -->
-  <div class="section-header">
-    <h2 class="section-title">Disclosure Modules</h2>
-    <a class="section-link">View all →</a>
-  </div>
-  <div class="modules-grid">
-
-    <div class="module-card featured" onclick="showModule('dise')">
-      <span class="module-badge badge-req">Required</span>
-      <div class="module-icon" style="background:rgba(13,148,136,0.15);">📊</div>
-      <div class="module-name">DISE Mandate</div>
-      <div class="module-desc">Digital Interrogation & Substantiation of Evidence — full FASB compliance workflow with automated evidence mapping.</div>
-      <div class="module-meta">
-        <div class="module-meta-dot"></div>
-        <span>Active</span>
-        <span>·</span>
-        <span>3 items open</span>
-      </div>
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 2 — How it works (pipeline)
+  ═══════════════════════════════════════════════════════════ -->
+  <div style="padding:100px 40px 80px;max-width:1100px;margin:0 auto">
+    <div class="section-light-header reveal">
+      <div class="section-eyebrow">How it works</div>
+      <div class="section-title-lg">Source system to signed 10-K<br>in three steps.</div>
     </div>
 
-    <div class="module-card" onclick="showModule('income-tax')">
-      <span class="module-badge badge-updated">Updated</span>
-      <div class="module-icon" style="background:rgba(201,168,76,0.12);">⚖️</div>
-      <div class="module-name">Income Tax Reconciliation</div>
-      <div class="module-desc">ASC 740 rate reconciliation, deferred tax scheduling, and uncertain tax position management.</div>
-      <div class="module-meta">
-        <div class="module-meta-dot" style="background:var(--gold)"></div>
-        <span>1 item pending</span>
+    <div class="steps-container" style="margin-top:48px">
+      <div class="steps-connector"><div class="steps-connector-fill"></div></div>
+      <div class="steps-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px">
+        <!-- Step 1 -->
+        <div style="position:relative;z-index:1" class="reveal stagger-1">
+          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(99,102,241,0.05));border:1px solid rgba(99,102,241,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#6366F1;margin-bottom:20px;box-shadow:0 4px 20px rgba(99,102,241,0.15)">1</div>
+          <div style="font-size:18px;font-weight:700;color:var(--white);margin-bottom:10px;letter-spacing:-0.01em">Connect your ERP</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.7">Ingest trial balance, GL journal entries, and chart of accounts from SAP ECC, Oracle EBS, or any source via Google Cortex Framework and BigQuery.</div>
+          <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-weight:500">SAP FI/CO</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-weight:500">Oracle GL</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-weight:500">BigQuery</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);color:var(--muted);font-weight:500">CSV/API</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="position:relative;z-index:1" class="reveal stagger-2">
+          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(139,92,246,0.05));border:1px solid rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#8B5CF6;margin-bottom:20px;box-shadow:0 4px 20px rgba(139,92,246,0.15)">2</div>
+          <div style="font-size:18px;font-weight:700;color:var(--white);margin-bottom:10px;letter-spacing:-0.01em">AI agents analyze</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.7">Five specialized agents map accounts to DISE categories, reconcile tax rates, validate segment disclosures, flag anomalies, and generate footnote narratives&mdash;all referencing the latest ASC citations.</div>
+          <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(99,102,241,0.2);color:var(--accent);font-weight:500;background:rgba(99,102,241,0.04)">Mapping Agent</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(99,102,241,0.2);color:var(--accent);font-weight:500;background:rgba(99,102,241,0.04)">Tax Agent</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(99,102,241,0.2);color:var(--accent);font-weight:500;background:rgba(99,102,241,0.04)">Recon Agent</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="position:relative;z-index:1" class="reveal stagger-3">
+          <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.05));border:1px solid rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#22C55E;margin-bottom:20px;box-shadow:0 4px 20px rgba(34,197,94,0.15)">3</div>
+          <div style="font-size:18px;font-weight:700;color:var(--white);margin-bottom:10px;letter-spacing:-0.01em">File with confidence</div>
+          <div style="font-size:14px;color:var(--muted);line-height:1.7">Export disclosure-ready footnotes, ASU 2023-09 compliant rate reconciliations, and complete evidence packages&mdash;pre-validated against SEC comment letter trends and Big 4 audit expectations.</div>
+          <div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap">
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(34,197,94,0.2);color:#16A34A;font-weight:500;background:rgba(34,197,94,0.04)">10-K Footnotes</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(34,197,94,0.2);color:#16A34A;font-weight:500;background:rgba(34,197,94,0.04)">XBRL Tags</span>
+            <span style="font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid rgba(34,197,94,0.2);color:#16A34A;font-weight:500;background:rgba(34,197,94,0.04)">Audit Pack</span>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="module-card" onclick="showModule('segment')">
-      <span class="module-badge badge-new">New</span>
-      <div class="module-icon" style="background:rgba(96,165,250,0.1);">🧩</div>
-      <div class="module-name">Segment Reporting</div>
-      <div class="module-desc">ASC 280 segment identification, disaggregation analysis, and disclosure completeness checks.</div>
-      <div class="module-meta">
-        <div class="module-meta-dot" style="background:#60A5FA"></div>
-        <span>Complete</span>
-      </div>
-    </div>
-
-    <div class="module-card" onclick="showModule('lease')">
-      <div class="module-icon" style="background:rgba(167,139,250,0.1);">🏢</div>
-      <div class="module-name">Lease Expense Disclosure</div>
-      <div class="module-desc">ASC 842 right-of-use asset calculation, lease classification, and maturity schedule generation.</div>
-      <div class="module-meta">
-        <div class="module-meta-dot" style="background:#A78BFA"></div>
-        <span>Active</span>
-        <span>·</span>
-        <span>On track</span>
-      </div>
-    </div>
-
-    <div class="module-card" onclick="showModule('revenue')">
-      <div class="module-icon" style="background:rgba(52,211,153,0.1);">💹</div>
-      <div class="module-name">Revenue Recognition</div>
-      <div class="module-desc">ASC 606 five-step model compliance, contract asset/liability tracking, and performance obligation mapping.</div>
-      <div class="module-meta">
-        <div class="module-meta-dot" style="background:#34D399"></div>
-        <span>Active</span>
-      </div>
-    </div>
-
-    <div class="module-card" onclick="showModule('credit')">
-      <div class="module-icon" style="background:rgba(251,191,36,0.1);">🔍</div>
-      <div class="module-name">Credit Losses (CECL)</div>
-      <div class="module-desc">ASC 326 current expected credit loss modeling, allowance calculation, and disclosure validation.</div>
-      <div class="module-meta">
-        <div class="module-meta-dot" style="background:#FBBF24"></div>
-        <span>Review required</span>
-      </div>
-    </div>
-
   </div>
 
-  <!-- FASB News -->
-  <div class="news-section">
-    <div class="section-header" style="padding:0 0 0 0; margin-bottom:20px;">
-      <h2 class="section-title">Latest FASB Updates</h2>
-      <a class="section-link">FASB.org →</a>
+  <!-- ═══════════════════════════════════════════════════════════
+       AI AGENT LIVE DEMO (Harvey-style animated processing)
+  ═══════════════════════════════════════════════════════════ -->
+  <div style="padding:0 40px 80px;max-width:1100px;margin:0 auto">
+    <div class="ai-demo-container reveal" id="ai-demo">
+      <div class="ai-demo-header">
+        <div class="ai-demo-avatar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke="white" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <div class="ai-demo-title">Tax Reconciliation Agent</div>
+          <div class="ai-demo-subtitle">ASC 740 &middot; ASU 2023-09 Compliance</div>
+        </div>
+        <div class="ai-demo-status">
+          <div class="ai-demo-status-dot"></div>
+          <span id="ai-demo-status-text">Initializing...</span>
+        </div>
+      </div>
+      <div class="ai-demo-body" id="ai-demo-body">
+        <div class="ai-demo-step" id="ai-step-1">
+          <div class="ai-demo-step-icon" style="background:rgba(99,102,241,0.08)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="ai-demo-step-content">
+            <div class="ai-demo-step-label">Scanning GL journal entries</div>
+            <div class="ai-demo-step-detail">Ingesting 2,847 journal entries from SAP FI across 10 jurisdictions for FY2025...</div>
+            <div class="ai-demo-tags">
+              <span class="ai-demo-tag" style="background:rgba(99,102,241,0.06);color:#6366F1;border:1px solid rgba(99,102,241,0.15)">SAP FI/CO</span>
+              <span class="ai-demo-tag" style="background:rgba(99,102,241,0.06);color:#6366F1;border:1px solid rgba(99,102,241,0.15)">BigQuery</span>
+              <span class="ai-demo-tag" style="background:rgba(99,102,241,0.06);color:#6366F1;border:1px solid rgba(99,102,241,0.15)">10 Entities</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-demo-step" id="ai-step-2">
+          <div class="ai-demo-step-icon" style="background:rgba(139,92,246,0.08)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="#8B5CF6" stroke-width="1.5"/></svg>
+          </div>
+          <div class="ai-demo-step-content">
+            <div class="ai-demo-step-label">Classifying tax accounts</div>
+            <div class="ai-demo-step-detail">Mapping current vs. deferred provisions, identifying permanent differences, and disaggregating by jurisdiction...</div>
+            <div class="ai-demo-tags">
+              <span class="ai-demo-tag" style="background:rgba(139,92,246,0.06);color:#8B5CF6;border:1px solid rgba(139,92,246,0.15)">Current $62.5M</span>
+              <span class="ai-demo-tag" style="background:rgba(139,92,246,0.06);color:#8B5CF6;border:1px solid rgba(139,92,246,0.15)">Deferred $12.5M</span>
+              <span class="ai-demo-tag" style="background:rgba(139,92,246,0.06);color:#8B5CF6;border:1px solid rgba(139,92,246,0.15)">3 Perm. Diff.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-demo-step" id="ai-step-3">
+          <div class="ai-demo-step-icon" style="background:rgba(34,197,94,0.08)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#22C55E" stroke-width="1.5"/></svg>
+          </div>
+          <div class="ai-demo-step-content">
+            <div class="ai-demo-step-label">Validating ASU 2023-09 compliance</div>
+            <div class="ai-demo-step-detail">Checking dual-format rate reconciliation, jurisdictional disaggregation thresholds, and cash tax disclosure requirements...</div>
+            <div class="ai-demo-tags">
+              <span class="ai-demo-tag" style="background:rgba(34,197,94,0.06);color:#16A34A;border:1px solid rgba(34,197,94,0.15)">10/11 Passed</span>
+              <span class="ai-demo-tag" style="background:rgba(251,191,36,0.06);color:#D97706;border:1px solid rgba(251,191,36,0.15)">1 In Review</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-demo-step" id="ai-step-4">
+          <div class="ai-demo-step-icon" style="background:rgba(59,130,246,0.08)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" stroke="#3B82F6" stroke-width="1.5"/></svg>
+          </div>
+          <div class="ai-demo-step-content">
+            <div class="ai-demo-step-label">Generating 10-K footnote narrative</div>
+            <div class="ai-demo-step-detail" id="ai-step-4-detail"></div>
+          </div>
+        </div>
+
+        <div class="ai-demo-progress" id="ai-demo-progress" style="opacity:0;transition:opacity 0.4s ease">
+          <div class="ai-demo-progress-bar"><div class="ai-demo-progress-fill" id="ai-demo-fill"></div></div>
+          <div class="ai-demo-progress-text">
+            <span id="ai-demo-pct">0% complete</span>
+            <span id="ai-demo-time">Estimated: 4s remaining</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="news-grid">
+  </div>
 
-      <div class="news-card lead">
-        <div class="news-tag">⚡ Breaking Update</div>
-        <div class="news-title">FASB Issues Final ASU on Income Tax Disclosures — Effective FY2025</div>
-        <div class="news-body">The FASB has finalized ASU 2023-09, requiring enhanced income tax disclosures including disaggregated rate reconciliation by jurisdiction and cash taxes paid. Public companies must adopt for fiscal years beginning after December 15, 2024.</div>
-        <div class="news-date">Mar 12, 2026 · FASB.org</div>
+  <!-- ═══════════════════════════════════════════════════════════
+       METRICS BANNER — Animated counters
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="metrics-banner">
+    <div class="metrics-grid">
+      <div class="metric-item reveal stagger-1">
+        <div class="metric-number"><span class="counter" data-target="500" data-suffix="+">0</span></div>
+        <div class="metric-label">GL Accounts Classified</div>
+        <div class="metric-sublabel">Across 5 DISE categories</div>
+      </div>
+      <div class="metric-item reveal stagger-2">
+        <div class="metric-number"><span class="counter" data-target="10" data-suffix="">0</span></div>
+        <div class="metric-label">Tax Jurisdictions</div>
+        <div class="metric-sublabel">Real-time rate reconciliation</div>
+      </div>
+      <div class="metric-item reveal stagger-3">
+        <div class="metric-number"><span class="counter" data-target="91" data-suffix="%">0</span></div>
+        <div class="metric-label">Compliance Score</div>
+        <div class="metric-sublabel">ASU 2023-09 checklist</div>
+      </div>
+      <div class="metric-item reveal stagger-4">
+        <div class="metric-number"><span class="counter" data-target="75" data-prefix="$" data-suffix="M">0</span></div>
+        <div class="metric-label">Provision Tracked</div>
+        <div class="metric-sublabel">Current + deferred breakdown</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div style="max-width:1100px;margin:0 auto;padding:0 40px"><div style="border-top:1px solid var(--border)"></div></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 3 — Modules
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="section-light">
+    <div class="section-light-header reveal">
+      <div class="section-eyebrow">Coverage</div>
+      <div class="section-title-lg">Every critical FASB standard.<br>One unified platform.</div>
+      <div class="section-sub">Each module is purpose-built for a specific ASC topic&mdash;with AI agents that understand the nuances of each standard.</div>
+    </div>
+
+    <div class="modules-grid-new">
+
+      <div class="module-card-new featured-new reveal" onclick="showModule('income-tax')" style="grid-column:span 2">
+        <span class="mc-badge badge-updated" style="background:rgba(99,102,241,0.1);color:#6366F1;border:1px solid rgba(99,102,241,0.2)">Flagship Module</span>
+        <div class="featured-inner-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+          <div>
+            <div class="mc-name" style="font-size:20px;margin-bottom:12px">Income Tax &mdash; ASC 740</div>
+            <div class="mc-desc" style="font-size:14px;line-height:1.7">Complete ASU 2023-09 compliance with hierarchical rate reconciliation (dual format), jurisdictional disaggregation, current/deferred expense breakdown, NOL carryforward schedules, uncertain tax position rollforward, and AI-generated 10-K footnote narratives.</div>
+            <div style="margin-top:16px;display:flex;gap:6px;flex-wrap:wrap">
+              <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(99,102,241,0.06);color:#6366F1;font-weight:500;border:1px solid rgba(99,102,241,0.12)">7 Analysis Tabs</span>
+              <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(99,102,241,0.06);color:#6366F1;font-weight:500;border:1px solid rgba(99,102,241,0.12)">10 Jurisdictions</span>
+              <span style="font-size:10px;padding:3px 8px;border-radius:5px;background:rgba(99,102,241,0.06);color:#6366F1;font-weight:500;border:1px solid rgba(99,102,241,0.12)">11 Compliance Checks</span>
+            </div>
+          </div>
+          <!-- Mini graphic: tax waterfall -->
+          <div style="background:var(--navy-light);border-radius:10px;padding:16px;display:flex;flex-direction:column;justify-content:center">
+            <div class="waterfall-chart" style="display:flex;align-items:flex-end;gap:6px;height:100px;padding-bottom:4px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+                <div class="waterfall-bar" style="--target-h:80px;width:100%;background:linear-gradient(180deg,#6366F1,#818CF8);border-radius:4px 4px 0 0"></div>
+                <span style="font-size:9px;color:var(--muted)">21.0%</span>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+                <div class="waterfall-bar" style="--target-h:16px;width:100%;background:#22C55E;border-radius:4px 4px 0 0"></div>
+                <span style="font-size:9px;color:var(--muted)">+2.1%</span>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+                <div class="waterfall-bar" style="--target-h:28px;width:100%;background:#EF4444;border-radius:0 0 4px 4px;margin-top:auto"></div>
+                <span style="font-size:9px;color:var(--muted)">-2.0%</span>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+                <div class="waterfall-bar" style="--target-h:12px;width:100%;background:#FBBF24;border-radius:4px 4px 0 0"></div>
+                <span style="font-size:9px;color:var(--muted)">+0.7%</span>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+                <div class="waterfall-bar" style="--target-h:35px;width:100%;background:#EF4444;border-radius:0 0 4px 4px;margin-top:auto"></div>
+                <span style="font-size:9px;color:var(--muted)">-3.5%</span>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border-left:2px dashed var(--border);padding-left:6px">
+                <div class="waterfall-bar" style="--target-h:96px;width:100%;background:linear-gradient(180deg,#A78BFA,#C4B5FD);border-radius:4px 4px 0 0"></div>
+                <span style="font-size:9px;color:var(--accent);font-weight:600">25.3%</span>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:8px;font-size:10px;color:var(--muted)">Statutory &rarr; State &rarr; Foreign &rarr; Perm &rarr; Credits &rarr; <strong style="color:var(--accent)">ETR</strong></div>
+          </div>
+        </div>
       </div>
 
-      <div class="news-card">
-        <div class="news-tag">Segment Reporting</div>
-        <div class="news-title">ASC 280 Amendments: Significant Expenses Now Required</div>
-        <div class="news-body">ASU 2023-07 mandates disclosure of significant segment expenses on an interim and annual basis.</div>
-        <div class="news-date">Feb 28, 2026</div>
+      <div class="module-card-new reveal stagger-1" onclick="showModule('dise')">
+        <span class="mc-badge badge-req">Required</span>
+        <div class="mc-icon" style="background:rgba(13,148,136,0.08)">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 7h16M3 11h16M3 15h10" stroke="#0D9488" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mc-name">DISE Mandate</div>
+        <div class="mc-desc">Automated evidence mapping from SAP GL to FASB disclosure requirements. Gap detection. SEC comment risk scoring.</div>
+        <div class="mc-meta">
+          <div class="mc-meta-dot" style="background:#0D9488"></div>
+          <span>Active</span>
+          <span style="color:var(--border-light)">|</span>
+          <span>3 items open</span>
+        </div>
       </div>
 
-      <div class="news-card">
-        <div class="news-tag">Exposure Draft</div>
-        <div class="news-title">Proposed Improvements to Disaggregation of Income Statement Expenses</div>
-        <div class="news-body">FASB comment period open through April 30, 2026. Affects cost of sales, selling, and R&D line items.</div>
-        <div class="news-date">Feb 14, 2026</div>
+      <div class="module-card-new reveal stagger-2" onclick="showModule('segment')">
+        <div class="mc-icon" style="background:rgba(59,130,246,0.06)">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2" stroke="#3B82F6" stroke-width="1.5"/><rect x="12" y="2" width="8" height="8" rx="2" stroke="#3B82F6" stroke-width="1.5"/><rect x="2" y="12" width="18" height="8" rx="2" stroke="#3B82F6" stroke-width="1.5"/></svg>
+        </div>
+        <div class="mc-name">Segment Reporting &mdash; ASC 280</div>
+        <div class="mc-desc">CODM identification, significant expense disaggregation, and ASU 2023-07 interim disclosures.</div>
+        <div class="mc-meta">
+          <div class="mc-meta-dot" style="background:#3B82F6"></div>
+          <span>Complete</span>
+        </div>
       </div>
 
-      <div class="news-card">
-        <div class="news-tag">Leases</div>
-        <div class="news-title">FASB Staff Q&A: Common Control Lease Arrangements</div>
-        <div class="news-body">Staff guidance clarifies practical expedient elections under ASC 842 for related party leases.</div>
-        <div class="news-date">Jan 30, 2026</div>
+      <div class="module-card-new reveal stagger-1" onclick="showModule('lease')">
+        <div class="mc-icon" style="background:rgba(167,139,250,0.06)">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="5" width="16" height="14" rx="2" stroke="#A78BFA" stroke-width="1.5"/><path d="M3 9h16" stroke="#A78BFA" stroke-width="1.5"/></svg>
+        </div>
+        <div class="mc-name">Lease Accounting &mdash; ASC 842</div>
+        <div class="mc-desc">ROU asset calculation, lease classification, maturity schedule, and variable cost disclosure.</div>
+        <div class="mc-meta">
+          <div class="mc-meta-dot" style="background:#A78BFA"></div>
+          <span>Active</span>
+          <span style="color:var(--border-light)">|</span>
+          <span>On track</span>
+        </div>
       </div>
 
-      <div class="news-card">
-        <div class="news-tag">DISE</div>
-        <div class="news-title">SEC Comment Letter Trends: Digital Asset Disclosures Rising</div>
-        <div class="news-body">SEC staff focus on completeness of digital asset evidence substantiation in Q4 filings.</div>
-        <div class="news-date">Jan 18, 2026</div>
+      <div class="module-card-new reveal stagger-2" onclick="showModule('revenue')">
+        <div class="mc-icon" style="background:rgba(34,197,94,0.06)">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 17L8 12l3 3 8-8" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="mc-name">Revenue &mdash; ASC 606</div>
+        <div class="mc-desc">Five-step model compliance, contract asset/liability tracking, and performance obligation mapping.</div>
+        <div class="mc-meta">
+          <div class="mc-meta-dot" style="background:#22C55E"></div>
+          <span>Active</span>
+        </div>
       </div>
 
+      <div class="module-card-new reveal stagger-3" onclick="showModule('credit')">
+        <div class="mc-icon" style="background:rgba(251,191,36,0.06)">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#FBBF24" stroke-width="1.5"/><path d="M11 7v4l3 2" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="mc-name">Credit Losses &mdash; ASC 326</div>
+        <div class="mc-desc">CECL modeling, allowance calculation, and disclosure validation across the portfolio.</div>
+        <div class="mc-meta">
+          <div class="mc-meta-dot" style="background:#FBBF24"></div>
+          <span>Review required</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECTION 4 — Enterprise trust signals
+  ═══════════════════════════════════════════════════════════ -->
+  <div style="background:#F8FAFC;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 40px">
+    <div style="max-width:1100px;margin:0 auto">
+      <div class="section-light-header reveal">
+        <div class="section-eyebrow">Enterprise Ready</div>
+        <div class="section-title-lg">Built for teams that can't afford to get it wrong.</div>
+        <div class="section-sub">Fortune 500 finance teams trust trufflesfasb.ai to automate their most critical disclosure workflows.</div>
+      </div>
+
+      <div class="trust-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px">
+        <div class="trust-card-enhanced reveal stagger-1">
+          <div class="trust-icon-ring" style="background:rgba(99,102,241,0.06);color:#6366F1">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" stroke="#6366F1" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="#6366F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px">SOC 2 Type II</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Enterprise security controls audited annually by independent firm. Penetration tested quarterly.</div>
+        </div>
+
+        <div class="trust-card-enhanced reveal stagger-2">
+          <div class="trust-icon-ring" style="background:rgba(34,197,94,0.06);color:#22C55E">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="10" rx="2" stroke="#22C55E" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px">Data Encryption</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">AES-256 at rest, TLS 1.3 in transit. Your financial data never leaves your VPC.</div>
+        </div>
+
+        <div class="trust-card-enhanced reveal stagger-3">
+          <div class="trust-icon-ring" style="background:rgba(251,191,36,0.06);color:#FBBF24">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="#FBBF24" stroke-width="1.5"/><circle cx="9" cy="7" r="4" stroke="#FBBF24" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px">Big 4 Compatible</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Export packages designed for PwC, Deloitte, EY, and KPMG audit workflows.</div>
+        </div>
+
+        <div class="trust-card-enhanced reveal stagger-4">
+          <div class="trust-icon-ring" style="background:rgba(139,92,246,0.06);color:#8B5CF6">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" stroke="#8B5CF6" stroke-width="1.5"/><path d="M3 7l9 5m0 0l9-5m-9 5v10" stroke="#8B5CF6" stroke-width="1" stroke-dasharray="2 2"/></svg>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px">Cloud Native</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Runs on AWS ECS Fargate. Auto-scaling. 99.9% uptime SLA. Deploy in your region.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOTTOM CTA
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="bottom-cta">
+    <div class="bottom-cta-title">Close faster. File smarter.</div>
+    <div class="bottom-cta-sub">See how trufflesfasb.ai reduces disclosure prep from weeks to hours for enterprise finance teams.</div>
+    <div class="hero-ctas" style="margin-bottom:0">
+      <button class="cta-primary" onclick="showModule('income-tax')">
+        Explore the Platform
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="cta-secondary-dark" onclick="openChat()">Schedule a Walkthrough</button>
+    </div>
+  </div>
+
+  <div class="site-footer">
+    <div>trufflesfasb.ai &copy; 2026 BE Technology Corp. All rights reserved.</div>
+    <div style="display:flex;gap:20px">
+      <a href="#">Documentation</a>
+      <a href="#">API Reference</a>
+      <a href="#">Security</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
     </div>
   </div>
 
@@ -1156,6 +2685,36 @@ nav {
 
   <div class="module-body">
     <div class="module-main">
+
+      <!-- Data Source Connection Banner -->
+      <div class="data-source-banner" id="cortex-banner">
+        <div class="source-icon" style="background:rgba(66,133,244,0.1);border:1px solid rgba(66,133,244,0.2)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#4285F4"/></svg>
+        </div>
+        <div class="source-info">
+          <div class="source-title">Google BigQuery · GL Intelligence Platform</div>
+          <div class="source-detail">project: diplomatic75 &middot; dataset: dise_reporting</div>
+        </div>
+        <div class="source-status">
+          <div class="source-status-dot"></div>
+          Connected
+        </div>
+        <div class="data-source-separator"></div>
+        <div class="data-source-stat">
+          <div class="data-source-stat-value">2,847</div>
+          <div class="data-source-stat-label">GL Entries</div>
+        </div>
+        <div class="data-source-separator"></div>
+        <div class="data-source-stat">
+          <div class="data-source-stat-value">10</div>
+          <div class="data-source-stat-label">Entities</div>
+        </div>
+        <div class="data-source-separator"></div>
+        <div class="data-source-stat">
+          <div class="data-source-stat-value">1.2s</div>
+          <div class="data-source-stat-label">Last Sync</div>
+        </div>
+      </div>
 
       <!-- Status bar -->
       <div class="status-bar">
@@ -1376,6 +2935,36 @@ nav {
   <div class="module-body">
     <div class="module-main">
 
+      <!-- Data Source Connection Banner -->
+      <div class="data-source-banner">
+        <div class="source-icon" style="background:rgba(66,133,244,0.1);border:1px solid rgba(66,133,244,0.2)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="#4285F4"/></svg>
+        </div>
+        <div class="source-info">
+          <div class="source-title">Google BigQuery · GL Intelligence Platform</div>
+          <div class="source-detail">project: diplomatic75 &middot; dataset: dise_reporting</div>
+        </div>
+        <div class="source-status">
+          <div class="source-status-dot"></div>
+          Connected
+        </div>
+        <div class="data-source-separator"></div>
+        <div class="data-source-stat">
+          <div class="data-source-stat-value">2,847</div>
+          <div class="data-source-stat-label">GL Entries</div>
+        </div>
+        <div class="data-source-separator"></div>
+        <div class="data-source-stat">
+          <div class="data-source-stat-value">10</div>
+          <div class="data-source-stat-label">Jurisdictions</div>
+        </div>
+        <div class="data-source-separator"></div>
+        <div class="data-source-stat">
+          <div class="data-source-stat-value">1.2s</div>
+          <div class="data-source-stat-label">Last Sync</div>
+        </div>
+      </div>
+
       <!-- Status bar -->
       <div class="status-bar" id="tax-status-bar">
         <div class="status-card"><div class="status-card-label">Effective Tax Rate</div><div class="status-card-value status-teal" id="tax-etr">—</div><div class="status-card-sub" id="tax-etr-sub">vs 21% statutory</div></div>
@@ -1385,26 +2974,42 @@ nav {
       </div>
 
       <!-- Tab strip -->
-      <div style="display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0">
-        <button class="tax-tab active" onclick="showTaxTab('recon')" id="tab-recon" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid var(--teal);color:var(--teal);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer">Rate Reconciliation</button>
-        <button class="tax-tab" onclick="showTaxTab('deferred')" id="tab-deferred" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">Deferred Tax Schedule</button>
-        <button class="tax-tab" onclick="showTaxTab('jurisdictions')" id="tab-jurisdictions" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">Jurisdictions</button>
-        <button class="tax-tab" onclick="showTaxTab('cash')" id="tab-cash" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">Cash Taxes Paid</button>
-        <button class="tax-tab" onclick="showTaxTab('utp')" id="tab-utp" style="padding:10px 18px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer">UTPs</button>
+      <div style="display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0;flex-wrap:wrap">
+        <button class="tax-tab active" onclick="showTaxTab('expense')" id="tab-expense" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid var(--teal);color:var(--teal);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer">Tax Expense</button>
+        <button class="tax-tab" onclick="showTaxTab('recon')" id="tab-recon" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer">Rate Reconciliation</button>
+        <button class="tax-tab" onclick="showTaxTab('deferred')" id="tab-deferred" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer">Deferred Schedule</button>
+        <button class="tax-tab" onclick="showTaxTab('carryforwards')" id="tab-carryforwards" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer">Carryforwards</button>
+        <button class="tax-tab" onclick="showTaxTab('jurisdictions')" id="tab-jurisdictions" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer">Jurisdictions</button>
+        <button class="tax-tab" onclick="showTaxTab('cash')" id="tab-cash" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer">Cash Taxes</button>
+        <button class="tax-tab" onclick="showTaxTab('utp')" id="tab-utp" style="padding:10px 14px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:500;cursor:pointer">UTPs</button>
+      </div>
+
+      <!-- Income Tax Expense Components tab (ASC 740-10-50-9/10) -->
+      <div class="tax-panel active" id="panel-expense">
+        <div class="content-section">
+          <div class="content-section-title">Provision for Income Taxes — ASC 740-10-50-9/10</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Components of income tax expense (benefit), current and deferred, disaggregated by jurisdiction.</p>
+          <table class="data-table"><thead><tr><th>Component</th><th>FY2025 ($K)</th><th>FY2024 ($K)</th><th>Change ($K)</th></tr></thead><tbody id="tax-expense-tbody"></tbody></table>
+        </div>
+        <div class="content-section" style="margin-top:20px">
+          <div class="content-section-title">Pretax Income — Domestic vs. Foreign (ASC 740-10-50-6)</div>
+          <div id="tax-dom-foreign" style="display:flex;gap:16px"></div>
+        </div>
       </div>
 
       <!-- Rate Reconciliation tab -->
-      <div class="tax-panel active" id="panel-recon">
+      <div class="tax-panel" id="panel-recon">
         <div class="content-section">
-          <div class="content-section-title">Rate Reconciliation — FY2025</div>
-          <table class="data-table"><thead><tr><th>Item</th><th>Rate Impact</th><th>Amount ($K)</th><th>Category</th><th>Status</th></tr></thead><tbody id="tax-recon-tbody"></tbody></table>
+          <div class="content-section-title">Rate Reconciliation — FY2025 (ASU 2023-09)</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Both percentages and dollar amounts required per ASU 2023-09. Items ≥5% of statutory tax amount ($3.1M) require individual disclosure.</p>
+          <table class="data-table"><thead><tr><th style="min-width:280px">Item</th><th>Rate</th><th>FY2025 ($K)</th><th>FY2024 ($K)</th><th>Status</th></tr></thead><tbody id="tax-recon-tbody"></tbody></table>
         </div>
       </div>
 
       <!-- Deferred Tax tab -->
       <div class="tax-panel" id="panel-deferred">
         <div class="content-section">
-          <div class="content-section-title">Deferred Tax Assets</div>
+          <div class="content-section-title">Deferred Tax Assets (ASC 740-10-50-2)</div>
           <table class="data-table"><thead><tr><th>Item</th><th>FY2025 ($K)</th><th>FY2024 ($K)</th><th>Change ($K)</th></tr></thead><tbody id="tax-dta-tbody"></tbody></table>
         </div>
         <div class="content-section" style="margin-top:20px">
@@ -1417,16 +3022,25 @@ nav {
         </div>
       </div>
 
+      <!-- Carryforwards tab (ASC 740-10-50-3) -->
+      <div class="tax-panel" id="panel-carryforwards">
+        <div class="content-section">
+          <div class="content-section-title">Tax Loss and Credit Carryforwards — ASC 740-10-50-3</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Net operating loss and tax credit carryforwards with expiration schedules and valuation allowance applied.</p>
+          <table class="data-table"><thead><tr><th>Type</th><th>Gross Amount ($K)</th><th>Tax-Effected ($K)</th><th>VA Applied ($K)</th><th>Net ($K)</th><th>Expiration</th></tr></thead><tbody id="tax-cf-tbody"></tbody></table>
+        </div>
+        <div class="content-section" style="margin-top:20px">
+          <div class="content-section-title">Unremitted Foreign Earnings — ASC 740-30</div>
+          <div id="tax-unremitted-detail" style="font-size:13px;line-height:1.8;color:var(--white)"></div>
+        </div>
+      </div>
+
       <!-- Jurisdictions tab -->
       <div class="tax-panel" id="panel-jurisdictions">
         <div class="content-section">
           <div class="content-section-title">Jurisdictional Disaggregation — ASU 2023-09</div>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Jurisdictions with pretax income ≥5% of total are individually disclosed per ASU 2023-09.</p>
-          <table class="data-table"><thead><tr><th>Jurisdiction</th><th>Pretax Income ($K)</th><th>% of Total</th><th>Tax Expense ($K)</th><th>Effective Rate</th></tr></thead><tbody id="tax-jurisdictions-tbody"></tbody></table>
-        </div>
-        <div class="content-section" style="margin-top:20px">
-          <div class="content-section-title">Domestic vs. Foreign Split</div>
-          <div id="tax-dom-foreign" style="display:flex;gap:16px"></div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Jurisdictions with pretax income ≥5% of total ($14.8M) are individually disclosed per ASU 2023-09.</p>
+          <table class="data-table"><thead><tr><th>Jurisdiction</th><th>Statutory Rate</th><th>Pretax Income ($K)</th><th>% of Total</th><th>Current Tax ($K)</th><th>Deferred Tax ($K)</th><th>Total Tax ($K)</th><th>Effective Rate</th></tr></thead><tbody id="tax-jurisdictions-tbody"></tbody></table>
         </div>
       </div>
 
@@ -1434,15 +3048,20 @@ nav {
       <div class="tax-panel" id="panel-cash">
         <div class="content-section">
           <div class="content-section-title">Cash Income Taxes Paid — ASU 2023-09</div>
-          <table class="data-table"><thead><tr><th>Category</th><th>Amount ($K)</th><th>% of Total</th></tr></thead><tbody id="tax-cash-tbody"></tbody></table>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Individual foreign jurisdictions ≥5% of total cash taxes ($3.2M) are disclosed separately.</p>
+          <table class="data-table"><thead><tr><th>Category</th><th>FY2025 ($K)</th><th>FY2024 ($K)</th><th>% of Total</th></tr></thead><tbody id="tax-cash-tbody"></tbody></table>
         </div>
       </div>
 
       <!-- UTP tab -->
       <div class="tax-panel" id="panel-utp">
         <div class="content-section">
-          <div class="content-section-title">Uncertain Tax Positions — ASC 740-10-50</div>
+          <div class="content-section-title">Uncertain Tax Positions — ASC 740-10-50-15</div>
           <div id="tax-utp-detail" style="font-size:13px;line-height:1.8"></div>
+        </div>
+        <div class="content-section" style="margin-top:20px">
+          <div class="content-section-title">Open Tax Years by Jurisdiction</div>
+          <table class="data-table"><thead><tr><th>Jurisdiction</th><th>Open Years</th></tr></thead><tbody id="tax-open-years-tbody"></tbody></table>
         </div>
       </div>
 
@@ -1485,6 +3104,516 @@ nav {
       <div class="sidebar-widget">
         <div class="sidebar-widget-title">Key Metrics</div>
         <div id="tax-key-metrics" style="font-size:12px;line-height:2;color:var(--white)"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     TAX CLASSIFIER PAGE
+════════════════════════════════════════ -->
+<style>
+/* ── Tax Classifier Page Styles ── */
+.pipeline-steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 24px 0 32px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.pipeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 110px;
+  position: relative;
+}
+.pipeline-step + .pipeline-step::before {
+  content: '';
+  position: absolute;
+  left: -50%;
+  top: 18px;
+  width: 100%;
+  height: 2px;
+  background: var(--border-light);
+  z-index: 0;
+}
+.pipeline-step.done + .pipeline-step::before { background: rgba(99,102,241,0.4); }
+.pipeline-node {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--border-light);
+  background: var(--card-bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+}
+.pipeline-step.done .pipeline-node {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.pipeline-step.active .pipeline-node {
+  background: rgba(99,102,241,0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+}
+.pipeline-step-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+}
+.pipeline-step.done .pipeline-step-label { color: var(--accent); }
+.pipeline-step.active .pipeline-step-label { color: var(--accent); }
+.pipeline-step-sub {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.classifier-tab-strip {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+.classifier-tab {
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.classifier-tab.active {
+  border-bottom-color: var(--teal);
+  color: var(--teal);
+  font-weight: 600;
+}
+.classifier-panel { display: none; }
+.classifier-panel.active { display: block; }
+
+.account-row-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.status-approved { background: rgba(16,185,129,0.1); color: #059669; }
+.status-pending  { background: rgba(245,158,11,0.1);  color: #D97706; }
+.status-rejected { background: rgba(239,68,68,0.1);   color: #DC2626; }
+.status-unclassified { background: rgba(100,116,139,0.1); color: #64748B; }
+
+.confidence-bar-wrap {
+  display: flex; align-items: center; gap: 8px;
+}
+.confidence-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border-light);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 80px;
+}
+.confidence-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6366F1, #8B5CF6);
+  transition: width 0.5s ease;
+}
+.confidence-fill.high { background: linear-gradient(90deg, #10B981, #059669); }
+.confidence-fill.medium { background: linear-gradient(90deg, #F59E0B, #D97706); }
+.confidence-fill.low { background: linear-gradient(90deg, #EF4444, #DC2626); }
+
+.etr-waterfall-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+}
+.etr-waterfall-bar-track {
+  flex: 1;
+  max-width: 240px;
+  height: 8px;
+  background: var(--border-light);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.etr-waterfall-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #6366F1, #8B5CF6);
+  transition: width 0.6s ease;
+}
+.etr-waterfall-bar-fill.negative { background: linear-gradient(90deg, #10B981, #059669); }
+
+.table-abc-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.table-abc-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.table-abc-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.run-btn-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.run-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.run-status-pill.success { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); color: #059669; }
+.run-status-pill.running { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); color: #D97706; }
+
+.prescribed-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #DC2626;
+  letter-spacing: 0.03em;
+}
+.metric-highlight-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.metric-mini {
+  flex: 1;
+  min-width: 120px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+}
+.metric-mini-label { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+.metric-mini-value { font-size: 20px; font-weight: 700; color: var(--white); letter-spacing: -0.02em; }
+.metric-mini-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.metric-mini.accent { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.04); }
+.metric-mini.accent .metric-mini-value { color: var(--accent); }
+</style>
+
+<div class="page" id="page-tax-classifier">
+  <div class="module-page-header">
+    <button class="back-btn" onclick="showPage('home')">← Back to Home</button>
+    <div class="module-page-eyebrow">ASC 740 · ASU 2023-09 · Claude AI</div>
+    <h1 class="module-page-title">Tax GL Classifier</h1>
+    <p class="module-page-sub">SAP general ledger → Claude AI classification → human review → ETR bridge → compliant ASU 2023-09 disclosure. From zero to Tables A, B &amp; C in minutes.</p>
+    <div class="module-page-tags">
+      <span class="tag teal">Claude Sonnet Powered</span>
+      <span class="tag">18 Tax GL Accounts</span>
+      <span class="tag" id="tc-status-tag">Ready</span>
+    </div>
+  </div>
+
+  <div class="module-body">
+    <div class="module-main">
+
+      <!-- 5-step pipeline progress -->
+      <div class="content-section">
+        <div class="content-section-title">Pipeline Progress</div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:16px">SAP data → Claude AI classifier → controller review → ETR bridge → 10-K footnote</p>
+        <div class="pipeline-steps" id="tc-pipeline">
+          <div class="pipeline-step done" id="ps-1">
+            <div class="pipeline-node">✓</div>
+            <div class="pipeline-step-label">SAP GL<br>Extract</div>
+            <div class="pipeline-step-sub">18 accounts</div>
+          </div>
+          <div class="pipeline-step active" id="ps-2">
+            <div class="pipeline-node">✦</div>
+            <div class="pipeline-step-label">Claude<br>Classify</div>
+            <div class="pipeline-step-sub">0.95 confidence</div>
+          </div>
+          <div class="pipeline-step" id="ps-3">
+            <div class="pipeline-node">3</div>
+            <div class="pipeline-step-label">Human<br>Review</div>
+            <div class="pipeline-step-sub">Controller</div>
+          </div>
+          <div class="pipeline-step" id="ps-4">
+            <div class="pipeline-node">4</div>
+            <div class="pipeline-step-label">ETR<br>Bridge</div>
+            <div class="pipeline-step-sub">Tables A/B/C</div>
+          </div>
+          <div class="pipeline-step" id="ps-5">
+            <div class="pipeline-node">5</div>
+            <div class="pipeline-step-label">10-K<br>Disclosure</div>
+            <div class="pipeline-step-sub">ASU 2023-09</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Run button group -->
+      <div class="run-btn-group">
+        <button class="action-btn btn-primary" id="tc-run-btn" onclick="runTaxClassifier()">✦ Run Claude Classifier</button>
+        <button class="action-btn btn-secondary" id="tc-etr-btn" onclick="runETRBridge()" disabled>⚡ Run ETR Bridge</button>
+        <button class="action-btn btn-secondary" onclick="loadTaxClassifierAccounts()">↻ Reload GL Accounts</button>
+        <div class="run-status-pill" id="tc-run-pill" style="display:none"></div>
+      </div>
+
+      <!-- Tab strip -->
+      <div class="classifier-tab-strip">
+        <button class="classifier-tab active" onclick="showClassifierTab('gl-accounts')" id="ctab-gl-accounts">GL Accounts (18)</button>
+        <button class="classifier-tab" onclick="showClassifierTab('pending')" id="ctab-pending">Pending Review <span id="tc-pending-badge" style="display:none;background:rgba(245,158,11,0.15);color:#D97706;padding:1px 6px;border-radius:10px;font-size:10px;margin-left:4px;font-weight:700">0</span></button>
+        <button class="classifier-tab" onclick="showClassifierTab('tables')" id="ctab-tables">Tables A / B / C</button>
+        <button class="classifier-tab" onclick="showClassifierTab('disclosure')" id="ctab-disclosure">10-K Disclosure</button>
+      </div>
+
+      <!-- Panel: GL Accounts -->
+      <div class="classifier-panel active" id="cpanel-gl-accounts">
+        <div id="tc-metrics-row" class="metric-highlight-row" style="display:none">
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Accounts Classified</div>
+            <div class="metric-mini-value" id="tc-m-classified">—</div>
+            <div class="metric-mini-sub">of 18 in scope</div>
+          </div>
+          <div class="metric-mini accent">
+            <div class="metric-mini-label">Avg. Confidence</div>
+            <div class="metric-mini-value" id="tc-m-confidence">—</div>
+            <div class="metric-mini-sub">threshold: 0.80</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Auto-Approved</div>
+            <div class="metric-mini-value" id="tc-m-approved">—</div>
+            <div class="metric-mini-sub">≥80% confidence</div>
+          </div>
+          <div class="metric-mini">
+            <div class="metric-mini-label">Pending Review</div>
+            <div class="metric-mini-value" id="tc-m-pending">—</div>
+            <div class="metric-mini-sub">controller queue</div>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <div class="content-section-title">SAP GL Accounts — Tax Range 160000–199999</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">All 18 GL accounts in the ASC 740 tax account range. Run the classifier to populate ASC 740 categories via Claude.</p>
+          <table class="data-table" id="tc-accounts-table">
+            <thead>
+              <tr>
+                <th>GL Account</th>
+                <th style="min-width:260px">Description</th>
+                <th>Amount (FY)</th>
+                <th>ASC 740 Category</th>
+                <th>Disclosure Table</th>
+                <th>Confidence</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tc-accounts-tbody">
+              <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px;font-size:13px">Loading GL accounts…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Panel: Pending Review -->
+      <div class="classifier-panel" id="cpanel-pending">
+        <div class="content-section">
+          <div class="content-section-title">Controller Review Queue</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Accounts with confidence below 0.80 require controller approval before inclusion in the ETR bridge. Review window: 3rd–5th of month.</p>
+          <div id="tc-pending-container">
+            <p style="font-size:13px;color:var(--muted);padding:24px;text-align:center">Run the classifier first to populate the review queue.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel: Tables A / B / C -->
+      <div class="classifier-panel" id="cpanel-tables">
+        <div id="tc-tables-placeholder" style="padding:24px;text-align:center;color:var(--muted);font-size:13px">
+          Run the ETR Bridge to generate Tables A, B, and C.
+        </div>
+
+        <!-- Table A -->
+        <div class="table-abc-card" id="tc-table-a-card" style="display:none">
+          <div class="table-abc-title">TABLE A — Effective Tax Rate Reconciliation</div>
+          <div class="table-abc-sub">Per ASU 2023-09 (amending ASC 740-10-50-12). Required: both % and $ amounts. Items ≥5% of statutory tax base ($<span id="tc-materiality">—</span>K) disclosed separately.</div>
+          <div class="metric-highlight-row" id="tc-table-a-metrics" style="margin-bottom:16px"></div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="min-width:280px">Item</th>
+                <th>Rate (%)</th>
+                <th>Amount ($K)</th>
+                <th>ASU Category</th>
+                <th>Prescribed?</th>
+              </tr>
+            </thead>
+            <tbody id="tc-table-a-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Table B -->
+        <div class="table-abc-card" id="tc-table-b-card" style="display:none">
+          <div class="table-abc-title">TABLE B — Cash Income Taxes Paid</div>
+          <div class="table-abc-sub">Per ASU 2023-09. New disclosure — no predecessor. Federal, state, and foreign with individual jurisdictions ≥5% shown separately.</div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Category</th><th>FY Amount ($K)</th><th>Prior Year ($K)</th><th>% of Total</th></tr>
+            </thead>
+            <tbody id="tc-table-b-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- Table C -->
+        <div class="table-abc-card" id="tc-table-c-card" style="display:none">
+          <div class="table-abc-title">TABLE C — Pre-Tax Income Split</div>
+          <div class="table-abc-sub">Domestic vs. foreign pre-tax income per ASC 740-10-50-6. Drives the jurisdictional disaggregation analysis.</div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Segment</th><th>Amount ($K)</th><th>% of Total</th><th>Jurisdiction Type</th></tr>
+            </thead>
+            <tbody id="tc-table-c-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- ETR bridge validation -->
+        <div class="content-section" id="tc-validation-section" style="display:none;margin-top:20px">
+          <div class="content-section-title">Claude ETR Validation</div>
+          <div id="tc-validation-text" style="font-size:13px;line-height:1.7;color:var(--white);white-space:pre-wrap;font-family:var(--sans)"></div>
+        </div>
+      </div>
+
+      <!-- Panel: 10-K Disclosure -->
+      <div class="classifier-panel" id="cpanel-disclosure">
+        <div class="run-btn-group">
+          <button class="action-btn btn-primary" onclick="runFullTaxDisclosure()">✦ Generate Full ASC 740 Footnote</button>
+          <span style="font-size:12px;color:var(--muted)">Runs the complete TaxReconciliationAgent — all 9 disclosure sections</span>
+        </div>
+        <div id="tc-disclosure-placeholder" style="padding:24px;text-align:center;color:var(--muted);font-size:13px">
+          Click above to generate the full ASC 740 income tax footnote via Claude.
+        </div>
+        <div class="content-section" id="tc-disclosure-section" style="display:none;margin-top:0">
+          <div class="content-section-title">ASC 740 Income Tax Footnote — 10-K Draft</div>
+          <p style="font-size:11px;color:var(--muted);margin-bottom:16px">AI-generated disclosure. Review by tax counsel required before filing. ASC citations included throughout.</p>
+          <div id="tc-disclosure-text" style="font-size:13px;line-height:1.75;color:var(--white);white-space:pre-wrap;font-family:var(--sans)"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div class="module-sidebar">
+
+      <!-- Pipeline summary -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">Pipeline Status</div>
+        <div id="tc-pipeline-status" style="font-size:12px;line-height:2;color:var(--white)">
+          <div style="display:flex;justify-content:space-between"><span>Step 1 — SAP Extract</span><span style="color:#059669;font-weight:600">✓ Ready</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Step 2 — Claude Classify</span><span id="tc-step2-status" style="color:var(--accent);font-weight:600">Pending</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Step 3 — Human Review</span><span id="tc-step3-status" style="color:var(--muted)">Waiting</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Step 4 — ETR Bridge</span><span id="tc-step4-status" style="color:var(--muted)">Waiting</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Step 5 — 10-K Draft</span><span id="tc-step5-status" style="color:var(--muted)">Waiting</span></div>
+        </div>
+      </div>
+
+      <!-- Deck proof point -->
+      <div class="sidebar-widget" style="border-color:rgba(13,148,136,0.2);background:var(--teal-glow)">
+        <div class="sidebar-widget-title" style="color:var(--teal-light)">Proof Point: diplomatic75</div>
+        <div style="font-size:12px;line-height:1.8;color:var(--white)">
+          <div style="display:flex;justify-content:space-between"><span>Company code</span><span style="font-weight:600">C006</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Fiscal year</span><span style="font-weight:600">FY2022</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Total tax expense</span><span style="font-weight:600">$1.66M</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Accounts classified</span><span style="font-weight:600">18</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Avg. confidence</span><span style="font-weight:600">0.95</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Time to compliance</span><span style="font-weight:600">10 min</span></div>
+        </div>
+      </div>
+
+      <!-- ASU 2023-09 checklist -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">ASU 2023-09 Outputs</div>
+        <div style="font-size:12px;line-height:1.9;color:var(--white)">
+          <div id="tc-asu-item-a" style="display:flex;align-items:center;gap:8px">
+            <span id="tc-asu-check-a" style="color:var(--muted)">○</span>
+            <span>Table A — ETR Reconciliation</span>
+          </div>
+          <div id="tc-asu-item-b" style="display:flex;align-items:center;gap:8px">
+            <span id="tc-asu-check-b" style="color:var(--muted)">○</span>
+            <span>Table B — Cash Taxes Paid</span>
+          </div>
+          <div id="tc-asu-item-c" style="display:flex;align-items:center;gap:8px">
+            <span id="tc-asu-check-c" style="color:var(--muted)">○</span>
+            <span>Table C — Pre-tax Split</span>
+          </div>
+          <div id="tc-asu-item-d" style="display:flex;align-items:center;gap:8px">
+            <span id="tc-asu-check-d" style="color:var(--muted)">○</span>
+            <span>ASC 740 Footnote Draft</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VS Big 4 comparison -->
+      <div class="sidebar-widget">
+        <div class="sidebar-widget-title">vs. Big 4 Manual Engagement</div>
+        <div style="font-size:12px;line-height:1.9;color:var(--white)">
+          <div style="display:flex;justify-content:space-between">
+            <span>Big 4 cost</span>
+            <span style="color:#EF4444;font-weight:600">$800K–$8M+</span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>BE Tech cost</span>
+            <span style="color:#059669;font-weight:600">$225K–$750K/yr</span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>Big 4 timeline</span>
+            <span style="color:#EF4444;font-weight:600">6–12 weeks</span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>BE Tech timeline</span>
+            <span style="color:#059669;font-weight:600">Same afternoon</span>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>Audit trail</span>
+            <span style="color:#059669;font-weight:600">SAP → filing</span>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -1653,6 +3782,13 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   window.scrollTo(0,0);
+  // Toggle nav theme: dark on home, light on module pages
+  const nav = document.getElementById('main-nav');
+  if (id === 'home') {
+    nav.classList.add('nav-dark');
+  } else {
+    nav.classList.remove('nav-dark');
+  }
 }
 
 function showModule(id) {
@@ -1661,7 +3797,6 @@ function showModule(id) {
   if (page) {
     showPage(id);
   } else {
-    // Generic fallback for unbuilt modules
     showPage('dise');
   }
 }
@@ -1850,11 +3985,35 @@ function pillStatus(s) {
   if (s === 'confirmed') return '<span class="status-pill pill-green">✓ Confirmed</span>';
   if (s === 'pending') return '<span class="status-pill pill-amber">⏳ Pending</span>';
   if (s === 'in_review') return '<span class="status-pill pill-blue">→ In Review</span>';
-  return '<span class="status-pill">' + s + '</span>';
+  return '<span class="status-pill">' + (s || '') + '</span>';
 }
-function catLabel(c) {
-  const map = {statutory:'Federal',state_local:'State/Local',foreign:'Foreign',credits:'Credits',compensation:'Comp',permanent:'Permanent',valuation_allowance:'Val. Allow.',other:'Other'};
+function asuCatLabel(c) {
+  const map = {'1_statutory':'Statutory','2_state_local':'State/Local','3_foreign':'Foreign','4_tax_law_changes':'Tax Law','5_cross_border':'Cross-Border','6_credits':'Credits','7_valuation_allowance':'Val. Allow.','8_nontaxable_nondeductible':'Perm. Diff.','9_utp_changes':'UTPs','10_other':'Other'};
   return map[c] || c;
+}
+
+// Flatten hierarchical rate reconciliation for display
+function flattenRateRecon(rateRecon) {
+  const rows = [];
+  rateRecon.forEach(entry => {
+    if (entry.is_header && entry.sub_items) {
+      // Header row
+      rows.push({item: entry.item, rate: null, amount: null, prior_amount: null, asu_category: entry.asu_category, status: null, isHeader: true, citation: entry.citation});
+      // Sub-items: may be grouped by jurisdiction or flat
+      entry.sub_items.forEach(si => {
+        if (si.jurisdiction && si.items) {
+          si.items.forEach(it => {
+            rows.push({item: it.item, rate: it.rate, amount: it.amount, prior_amount: it.prior_amount || 0, asu_category: entry.asu_category, status: it.status || 'confirmed', indent: true});
+          });
+        } else {
+          rows.push({item: si.item, rate: si.rate, amount: si.amount, prior_amount: si.prior_amount || 0, asu_category: entry.asu_category, status: si.status || 'confirmed', indent: true});
+        }
+      });
+    } else {
+      rows.push({item: entry.item, rate: entry.rate, amount: entry.amount, prior_amount: entry.prior_amount || 0, asu_category: entry.asu_category, status: entry.status, isHeader: false, note: entry.note});
+    }
+  });
+  return rows;
 }
 
 async function loadTaxData() {
@@ -1872,6 +4031,10 @@ async function loadTaxData() {
 }
 
 function renderTaxModule(d) {
+  const pretax = d.pretax_income.total;
+  const materialThreshold = 0.05;
+  const materialJurisdictions = d.jurisdictions.filter(j => j.pretax_income / pretax >= materialThreshold);
+
   // Status bar
   document.getElementById('tax-etr').textContent = fmtPct(d.effective_rate);
   document.getElementById('tax-etr-sub').textContent = 'vs ' + fmtPct(d.statutory_rate) + ' statutory (+' + Math.round((d.effective_rate - d.statutory_rate) * 10000) + ' bps)';
@@ -1880,25 +4043,76 @@ function renderTaxModule(d) {
   const grossDTL = d.deferred_tax_liabilities.reduce((s,x) => s + x.current_year, 0);
   const netDTA = grossDTA + grossDTL + (d.valuation_allowance?.ending_balance || 0);
   document.getElementById('tax-net-dta').textContent = fmtM(netDTA);
-
   document.getElementById('tax-jurisdictions').textContent = d.jurisdictions.length;
   document.getElementById('tax-utps').textContent = fmtM(d.uncertain_tax_positions.ending_balance);
 
-  const pendingCount = d.rate_reconciliation.filter(r => r.status !== 'confirmed').length;
+  // Count pending items across hierarchical structure
+  const flatRecon = flattenRateRecon(d.rate_reconciliation);
+  const pendingCount = flatRecon.filter(r => r.status && r.status !== 'confirmed').length;
   document.getElementById('tax-pending-tag').textContent = pendingCount ? pendingCount + ' Item' + (pendingCount > 1 ? 's' : '') + ' Pending' : 'All Confirmed';
 
-  // Rate reconciliation table
+  // ── Income Tax Expense Components (ASC 740-10-50-9/10) ──
+  const exp = d.income_tax_expense_components || {};
+  const pExp = d.prior_income_tax_expense_components || {};
+  const expTbody = document.getElementById('tax-expense-tbody');
+  function expRow(label, cy, py, bold, border) {
+    const chg = cy - py;
+    const style = (bold ? 'font-weight:600;' : '') + (border ? 'border-top:2px solid var(--border);' : '');
+    return `<tr style="${style}"><td>${label}</td><td>$${fmtK(cy)}</td><td>$${fmtK(py)}</td><td style="color:${chg >= 0 ? 'var(--teal)' : '#DC2626'}">$${fmtK(chg)}</td></tr>`;
+  }
+  let expHTML = '';
+  expHTML += `<tr style="font-weight:600;background:rgba(13,148,136,0.05)"><td colspan="4">Current income tax expense:</td></tr>`;
+  expHTML += expRow('  Federal', exp.current?.federal || 0, pExp.current?.federal || 0);
+  expHTML += expRow('  State and local', exp.current?.state || 0, pExp.current?.state || 0);
+  expHTML += expRow('  Foreign', exp.current?.foreign || 0, pExp.current?.foreign || 0);
+  expHTML += expRow('Total current', exp.current?.total || 0, pExp.current?.total || 0, true, true);
+  expHTML += `<tr style="font-weight:600;background:rgba(13,148,136,0.05)"><td colspan="4">Deferred income tax expense (benefit):</td></tr>`;
+  expHTML += expRow('  Federal', exp.deferred?.federal || 0, pExp.deferred?.federal || 0);
+  expHTML += expRow('  State and local', exp.deferred?.state || 0, pExp.deferred?.state || 0);
+  expHTML += expRow('  Foreign', exp.deferred?.foreign || 0, pExp.deferred?.foreign || 0);
+  expHTML += expRow('Total deferred', exp.deferred?.total || 0, pExp.deferred?.total || 0, true, true);
+  expHTML += expRow('Total income tax expense', exp.total || 0, pExp.total || 0, true, true);
+  expTbody.innerHTML = expHTML;
+
+  // Domestic vs foreign pretax
+  document.getElementById('tax-dom-foreign').innerHTML = `
+    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Domestic Pretax Income</div>
+      <div style="font-size:20px;font-weight:600">${fmtM(d.pretax_income.domestic)}</div>
+      <div style="font-size:12px;color:var(--muted)">${(d.pretax_income.domestic / pretax * 100).toFixed(1)}% of total | Prior: ${fmtM(d.prior_pretax_income?.domestic || 0)}</div>
+    </div>
+    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Foreign Pretax Income</div>
+      <div style="font-size:20px;font-weight:600">${fmtM(d.pretax_income.foreign)}</div>
+      <div style="font-size:12px;color:var(--muted)">${(d.pretax_income.foreign / pretax * 100).toFixed(1)}% of total | Prior: ${fmtM(d.prior_pretax_income?.foreign || 0)}</div>
+    </div>
+    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Total Pretax Income</div>
+      <div style="font-size:20px;font-weight:600">${fmtM(pretax)}</div>
+      <div style="font-size:12px;color:var(--muted)">Prior: ${fmtM(d.prior_pretax_income?.total || 0)} | YoY: ${((pretax / (d.prior_pretax_income?.total || pretax) - 1) * 100).toFixed(1)}%</div>
+    </div>`;
+
+  // ── Rate Reconciliation (hierarchical with sub-items) ──
   const reconTbody = document.getElementById('tax-recon-tbody');
   let reconHTML = '';
   let totalRate = 0, totalAmt = 0;
-  d.rate_reconciliation.forEach(r => {
-    totalRate += r.rate; totalAmt += r.amount;
-    reconHTML += `<tr><td>${r.item}</td><td>${fmtRate(r.rate)}</td><td>$${fmtK(r.amount)}</td><td><span style="font-size:11px;padding:3px 8px;border-radius:6px;background:var(--navy-light);color:var(--muted)">${catLabel(r.category)}</span></td><td>${pillStatus(r.status)}</td></tr>`;
+  flatRecon.forEach(r => {
+    if (r.isHeader) {
+      reconHTML += `<tr style="font-weight:600;background:rgba(13,148,136,0.05)"><td>${r.item} <span style="font-size:10px;color:var(--muted)">${r.citation || ''}</span></td><td></td><td></td><td></td><td></td></tr>`;
+    } else {
+      const rate = r.rate || 0;
+      const amt = r.amount || 0;
+      const priorAmt = r.prior_amount || 0;
+      totalRate += rate;
+      totalAmt += amt;
+      const indent = r.indent ? 'padding-left:24px;font-size:12px' : '';
+      reconHTML += `<tr><td style="${indent}">${r.item}</td><td>${fmtRate(rate)}</td><td>$${fmtK(amt)}</td><td style="color:var(--muted)">$${fmtK(priorAmt)}</td><td>${pillStatus(r.status)}</td></tr>`;
+    }
   });
-  reconHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Effective tax rate</td><td>${fmtRate(totalRate)}</td><td>$${fmtK(totalAmt)}</td><td></td><td></td></tr>`;
+  reconHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Effective tax rate / Total provision</td><td>${fmtRate(totalRate)}</td><td>$${fmtK(totalAmt)}</td><td></td><td></td></tr>`;
   reconTbody.innerHTML = reconHTML;
 
-  // Deferred tax assets
+  // ── Deferred tax assets ──
   const dtaTbody = document.getElementById('tax-dta-tbody');
   let dtaHTML = ''; let dtaTotalCY = 0, dtaTotalPY = 0;
   d.deferred_tax_assets.forEach(a => {
@@ -1918,54 +4132,86 @@ function renderTaxModule(d) {
     dtlHTML += `<tr><td>${l.item}</td><td>($${fmtK(Math.abs(l.current_year))})</td><td>($${fmtK(Math.abs(l.prior_year))})</td><td style="color:${chg <= 0 ? 'var(--teal)' : '#DC2626'}">($${fmtK(Math.abs(chg))})</td></tr>`;
   });
   dtlHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Gross deferred tax liabilities</td><td>($${fmtK(Math.abs(dtlTotalCY))})</td><td>($${fmtK(Math.abs(dtlTotalPY))})</td><td>($${fmtK(Math.abs(dtlTotalCY - dtlTotalPY))})</td></tr>`;
+
+  // Net DTA summary row
+  const vaEnd = d.valuation_allowance?.ending_balance || 0;
+  dtlHTML += `<tr style="font-weight:600;border-top:1px solid var(--border)"><td>Valuation allowance</td><td>($${fmtK(Math.abs(vaEnd))})</td><td>($${fmtK(Math.abs(d.valuation_allowance?.beginning_balance || 0))})</td><td></td></tr>`;
+  dtlHTML += `<tr style="font-weight:700;border-top:2px solid var(--teal)"><td>Net deferred tax asset</td><td>$${fmtK(netDTA)}</td><td></td><td></td></tr>`;
   dtlTbody.innerHTML = dtlHTML;
 
-  // Valuation allowance
+  // Valuation allowance rollforward
   const va = d.valuation_allowance;
   document.getElementById('tax-va-detail').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr auto;gap:6px 20px;max-width:400px">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:6px 20px;max-width:450px">
       <span>Beginning balance</span><span style="text-align:right">($${fmtK(Math.abs(va.beginning_balance))})</span>
-      <span>Increases charged to expense</span><span style="text-align:right">($${fmtK(Math.abs(va.increases))})</span>
-      <span>Decreases (releases)</span><span style="text-align:right">$${fmtK(va.decreases)}</span>
+      <span>Charged to income tax expense</span><span style="text-align:right">($${fmtK(Math.abs(va.charged_to_expense || 0))})</span>
+      <span>Charged to other comprehensive income</span><span style="text-align:right">($${fmtK(Math.abs(va.charged_to_oci || 0))})</span>
+      <span>Releases</span><span style="text-align:right">$${fmtK(va.releases || 0)}</span>
+      <span>Currency translation adjustments</span><span style="text-align:right">$${fmtK(va.currency_translation || 0)}</span>
       <span style="font-weight:600;border-top:1px solid var(--border);padding-top:6px">Ending balance</span><span style="font-weight:600;text-align:right;border-top:1px solid var(--border);padding-top:6px">($${fmtK(Math.abs(va.ending_balance))})</span>
     </div>
     <p style="margin-top:10px;font-size:12px;color:var(--muted)">${va.note}</p>`;
 
-  // Jurisdictions
+  // ── Carryforwards (ASC 740-10-50-3) ──
+  const cfTbody = document.getElementById('tax-cf-tbody');
+  const cfs = d.carryforwards || [];
+  let cfHTML = '';
+  let cfTotalGross = 0, cfTotalTE = 0, cfTotalVA = 0;
+  cfs.forEach(cf => {
+    cfTotalGross += cf.gross_amount; cfTotalTE += cf.tax_effected; cfTotalVA += cf.va_applied || 0;
+    const net = cf.tax_effected - (cf.va_applied || 0);
+    cfHTML += `<tr><td>${cf.type}</td><td>$${fmtK(cf.gross_amount)}</td><td>$${fmtK(cf.tax_effected)}</td><td${cf.va_applied ? ' style="color:#DC2626"' : ''}>($${fmtK(cf.va_applied || 0)})</td><td>$${fmtK(net)}</td><td style="font-size:11px;color:var(--muted)">${cf.expiration}</td></tr>`;
+  });
+  const cfTotalNet = cfTotalTE - cfTotalVA;
+  cfHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total</td><td>$${fmtK(cfTotalGross)}</td><td>$${fmtK(cfTotalTE)}</td><td style="color:#DC2626">($${fmtK(cfTotalVA)})</td><td>$${fmtK(cfTotalNet)}</td><td></td></tr>`;
+  cfTbody.innerHTML = cfHTML;
+
+  // Unremitted foreign earnings
+  const unremitted = d.unremitted_foreign_earnings || {};
+  document.getElementById('tax-unremitted-detail').innerHTML = unremitted.amount
+    ? `<p>${unremitted.note}</p><p style="margin-top:8px;color:var(--teal);font-weight:600">Amount: ${fmtM(unremitted.amount)}</p>`
+    : '<p style="color:var(--muted)">No unremitted foreign earnings assertion disclosed.</p>';
+
+  // ── Jurisdictions (expanded columns) ──
   const jTbody = document.getElementById('tax-jurisdictions-tbody');
-  const pretax = d.pretax_income.total;
   let jHTML = '';
-  const materialThreshold = 0.05;
   d.jurisdictions.forEach(j => {
     const pct = j.pretax_income / pretax;
     const isMaterial = pct >= materialThreshold;
-    jHTML += `<tr${isMaterial ? '' : ' style="color:var(--muted)"'}><td>${j.name}${isMaterial ? ' <span style="font-size:10px;color:var(--teal)">≥5%</span>' : ''}</td><td>$${fmtK(j.pretax_income)}</td><td>${(pct * 100).toFixed(1)}%</td><td>$${fmtK(j.tax_expense)}</td><td>${fmtPct(j.effective_rate)}</td></tr>`;
+    jHTML += `<tr${isMaterial ? '' : ' style="color:var(--muted)"'}><td>${j.name}${isMaterial ? ' <span style="font-size:10px;color:var(--teal)">≥5%</span>' : ''}</td><td>${fmtPct(j.statutory_rate)}</td><td>$${fmtK(j.pretax_income)}</td><td>${(pct * 100).toFixed(1)}%</td><td>$${fmtK(j.current_tax)}</td><td>$${fmtK(j.deferred_tax)}</td><td>$${fmtK(j.total_tax)}</td><td>${fmtPct(j.effective_rate)}</td></tr>`;
   });
+  // Totals
+  const jTotalPretax = d.jurisdictions.reduce((s,j) => s + j.pretax_income, 0);
+  const jTotalCurrent = d.jurisdictions.reduce((s,j) => s + j.current_tax, 0);
+  const jTotalDeferred = d.jurisdictions.reduce((s,j) => s + j.deferred_tax, 0);
+  const jTotalTax = d.jurisdictions.reduce((s,j) => s + j.total_tax, 0);
+  jHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total foreign</td><td></td><td>$${fmtK(jTotalPretax)}</td><td>100.0%</td><td>$${fmtK(jTotalCurrent)}</td><td>$${fmtK(jTotalDeferred)}</td><td>$${fmtK(jTotalTax)}</td><td></td></tr>`;
   jTbody.innerHTML = jHTML;
 
-  // Domestic vs foreign
-  document.getElementById('tax-dom-foreign').innerHTML = `
-    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Domestic</div>
-      <div style="font-size:20px;font-weight:600">${fmtM(d.pretax_income.domestic)}</div>
-      <div style="font-size:12px;color:var(--muted)">${(d.pretax_income.domestic / pretax * 100).toFixed(1)}% of total pretax</div>
-    </div>
-    <div style="flex:1;padding:16px;background:var(--navy-light);border-radius:10px">
-      <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px">Foreign</div>
-      <div style="font-size:20px;font-weight:600">${fmtM(d.pretax_income.foreign)}</div>
-      <div style="font-size:12px;color:var(--muted)">${(d.pretax_income.foreign / pretax * 100).toFixed(1)}% of total pretax</div>
-    </div>`;
-
-  // Cash taxes paid
+  // ── Cash taxes paid with foreign detail ──
   const cash = d.cash_taxes_paid;
+  const priorCash = d.prior_cash_taxes_paid || {};
   const cashTbody = document.getElementById('tax-cash-tbody');
-  cashTbody.innerHTML = `
-    <tr><td>Federal</td><td>$${fmtK(cash.federal)}</td><td>${(cash.federal / cash.total * 100).toFixed(1)}%</td></tr>
-    <tr><td>State and local</td><td>$${fmtK(cash.state)}</td><td>${(cash.state / cash.total * 100).toFixed(1)}%</td></tr>
-    <tr><td>Foreign</td><td>$${fmtK(cash.foreign)}</td><td>${(cash.foreign / cash.total * 100).toFixed(1)}%</td></tr>
-    <tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total cash taxes paid</td><td>$${fmtK(cash.total)}</td><td>100.0%</td></tr>`;
+  let cashHTML = '';
+  cashHTML += `<tr><td>Federal</td><td>$${fmtK(cash.federal)}</td><td>$${fmtK(priorCash.federal || 0)}</td><td>${(cash.federal / cash.total * 100).toFixed(1)}%</td></tr>`;
+  cashHTML += `<tr><td>State and local</td><td>$${fmtK(cash.state)}</td><td>$${fmtK(priorCash.state || 0)}</td><td>${(cash.state / cash.total * 100).toFixed(1)}%</td></tr>`;
+  // Foreign detail rows
+  const foreignDetail = cash.foreign_detail || [];
+  if (foreignDetail.length > 0) {
+    cashHTML += `<tr style="font-weight:600;background:rgba(13,148,136,0.05)"><td colspan="4">Foreign — disaggregated per ASU 2023-09:</td></tr>`;
+    foreignDetail.forEach(fd => {
+      const pct = fd.amount / cash.total * 100;
+      const isMaterial = fd.amount >= cash.total * 0.05;
+      cashHTML += `<tr><td style="padding-left:20px">${fd.jurisdiction}${isMaterial ? ' <span style="font-size:10px;color:var(--teal)">≥5%</span>' : ''}</td><td>$${fmtK(fd.amount)}</td><td></td><td>${pct.toFixed(1)}%</td></tr>`;
+    });
+    cashHTML += `<tr style="font-weight:500;border-top:1px solid var(--border)"><td style="padding-left:20px">Total foreign</td><td>$${fmtK(cash.foreign_total)}</td><td>$${fmtK(priorCash.foreign_total || 0)}</td><td>${(cash.foreign_total / cash.total * 100).toFixed(1)}%</td></tr>`;
+  } else {
+    cashHTML += `<tr><td>Foreign</td><td>$${fmtK(cash.foreign_total)}</td><td>$${fmtK(priorCash.foreign_total || 0)}</td><td>${(cash.foreign_total / cash.total * 100).toFixed(1)}%</td></tr>`;
+  }
+  cashHTML += `<tr style="font-weight:600;border-top:2px solid var(--border)"><td>Total cash taxes paid</td><td>$${fmtK(cash.total)}</td><td>$${fmtK(priorCash.total || 0)}</td><td>100.0%</td></tr>`;
+  cashTbody.innerHTML = cashHTML;
 
-  // UTP rollforward
+  // ── UTP rollforward ──
   const utp = d.uncertain_tax_positions;
   document.getElementById('tax-utp-detail').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr auto;gap:6px 20px;max-width:500px">
@@ -1976,18 +4222,34 @@ function renderTaxModule(d) {
       <span>Decreases — statute of limitations expiry</span><span style="text-align:right">($${fmtK(Math.abs(utp.decreases_statute_expiry))})</span>
       <span style="font-weight:600;border-top:1px solid var(--border);padding-top:6px">Ending balance</span><span style="font-weight:600;text-align:right;border-top:1px solid var(--border);padding-top:6px">$${fmtK(utp.ending_balance)}</span>
     </div>
-    <p style="margin-top:12px;font-size:12px;color:var(--muted)">Interest and penalties accrued: $${fmtK(utp.interest_and_penalties)} | Expected to resolve within 12 months: $${fmtK(utp.positions_expected_to_resolve_12mo)}</p>
+    <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:500px">
+      <div style="padding:10px;background:var(--navy-light);border-radius:8px"><div style="font-size:11px;color:var(--muted)">Amount affecting ETR</div><div style="font-size:16px;font-weight:600">$${fmtK(utp.amount_affecting_etr)}</div></div>
+      <div style="padding:10px;background:var(--navy-light);border-radius:8px"><div style="font-size:11px;color:var(--muted)">Expected to resolve &lt;12mo</div><div style="font-size:16px;font-weight:600">$${fmtK(utp.positions_expected_to_resolve_12mo)}</div></div>
+      <div style="padding:10px;background:var(--navy-light);border-radius:8px"><div style="font-size:11px;color:var(--muted)">Interest &amp; penalties (expense)</div><div style="font-size:16px;font-weight:600">$${fmtK(utp.interest_and_penalties_expense)}</div></div>
+      <div style="padding:10px;background:var(--navy-light);border-radius:8px"><div style="font-size:11px;color:var(--muted)">Interest &amp; penalties (accrued)</div><div style="font-size:16px;font-weight:600">$${fmtK(utp.interest_and_penalties_accrued)}</div></div>
+    </div>
+    <p style="margin-top:10px;font-size:12px;color:var(--muted);font-style:italic">${utp.interest_penalty_policy || ''}</p>
     <p style="margin-top:6px;font-size:12px;color:var(--muted)">${utp.note}</p>`;
 
-  // Progress bars
+  // Open tax years table
+  const openYears = utp.open_tax_years || {};
+  const oyTbody = document.getElementById('tax-open-years-tbody');
+  oyTbody.innerHTML = Object.entries(openYears).map(([jur, years]) =>
+    `<tr><td>${jur.replace(/_/g, ' ')}</td><td>${years}</td></tr>`
+  ).join('');
+
+  // ── Progress bars ──
   const comp = d.completion_status;
   const progressItems = [
     {label: 'Rate reconciliation', pct: comp.rate_reconciliation},
+    {label: 'Income tax expense components', pct: comp.income_tax_expense_components},
     {label: 'US Federal deferred items', pct: comp.us_federal_deferred},
     {label: 'State deferred items', pct: comp.state_deferred},
     {label: 'Foreign jurisdictions (' + d.jurisdictions.length + ')', pct: comp.foreign_jurisdictions},
+    {label: 'Carryforward schedules', pct: comp.carryforward_schedules},
     {label: 'Valuation allowance analysis', pct: comp.valuation_allowance},
     {label: 'UTP analysis', pct: comp.utp_analysis},
+    {label: 'Cash taxes disaggregation', pct: comp.cash_taxes_disaggregation},
     {label: 'ASU 2023-09 compliance', pct: comp.asu_2023_09_compliance},
     {label: 'Disclosure draft', pct: comp.disclosure_draft},
   ];
@@ -1995,15 +4257,18 @@ function renderTaxModule(d) {
     `<div class="progress-item"><div class="progress-label"><span>${p.label}</span><span>${p.pct}%</span></div><div class="progress-track"><div class="progress-fill${p.pct < 70 ? ' amber' : p.pct < 50 ? ' red' : ''}" style="width:${p.pct}%"></div></div></div>`
   ).join('');
 
-  // Compliance checklist
-  const materialJurisdictions = d.jurisdictions.filter(j => j.pretax_income / pretax >= materialThreshold);
+  // ── Compliance checklist (expanded) ──
   const complianceItems = [
-    {text: 'Rate reconciliation — 8 required categories', done: true},
-    {text: 'Cash taxes paid — federal/state/foreign', done: true},
-    {text: 'Domestic vs. foreign pretax income split', done: true},
+    {text: 'Income tax expense — current/deferred by jurisdiction (ASC 740-10-50-9/10)', done: !!(exp.current && exp.deferred)},
+    {text: 'Rate reconciliation — 8+ required ASU 2023-09 categories', done: true},
+    {text: 'Rate reconciliation — dual format (% and $)', done: true},
+    {text: 'Cash taxes paid — fed/state/foreign with per-jurisdiction detail', done: foreignDetail.length > 0},
+    {text: 'Domestic vs. foreign pretax income split (ASC 740-10-50-6)', done: true},
     {text: `Individual jurisdictions ≥5% disclosed (${materialJurisdictions.length} found)`, done: materialJurisdictions.length > 0},
-    {text: 'Uncertain tax positions rollforward', done: utp.ending_balance > 0},
-    {text: 'Valuation allowance changes disclosed', done: true},
+    {text: 'NOL and credit carryforward schedules with expiration', done: cfs.length > 0},
+    {text: 'Uncertain tax positions rollforward with open years', done: utp.ending_balance > 0 && Object.keys(openYears).length > 0},
+    {text: 'Valuation allowance rollforward disclosed', done: true},
+    {text: 'Unremitted foreign earnings assertion (ASC 740-30)', done: !!(unremitted.amount)},
     {text: 'All rate recon items confirmed', done: pendingCount === 0, pending: pendingCount > 0},
   ];
   document.getElementById('tax-compliance-checklist').innerHTML = complianceItems.map(c => {
@@ -2012,26 +4277,29 @@ function renderTaxModule(d) {
   }).join('');
 
   // AI Insight
-  const foreignPending = d.rate_reconciliation.find(r => r.category === 'foreign' && r.status === 'pending');
+  const hasInReview = flatRecon.some(r => r.status === 'in_review');
   let insightText = '';
-  if (foreignPending) {
-    insightText = `Your foreign rate differential (${fmtRate(foreignPending.rate)}) is unconfirmed. Under ASU 2023-09, you must disclose the individual jurisdiction breakdown. `;
-    insightText += `${materialJurisdictions.filter(j => !j.name.startsWith('United States')).map(j => j.name).join(' and ')} exceed the 5% threshold and require separate disclosure.`;
-  } else {
-    insightText = `All rate reconciliation items confirmed. ${materialJurisdictions.length} jurisdictions exceed the 5% materiality threshold for individual disclosure under ASU 2023-09.`;
+  if (hasInReview) {
+    insightText = `${pendingCount} rate reconciliation item(s) are in review. `;
   }
+  insightText += `${materialJurisdictions.length} jurisdictions (${materialJurisdictions.map(j => j.name).join(', ')}) exceed the 5% materiality threshold for individual disclosure under ASU 2023-09. `;
+  insightText += `Effective rate of ${fmtPct(d.effective_rate)} represents a ${Math.round((d.effective_rate - d.statutory_rate) * 10000)} bps spread over statutory, driven primarily by state taxes and cross-border effects offset by R&D credits.`;
   document.getElementById('tax-ai-insight').textContent = insightText;
 
   // Key metrics sidebar
   document.getElementById('tax-key-metrics').innerHTML = `
     Pretax income: <strong>${fmtM(pretax)}</strong><br>
     Total provision: <strong>${fmtM(d.total_provision)}</strong><br>
-    Current tax: <strong>${fmtM(cash.total)}</strong><br>
-    Deferred tax: <strong>${fmtM(d.total_provision - cash.total)}</strong><br>
+    Current tax: <strong>${fmtM(exp.current?.total || 0)}</strong><br>
+    Deferred tax: <strong>${fmtM(exp.deferred?.total || 0)}</strong><br>
     Gross DTA: <strong>${fmtM(grossDTA)}</strong><br>
     Gross DTL: <strong>(${fmtM(Math.abs(grossDTL))})</strong><br>
     Valuation allowance: <strong>(${fmtM(Math.abs(va.ending_balance))})</strong><br>
-    Net DTA: <strong>${fmtM(netDTA)}</strong>`;
+    Net DTA: <strong>${fmtM(netDTA)}</strong><br>
+    Carryforwards (tax-effected): <strong>${fmtM(cfTotalTE)}</strong><br>
+    Cash taxes paid: <strong>${fmtM(cash.total)}</strong><br>
+    UTP balance: <strong>${fmtM(utp.ending_balance)}</strong><br>
+    Unremitted earnings: <strong>${fmtM(unremitted.amount || 0)}</strong>`;
 }
 
 async function runTaxAgent() {
@@ -2051,25 +4319,22 @@ async function runTaxAgent() {
 
     btn.textContent = `✓ Complete — ${data.elapsed_seconds.toFixed(1)}s`;
 
-    // Show narrative if available
-    if (data.result_count > 0) {
-      // Fetch full results via run endpoint with detail
-      const detailRes = await fetch(API_BASE + '/api/agents/run', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({agent: 'tax'}),
-      });
-      const detail = await detailRes.json();
-      // The narrative comes back in the first run — show summary
-      const section = document.getElementById('tax-narrative-section');
-      section.style.display = 'block';
+    const section = document.getElementById('tax-narrative-section');
+    section.style.display = 'block';
+
+    // Show the AI-generated narrative if available
+    if (data.results && data.results.length > 0 && data.results[0].narrative) {
+      document.getElementById('tax-narrative').textContent = data.results[0].narrative;
+    } else {
       document.getElementById('tax-narrative').textContent =
         'Agent completed successfully.\n\n' +
         'Effective rate: ' + data.summary.effective_rate + '% (vs ' + data.summary.statutory_rate + '% statutory)\n' +
         'Rate spread: ' + data.summary.rate_spread_bps + ' bps\n' +
+        'Current tax: $' + fmtK(data.summary.current_tax) + 'K | Deferred: $' + fmtK(data.summary.deferred_tax) + 'K\n' +
         'Jurisdictions analyzed: ' + data.summary.jurisdictions + ' (' + data.summary.material_jurisdictions + ' material)\n' +
+        'Carryforwards: ' + data.summary.carryforwards + ' categories\n' +
         'UTP balance: ' + fmtM(data.summary.utp_balance) + '\n' +
-        'Compliance gaps: ' + data.summary.compliance_gaps + '\n' +
+        'Compliance items: ' + data.summary.compliance_items + ' (' + data.summary.compliance_gaps + ' gaps)\n' +
         'Pending items: ' + data.summary.pending_items;
     }
 
@@ -2086,6 +4351,831 @@ showModule = function(id) {
   _origShowModule(id);
   if (id === 'income-tax') loadTaxData();
 };
+
+// ═══════════════════════════════════════════════════════════
+//  SCROLL REVEAL ANIMATIONS (IntersectionObserver)
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Re-observe when pages change (SPA-like navigation)
+  const origShowPage = window.showPage;
+  if (origShowPage) {
+    const _sp = origShowPage;
+    window.showPage = function(id) {
+      _sp(id);
+      setTimeout(() => {
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => {
+          observer.observe(el);
+        });
+      }, 100);
+    };
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  ANIMATED COUNTERS
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const counters = document.querySelectorAll('.counter');
+  let animated = new Set();
+
+  function animateCounter(el) {
+    if (animated.has(el)) return;
+    animated.add(el);
+
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      el.textContent = prefix + current + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  counters.forEach(c => counterObserver.observe(c));
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  FLOATING PARTICLES (Hero)
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const container = document.getElementById('hero-particles');
+  if (!container) return;
+  const count = 30;
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'hero-particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 100 + '%';
+    p.style.width = (2 + Math.random() * 3) + 'px';
+    p.style.height = p.style.width;
+    p.style.opacity = 0.1 + Math.random() * 0.3;
+    p.style.animation = `particleFloat ${4 + Math.random() * 6}s ease-in-out ${Math.random() * 4}s infinite`;
+    container.appendChild(p);
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  MOBILE MENU
+// ═══════════════════════════════════════════════════════════
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('hamburger-btn');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger-btn').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SMOOTH SCROLL for nav
+// ═══════════════════════════════════════════════════════════
+document.documentElement.style.scrollBehavior = 'smooth';
+
+// ═══════════════════════════════════════════════════════════
+//  HERO PRODUCT PREVIEW — 3D Parallax + Sequential Reveal
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const preview = document.querySelector('.product-preview');
+  if (!preview) return;
+
+  // Scroll-driven 3D tilt
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() {
+        const rect = preview.getBoundingClientRect();
+        const vh = window.innerHeight;
+        if (rect.top < vh && rect.bottom > 0) {
+          const progress = 1 - (rect.top / vh);
+          const clampedProgress = Math.max(0, Math.min(1, progress));
+          const rotateX = 4 - (clampedProgress * 6); // 4deg to -2deg
+          const scale = 0.96 + (clampedProgress * 0.06); // 0.96 to 1.02
+          const translateY = (1 - clampedProgress) * 20;
+          preview.style.transform = `perspective(1200px) rotateX(${rotateX}deg) scale(${scale}) translateY(${translateY}px)`;
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Sequential reveal when preview enters viewport
+  const previewObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        preview.classList.add('in-view');
+        // Trigger stat grid animation
+        const statGrid = preview.querySelector('.stat-grid-4');
+        if (statGrid) statGrid.classList.add('animate');
+        // Trigger rate recon cascade
+        const recon = preview.querySelector('.rate-recon-anim');
+        if (recon) recon.classList.add('animate');
+        // Trigger bar grow
+        setTimeout(() => {
+          preview.querySelectorAll('.bar-grow').forEach(bar => bar.classList.add('animate'));
+        }, 1200);
+        // Trigger compliance cascade
+        const compliance = preview.querySelector('.compliance-cascade');
+        if (compliance) compliance.classList.add('animate');
+        previewObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  previewObserver.observe(preview);
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  SCROLL-LINKED STEP CONNECTOR PROGRESS
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const container = document.querySelector('.steps-container');
+  const fill = document.querySelector('.steps-connector-fill');
+  if (!container || !fill) return;
+
+  window.addEventListener('scroll', function() {
+    const rect = container.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if (rect.top < vh && rect.bottom > 0) {
+      const totalScroll = vh + rect.height;
+      const scrolled = vh - rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / totalScroll));
+      fill.style.width = (progress * 100) + '%';
+    }
+  });
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  WATERFALL CHART BAR ANIMATION
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const chart = document.querySelector('.waterfall-chart');
+  if (!chart) return;
+  const bars = chart.querySelectorAll('.waterfall-bar');
+
+  const chartObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        bars.forEach((bar, i) => {
+          setTimeout(() => bar.classList.add('animate'), i * 120);
+        });
+        chartObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  chartObserver.observe(chart);
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  AI AGENT LIVE DEMO — Harvey-style animated processing
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const demo = document.getElementById('ai-demo');
+  if (!demo) return;
+
+  let hasPlayed = false;
+
+  const demoSteps = [
+    { id: 'ai-step-1', delay: 400, tagDelay: 200, status: 'Scanning GL entries...' },
+    { id: 'ai-step-2', delay: 2200, tagDelay: 200, status: 'Classifying accounts...' },
+    { id: 'ai-step-3', delay: 4200, tagDelay: 200, status: 'Validating compliance...' },
+    { id: 'ai-step-4', delay: 6200, tagDelay: 0, status: 'Generating narrative...' }
+  ];
+
+  const narrativeText = 'The Company recorded income tax expense of $75.0 million for fiscal year 2025, reflecting an effective tax rate of 25.3%, compared to the U.S. federal statutory rate of 21.0%. The increase was primarily attributable to state and local taxes of $6.2M, partially offset by the benefit of lower-taxed foreign earnings in Ireland ($3.2M) and federal R&D credits ($2.7M)...';
+
+  function playDemo() {
+    if (hasPlayed) return;
+    hasPlayed = true;
+
+    const statusText = document.getElementById('ai-demo-status-text');
+    const progressWrap = document.getElementById('ai-demo-progress');
+    const progressFill = document.getElementById('ai-demo-fill');
+    const pctText = document.getElementById('ai-demo-pct');
+    const timeText = document.getElementById('ai-demo-time');
+
+    // Show progress bar
+    setTimeout(() => { progressWrap.style.opacity = '1'; }, 300);
+
+    // Animate progress bar smoothly
+    let progressVal = 0;
+    const progressInterval = setInterval(() => {
+      progressVal += 0.5;
+      if (progressVal > 100) { clearInterval(progressInterval); progressVal = 100; }
+      progressFill.style.width = progressVal + '%';
+      pctText.textContent = Math.round(progressVal) + '% complete';
+      const remaining = Math.max(0, Math.round((100 - progressVal) / 12.5));
+      timeText.textContent = remaining > 0 ? 'Estimated: ' + remaining + 's remaining' : 'Complete';
+    }, 80);
+
+    demoSteps.forEach(step => {
+      setTimeout(() => {
+        const el = document.getElementById(step.id);
+        if (el) {
+          el.classList.add('visible');
+          // Animate tags
+          const tags = el.querySelectorAll('.ai-demo-tag');
+          tags.forEach((tag, i) => {
+            setTimeout(() => tag.classList.add('visible'), (i + 1) * step.tagDelay);
+          });
+        }
+        if (statusText) statusText.textContent = step.status;
+      }, step.delay);
+    });
+
+    // Typing effect for narrative
+    setTimeout(() => {
+      const detail = document.getElementById('ai-step-4-detail');
+      if (!detail) return;
+      let charIndex = 0;
+      const typingInterval = setInterval(() => {
+        charIndex += 2;
+        if (charIndex >= narrativeText.length) {
+          clearInterval(typingInterval);
+          detail.textContent = narrativeText;
+          // Final status
+          if (statusText) statusText.textContent = 'Analysis complete';
+        } else {
+          detail.textContent = narrativeText.slice(0, charIndex) + '|';
+        }
+      }, 25);
+    }, 6600);
+  }
+
+  const demoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        playDemo();
+        demoObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  demoObserver.observe(demo);
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  HERO TITLE TYPEWRITER EFFECT
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const badge = document.querySelector('.hero-badge');
+  if (!badge) return;
+  // Add a subtle shimmer to the badge text
+  const badgeText = badge.querySelector('span:last-child') || badge;
+  if (badgeText && badgeText.textContent.includes('ASU 2023-09')) {
+    const originalText = badgeText.textContent;
+    badgeText.style.background = 'linear-gradient(90deg, rgba(255,255,255,0.7), rgba(129,140,248,0.9), rgba(255,255,255,0.7))';
+    badgeText.style.backgroundSize = '200% 100%';
+    badgeText.style.webkitBackgroundClip = 'text';
+    badgeText.style.webkitTextFillColor = 'transparent';
+    badgeText.style.backgroundClip = 'text';
+    badgeText.style.animation = 'shimmerText 3s ease-in-out infinite';
+  }
+
+  // Add shimmer keyframes
+  if (!document.getElementById('shimmer-text-style')) {
+    const style = document.createElement('style');
+    style.id = 'shimmer-text-style';
+    style.textContent = `
+      @keyframes shimmerText {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  TAX CLASSIFIER PAGE
+// ═══════════════════════════════════════════════════════════
+(function() {
+
+  // ── State ────────────────────────────────────────────────
+  let tcAccounts = [];      // raw GL accounts (unclassified)
+  let tcResults  = [];      // classifier results
+  let tcPending  = [];      // pending review queue
+  let tcEtrOutput = null;   // ETR bridge output
+
+  // ── Tab switching ─────────────────────────────────────────
+  window.showClassifierTab = function(id) {
+    document.querySelectorAll('.classifier-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.classifier-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('ctab-' + id).classList.add('active');
+    document.getElementById('cpanel-' + id).classList.add('active');
+  };
+
+  // ── Load GL accounts on page entry ───────────────────────
+  window.loadTaxClassifierAccounts = async function() {
+    setRunPill('loading', 'Loading GL accounts…');
+    try {
+      const res = await fetch('/api/tax/classifier/accounts');
+      const data = await res.json();
+      tcAccounts = data.accounts || [];
+      renderAccountsTable(tcAccounts);
+      setRunPill('', '');
+    } catch(e) {
+      renderAccountsTable([]);
+      setRunPill('', '');
+    }
+  };
+
+  // ── Run Classifier ────────────────────────────────────────
+  window.runTaxClassifier = async function() {
+    const btn = document.getElementById('tc-run-btn');
+    btn.disabled = true;
+    btn.textContent = '✦ Classifying…';
+    setRunPill('running', 'Claude is classifying 18 accounts…');
+    setPipelineStep(2, 'active');
+
+    document.getElementById('tc-step2-status').textContent = 'Running…';
+    document.getElementById('tc-step2-status').style.color = '#D97706';
+
+    try {
+      const res = await fetch('/api/tax/classifier/run', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({batch_size: 18, dry_run: false, source: 'auto'})
+      });
+      const data = await res.json();
+
+      if (data.error) throw new Error(data.error);
+
+      tcResults = data.results || [];
+      tcPending = tcResults.filter(r => r.status === 'pending');
+
+      // Update metrics
+      const summary = data.summary || {};
+      document.getElementById('tc-metrics-row').style.display = 'flex';
+      document.getElementById('tc-m-classified').textContent = summary.classified || tcResults.length;
+      document.getElementById('tc-m-confidence').textContent = summary.avg_confidence
+        ? (summary.avg_confidence * 100).toFixed(0) + '%' : '—';
+      document.getElementById('tc-m-approved').textContent = summary.auto_approved || 0;
+      document.getElementById('tc-m-pending').textContent = summary.pending_review || 0;
+
+      // Render accounts table with classification results
+      renderAccountsTable(tcResults, true);
+
+      // Pending badge
+      if (tcPending.length > 0) {
+        const badge = document.getElementById('tc-pending-badge');
+        badge.textContent = tcPending.length;
+        badge.style.display = 'inline';
+      }
+
+      // Render pending review panel
+      renderPendingPanel(tcPending);
+
+      // Update pipeline
+      setPipelineStep(2, 'done');
+      if (tcPending.length > 0) {
+        setPipelineStep(3, 'active');
+        document.getElementById('tc-step2-status').textContent = '✓ Done';
+        document.getElementById('tc-step2-status').style.color = '#059669';
+        document.getElementById('tc-step3-status').textContent = `${tcPending.length} pending`;
+        document.getElementById('tc-step3-status').style.color = '#D97706';
+      } else {
+        setPipelineStep(3, 'done');
+        setPipelineStep(4, 'active');
+        document.getElementById('tc-step2-status').textContent = '✓ Done';
+        document.getElementById('tc-step2-status').style.color = '#059669';
+        document.getElementById('tc-step3-status').textContent = '✓ Clean';
+        document.getElementById('tc-step3-status').style.color = '#059669';
+        document.getElementById('tc-step4-status').textContent = 'Ready';
+        document.getElementById('tc-step4-status').style.color = 'var(--accent)';
+      }
+
+      document.getElementById('tc-status-tag').textContent =
+        `${tcResults.length} classified · ${tcPending.length} pending`;
+      document.getElementById('tc-etr-btn').disabled = false;
+
+      setRunPill('success', `${tcResults.length} accounts classified — avg ${summary.avg_confidence ? (summary.avg_confidence*100).toFixed(0) : '—'}% confidence`);
+    } catch(e) {
+      setRunPill('error', 'Classification failed: ' + e.message);
+      document.getElementById('tc-step2-status').textContent = '✗ Error';
+      document.getElementById('tc-step2-status').style.color = '#DC2626';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '✦ Run Claude Classifier';
+    }
+  };
+
+  // ── Run ETR Bridge ────────────────────────────────────────
+  window.runETRBridge = async function() {
+    const btn = document.getElementById('tc-etr-btn');
+    btn.disabled = true;
+    btn.textContent = '⚡ Running ETR Bridge…';
+    setRunPill('running', 'ETR Bridge computing Tables A, B, C…');
+    setPipelineStep(4, 'active');
+    document.getElementById('tc-step4-status').textContent = 'Running…';
+    document.getElementById('tc-step4-status').style.color = '#D97706';
+
+    try {
+      const res = await fetch('/api/tax/etr-bridge/run', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({fiscal_year: '2022'})
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      tcEtrOutput = data.output;
+      renderETRTables(tcEtrOutput);
+
+      // Update pipeline
+      setPipelineStep(4, 'done');
+      setPipelineStep(5, 'active');
+      document.getElementById('tc-step4-status').textContent = '✓ Done';
+      document.getElementById('tc-step4-status').style.color = '#059669';
+      document.getElementById('tc-step5-status').textContent = 'Ready';
+      document.getElementById('tc-step5-status').style.color = 'var(--accent)';
+
+      // Check ASU items
+      setAsuCheck('a', true);
+      setAsuCheck('b', true);
+      setAsuCheck('c', true);
+
+      setRunPill('success', `Tables A/B/C ready · Effective rate: ${data.output?.effective_rate_pct?.toFixed(2) || '—'}%`);
+      showClassifierTab('tables');
+    } catch(e) {
+      setRunPill('error', 'ETR Bridge failed: ' + e.message);
+      document.getElementById('tc-step4-status').textContent = '✗ Error';
+      document.getElementById('tc-step4-status').style.color = '#DC2626';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '⚡ Run ETR Bridge';
+    }
+  };
+
+  // ── Run Full ASC 740 Disclosure ───────────────────────────
+  window.runFullTaxDisclosure = async function() {
+    const placeholder = document.getElementById('tc-disclosure-placeholder');
+    const section = document.getElementById('tc-disclosure-section');
+    placeholder.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">✦ Claude is generating the full ASC 740 footnote (9 sections)…</div>';
+    placeholder.style.display = 'block';
+    section.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/agents/run', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({agent: 'tax', params: {fiscal_year: '2022'}})
+      });
+      // Tax agent result is in summary form; get narrative via separate call
+      const agentRes = await fetch('/api/agents/run', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({agent: 'tax', params: {fiscal_year: '2025'}})
+      });
+      const agentData = await agentRes.json();
+      const narrative = agentData.results?.[0]?.narrative || agentData.summary?.narrative || '';
+
+      if (narrative) {
+        document.getElementById('tc-disclosure-text').textContent = narrative;
+        placeholder.style.display = 'none';
+        section.style.display = 'block';
+        setPipelineStep(5, 'done');
+        document.getElementById('tc-step5-status').textContent = '✓ Done';
+        document.getElementById('tc-step5-status').style.color = '#059669';
+        setAsuCheck('d', true);
+      } else {
+        placeholder.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:13px">No narrative returned. Check agent logs.</div>';
+      }
+    } catch(e) {
+      placeholder.innerHTML = `<div style="padding:24px;text-align:center;color:#DC2626;font-size:13px">Error: ${e.message}</div>`;
+    }
+  };
+
+  // ── Approve / Reject pending mapping ─────────────────────
+  window.approveTaxMapping = async function(glAccount, btn) {
+    btn.disabled = true;
+    try {
+      await fetch('/api/tax/classifier/approve', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({gl_account: glAccount, reviewer: 'controller'})
+      });
+      // Remove from pending list
+      tcPending = tcPending.filter(p => p.gl_account !== glAccount);
+      renderPendingPanel(tcPending);
+      updatePipelineAfterReview();
+    } catch(e) {
+      btn.disabled = false;
+    }
+  };
+
+  window.rejectTaxMapping = async function(glAccount, btn) {
+    btn.disabled = true;
+    try {
+      await fetch('/api/tax/classifier/reject', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({gl_account: glAccount, reviewer: 'controller', reason: 'Manual rejection'})
+      });
+      tcPending = tcPending.filter(p => p.gl_account !== glAccount);
+      renderPendingPanel(tcPending);
+      updatePipelineAfterReview();
+    } catch(e) {
+      btn.disabled = false;
+    }
+  };
+
+  // ── Renderers ─────────────────────────────────────────────
+
+  function renderAccountsTable(accounts, classified) {
+    const tbody = document.getElementById('tc-accounts-tbody');
+    if (!accounts || accounts.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px;font-size:13px">No accounts loaded</td></tr>';
+      return;
+    }
+    tbody.innerHTML = accounts.map(acc => {
+      const amt = parseFloat(acc.posting_amount || 0);
+      const amtStr = (Math.abs(amt) >= 1e6)
+        ? (amt < 0 ? '-' : '') + '$' + (Math.abs(amt)/1e6).toFixed(1) + 'M'
+        : (amt < 0 ? '-' : '') + '$' + (Math.abs(amt)/1e3).toFixed(0) + 'K';
+
+      const cat = classified
+        ? (acc.tax_category_label || acc.tax_category || '—')
+        : '<span style="color:var(--muted)">—</span>';
+
+      const table = classified
+        ? (acc.disclosure_table
+            ? `<span style="font-size:10px;color:var(--muted)">${acc.disclosure_table.split('—')[0].trim()}</span>`
+            : '<span style="color:var(--muted)">—</span>')
+        : '<span style="color:var(--muted)">—</span>';
+
+      let confHtml = '<span style="color:var(--muted)">—</span>';
+      if (classified && acc.confidence_score != null) {
+        const score = parseFloat(acc.confidence_score);
+        const pct = Math.round(score * 100);
+        const cls = score >= 0.85 ? 'high' : score >= 0.60 ? 'medium' : 'low';
+        const label = acc.confidence_label || (score >= 0.85 ? 'HIGH' : score >= 0.60 ? 'MED' : 'LOW');
+        confHtml = `<div class="confidence-bar-wrap">
+          <div class="confidence-bar"><div class="confidence-fill ${cls}" style="width:${pct}%"></div></div>
+          <span style="font-size:11px;font-weight:600;color:var(--muted)">${pct}%</span>
+        </div>`;
+      }
+
+      let statusHtml = '<span class="account-row-status status-unclassified">Unclassified</span>';
+      if (classified) {
+        const s = acc.status || 'approved';
+        const cls = s === 'approved' ? 'status-approved' : s === 'pending' ? 'status-pending' : 'status-rejected';
+        const label = s === 'approved' ? '✓ Approved' : s === 'pending' ? '⏳ Pending' : '✗ Rejected';
+        statusHtml = `<span class="account-row-status ${cls}">${label}</span>`;
+      }
+
+      return `<tr>
+        <td><span style="font-family:var(--mono);font-size:12px">${acc.gl_account}</span></td>
+        <td style="max-width:260px;font-size:12px">${acc.description || ''}</td>
+        <td style="font-variant-numeric:tabular-nums;font-size:12px;font-weight:500">${amtStr}</td>
+        <td style="font-size:12px;font-weight:500">${cat}</td>
+        <td>${table}</td>
+        <td>${confHtml}</td>
+        <td>${statusHtml}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderPendingPanel(pending) {
+    const container = document.getElementById('tc-pending-container');
+    if (!pending || pending.length === 0) {
+      container.innerHTML = `<div style="padding:32px;text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">✓</div>
+        <div style="font-size:14px;font-weight:600;color:#059669">All mappings approved</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">No accounts pending controller review</div>
+      </div>`;
+      const badge = document.getElementById('tc-pending-badge');
+      badge.style.display = 'none';
+      return;
+    }
+
+    const badge = document.getElementById('tc-pending-badge');
+    badge.textContent = pending.length;
+    badge.style.display = 'inline';
+
+    container.innerHTML = pending.map(acc => {
+      const amt = parseFloat(acc.posting_amount || 0);
+      const amtStr = (Math.abs(amt) >= 1e6)
+        ? '$' + (Math.abs(amt)/1e6).toFixed(1) + 'M'
+        : '$' + (Math.abs(amt)/1e3).toFixed(0) + 'K';
+      const score = Math.round((acc.confidence_score || 0) * 100);
+
+      return `<div style="background:var(--card-bg);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius);padding:16px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <div>
+            <span style="font-family:var(--mono);font-size:12px;color:var(--accent)">${acc.gl_account}</span>
+            <div style="font-size:13px;font-weight:600;color:var(--white);margin-top:2px">${acc.description || ''}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Amount: ${amtStr} · FY${acc.fiscal_year || ''} · ${acc.company_code || ''}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:11px;font-weight:700;color:#D97706">⏳ PENDING REVIEW</div>
+            <div style="font-size:11px;color:var(--muted)">${score}% confidence</div>
+          </div>
+        </div>
+        <div style="background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.1);border-radius:6px;padding:10px;margin-bottom:12px;font-size:12px">
+          <strong>AI Draft:</strong> ${acc.tax_category_label || acc.tax_category || '—'}
+          <div style="color:var(--muted);margin-top:4px;line-height:1.5">${(acc.draft_reasoning || '').substring(0, 200)}${(acc.draft_reasoning||'').length > 200 ? '…' : ''}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="action-btn btn-primary" style="font-size:12px;padding:6px 14px"
+            onclick="approveTaxMapping('${acc.gl_account}', this)">✓ Approve</button>
+          <button class="action-btn btn-secondary" style="font-size:12px;padding:6px 14px"
+            onclick="rejectTaxMapping('${acc.gl_account}', this)">✗ Reject</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderETRTables(output) {
+    if (!output) return;
+
+    // Hide placeholder
+    document.getElementById('tc-tables-placeholder').style.display = 'none';
+
+    // Materiality threshold
+    const matK = output.materiality_threshold
+      ? (output.materiality_threshold / 1000).toFixed(0)
+      : '—';
+    document.getElementById('tc-materiality').textContent = matK;
+
+    // ── Table A ──
+    const tableA = output.table_a || [];
+    const tableACard = document.getElementById('tc-table-a-card');
+    tableACard.style.display = 'block';
+
+    // Table A metrics
+    const pretaxM   = ((output.pretax_income?.total || 0)/1e6).toFixed(1);
+    const effectPct = (output.effective_rate_pct || 0).toFixed(2);
+    const statPct   = ((output.statutory_rate || 0.21)*100).toFixed(0);
+    const prescribed = tableA.filter(r => r.is_prescribed).length;
+    document.getElementById('tc-table-a-metrics').innerHTML = `
+      <div class="metric-mini accent"><div class="metric-mini-label">Statutory Rate</div><div class="metric-mini-value">${statPct}%</div><div class="metric-mini-sub">US Federal</div></div>
+      <div class="metric-mini accent"><div class="metric-mini-label">Effective Rate</div><div class="metric-mini-value">${effectPct}%</div><div class="metric-mini-sub">vs 21% statutory</div></div>
+      <div class="metric-mini"><div class="metric-mini-label">Pre-tax Income</div><div class="metric-mini-value">$${pretaxM}M</div><div class="metric-mini-sub">FY total</div></div>
+      <div class="metric-mini"><div class="metric-mini-label">Prescribed Items</div><div class="metric-mini-value">${prescribed}</div><div class="metric-mini-sub">≥5% threshold</div></div>
+    `;
+
+    document.getElementById('tc-table-a-tbody').innerHTML = tableA.map(row => {
+      const amtK   = (row.amount / 1000).toFixed(0);
+      const isTotal = row.asu_category === 'total';
+      const indent  = row.indent === 1 ? 'padding-left:24px;' : '';
+      const prescribed = row.is_prescribed
+        ? '<span class="prescribed-badge">PRESCRIBED</span>' : '';
+      const amtStyle = row.amount < 0
+        ? 'color:#059669' : '';
+      return `<tr style="${isTotal ? 'font-weight:700;border-top:2px solid var(--border)' : ''}">
+        <td style="${indent}font-size:12px">${row.item}</td>
+        <td style="font-variant-numeric:tabular-nums;font-size:12px">${row.rate_pct?.toFixed(2) || '—'}%</td>
+        <td style="font-variant-numeric:tabular-nums;font-size:12px;${amtStyle}">${parseInt(amtK) >= 0 ? '' : '('}$${Math.abs(amtK).toLocaleString()}${parseInt(amtK) >= 0 ? '' : ')'}</td>
+        <td style="font-size:10px;color:var(--muted)">${row.asu_category || ''}</td>
+        <td>${prescribed}</td>
+      </tr>`;
+    }).join('');
+
+    // ── Table B ──
+    const tableB = output.table_b || [];
+    document.getElementById('tc-table-b-card').style.display = 'block';
+    document.getElementById('tc-table-b-tbody').innerHTML = tableB.map(row => {
+      const amtK = (row.amount / 1000).toFixed(0);
+      const priorK = (row.prior / 1000).toFixed(0);
+      const isTotal = row.is_total;
+      return `<tr style="${isTotal ? 'font-weight:700;border-top:2px solid var(--border)' : ''}">
+        <td style="font-size:12px">${row.category}</td>
+        <td style="font-variant-numeric:tabular-nums;font-size:12px">$${parseInt(amtK).toLocaleString()}</td>
+        <td style="font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)">$${parseInt(priorK).toLocaleString()}</td>
+        <td style="font-size:12px">${row.pct_of_total?.toFixed(1) || '—'}%</td>
+      </tr>`;
+    }).join('');
+
+    // ── Table C ──
+    const tableC = output.table_c || [];
+    document.getElementById('tc-table-c-card').style.display = 'block';
+    document.getElementById('tc-table-c-tbody').innerHTML = tableC.map(row => {
+      const amtK = (row.amount / 1000).toFixed(0);
+      const isTotal = row.is_total;
+      return `<tr style="${isTotal ? 'font-weight:700;border-top:2px solid var(--border)' : ''}">
+        <td style="font-size:12px">${row.segment}</td>
+        <td style="font-variant-numeric:tabular-nums;font-size:12px">$${parseInt(amtK).toLocaleString()}</td>
+        <td style="font-size:12px">${row.pct_of_total?.toFixed(1) || '—'}%</td>
+        <td style="font-size:12px;color:var(--muted)">${row.jurisdiction}</td>
+      </tr>`;
+    }).join('');
+
+    // ── Validation ──
+    if (output.validation) {
+      document.getElementById('tc-validation-section').style.display = 'block';
+      document.getElementById('tc-validation-text').textContent = output.validation;
+    }
+  }
+
+  // ── Helpers ───────────────────────────────────────────────
+  function setRunPill(type, text) {
+    const pill = document.getElementById('tc-run-pill');
+    if (!text) { pill.style.display = 'none'; return; }
+    pill.style.display = 'inline-flex';
+    pill.className = 'run-status-pill' + (type === 'success' ? ' success' : type === 'running' ? ' running' : '');
+    pill.textContent = text;
+  }
+
+  function setPipelineStep(n, state) {
+    const step = document.getElementById('ps-' + n);
+    if (!step) return;
+    step.classList.remove('done', 'active');
+    if (state) step.classList.add(state);
+    const node = step.querySelector('.pipeline-node');
+    if (node && state === 'done') node.textContent = '✓';
+  }
+
+  function setAsuCheck(key, done) {
+    const check = document.getElementById('tc-asu-check-' + key);
+    const item  = document.getElementById('tc-asu-item-' + key);
+    if (!check) return;
+    if (done) {
+      check.textContent = '✓';
+      check.style.color = '#059669';
+      if (item) item.style.color = '#059669';
+    }
+  }
+
+  function updatePipelineAfterReview() {
+    if (tcPending.length === 0) {
+      setPipelineStep(3, 'done');
+      setPipelineStep(4, 'active');
+      document.getElementById('tc-step3-status').textContent = '✓ Done';
+      document.getElementById('tc-step3-status').style.color = '#059669';
+      document.getElementById('tc-step4-status').textContent = 'Ready';
+      document.getElementById('tc-step4-status').style.color = 'var(--accent)';
+    }
+  }
+
+  // ── Auto-load accounts when navigating to the page ────────
+  const origShowPage2 = window.showPage;
+  if (origShowPage2) {
+    window.showPage = function(id) {
+      origShowPage2(id);
+      if (id === 'tax-classifier' && tcAccounts.length === 0) {
+        loadTaxClassifierAccounts();
+      }
+    };
+  }
+
+  // ── Initial load if page is default ──────────────────────
+  if (document.getElementById('page-tax-classifier')?.classList.contains('active')) {
+    loadTaxClassifierAccounts();
+  }
+
+})();
+
+// ═══════════════════════════════════════════════════════════
+//  MOUSE-FOLLOW GLOW on hero
+// ═══════════════════════════════════════════════════════════
+(function() {
+  const hero = document.querySelector('.landing-hero');
+  if (!hero) return;
+
+  const glow = document.createElement('div');
+  glow.style.cssText = 'position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,0.08) 0%,transparent 70%);pointer-events:none;z-index:0;transform:translate(-50%,-50%);transition:left 0.3s ease,top 0.3s ease;display:none;';
+  hero.appendChild(glow);
+
+  hero.addEventListener('mousemove', function(e) {
+    const rect = hero.getBoundingClientRect();
+    glow.style.display = 'block';
+    glow.style.left = (e.clientX - rect.left) + 'px';
+    glow.style.top = (e.clientY - rect.top) + 'px';
+  });
+  hero.addEventListener('mouseleave', function() {
+    glow.style.display = 'none';
+  });
+})();
 </script>
 </body>
 </html>

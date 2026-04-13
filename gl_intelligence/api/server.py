@@ -411,16 +411,17 @@ def classified_accounts():
 
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS")
 ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
+LANDING_DIR = os.path.join(ROOT_DIR, "landing")
 
 
 @app.route("/")
 def index():
-    return send_from_directory(ROOT_DIR, "fasb_dise_platform.html")
+    return send_from_directory(LANDING_DIR, "index.html")
 
 
 @app.route("/app")
 def app_dashboard():
-    return send_from_directory(ROOT_DIR, "dashboard.html")
+    return send_from_directory(ROOT_DIR, "GL_Intelligence_Platform_6.html")
 
 
 @app.route("/dashboard")
@@ -430,7 +431,11 @@ def dashboard():
 
 @app.route("/<path:filename>")
 def static_files(filename):
-    # Try root first, then assets
+    # Landing page static assets (_next/*, favicon, images)
+    landing_path = os.path.join(LANDING_DIR, filename)
+    if os.path.isfile(landing_path):
+        return send_from_directory(LANDING_DIR, filename)
+    # Fallback: root dir, then FASB assets dir
     root_path = os.path.join(ROOT_DIR, filename)
     if os.path.isfile(root_path):
         return send_from_directory(ROOT_DIR, filename)

@@ -22,14 +22,15 @@ class CortexClient:
     """
 
     def __init__(self, project: str | None = None):
-        self.project = project or cfg.PROJECT
+        self.project = project or cfg.PROJECT          # data project (diplomatic75)
+        self.billing_project = cfg.BILLING_PROJECT     # billing project (trufflesai-loans)
         self._bq: bigquery.Client | None = None
-        log.info(f"CortexClient initialized — project={self.project}")
+        log.info(f"CortexClient initialized — data={self.project} billing={self.billing_project}")
 
     @property
     def bq(self) -> bigquery.Client:
         if self._bq is None:
-            self._bq = bigquery.Client(project=self.project)
+            self._bq = bigquery.Client(project=self.billing_project)
         return self._bq
 
     @property

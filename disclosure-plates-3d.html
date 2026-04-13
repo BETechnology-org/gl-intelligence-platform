@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacked Disclosure Plates – Hyper-Realistic 3D</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden;background:#000;font-family:system-ui,sans-serif}
+  #scroll-container{position:fixed;inset:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#C8A66022 transparent;z-index:5}
+  #scroll-spacer{height:500vh;pointer-events:none}
+  canvas{position:fixed;inset:0;z-index:0;display:block}
+  #hud{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);color:#C8A66066;font-size:10px;letter-spacing:.18em;text-transform:uppercase;z-index:10;pointer-events:none;transition:opacity .8s}
+  #progress-track{position:fixed;right:18px;top:50%;transform:translateY(-50%);width:1.5px;height:100px;background:#C8A66012;border-radius:1px;z-index:10}
+  #progress-fill{width:100%;background:linear-gradient(to bottom,#C8A660,#8B6914);border-radius:1px;height:0%;transition:height .08s ease-out}
+  #loading{position:fixed;inset:0;background:#050505;display:flex;align-items:center;justify-content:center;z-index:100;transition:opacity 1s}
+  #loading span{color:#C8A66044;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div id="loading"><span>Rendering…</span></div>
+<canvas id="c"></canvas>
+<div id="scroll-container"><div id="scroll-spacer"></div></div>
+<div id="hud">Scroll to reveal depth</div>
+<div id="progress-track"><div id="progress-fill"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  /* ================================================================
+     CONFIG
+  ================================================================ */
+  const PLATE_COUNT = 10;
+  const PLATE_W = 3.4, PLATE_D = 2.3, PLATE_H = 0.038;
+  const GAP = 0.055;
+  const FAN_OFFSET = 0.11;
+  const FAN_TILT = 0.016;
+  const BASE_HEX = 0xC8A660;
+
+  /* ================================================================
+     RENDERER  –  high-fidelity setup
+  ================================================================ */
+  const canvas = document.getElementById('c');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.72;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.physicallyCorrectLights = true;
+
+  /* ================================================================
+     SCENE
+  ================================================================ */
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x050505);
+
+  /* ================================================================
+     CAMERA
+  ================================================================ */
+  const camera = new THREE.PerspectiveCamera(28, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.set(4.0, 4.8, 7.0);
+  camera.lookAt(0, 0.2, 0);
+
+  /* ================================================================
+     PROCEDURAL STUDIO HDRI  (equirectangular DataTexture)
+     – simulates a dark studio with two rectangular softboxes
+  ================================================================ */
+  const envW = 512, envH = 256;
+  const envData = new Float32Array(envW * envH * 4);
+
+  function softbox(px, py, cx, cy, hw, hh, intensity, r, g, b) {
+    const dx = Math.abs(px - cx), dy = Math.abs(py - cy);
+    const fx = 1 - THREE.MathUtils.smoothstep(dx, hw * 0.7, hw);
+    const fy = 1 - THREE.MathUtils.smoothstep(dy, hh * 0.7, hh);
+    return fx * fy * intensity * (r !== undefined ? 1 : 1);
+  }
+
+  for (let y = 0; y < envH; y++) {
+    for (let x = 0; x < envW; x++) {
+      const u = x / envW, v = y / envH;
+      const i = (y * envW + x) * 4;
+
+      // Base: very dark ambient
+      let lr = 0.003, lg = 0.003, lb = 0.004;
+
+      // Key softbox – top-left warm
+      const k = softbox(u, v, 0.2, 0.18, 0.12, 0.08, 4.0);
+      lr += k * 1.0; lg += k * 0.88; lb += k * 0.65;
+
+      // Fill softbox – right, cooler
+      const f = softbox(u, v, 0.78, 0.3, 0.08, 0.15, 1.2);
+      lr += f * 0.7; lg += f * 0.75; lb += f * 0.9;
+
+      // Rim strip – behind, narrow
+      const r2 = softbox(u, v, 0.5, 0.08, 0.35, 0.02, 2.0);
+      lr += r2 * 0.85; lg += r2 * 0.9; lb += r2 * 1.0;
+
+      // Subtle ground bounce
+      const gb = softbox(u, v, 0.5, 0.92, 0.4, 0.06, 0.15);
+      lr += gb * 1.0; lg += gb * 0.85; lb += gb * 0.6;
+
+      envData[i] = lr; envData[i+1] = lg; envData[i+2] = lb; envData[i+3] = 1;
+    }
+  }
+  const envTex = new THREE.DataTexture(envData, envW, envH, THREE.RGBAFormat, THREE.FloatType);
+  envTex.mapping = THREE.EquirectangularReflectionMapping;
+  envTex.needsUpdate = true;
+  scene.environment = envTex;
+
+  /* ================================================================
+     PROCEDURAL BRUSHED-METAL TEXTURES  (normal + roughness)
+  ================================================================ */
+  function createBrushedMetalTextures(size) {
+    const normCanvas = document.createElement('canvas');
+    normCanvas.width = normCanvas.height = size;
+    const nCtx = normCanvas.getContext('2d');
+
+    const roughCanvas = document.createElement('canvas');
+    roughCanvas.width = roughCanvas.height = size;
+    const rCtx = roughCanvas.getContext('2d');
+
+    // Base
+    nCtx.fillStyle = '#8080ff';
+    nCtx.fillRect(0, 0, size, size);
+    rCtx.fillStyle = '#555';
+    rCtx.fillRect(0, 0, size, size);
+
+    // Anisotropic brush strokes (horizontal lines)
+    for (let i = 0; i < 3000; i++) {
+      const y = Math.random() * size;
+      const x = Math.random() * size * 0.3;
+      const w = Math.random() * size * 0.7 + size * 0.1;
+      const h = Math.random() * 1.2 + 0.3;
+
+      // Normal perturbation
+      const ny = Math.floor(Math.random() * 40 + 108);
+      nCtx.fillStyle = `rgba(128,${ny},255,${Math.random() * 0.12 + 0.03})`;
+      nCtx.fillRect(x, y, w, h);
+
+      // Roughness variation along stroke
+      const rv = Math.floor(Math.random() * 60 + 60);
+      rCtx.fillStyle = `rgba(${rv},${rv},${rv},${Math.random() * 0.15 + 0.04})`;
+      rCtx.fillRect(x, y, w, h);
+    }
+
+    // Micro-scratches (diagonal)
+    for (let i = 0; i < 400; i++) {
+      const x1 = Math.random() * size;
+      const y1 = Math.random() * size;
+      const angle = (Math.random() - 0.5) * 0.4 + Math.PI * 0.02; // nearly horizontal
+      const len = Math.random() * 120 + 20;
+
+      nCtx.beginPath();
+      nCtx.moveTo(x1, y1);
+      nCtx.lineTo(x1 + Math.cos(angle) * len, y1 + Math.sin(angle) * len);
+      nCtx.strokeStyle = `rgba(138,118,255,${Math.random() * 0.1 + 0.02})`;
+      nCtx.lineWidth = Math.random() * 0.8 + 0.2;
+      nCtx.stroke();
+
+      rCtx.beginPath();
+      rCtx.moveTo(x1, y1);
+      rCtx.lineTo(x1 + Math.cos(angle) * len, y1 + Math.sin(angle) * len);
+      rCtx.strokeStyle = `rgba(180,180,180,${Math.random() * 0.12 + 0.03})`;
+      rCtx.lineWidth = Math.random() * 0.8 + 0.2;
+      rCtx.stroke();
+    }
+
+    // Fingerprint smudges (very faint circular patches)
+    for (let i = 0; i < 6; i++) {
+      const cx = Math.random() * size, cy = Math.random() * size;
+      const rad = Math.random() * 60 + 30;
+      const grad = rCtx.createRadialGradient(cx, cy, 0, cx, cy, rad);
+      grad.addColorStop(0, `rgba(140,140,140,${Math.random() * 0.08 + 0.02})`);
+      grad.addColorStop(1, 'rgba(140,140,140,0)');
+      rCtx.fillStyle = grad;
+      rCtx.fillRect(cx - rad, cy - rad, rad * 2, rad * 2);
+    }
+
+    const normalTex = new THREE.CanvasTexture(normCanvas);
+    normalTex.wrapS = normalTex.wrapT = THREE.RepeatWrapping;
+    normalTex.repeat.set(2, 2);
+
+    const roughTex = new THREE.CanvasTexture(roughCanvas);
+    roughTex.wrapS = roughTex.wrapT = THREE.RepeatWrapping;
+    roughTex.repeat.set(2, 2);
+
+    return { normalTex, roughTex };
+  }
+
+  const { normalTex, roughTex } = createBrushedMetalTextures(1024);
+
+  /* ================================================================
+     PLATE MATERIAL  –  gold/bronze PBR with procedural maps
+  ================================================================ */
+  function createPlateMaterial(index) {
+    const color = new THREE.Color(BASE_HEX);
+    const hsl = {};
+    color.getHSL(hsl);
+    // Subtle per-plate variation
+    color.setHSL(
+      hsl.h + (index - PLATE_COUNT / 2) * 0.006,
+      hsl.s * (0.92 + Math.random() * 0.16),
+      hsl.l * (0.94 + index * 0.01)
+    );
+
+    // Clone textures so each plate can have slight UV offset
+    const nTex = normalTex.clone();
+    nTex.needsUpdate = true;
+    nTex.offset.set(Math.random() * 0.5, Math.random() * 0.5);
+
+    const rTex = roughTex.clone();
+    rTex.needsUpdate = true;
+    rTex.offset.copy(nTex.offset);
+
+    return new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.22,
+      metalness: 0.95,
+      roughnessMap: rTex,
+      normalMap: nTex,
+      normalScale: new THREE.Vector2(0.35, 0.35),
+      envMapIntensity: 1.8,
+    });
+  }
+
+  /* ================================================================
+     EDGE / CHAMFER MATERIAL  (darker, rougher edge)
+  ================================================================ */
+  function createEdgeMaterial(index) {
+    const color = new THREE.Color(BASE_HEX).multiplyScalar(0.7);
+    return new THREE.MeshStandardMaterial({
+      color,
+      roughness: 0.35,
+      metalness: 0.9,
+      envMapIntensity: 1.2,
+    });
+  }
+
+  /* ================================================================
+     PLATE GEOMETRY  –  compound: flat face + chamfered edge ring
+  ================================================================ */
+  function buildPlateGeometry() {
+    const hw = PLATE_W / 2, hd = PLATE_D / 2;
+    const bevel = 0.06;
+    const chamfer = 0.006;
+
+    const shape = new THREE.Shape();
+    shape.moveTo(-hw + bevel, -hd);
+    shape.lineTo(hw - bevel, -hd);
+    shape.quadraticCurveTo(hw, -hd, hw, -hd + bevel);
+    shape.lineTo(hw, hd - bevel);
+    shape.quadraticCurveTo(hw, hd, hw - bevel, hd);
+    shape.lineTo(-hw + bevel, hd);
+    shape.quadraticCurveTo(-hw, hd, -hw, hd - bevel);
+    shape.lineTo(-hw, -hd + bevel);
+    shape.quadraticCurveTo(-hw, -hd, -hw + bevel, -hd);
+
+    const geo = new THREE.ExtrudeGeometry(shape, {
+      depth: PLATE_H,
+      bevelEnabled: true,
+      bevelThickness: chamfer,
+      bevelSize: chamfer,
+      bevelSegments: 2,
+      curveSegments: 12,
+    });
+    geo.rotateX(-Math.PI / 2);
+    geo.computeVertexNormals();
+    return geo;
+  }
+
+  const plateGeo = buildPlateGeometry();
+
+  /* ================================================================
+     CONSTRUCT PLATES
+  ================================================================ */
+  const plateGroup = new THREE.Group();
+  const plates = [];
+
+  for (let i = 0; i < PLATE_COUNT; i++) {
+    const mat = createPlateMaterial(i);
+    const mesh = new THREE.Mesh(plateGeo, mat);
+
+    mesh.position.y = i * (PLATE_H + GAP);
+    mesh.position.x = (i - PLATE_COUNT / 2) * FAN_OFFSET * 0.3;
+    mesh.position.z = (i - PLATE_COUNT / 2) * FAN_OFFSET * 0.15;
+    mesh.rotation.y = (i - PLATE_COUNT / 2) * FAN_TILT;
+    mesh.rotation.z = (i - PLATE_COUNT / 2) * 0.003;
+
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    mesh.userData = {
+      restY: mesh.position.y,
+      restX: mesh.position.x,
+      restZ: mesh.position.z,
+      restRotY: mesh.rotation.y,
+      restRotZ: mesh.rotation.z,
+      index: i,
+    };
+
+    plates.push(mesh);
+    plateGroup.add(mesh);
+  }
+
+  plateGroup.position.y = -(PLATE_COUNT * (PLATE_H + GAP)) / 2 + 0.45;
+  scene.add(plateGroup);
+
+  /* ================================================================
+     STUDIO LIGHTING RIG
+  ================================================================ */
+  // Key light – large soft warm spotlight, top-left
+  const keyLight = new THREE.SpotLight(0xFFF0D0, 1200, 35, Math.PI / 4.5, 0.85, 1.5);
+  keyLight.position.set(-6, 9, 4);
+  keyLight.castShadow = true;
+  keyLight.shadow.mapSize.set(2048, 2048);
+  keyLight.shadow.bias = -0.0002;
+  keyLight.shadow.radius = 5;
+  keyLight.shadow.camera.near = 2;
+  keyLight.shadow.camera.far = 25;
+  scene.add(keyLight);
+  keyLight.target.position.set(0, 0, 0);
+  scene.add(keyLight.target);
+
+  // Fill light – right side, cooler, dimmer
+  const fillLight = new THREE.SpotLight(0xB0C0E0, 250, 20, Math.PI / 5, 0.9, 1.5);
+  fillLight.position.set(5, 4, 2);
+  fillLight.castShadow = true;
+  fillLight.shadow.mapSize.set(1024, 1024);
+  fillLight.shadow.bias = -0.0003;
+  fillLight.shadow.radius = 6;
+  scene.add(fillLight);
+  fillLight.target.position.set(0, 0.2, 0);
+  scene.add(fillLight.target);
+
+  // Rim/hair light – behind and above, cool edge definition
+  const rimLight = new THREE.SpotLight(0x99AACC, 400, 25, Math.PI / 7, 0.6, 1.5);
+  rimLight.position.set(-2, 7, -6);
+  scene.add(rimLight);
+  rimLight.target.position.set(0, 0, 0);
+  scene.add(rimLight.target);
+
+  // Kicker – low warm accent from front-right
+  const kickerLight = new THREE.PointLight(0xC8A660, 25, 10, 2);
+  kickerLight.position.set(3, -1, 4);
+  scene.add(kickerLight);
+
+  // Under-shelf bounce
+  const bounceLight = new THREE.PointLight(0xC8A660, 8, 6, 2);
+  bounceLight.position.set(0, -1.5, 0);
+  scene.add(bounceLight);
+
+  // Very subtle ambient
+  scene.add(new THREE.AmbientLight(0x0A0A10, 0.3));
+
+  /* ================================================================
+     GROUND  –  reflective dark surface with shadow catcher
+  ================================================================ */
+  const shadowGround = new THREE.Mesh(
+    new THREE.PlaneGeometry(40, 40),
+    new THREE.ShadowMaterial({ opacity: 0.55 })
+  );
+  shadowGround.rotation.x = -Math.PI / 2;
+  shadowGround.position.y = -0.6;
+  shadowGround.receiveShadow = true;
+  scene.add(shadowGround);
+
+  const floorMat = new THREE.MeshStandardMaterial({
+    color: 0x080808,
+    roughness: 0.25,
+    metalness: 0.7,
+    envMapIntensity: 0.6,
+  });
+  const floorMesh = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), floorMat);
+  floorMesh.rotation.x = -Math.PI / 2;
+  floorMesh.position.y = -0.61;
+  scene.add(floorMesh);
+
+  /* ================================================================
+     FLOATING DUST MOTES  (depth of field feel)
+  ================================================================ */
+  const dustCount = 180;
+  const dGeo = new THREE.BufferGeometry();
+  const dPos = new Float32Array(dustCount * 3);
+  const dSizes = new Float32Array(dustCount);
+  for (let i = 0; i < dustCount; i++) {
+    dPos[i*3]   = (Math.random() - 0.5) * 14;
+    dPos[i*3+1] = Math.random() * 8 - 2;
+    dPos[i*3+2] = (Math.random() - 0.5) * 14;
+    dSizes[i] = Math.random() * 0.018 + 0.004;
+  }
+  dGeo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+
+  const dustMat = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uColor: { value: new THREE.Color(0xC8A660) },
+    },
+    vertexShader: `
+      attribute float size;
+      uniform float uTime;
+      varying float vAlpha;
+      void main() {
+        vec3 p = position;
+        p.y += sin(uTime * 0.15 + position.x * 2.0) * 0.05;
+        p.x += cos(uTime * 0.1 + position.z * 1.5) * 0.03;
+        vec4 mvPos = modelViewMatrix * vec4(p, 1.0);
+        gl_PointSize = 3.0 * (4.0 / -mvPos.z);
+        gl_Position = projectionMatrix * mvPos;
+        // Fade by distance
+        float dist = length(mvPos.xyz);
+        vAlpha = smoothstep(12.0, 2.0, dist) * 0.35;
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 uColor;
+      varying float vAlpha;
+      void main() {
+        float d = length(gl_PointCoord - 0.5);
+        if (d > 0.5) discard;
+        float a = smoothstep(0.5, 0.1, d) * vAlpha;
+        gl_FragColor = vec4(uColor, a);
+      }
+    `,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  const dust = new THREE.Points(dGeo, dustMat);
+  scene.add(dust);
+
+  /* ================================================================
+     POST-PROCESSING  –  multi-pass via custom full-screen quad
+     (bloom + vignette + chromatic aberration + film grain)
+  ================================================================ */
+  const rtMain = new THREE.WebGLRenderTarget(window.innerWidth * renderer.getPixelRatio(), window.innerHeight * renderer.getPixelRatio(), {
+    type: THREE.HalfFloatType,
+    minFilter: THREE.LinearFilter,
+    magFilter: THREE.LinearFilter,
+  });
+
+  // Bright pass for bloom
+  const rtBright = new THREE.WebGLRenderTarget(
+    Math.floor(rtMain.width / 2), Math.floor(rtMain.height / 2),
+    { type: THREE.HalfFloatType, minFilter: THREE.LinearFilter }
+  );
+  const rtBlurA = rtBright.clone();
+  const rtBlurB = rtBright.clone();
+
+  const quadGeo = new THREE.PlaneGeometry(2, 2);
+
+  // Bright-pass shader
+  const brightMat = new THREE.ShaderMaterial({
+    uniforms: { tDiffuse: { value: null }, uThreshold: { value: 0.7 } },
+    vertexShader: `varying vec2 vUv; void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform float uThreshold;
+      varying vec2 vUv;
+      void main(){
+        vec4 c=texture2D(tDiffuse,vUv);
+        float br=dot(c.rgb,vec3(0.2126,0.7152,0.0722));
+        gl_FragColor=br>uThreshold?c:vec4(0.0);
+      }
+    `
+  });
+
+  // Gaussian blur shader
+  function makeBlurMat(horizontal) {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        tDiffuse: { value: null },
+        uResolution: { value: new THREE.Vector2(rtBright.width, rtBright.height) },
+      },
+      vertexShader: `varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+      fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform vec2 uResolution;
+        varying vec2 vUv;
+        void main(){
+          vec2 texel=1.0/uResolution;
+          vec2 dir=${horizontal ? 'vec2(texel.x,0.0)' : 'vec2(0.0,texel.y)'};
+          float w[5]; w[0]=0.227027; w[1]=0.1945946; w[2]=0.1216216; w[3]=0.054054; w[4]=0.016216;
+          vec4 result=texture2D(tDiffuse,vUv)*w[0];
+          for(int i=1;i<5;i++){
+            result+=texture2D(tDiffuse,vUv+dir*float(i))*w[i];
+            result+=texture2D(tDiffuse,vUv-dir*float(i))*w[i];
+          }
+          gl_FragColor=result;
+        }
+      `
+    });
+  }
+  const blurHMat = makeBlurMat(true);
+  const blurVMat = makeBlurMat(false);
+
+  // Final composite: bloom + vignette + chromatic aberration + grain
+  const compositeMat = new THREE.ShaderMaterial({
+    uniforms: {
+      tScene: { value: null },
+      tBloom: { value: null },
+      uTime: { value: 0 },
+      uBloomStrength: { value: 0.35 },
+      uVignetteIntensity: { value: 0.55 },
+      uGrainIntensity: { value: 0.04 },
+      uChromaticAb: { value: 0.0012 },
+    },
+    vertexShader: `varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position,1.0);}`,
+    fragmentShader: `
+      uniform sampler2D tScene, tBloom;
+      uniform float uTime, uBloomStrength, uVignetteIntensity, uGrainIntensity, uChromaticAb;
+      varying vec2 vUv;
+
+      float rand(vec2 co){return fract(sin(dot(co,vec2(12.9898,78.233)))*43758.5453);}
+
+      void main(){
+        // Chromatic aberration
+        vec2 dir = vUv - 0.5;
+        float dist = length(dir);
+        vec2 offset = dir * uChromaticAb * dist;
+        float r = texture2D(tScene, vUv + offset).r;
+        float g = texture2D(tScene, vUv).g;
+        float b = texture2D(tScene, vUv - offset).b;
+        vec3 color = vec3(r, g, b);
+
+        // Bloom
+        vec3 bloom = texture2D(tBloom, vUv).rgb;
+        color += bloom * uBloomStrength;
+
+        // Vignette
+        float vig = 1.0 - smoothstep(0.3, 0.95, dist * 1.1);
+        color *= mix(1.0, vig, uVignetteIntensity);
+
+        // Film grain
+        float grain = (rand(vUv + fract(uTime)) - 0.5) * uGrainIntensity;
+        color += grain;
+
+        // Subtle warm shadows, cool highlights (split toning)
+        float lum = dot(color, vec3(0.2126, 0.7152, 0.0722));
+        vec3 shadowTint = vec3(1.02, 0.98, 0.94);
+        vec3 highlightTint = vec3(0.97, 0.98, 1.03);
+        color *= mix(shadowTint, highlightTint, smoothstep(0.0, 1.0, lum));
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `
+  });
+
+  const quadMesh = new THREE.Mesh(quadGeo, compositeMat);
+  const postScene = new THREE.Scene();
+  postScene.add(quadMesh);
+  const postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  // Helper to render a fullscreen pass
+  function fullscreenPass(mat, target) {
+    quadMesh.material = mat;
+    renderer.setRenderTarget(target);
+    renderer.render(postScene, postCamera);
+  }
+
+  /* ================================================================
+     SCROLL
+  ================================================================ */
+  let scrollProgress = 0;
+  const scrollEl = document.getElementById('scroll-container');
+  const hud = document.getElementById('hud');
+  const progFill = document.getElementById('progress-fill');
+
+  scrollEl.addEventListener('scroll', () => {
+    const max = scrollEl.scrollHeight - scrollEl.clientHeight;
+    scrollProgress = scrollEl.scrollTop / max;
+    progFill.style.height = (scrollProgress * 100) + '%';
+    hud.style.opacity = scrollProgress > 0.04 ? '0' : '1';
+  }, { passive: true });
+
+  /* ================================================================
+     ANIMATION LOOP
+  ================================================================ */
+  const clock = new THREE.Clock();
+  let frame = 0;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+    const sp = scrollProgress;
+    frame++;
+
+    // Hide loading screen after first frames
+    if (frame === 3) {
+      const el = document.getElementById('loading');
+      el.style.opacity = '0';
+      setTimeout(() => el.style.display = 'none', 1000);
+    }
+
+    // ── Group rotation (scroll-driven) ──
+    const targetRotY = sp * Math.PI * 1.8;
+    plateGroup.rotation.y += (targetRotY - plateGroup.rotation.y) * 0.055;
+
+    // Subtle tilt on scroll
+    const targetRotX = sp * 0.08;
+    plateGroup.rotation.x += (targetRotX - plateGroup.rotation.x) * 0.04;
+
+    // Breathing
+    plateGroup.position.y = -(PLATE_COUNT * (PLATE_H + GAP)) / 2 + 0.45 + Math.sin(t * 0.35) * 0.02;
+
+    // ── Per-plate animation ──
+    plates.forEach((plate, i) => {
+      const spread = sp * 0.4;
+      plate.position.y = plate.userData.restY + (i - PLATE_COUNT / 2) * spread;
+
+      const fanMult = 1 + sp * 3.0;
+      plate.position.x = plate.userData.restX * fanMult;
+      plate.position.z = plate.userData.restZ * fanMult;
+      plate.rotation.z = plate.userData.restRotZ * fanMult;
+
+      // Float
+      plate.position.y += Math.sin(t * 0.5 + i * 0.8) * 0.005;
+
+      // Material shimmer via normal scale modulation
+      const ns = 0.35 + Math.sin(t * 0.25 + i * 1.1) * 0.05;
+      plate.material.normalScale.set(ns, ns);
+    });
+
+    // ── Dust ──
+    dustMat.uniforms.uTime.value = t;
+    dust.rotation.y = t * 0.008;
+
+    // ── Camera micro-motion ──
+    camera.position.x = 4.0 + Math.sin(t * 0.12) * 0.1;
+    camera.position.y = 4.8 + Math.cos(t * 0.1) * 0.06;
+    camera.lookAt(0, 0.2, 0);
+
+    // ── Light intensity breathing ──
+    keyLight.intensity = 1200 + Math.sin(t * 0.3) * 40;
+
+    // ══ RENDER PIPELINE ══
+    // 1. Scene → main RT
+    renderer.setRenderTarget(rtMain);
+    renderer.render(scene, camera);
+
+    // 2. Bright pass
+    brightMat.uniforms.tDiffuse.value = rtMain.texture;
+    fullscreenPass(brightMat, rtBright);
+
+    // 3. Blur (two-pass Gaussian, iterated for wider bloom)
+    for (let pass = 0; pass < 3; pass++) {
+      blurHMat.uniforms.tDiffuse.value = pass === 0 ? rtBright.texture : rtBlurB.texture;
+      fullscreenPass(blurHMat, rtBlurA);
+      blurVMat.uniforms.tDiffuse.value = rtBlurA.texture;
+      fullscreenPass(blurVMat, rtBlurB);
+    }
+
+    // 4. Composite to screen
+    compositeMat.uniforms.tScene.value = rtMain.texture;
+    compositeMat.uniforms.tBloom.value = rtBlurB.texture;
+    compositeMat.uniforms.uTime.value = t;
+    quadMesh.material = compositeMat;
+    renderer.setRenderTarget(null);
+    renderer.render(postScene, postCamera);
+  }
+
+  animate();
+
+  /* ================================================================
+     RESIZE
+  ================================================================ */
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+    const pr = renderer.getPixelRatio();
+    rtMain.setSize(w * pr, h * pr);
+    const bw = Math.floor(w * pr / 2), bh = Math.floor(h * pr / 2);
+    rtBright.setSize(bw, bh);
+    rtBlurA.setSize(bw, bh);
+    rtBlurB.setSize(bw, bh);
+    blurHMat.uniforms.uResolution.value.set(bw, bh);
+    blurVMat.uniforms.uResolution.value.set(bw, bh);
+  });
+})();
+</script>
+</body>
+</html>
