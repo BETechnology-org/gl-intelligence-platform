@@ -163,7 +163,9 @@ def _apply_security_headers(resp: Response) -> Response:
             "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
         )
     elif ct == "text/html":
-        # Permissive CSP for legacy dashboard HTML (inline scripts/styles present)
+        # Permissive CSP for dashboard HTML (inline scripts/styles present)
+        # `connect-src data:` is required for GLTFLoader — the hero model
+        # inlines geometry buffers as base64 data URIs and fetches them.
         resp.headers.setdefault(
             "Content-Security-Policy",
             "default-src 'self'; "
@@ -171,7 +173,8 @@ def _apply_security_headers(resp: Response) -> Response:
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
             "font-src 'self' https://fonts.gstatic.com data:; "
             "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
-            "connect-src 'self' https:; "
+            "connect-src 'self' data: blob: https:; "
+            "worker-src 'self' blob:; "
             "frame-ancestors 'none'; base-uri 'self'",
         )
     return resp

@@ -109,7 +109,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml" },
       { url: "/favicon.ico", sizes: "any" },
     ],
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
@@ -123,7 +123,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "BE Technology Corp",
   url: SITE_URL,
-  logo: `${SITE_URL}/favicon.svg`,
+  logo: `${SITE_URL}/icon.svg`,
   description: DESCRIPTION,
   foundingLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressCountry: "US" } },
   sameAs: [
