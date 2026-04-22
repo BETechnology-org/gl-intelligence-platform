@@ -1,50 +1,140 @@
 @import "tailwindcss";
 
-/* Enable class-based dark mode: add class="dark" to <html> for dark theme */
+/* Class-based dark mode: add class="dark" to <html> */
 @custom-variant dark (&:is(.dark *));
 
-/* Hero bg CSS variable — used in inline gradient styles so they adapt to theme */
-:root { --hero-bg-rgb: 247 245 240; }
-.dark  { --hero-bg-rgb: 8 9 12; }
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Theme-aware RGB triplets so gradient stops can use them inline */
+  --hero-bg-rgb: 247 245 240;
+  --surface-rgb: 255 255 255;
+  --fg-rgb: 17 17 17;
+
+  /* Brand */
+  --gold: #C8A660;
+  --gold-light: #E8C878;
+  --gold-dark: #B89040;
+  --gold-deep: #8B6A2A;
+
+  /* Semantic */
+  --success: #059669;
+  --warning: #F59E0B;
+  --danger: #DC2626;
+  --info: #3B82F6;
+}
+
+.dark {
+  --hero-bg-rgb: 8 9 12;
+  --surface-rgb: 17 18 20;
+  --fg-rgb: 255 255 255;
+}
 
 @theme inline {
-  /* ── Light mode palette ── */
+  /* ── Palette ── */
   --color-background: #FAFAFA;
   --color-foreground: #111111;
   --color-muted: #71717A;
-  --color-warm: #9A6C2E;
-  --color-warm-light: #B8862D;
   --color-surface: #FFFFFF;
-  --color-surface-2: #F5F5F5;
+  --color-surface-2: #F5F5F7;
   --color-rule: #E4E4E7;
   --color-rule-light: #F0F0F2;
-  --color-accent: #6366F1;
-  --color-emerald: #059669;
+
+  --color-gold: #C8A660;
+  --color-gold-light: #E8C878;
+  --color-gold-dark: #B89040;
+
+  --color-success: #059669;
+  --color-warning: #F59E0B;
+  --color-danger: #DC2626;
+  --color-info: #3B82F6;
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════ */
 * { border-color: var(--color-rule); }
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
 
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01", "cv11";
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html { scroll-behavior: smooth; }
+.dark body {
+  background: #08090C;
+  color: #FFFFFF;
+}
+
+/* Keep serif display weight tight */
+[style*="--font-instrument-serif"],
+[class*="font-serif"] {
+  font-synthesis-weight: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOCUS / A11Y
+   ═══════════════════════════════════════════════════════════════ */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.focus\:not-sr-only:focus {
+  position: fixed; width: auto; height: auto; padding: inherit; margin: 0;
+  overflow: visible; clip: auto; white-space: normal;
+}
 
 ::selection {
-  background: rgba(154,108,46,0.15);
-  color: #111;
+  background: rgba(200, 166, 96, 0.25);
+  color: #0B0C10;
+}
+.dark ::selection {
+  background: rgba(200, 166, 96, 0.35);
+  color: #FFFFFF;
 }
 
-::-webkit-scrollbar { width: 5px; }
+/* ═══════════════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #D4D4D8; border-radius: 3px; }
+::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover { background: #A1A1AA; }
+.dark ::-webkit-scrollbar-thumb { background: #2A2B2E; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #3F3F46; }
 
-/* Rule with label */
+/* Firefox */
+* { scrollbar-width: thin; scrollbar-color: #D4D4D8 transparent; }
+.dark * { scrollbar-color: #2A2B2E transparent; }
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════════════════════ */
 .rule-labeled {
   display: flex; align-items: center; gap: 16px;
   color: #A1A1AA; font-size: 10px; letter-spacing: 0.15em;
@@ -54,55 +144,101 @@ html { scroll-behavior: smooth; }
   content: ''; flex: 1; height: 1px; background: var(--color-rule);
 }
 
-/* Ticker */
+.bento-card { transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
+.bento-card:hover {
+  background: #FAFAFA;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  transform: translateY(-2px);
+}
+
+.metric-num-gradient {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 55%, var(--gold-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-gradient-heading { /* light: inherits parent color */ }
+.dark .cta-gradient-heading {
+  background: linear-gradient(175deg, #ffffff 35%, rgba(200, 166, 96, 0.6) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+}
+.dark .glass {
+  background: rgba(8, 9, 12, 0.72);
+}
+
+/* Soft hairline divider used between major sections */
+.hairline {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08) 20%, rgba(0,0,0,0.08) 80%, transparent);
+}
+.dark .hairline {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07) 20%, rgba(255,255,255,0.07) 80%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════════ */
 @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 .ticker-track { animation: ticker 30s linear infinite; }
 .ticker-track:hover { animation-play-state: paused; }
 
-/* Live dot */
 @keyframes live-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(5,150,105,0.3); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(5,150,105,0.35); }
   50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(5,150,105,0); }
 }
 .live-dot { animation: live-pulse 2s ease-in-out infinite; }
 
-/* Bento card */
-.bento-card { transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
-.bento-card:hover { background: #FAFAFA; box-shadow: 0 4px 24px rgba(0,0,0,0.04); transform: translateY(-2px); }
-
-/* ── Gold gradient numbers (Metrics section) ── */
-.metric-num-gradient {
-  background: linear-gradient(135deg, #C8A660 0%, #E8C878 55%, #B89040 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── CTA heading gradient — dark mode only ── */
-.cta-gradient-heading {
-  /* light mode: inherit parent color */
-}
-.dark .cta-gradient-heading {
-  background: linear-gradient(175deg, #ffffff 35%, rgba(200, 166, 96, 0.55) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Scan line */
 @keyframes scan-line {
   0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; }
 }
 
-/* Cursor blink */
 @keyframes blink-cursor { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-/* Dark hero section — only the hero is dark */
-.hero-dark {
-  background: #0B0F1A;
-  color: #E8E6E1;
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
-.hero-dark .hero-muted { color: #6B6B6B; }
-.hero-dark .hero-rule { border-color: #222326; }
-.hero-dark .hero-surface { background: #111214; }
-.hero-dark .hero-surface-2 { background: #18191C; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(200, 166, 96, 0) 0%,
+    rgba(200, 166, 96, 0.15) 50%,
+    rgba(200, 166, 96, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION — must be last to take precedence
+   ═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  .no-print, nav, footer, button { display: none !important; }
+  body { background: white !important; color: black !important; }
+}

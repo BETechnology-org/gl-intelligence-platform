@@ -1,51 +1,257 @@
 """
 Flask API Server — unified HTTP interface for the GL Intelligence Platform.
 Serves both the agent API and the static dashboard.
+
+Hardening:
+- Origin-scoped CORS (CORS_ALLOWED_ORIGINS env, comma-separated)
+- Security headers on every response (CSP, HSTS in prod, X-Frame-Options, ...)
+- In-process per-IP rate limiting (RATE_LIMIT_PER_MINUTE env)
+- Request-ID correlation for logs + responses
+- Structured error handler that doesn't leak internals in prod
 """
 
 from __future__ import annotations
 
-import json
 import logging
 import os
+import secrets
+import threading
+import time
+from collections import deque
+from datetime import datetime, timezone
+from typing import Deque
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, g, jsonify, request, send_from_directory
 from flask.wrappers import Response
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 
 from gl_intelligence.config import cfg
-from gl_intelligence.cortex.client import CortexClient
 from gl_intelligence.agents.orchestrator import AgentOrchestrator
 
+
+# ── Logging ──────────────────────────────────────────────────
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
+)
 log = logging.getLogger("api.server")
 
+
+# ── Environment knobs ────────────────────────────────────────
+ENVIRONMENT = os.environ.get("ENVIRONMENT", "development").lower()
+IS_PROD = ENVIRONMENT in ("production", "prod")
+
+_default_origins = (
+    "https://truffles.ai,https://www.truffles.ai"
+    if IS_PROD
+    else "http://localhost:3000,http://127.0.0.1:3000,http://localhost:8080"
+)
+CORS_ALLOWED_ORIGINS = [
+    o.strip()
+    for o in os.environ.get("CORS_ALLOWED_ORIGINS", _default_origins).split(",")
+    if o.strip()
+]
+
+RATE_LIMIT_PER_MINUTE = int(os.environ.get("RATE_LIMIT_PER_MINUTE", "60"))
+MAX_JSON_BYTES = int(os.environ.get("MAX_JSON_BYTES", str(1 * 1024 * 1024)))  # 1 MiB
+APP_VERSION = os.environ.get("APP_VERSION", "0.2.0")
+
+
+# ── Flask app ────────────────────────────────────────────────
 app = Flask(__name__, static_folder=None)
-CORS(app)
+app.config["MAX_CONTENT_LENGTH"] = MAX_JSON_BYTES
+
+# Only allow cross-origin from configured origins (no wildcard in prod).
+CORS(
+    app,
+    resources={r"/api/*": {"origins": CORS_ALLOWED_ORIGINS}},
+    supports_credentials=False,
+    max_age=600,
+)
+
 _orchestrator: AgentOrchestrator | None = None
+_orchestrator_lock = threading.Lock()
 
 
 def get_orchestrator() -> AgentOrchestrator:
     global _orchestrator
     if _orchestrator is None:
-        _orchestrator = AgentOrchestrator()
+        with _orchestrator_lock:
+            if _orchestrator is None:
+                _orchestrator = AgentOrchestrator()
     return _orchestrator
+
+
+# ── Rate limiter (per-IP, sliding window, in-process) ────────
+_rate_buckets: dict[str, Deque[float]] = {}
+_rate_lock = threading.Lock()
+_RATE_EXEMPT_PATHS = {"/api/health"}
+
+
+def _client_ip() -> str:
+    fwd = request.headers.get("X-Forwarded-For", "")
+    if fwd:
+        return fwd.split(",")[0].strip()
+    return request.remote_addr or "unknown"
+
+
+def _check_rate_limit() -> Response | None:
+    if RATE_LIMIT_PER_MINUTE <= 0:
+        return None
+    if not request.path.startswith("/api/") or request.path in _RATE_EXEMPT_PATHS:
+        return None
+
+    key = _client_ip()
+    now = time.monotonic()
+    window_start = now - 60.0
+
+    with _rate_lock:
+        bucket = _rate_buckets.setdefault(key, deque())
+        while bucket and bucket[0] < window_start:
+            bucket.popleft()
+        if len(bucket) >= RATE_LIMIT_PER_MINUTE:
+            retry_after = max(1, int(60 - (now - bucket[0])))
+            resp = jsonify({
+                "error": "rate_limited",
+                "message": "Too many requests. Please retry shortly.",
+                "retry_after_seconds": retry_after,
+            })
+            resp.status_code = 429
+            resp.headers["Retry-After"] = str(retry_after)
+            return resp
+        bucket.append(now)
+    return None
+
+
+# ── Request lifecycle hooks ──────────────────────────────────
+@app.before_request
+def _before_request() -> Response | None:
+    g.request_id = request.headers.get("X-Request-ID") or secrets.token_hex(8)
+    g.started_at = time.monotonic()
+    limited = _check_rate_limit()
+    if limited is not None:
+        log.info("rate_limited ip=%s path=%s rid=%s", _client_ip(), request.path, g.request_id)
+        return limited
+    return None
+
+
+def _apply_security_headers(resp: Response) -> Response:
+    # Clickjacking / MIME / referrer
+    resp.headers.setdefault("X-Content-Type-Options", "nosniff")
+    resp.headers.setdefault("X-Frame-Options", "DENY")
+    resp.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    resp.headers.setdefault(
+        "Permissions-Policy",
+        "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+    )
+    resp.headers.setdefault("Cross-Origin-Opener-Policy", "same-origin")
+    resp.headers.setdefault("Cross-Origin-Resource-Policy", "same-site")
+
+    # HSTS only over HTTPS / in production
+    if IS_PROD:
+        resp.headers.setdefault(
+            "Strict-Transport-Security",
+            "max-age=63072000; includeSubDomains; preload",
+        )
+
+    # Locked-down CSP for JSON API responses. HTML responses opt in separately below.
+    ct = (resp.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+    if ct == "application/json":
+        resp.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+        )
+    elif ct == "text/html":
+        # Permissive CSP for legacy dashboard HTML (inline scripts/styles present)
+        resp.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'self'; "
+            "img-src 'self' data: blob: https:; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com data:; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+            "connect-src 'self' https:; "
+            "frame-ancestors 'none'; base-uri 'self'",
+        )
+    return resp
+
+
+@app.after_request
+def _after_request(resp: Response) -> Response:
+    resp.headers["X-Request-ID"] = getattr(g, "request_id", "-")
+    _apply_security_headers(resp)
+    try:
+        elapsed_ms = int((time.monotonic() - g.started_at) * 1000)
+    except Exception:
+        elapsed_ms = -1
+    log.info(
+        "req rid=%s ip=%s %s %s -> %d in %dms",
+        getattr(g, "request_id", "-"),
+        _client_ip(),
+        request.method,
+        request.path,
+        resp.status_code,
+        elapsed_ms,
+    )
+    return resp
+
+
+# ── Error handlers ───────────────────────────────────────────
+def _error_response(status: int, code: str, message: str) -> tuple[Response, int]:
+    return (
+        jsonify({
+            "error": code,
+            "message": message,
+            "request_id": getattr(g, "request_id", None),
+        }),
+        status,
+    )
+
+
+@app.errorhandler(HTTPException)
+def _handle_http_exc(e: HTTPException):
+    return _error_response(e.code or 500, e.name.lower().replace(" ", "_"), e.description or e.name)
+
+
+@app.errorhandler(Exception)
+def handle_exception(e: Exception):
+    log.exception("unhandled rid=%s path=%s", getattr(g, "request_id", "-"), request.path)
+    # Don't leak raw exception details in production.
+    message = "Internal server error" if IS_PROD else f"{type(e).__name__}: {e}"
+    return _error_response(500, "internal_error", message)
+
+
+def _safe_run(fn, *args, **kwargs):
+    """Run an agent call and convert exceptions into structured 500s."""
+    try:
+        return fn(*args, **kwargs), None
+    except Exception as e:
+        log.exception("agent error rid=%s", getattr(g, "request_id", "-"))
+        return None, _error_response(
+            500,
+            "agent_error",
+            "Agent execution failed" if IS_PROD else f"{type(e).__name__}: {e}",
+        )
 
 
 # ── Health & Status ─────────────────────────────────────────
 
 @app.route("/api/health")
 def health():
-    return jsonify({"status": "ok", "project": cfg.PROJECT, "version": "0.2.0"})
+    return jsonify({
+        "status": "ok",
+        "project": cfg.PROJECT,
+        "version": APP_VERSION,
+        "environment": ENVIRONMENT,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    })
 
 
 @app.route("/api/status")
 def platform_status():
-    try:
-        orch = get_orchestrator()
-        status = orch.get_platform_status()
-        return jsonify(status)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: get_orchestrator().get_platform_status())
+    return err if err else jsonify(result)
 
 
 # ── Cortex Data ─────────────────────────────────────────────
@@ -139,27 +345,23 @@ def run_agent():
     body = request.get_json(silent=True) or {}
     agent_name = body.get("agent", "mapping")
     params = body.get("params", {})
+    if not isinstance(agent_name, str) or not isinstance(params, dict):
+        return _error_response(400, "bad_request", "`agent` must be string and `params` must be object")
 
-    orch = get_orchestrator()
-    try:
-        result = orch.run_agent(agent_name, **params)
-        return jsonify(result.to_dict())
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: get_orchestrator().run_agent(agent_name, **params))
+    return err if err else jsonify(result.to_dict())
 
 
 @app.route("/api/agents/run-all", methods=["POST"])
 def run_all_agents():
     """Run the full agent pipeline."""
     body = request.get_json(silent=True) or {}
-    dry_run = body.get("dry_run", True)
+    dry_run = bool(body.get("dry_run", True))
 
-    orch = get_orchestrator()
-    try:
-        results = orch.run_all(dry_run=dry_run)
-        return jsonify({name: r.to_dict() for name, r in results.items()})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: get_orchestrator().run_all(dry_run=dry_run))
+    if err:
+        return err
+    return jsonify({name: r.to_dict() for name, r in result.items()})
 
 
 @app.route("/api/agents/disclosure", methods=["POST"])
@@ -168,16 +370,14 @@ def generate_disclosure():
     body = request.get_json(silent=True) or {}
     fy = body.get("fiscal_year", cfg.FISCAL_YEAR)
 
-    orch = get_orchestrator()
-    try:
-        result = orch.run_agent("disclosure", fiscal_year=fy)
-        return jsonify({
-            "status": result.status,
-            "summary": result.summary,
-            "disclosure": result.results[0] if result.results else None,
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: get_orchestrator().run_agent("disclosure", fiscal_year=fy))
+    if err:
+        return err
+    return jsonify({
+        "status": result.status,
+        "summary": result.summary,
+        "disclosure": result.results[0] if result.results else None,
+    })
 
 
 # ── Tax Data (ASC 740) ─────────────────────────────────────
@@ -252,22 +452,26 @@ def tax_classifier_run():
     """Run the Tax Classifier Agent — Claude classifies SAP GL tax accounts into ASC 740 categories."""
     from gl_intelligence.agents.tax_classifier_agent import TaxClassifierAgent
     body = request.get_json(silent=True) or {}
-    batch_size = body.get("batch_size", 18)
-    dry_run = body.get("dry_run", False)
+    try:
+        batch_size = int(body.get("batch_size", 18))
+    except (TypeError, ValueError):
+        return _error_response(400, "bad_request", "batch_size must be an integer")
+    dry_run = bool(body.get("dry_run", False))
     source = body.get("source", "auto")
+    if not isinstance(source, str):
+        return _error_response(400, "bad_request", "source must be a string")
+    batch_size = max(1, min(batch_size, 100))
 
     agent = TaxClassifierAgent(get_orchestrator().cx)
-    try:
-        result = agent.run(batch_size=batch_size, dry_run=dry_run, source=source)
-        return jsonify({
-            "status": result.status,
-            "summary": result.summary,
-            "results": result.results,
-            "elapsed_seconds": result.elapsed_seconds,
-        })
-    except Exception as e:
-        log.exception("Tax classifier error")
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: agent.run(batch_size=batch_size, dry_run=dry_run, source=source))
+    if err:
+        return err
+    return jsonify({
+        "status": result.status,
+        "summary": result.summary,
+        "results": result.results,
+        "elapsed_seconds": result.elapsed_seconds,
+    })
 
 
 @app.route("/api/tax/classifier/pending")
@@ -299,11 +503,13 @@ def tax_classifier_approve():
     reviewer = body.get("reviewer", "controller")
     override = body.get("override_category")
 
-    if not gl_account:
-        return jsonify({"error": "gl_account required"}), 400
+    if not isinstance(gl_account, str) or not gl_account.strip():
+        return _error_response(400, "bad_request", "gl_account required")
 
     agent = TaxClassifierAgent(get_orchestrator().cx)
-    ok = agent.approve_mapping(gl_account, reviewer=reviewer, override_category=override)
+    ok, err = _safe_run(lambda: agent.approve_mapping(gl_account, reviewer=reviewer, override_category=override))
+    if err:
+        return err
     return jsonify({"success": ok, "gl_account": gl_account, "action": "approved"})
 
 
@@ -318,11 +524,13 @@ def tax_classifier_reject():
     reviewer = body.get("reviewer", "controller")
     reason = body.get("reason", "")
 
-    if not gl_account:
-        return jsonify({"error": "gl_account required"}), 400
+    if not isinstance(gl_account, str) or not gl_account.strip():
+        return _error_response(400, "bad_request", "gl_account required")
 
     agent = TaxClassifierAgent(get_orchestrator().cx)
-    ok = agent.reject_mapping(gl_account, reviewer=reviewer, reason=reason)
+    ok, err = _safe_run(lambda: agent.reject_mapping(gl_account, reviewer=reviewer, reason=reason))
+    if err:
+        return err
     return jsonify({"success": ok, "gl_account": gl_account, "action": "rejected"})
 
 
@@ -334,17 +542,15 @@ def etr_bridge_run():
     fy = body.get("fiscal_year", cfg.FISCAL_YEAR)
 
     agent = ETRBridgeAgent(get_orchestrator().cx)
-    try:
-        result = agent.run(fiscal_year=fy)
-        return jsonify({
-            "status": result.status,
-            "summary": result.summary,
-            "output": result.results[0] if result.results else None,
-            "elapsed_seconds": result.elapsed_seconds,
-        })
-    except Exception as e:
-        log.exception("ETR bridge error")
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: agent.run(fiscal_year=fy))
+    if err:
+        return err
+    return jsonify({
+        "status": result.status,
+        "summary": result.summary,
+        "output": result.results[0] if result.results else None,
+        "elapsed_seconds": result.elapsed_seconds,
+    })
 
 
 @app.route("/api/tax/etr-bridge/output")
@@ -353,16 +559,19 @@ def etr_bridge_output():
     from gl_intelligence.agents.etr_bridge_agent import ETRBridgeAgent
     fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
     agent = ETRBridgeAgent(get_orchestrator().cx)
-    try:
-        result = agent.run(fiscal_year=fy)
-        if result.results:
-            return jsonify(result.results[0])
-        return jsonify({"error": "No ETR output produced"}), 500
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    result, err = _safe_run(lambda: agent.run(fiscal_year=fy))
+    if err:
+        return err
+    if result.results:
+        return jsonify(result.results[0])
+    return _error_response(500, "no_output", "No ETR output produced")
 
 
 # ── AI Chat ─────────────────────────────────────────────────
+
+_CHAT_MAX_MESSAGES = 40
+_CHAT_MAX_CHARS = 24_000
+
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
@@ -372,8 +581,25 @@ def chat():
     messages = body.get("messages", [])
     system = body.get("system", "You are a FASB financial disclosure compliance assistant.")
 
-    if not messages:
-        return jsonify({"error": "messages required"}), 400
+    if not isinstance(messages, list) or not messages:
+        return _error_response(400, "bad_request", "messages required (non-empty list)")
+    if len(messages) > _CHAT_MAX_MESSAGES:
+        return _error_response(400, "bad_request", f"too many messages (max {_CHAT_MAX_MESSAGES})")
+    total_chars = 0
+    for m in messages:
+        if not isinstance(m, dict) or m.get("role") not in ("user", "assistant"):
+            return _error_response(400, "bad_request", "each message needs role=user|assistant and content")
+        content = m.get("content")
+        if isinstance(content, str):
+            total_chars += len(content)
+        elif isinstance(content, list):
+            total_chars += sum(len(str(p)) for p in content)
+        else:
+            return _error_response(400, "bad_request", "message content must be string or list")
+    if total_chars > _CHAT_MAX_CHARS:
+        return _error_response(413, "payload_too_large", f"messages exceed {_CHAT_MAX_CHARS} chars")
+    if not isinstance(system, str):
+        return _error_response(400, "bad_request", "system must be a string")
 
     try:
         if cfg.use_bedrock():
@@ -383,6 +609,8 @@ def chat():
                 aws_region=cfg.AWS_BEDROCK_REGION,
             )
         else:
+            if not cfg.ANTHROPIC_API_KEY:
+                return _error_response(503, "ai_unavailable", "AI provider not configured")
             client = anthropic.Anthropic(api_key=cfg.ANTHROPIC_API_KEY)
         response = client.messages.create(
             model=cfg.CLAUDE_MODEL,
@@ -394,7 +622,12 @@ def chat():
         reply = response.content[0].text
         return jsonify({"reply": reply})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        log.exception("chat error rid=%s", getattr(g, "request_id", "-"))
+        return _error_response(
+            502,
+            "upstream_error",
+            "AI provider error" if IS_PROD else f"{type(e).__name__}: {e}",
+        )
 
 
 # ── Classified data for frontend ────────────────────────────
@@ -409,14 +642,52 @@ def classified_accounts():
 
 # ── Static files (dashboard) ───────────────────────────────
 
-ASSETS_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS")
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
+ASSETS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS"))
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 LANDING_DIR = os.path.join(ROOT_DIR, "landing")
+
+# Assets with content-hashed filenames (safe to cache forever).
+# Everything under `_next/static/` is fingerprinted by Next.js.
+_IMMUTABLE_PREFIXES = ("_next/static/",)
+# Long-cache asset extensions (also hashed implicitly, but with a lower max-age).
+_CACHEABLE_EXTS = {
+    ".js", ".css", ".woff", ".woff2", ".ttf", ".otf",
+    ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".ico",
+    ".gltf", ".glb", ".mp4", ".webm",
+}
+
+
+def _is_within(base: str, target: str) -> bool:
+    """Defense-in-depth: ensure resolved path stays inside base."""
+    base = os.path.realpath(base)
+    target = os.path.realpath(target)
+    return target == base or target.startswith(base + os.sep)
+
+
+def _cache_control_for(path: str) -> str | None:
+    norm = path.replace("\\", "/").lstrip("/")
+    if any(norm.startswith(p) for p in _IMMUTABLE_PREFIXES):
+        return "public, max-age=31536000, immutable"
+    ext = os.path.splitext(norm)[1].lower()
+    if ext in _CACHEABLE_EXTS:
+        return "public, max-age=86400, stale-while-revalidate=604800"
+    return None
+
+
+def _serve_static(base: str, filename: str):
+    resp = send_from_directory(base, filename, conditional=True)
+    cc = _cache_control_for(filename)
+    if cc:
+        resp.headers["Cache-Control"] = cc
+    return resp
 
 
 @app.route("/")
 def index():
-    return send_from_directory(LANDING_DIR, "index.html")
+    resp = send_from_directory(LANDING_DIR, "index.html")
+    # HTML itself must revalidate so new deploys are visible quickly.
+    resp.headers["Cache-Control"] = "public, max-age=0, must-revalidate"
+    return resp
 
 
 @app.route("/app")
@@ -431,24 +702,24 @@ def dashboard():
 
 @app.route("/<path:filename>")
 def static_files(filename):
-    # Landing page static assets (_next/*, favicon, images)
-    landing_path = os.path.join(LANDING_DIR, filename)
-    if os.path.isfile(landing_path):
-        return send_from_directory(LANDING_DIR, filename)
-    # Fallback: root dir, then FASB assets dir
-    root_path = os.path.join(ROOT_DIR, filename)
-    if os.path.isfile(root_path):
-        return send_from_directory(ROOT_DIR, filename)
-    return send_from_directory(ASSETS_DIR, filename)
+    # Reject suspicious paths up front
+    if ".." in filename.replace("\\", "/").split("/"):
+        return _error_response(400, "bad_request", "invalid path")
 
-
-@app.errorhandler(Exception)
-def handle_exception(e):
-    """Return JSON for all unhandled errors instead of HTML."""
-    log.exception("Unhandled error")
-    return jsonify({"error": str(e)}), 500
+    for base in (LANDING_DIR, ROOT_DIR, ASSETS_DIR):
+        candidate = os.path.join(base, filename)
+        if os.path.isfile(candidate) and _is_within(base, candidate):
+            return _serve_static(base, filename)
+    return _error_response(404, "not_found", "file not found")
 
 
 def create_app() -> Flask:
     """Factory function for gunicorn."""
+    log.info(
+        "GL Intelligence API starting env=%s cors=%s rate_limit=%s/min version=%s",
+        ENVIRONMENT,
+        CORS_ALLOWED_ORIGINS,
+        RATE_LIMIT_PER_MINUTE,
+        APP_VERSION,
+    )
     return app
