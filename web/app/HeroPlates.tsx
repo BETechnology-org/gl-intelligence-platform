@@ -8,6 +8,10 @@ interface HeroPlatesProps {
   opacity?: number;
   /** Tailwind positioning classes for the wrapper div */
   className?: string;
+  /** Multiplier on the auto-fit model size. 1 = hero default, <1 pulls back
+   *  (useful in the CTA where the canvas is shorter and the figure otherwise
+   *  clips at top/bottom). */
+  scale?: number;
 }
 
 type IdleCallback = (cb: () => void, opts?: { timeout?: number }) => number;
@@ -20,6 +24,7 @@ interface IdleWindow {
 export default function HeroPlates({
   opacity = 1,
   className = "absolute inset-y-0 right-[-18%] w-[75%] pointer-events-none",
+  scale = 1,
 }: HeroPlatesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -233,7 +238,7 @@ export default function HeroPlates({
           const sz = new THREE.Vector3();
           box.getSize(sz);
           const maxDim = Math.max(sz.x, sz.y, sz.z);
-          model.scale.setScalar(9.0 / maxDim);
+          model.scale.setScalar((9.0 * scale) / maxDim);
           model.updateMatrixWorld();
           const box2 = new THREE.Box3().setFromObject(model);
           const center = new THREE.Vector3();
@@ -361,7 +366,7 @@ export default function HeroPlates({
       disposed = true;
       if (cleanup) cleanup();
     };
-  }, [ready, opacity]);
+  }, [ready, opacity, scale]);
 
   return (
     <div ref={wrapperRef} className={`${className} pointer-events-none`} aria-hidden="true">

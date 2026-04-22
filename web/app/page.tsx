@@ -2163,7 +2163,11 @@ function CTA() {
       id="cta"
       className="py-36 bg-[#F7F5F0] dark:bg-[#08090C] relative overflow-hidden scroll-mt-20"
     >
-      <HeroPlates opacity={0.08} className="absolute inset-y-0 right-[-20%] w-[55%]" />
+      <HeroPlates
+        opacity={0.08}
+        scale={0.55}
+        className="absolute inset-y-[-20%] right-[-15%] w-[55%]"
+      />
       <div className="absolute top-1/2 left-0 right-0 h-px">
         <div className="w-full h-full bg-[#E0DDD8] dark:bg-[#1A1B1E] relative overflow-hidden">
           <motion.div
