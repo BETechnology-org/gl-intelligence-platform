@@ -2166,7 +2166,7 @@ function CTA() {
       <HeroPlates
         opacity={0.08}
         scale={0.55}
-        className="absolute inset-y-[-20%] right-[-15%] w-[55%]"
+        className="absolute -inset-y-[20%] right-[-15%] w-[55%]"
       />
       <div className="absolute top-1/2 left-0 right-0 h-px">
         <div className="w-full h-full bg-[#E0DDD8] dark:bg-[#1A1B1E] relative overflow-hidden">
