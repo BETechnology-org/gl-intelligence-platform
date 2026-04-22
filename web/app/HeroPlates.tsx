@@ -25,41 +25,36 @@ export default function HeroPlates({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
-  /* ── GATE: wait until wrapper is on-screen AND browser is idle ──
-     Keeps three.js + gltf out of the LCP critical path. */
+  /* ── GATE: wait until the browser is idle (or 600ms), then mount the scene.
+     The hero figure is above the fold, so there's no need to also gate on
+     intersection — that can misfire for the absolute-positioned wrapper. */
   useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper || typeof window === "undefined") return;
+    if (typeof window === "undefined") return;
 
     let cancelled = false;
     let idleId: number | null = null;
+    let fallbackId: number | null = null;
     const w = window as unknown as IdleWindow;
 
-    const trigger = () => {
+    const fire = () => {
       if (cancelled) return;
-      const schedule = w.requestIdleCallback;
-      if (schedule) {
-        idleId = schedule(() => !cancelled && setReady(true), { timeout: 1500 });
-      } else {
-        window.setTimeout(() => !cancelled && setReady(true), 300);
-      }
+      setReady(true);
     };
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          trigger();
-          io.disconnect();
-        }
-      },
-      { root: null, threshold: 0, rootMargin: "200px" },
-    );
-    io.observe(wrapper);
+    const schedule = w.requestIdleCallback;
+    if (schedule) {
+      idleId = schedule(fire, { timeout: 1500 });
+    } else {
+      fallbackId = window.setTimeout(fire, 300);
+    }
+    // Safety net: always mount within 2s even if idle never fires.
+    const safety = window.setTimeout(fire, 2000);
 
     return () => {
       cancelled = true;
-      io.disconnect();
       if (idleId !== null && w.cancelIdleCallback) w.cancelIdleCallback(idleId);
+      if (fallbackId !== null) clearTimeout(fallbackId);
+      clearTimeout(safety);
     };
   }, []);
 
