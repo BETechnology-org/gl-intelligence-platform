@@ -1,15 +1,15 @@
-# Cloud Build source upload — only ship what Docker actually COPYs
-# Reduces tarball from ~300 MB → ~20 MB
+# Cloud Build source upload — exclude only large/non-essential files.
+# The web/ source IS needed by docker/Dockerfile.web at build time.
 
 # Git internals
 .git/
 .gitignore
 
-# Node / Next.js dev artifacts (only web/out/ is needed, built separately)
+# Node / Next.js dev artifacts (built fresh in the image)
 web/node_modules/
 web/.next/
 web/.turbo/
-# web/out/ is pre-built locally and uploaded — do NOT exclude it
+web/out/                      # legacy static export, no longer used
 
 # Python
 __pycache__/
@@ -20,7 +20,8 @@ __pycache__/
 venv/
 *.egg-info/
 
-# Terraform
+# Terraform / large bundles / dataset dumps
+terraform/
 files*/
 *.zip
 *.tfstate
@@ -28,7 +29,7 @@ files*/
 .terraform/
 
 # Loose root-level binaries / screenshots / design assets
-# Root-anchored (/) so web/out/ assets like hero-model.gltf and logo images are NOT excluded
+# Root-anchored (/) so things needed inside web/ aren't excluded
 /*.png
 /*.jpg
 /*.jpeg
@@ -40,6 +41,9 @@ files*/
 /*.pptx
 /*.pdf
 /*.md
+/*.docx
+/*.xlsx
+/*.html
 
 # Editor / OS
 .DS_Store
@@ -50,16 +54,23 @@ files*/
 # Playwright MCP
 .playwright-mcp/
 
-# Landing page source (only the built output web/out/ is needed)
-web/app/
-web/public/
-web/src/
-web/components/
-web/lib/
-web/styles/
-web/*.ts
-web/*.tsx
-web/*.js
-web/*.json
-web/*.mjs
-web/*.config.*
+# Legacy Flask backend (built separately as docker/Dockerfile.api)
+# When deploying the api/ FastAPI service, comment these out.
+gl_intelligence/
+gl_intelligence_package/
+"FASB DISE ASSETS/"
+api/                          # FastAPI service — separate Dockerfile.api
+docker/Dockerfile.api
+docker/Dockerfile.agent
+docker/Dockerfile.approval
+docker/requirements.txt
+infra/
+migrations/
+finance-datasets/
+autoresearch_results/
+
+# Local env (Vercel-only / dev)
+web/.env*
+.env
+.env.example
+.env.local
