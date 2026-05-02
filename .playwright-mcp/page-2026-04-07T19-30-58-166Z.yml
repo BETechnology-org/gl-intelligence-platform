@@ -1,0 +1,64 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: ASC 220-40 · DISE Compliance
+    - generic [ref=e8]:
+      - generic [ref=e9]: FY2023 · diplomatic75
+      - generic [ref=e12]: 501 accounts · FY2023
+  - generic [ref=e13]:
+    - button "Overview" [ref=e14] [cursor=pointer]
+    - button "Account Explorer" [ref=e15] [cursor=pointer]
+    - button "Audit Trail" [ref=e16] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e17] [cursor=pointer]
+    - button "DISE Disclosure" [ref=e18] [cursor=pointer]
+    - button "Cost Centre" [ref=e19] [cursor=pointer]
+    - button "Agents" [active] [ref=e20] [cursor=pointer]
+  - generic [ref=e21]:
+    - text: · · · · · · · ·
+    - generic [ref=e207]:
+      - generic [ref=e208]:
+        - generic [ref=e209]:
+          - generic [ref=e210]: Agent Pipeline
+          - generic [ref=e211]: 5 agents · GL Mapping → Reconciliation → Anomaly → Disclosure → Tax
+        - button "Run Full Pipeline" [ref=e212] [cursor=pointer]
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - generic [ref=e216]: GL
+            - generic [ref=e217]:
+              - generic [ref=e218]: GL Mapping Agent
+              - generic [ref=e219]: Classifies GL accounts into DISE categories using Claude AI + similarity matching
+          - generic [ref=e220]:
+            - button "Dry Run" [ref=e221] [cursor=pointer]
+            - button "Run Live" [ref=e222] [cursor=pointer]
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - generic [ref=e225]: RC
+            - generic [ref=e226]:
+              - generic [ref=e227]: Reconciliation Agent
+              - generic [ref=e228]: Validates DISE pivot amounts against SAP trial balance and detects variances
+          - button "Run" [ref=e230] [cursor=pointer]
+        - generic [ref=e231]:
+          - generic [ref=e232]:
+            - generic [ref=e233]: AN
+            - generic [ref=e234]:
+              - generic [ref=e235]: Anomaly Detection
+              - generic [ref=e236]: YoY variance analysis with P1/P2/P3 priority alerts and CFO narrative
+          - button "Run" [ref=e238] [cursor=pointer]
+        - generic [ref=e239]:
+          - generic [ref=e240]:
+            - generic [ref=e241]: DS
+            - generic [ref=e242]:
+              - generic [ref=e243]: Disclosure Agent
+              - generic [ref=e244]: Generates ASU 2024-03 DISE footnote text in formal 10-K language
+          - button "Generate" [ref=e246] [cursor=pointer]
+        - generic [ref=e247]:
+          - generic [ref=e248]:
+            - generic [ref=e249]: TX
+            - generic [ref=e250]:
+              - generic [ref=e251]: Tax Reconciliation
+              - generic [ref=e252]: ASC 740 rate reconciliation, deferred tax scheduling, ASU 2023-09 jurisdictional disaggregation
+          - button "Run" [ref=e254] [cursor=pointer]
+      - generic [ref=e256]: Activity Log

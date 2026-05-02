@@ -1,0 +1,96 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3] [cursor=pointer]:
+      - generic [ref=e4]: tf
+      - generic [ref=e6]: trufflesfasb.ai
+    - generic [ref=e7]:
+      - button "Platform" [ref=e8] [cursor=pointer]
+      - button "Income Tax" [active] [ref=e9] [cursor=pointer]
+      - button "DISE" [ref=e10] [cursor=pointer]
+      - button "Segments" [ref=e11] [cursor=pointer]
+      - button "Leases" [ref=e12] [cursor=pointer]
+      - link "Dashboard" [ref=e13] [cursor=pointer]:
+        - /url: /dashboard
+    - generic [ref=e14]:
+      - button "✶ AI Assistant" [ref=e15] [cursor=pointer]:
+        - generic [ref=e16]: ✶
+        - text: AI Assistant
+      - generic [ref=e17] [cursor=pointer]: JD
+  - generic [ref=e589]:
+    - generic [ref=e590]:
+      - button "← Back to Home" [ref=e591] [cursor=pointer]
+      - generic [ref=e592]: ASC 740 · Tax Disclosures
+      - heading "Income Tax Reconciliation" [level=1] [ref=e593]
+      - paragraph [ref=e594]: Effective rate reconciliation, deferred tax asset/liability scheduling, and ASU 2023-09 jurisdictional disaggregation — compliant with updated FASB requirements effective FY2025.
+      - generic [ref=e595]:
+        - generic [ref=e596]: ASU 2023-09 Active
+        - generic [ref=e597]: Effective FY2025
+        - generic [ref=e598]: Loading…
+    - generic [ref=e599]:
+      - generic [ref=e600]:
+        - generic [ref=e601]:
+          - img [ref=e603]
+          - generic [ref=e605]:
+            - generic [ref=e606]: Google BigQuery via Cortex Framework
+            - generic [ref=e607]: "project: be-tech-prod · dataset: cortex_sap_reporting"
+          - generic [ref=e608]: Connected
+          - generic [ref=e611]:
+            - generic [ref=e612]: 2,847
+            - generic [ref=e613]: GL Entries
+          - generic [ref=e615]:
+            - generic [ref=e616]: "10"
+            - generic [ref=e617]: Jurisdictions
+          - generic [ref=e619]:
+            - generic [ref=e620]: 1.2s
+            - generic [ref=e621]: Last Sync
+        - generic [ref=e622]:
+          - generic [ref=e623]:
+            - generic [ref=e624]: Effective Tax Rate
+            - generic [ref=e625]: —
+            - generic [ref=e626]: vs 21% statutory
+          - generic [ref=e627]:
+            - generic [ref=e628]: Net Deferred Tax
+            - generic [ref=e629]: —
+            - generic [ref=e630]: Net DTA after VA
+          - generic [ref=e631]:
+            - generic [ref=e632]: Jurisdictions
+            - generic [ref=e633]: —
+            - generic [ref=e634]: Disaggregation required
+          - generic [ref=e635]:
+            - generic [ref=e636]: UTPs
+            - generic [ref=e637]: —
+            - generic [ref=e638]: Unrecognized tax positions
+        - generic [ref=e639]:
+          - button "Tax Expense" [ref=e640] [cursor=pointer]
+          - button "Rate Reconciliation" [ref=e641] [cursor=pointer]
+          - button "Deferred Schedule" [ref=e642] [cursor=pointer]
+          - button "Carryforwards" [ref=e643] [cursor=pointer]
+          - button "Jurisdictions" [ref=e644] [cursor=pointer]
+          - button "Cash Taxes" [ref=e645] [cursor=pointer]
+          - button "UTPs" [ref=e646] [cursor=pointer]
+        - generic [ref=e647]:
+          - generic [ref=e648]:
+            - generic [ref=e649]: Provision for Income Taxes — ASC 740-10-50-9/10
+            - paragraph [ref=e650]: Components of income tax expense (benefit), current and deferred, disaggregated by jurisdiction.
+            - table [ref=e651]:
+              - rowgroup [ref=e652]:
+                - row "Component FY2025 ($K) FY2024 ($K) Change ($K)" [ref=e653]:
+                  - columnheader "Component" [ref=e654]
+                  - columnheader "FY2025 ($K)" [ref=e655]
+                  - columnheader "FY2024 ($K)" [ref=e656]
+                  - columnheader "Change ($K)" [ref=e657]
+              - rowgroup
+          - generic [ref=e659]: Pretax Income — Domestic vs. Foreign (ASC 740-10-50-6)
+        - generic [ref=e661]: Workpaper Completion
+        - generic [ref=e662]:
+          - button "✦ Run Tax Agent" [ref=e663] [cursor=pointer]
+          - button "Ask AI Assistant" [ref=e664] [cursor=pointer]
+          - button "↓ Export Tax Package" [ref=e665] [cursor=pointer]
+      - generic [ref=e666]:
+        - generic [ref=e668]: ASU 2023-09 Compliance
+        - generic [ref=e669]:
+          - generic [ref=e670]: AI Insight
+          - paragraph [ref=e671]: "Unable to load tax data: API 404"
+          - button "Ask AI about this →" [ref=e672] [cursor=pointer]
+        - generic [ref=e674]: Key Metrics
+  - button "✦" [ref=e392] [cursor=pointer]

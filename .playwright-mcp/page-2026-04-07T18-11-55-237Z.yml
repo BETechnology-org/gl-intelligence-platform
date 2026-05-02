@@ -1,0 +1,81 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: GL Intelligence
+    - generic [ref=e11]: 501 accounts · FY2023
+  - generic [ref=e12]:
+    - button "Overview" [ref=e13] [cursor=pointer]
+    - button "Account Explorer" [ref=e14] [cursor=pointer]
+    - button "Audit Trail" [ref=e15] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e16] [cursor=pointer]
+    - button "DISE Disclosure" [active] [ref=e17] [cursor=pointer]
+    - button "Cost Centre" [ref=e18] [cursor=pointer]
+    - button "Agents" [ref=e19] [cursor=pointer]
+  - generic [ref=e174]:
+    - generic [ref=e175]: Disaggregation of Income Statement Expenses
+    - generic [ref=e176]: ASU 2024-03 / ASC 220-40 — For the fiscal year ended December 31, 2023 (in thousands)
+    - table [ref=e177]:
+      - rowgroup [ref=e178]:
+        - row "Natural Expense Category COGS SG&A R&D Other income/expense Total" [ref=e179]:
+          - columnheader "Natural Expense Category" [ref=e180] [cursor=pointer]
+          - columnheader "COGS" [ref=e181] [cursor=pointer]
+          - columnheader "SG&A" [ref=e182] [cursor=pointer]
+          - columnheader "R&D" [ref=e183] [cursor=pointer]
+          - columnheader "Other income/expense" [ref=e184] [cursor=pointer]
+          - columnheader "Total" [ref=e185] [cursor=pointer]
+      - rowgroup [ref=e186]:
+        - row "Purchases of inventory $136,625 — — — $136,625" [ref=e187]:
+          - cell "Purchases of inventory" [ref=e188]
+          - cell "$136,625" [ref=e189]
+          - cell "—" [ref=e190]
+          - cell "—" [ref=e191]
+          - cell "—" [ref=e192]
+          - cell "$136,625" [ref=e193]
+        - row "Employee compensation $171,995 $560,169 $126,186 — $858,349" [ref=e194]:
+          - cell "Employee compensation" [ref=e195]
+          - cell "$171,995" [ref=e196]
+          - cell "$560,169" [ref=e197]
+          - cell "$126,186" [ref=e198]
+          - cell "—" [ref=e199]
+          - cell "$858,349" [ref=e200]
+        - row "Depreciation $69,051 $57,823 $16,376 — $143,250" [ref=e201]:
+          - cell "Depreciation" [ref=e202]
+          - cell "$69,051" [ref=e203]
+          - cell "$57,823" [ref=e204]
+          - cell "$16,376" [ref=e205]
+          - cell "—" [ref=e206]
+          - cell "$143,250" [ref=e207]
+        - row "Intangible asset amortization $5,416 $107,648 $7,907 — $120,972" [ref=e208]:
+          - cell "Intangible asset amortization" [ref=e209]
+          - cell "$5,416" [ref=e210]
+          - cell "$107,648" [ref=e211]
+          - cell "$7,907" [ref=e212]
+          - cell "—" [ref=e213]
+          - cell "$120,972" [ref=e214]
+        - row "Other expenses $48,634 $568,022 $45,487 — $662,143" [ref=e215]:
+          - cell "Other expenses" [ref=e216]
+          - cell "$48,634" [ref=e217]
+          - cell "$568,022" [ref=e218]
+          - cell "$45,487" [ref=e219]
+          - cell "—" [ref=e220]
+          - cell "$662,143" [ref=e221]
+      - rowgroup [ref=e222]:
+        - row "Total expenses $431,721 $1,293,662 $195,956 — $1,921,339" [ref=e223]:
+          - cell "Total expenses" [ref=e224]
+          - cell "$431,721" [ref=e225]
+          - cell "$1,293,662" [ref=e226]
+          - cell "$195,956" [ref=e227]
+          - cell "—" [ref=e228]
+          - cell "$1,921,339" [ref=e229]
+    - generic [ref=e230]:
+      - paragraph [ref=e231]:
+        - strong [ref=e232]: "Basis of presentation:"
+        - text: The Company classifies operating expenses into the five natural categories prescribed by ASU 2024-03 (ASC 220-40-50-6). This disaggregation is presented for all relevant income statement expense captions.
+      - paragraph [ref=e233]:
+        - strong [ref=e234]: "Methodology:"
+        - text: 501 GL accounts were classified using BE Technology's GL Intelligence Platform, which employs an AI-assisted mapping agent (Claude Sonnet 4) with human-in-the-loop review. 499 accounts (100%) were classified with HIGH confidence. All classifications are subject to Controller review and approval before inclusion in SEC filings.
+      - paragraph [ref=e235]:
+        - strong [ref=e236]: Amounts in thousands.
+        - text: Columns may not sum due to rounding.

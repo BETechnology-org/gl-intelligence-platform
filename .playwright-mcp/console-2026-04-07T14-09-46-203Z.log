@@ -1,0 +1,50 @@
+[    7845ms] [WARNING] [.WebGL-0x12c0043f600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ https://www.harvey.ai/:0
+[    7853ms] [WARNING] [.WebGL-0x12c0043f600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat) @ https://www.harvey.ai/:0
+[    8243ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[    8247ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[    8257ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[    8261ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[    9009ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9025ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9026ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9028ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9028ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9030ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9032ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9035ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9035ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9045ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[    9045ms] [ERROR] Error generating blur placeholder: Error: BlurUp generation timed out
+    at https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:1:5234 @ https://www.harvey.ai/_next/static/chunks/b8fb2cca377269ec.js:0
+[   43454ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43462ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43464ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43468ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43472ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43477ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43479ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43484ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43487ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43493ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   43495ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   47560ms] [WARNING] WebSocket connection to 'wss://ws8.qualified.com/cable?wv=9&token=EPjcuTUmQsNxHhHc&vu=e1319866-ee54-424a-af95-a5e5f44f3023&wu=f4487454-b68f-4157-b2e0-2f557d41faa1&ca=2026-04-07T14%3A10%3A25.527Z&tz=Asia%2FCalcutta&bis=5&referrer=&pv=1&fv=2026-04-07-673a0e6620&iml=false&bl=en-GB&ic=true' failed: WebSocket is closed before the connection is established. @ https://js.qualified.com/qualified.js?token=EPjcuTUmQsNxHhHc:10
+[   54836ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[   64681ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://www.google.com/pagead/1p-user-list/16742103965/?random=1775571016130&cv=11&fst=1775570400000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be6431v9210762357z89199274257za20gzb9199274257zd9199274257xec&gcd=13t3t3t3t5l1&dma=0&tag_exp=0~115616986~115938465~115938468~116991816~117384406~118131808&u_w=1920&u_h=1080&url=https%3A%2F%2Fwww.harvey.ai%2F&frm=0&tiba=Harvey%20%7C%20AI%20platform%20for%20legal%20and%20professional%20services&hn=www.googleadservices.com&npa=0&pscdl=noapi&auid=987197844.1775570994&uaa=arm&uab=64&uafvl=Not%253AA-Brand%3B99.0.0.0%7CGoogle%2520Chrome%3B145.0.7632.160%7CChromium%3B145.0.7632.160&uamb=0&uam=&uap=macOS&uapv=26.4.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSvgEABaugfQzo1vCccs6G9ATlSuRUFnqSMFAVY9qTFG0VMYA2ovv83nFtQbFtkNhJKsJRrEH9xytaxIq6-A5N2pjQhN7dPCIQoGyqs_9xoqThpdbL6vNHbtlvlPlBAqybaAghzsYyCpmHJLjp1g-ef-edm07zfUXz06d_ifPhA73VnfM0K2orPymvHaJWUBBiLCiAG2OHbE8hmmGBviLVBdaLzfAwiIB1oNnsEtwgAJHRqIEQvM25dFAt0LLHCEe5&random=2436313509&rmt_tld=0&ipr=y:0
+[   96998ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  182660ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  182673ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  182686ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  188356ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  198457ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  208380ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41
+[  218428ms] [WARNING] Media Chrome: No style sheet found on style tag of JSHandle@node @ https://www.harvey.ai/_next/static/chunks/2b8399187d0100f6.js:41

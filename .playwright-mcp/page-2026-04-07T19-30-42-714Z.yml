@@ -1,0 +1,40 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: ASC 220-40 · DISE Compliance
+    - generic [ref=e8]:
+      - generic [ref=e9]: FY2023 · diplomatic75
+      - generic [ref=e12]: 501 accounts · FY2023
+  - generic [ref=e13]:
+    - button "Overview" [ref=e14] [cursor=pointer]
+    - button "Account Explorer" [ref=e15] [cursor=pointer]
+    - button "Audit Trail" [ref=e16] [cursor=pointer]
+    - button "Anomaly Alerts" [active] [ref=e17] [cursor=pointer]
+    - button "DISE Disclosure" [ref=e18] [cursor=pointer]
+    - button "Cost Centre" [ref=e19] [cursor=pointer]
+    - button "Agents" [ref=e20] [cursor=pointer]
+  - generic [ref=e21]:
+    - text: · · · · ·
+    - generic [ref=e183]:
+      - generic [ref=e184]:
+        - generic [ref=e185]: YoY variance analysis
+        - generic [ref=e186]: · P1 >30% · P2 20–30% · P3 15–20%
+      - generic [ref=e187]:
+        - generic [ref=e188]:
+          - generic [ref=e190]: Total Alerts
+          - generic [ref=e191]: "0"
+        - generic [ref=e192]:
+          - generic [ref=e194]: P1 — Critical
+          - generic [ref=e195]: "0"
+          - generic [ref=e196]: ">30% variance"
+        - generic [ref=e197]:
+          - generic [ref=e199]: P2 — Warning
+          - generic [ref=e200]: "0"
+          - generic [ref=e201]: 20–30% variance
+        - generic [ref=e202]:
+          - generic [ref=e204]: P3 — Monitor
+          - generic [ref=e205]: "0"
+          - generic [ref=e206]: 15–20% variance
+    - text: · ·

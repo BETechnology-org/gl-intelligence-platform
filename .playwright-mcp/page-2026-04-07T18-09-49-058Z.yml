@@ -1,0 +1,80 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: GL Intelligence
+    - generic [ref=e11]: 501 accounts · FY2023
+  - generic [ref=e12]:
+    - button "Overview" [ref=e13] [cursor=pointer]
+    - button "Account Explorer" [ref=e14] [cursor=pointer]
+    - button "Audit Trail" [ref=e15] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e16] [cursor=pointer]
+    - button "DISE Disclosure" [ref=e17] [cursor=pointer]
+    - button "Cost Centre" [ref=e18] [cursor=pointer]
+    - button "Agents" [ref=e19] [cursor=pointer]
+  - generic [ref=e87]:
+    - generic [ref=e88]:
+      - generic [ref=e89]:
+        - generic [ref=e91]: Accounts Classified
+        - generic [ref=e92]: "501"
+        - generic [ref=e93]: of 502 GL accounts
+      - generic [ref=e94]:
+        - generic [ref=e96]: Total FY2023 Expense
+        - generic [ref=e97]: $1921.3M
+        - generic [ref=e98]: 5 DISE categories
+      - generic [ref=e99]:
+        - generic [ref=e101]: High Confidence
+        - generic [ref=e102]: 100%
+        - generic [ref=e103]: 499 accounts validated
+      - generic [ref=e104]:
+        - generic [ref=e106]: Needs Review
+        - generic [ref=e107]: "2"
+        - generic [ref=e108]: Medium confidence
+      - generic [ref=e109]:
+        - generic [ref=e111]: Investigate
+        - generic [ref=e112]: "0"
+        - generic [ref=e113]: Low confidence
+    - generic [ref=e114]:
+      - generic [ref=e115]:
+        - generic [ref=e116]: Category Distribution (by FY2023 $)
+        - generic [ref=e117]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: Employee compensation
+            - generic [ref=e122]: $858.3M (171)
+          - generic [ref=e123]:
+            - generic [ref=e124]: Other expenses
+            - generic [ref=e127]: $662.1M (178)
+          - generic [ref=e128]:
+            - generic [ref=e129]: Depreciation
+            - generic [ref=e132]: $143.3M (64)
+          - generic [ref=e133]:
+            - generic [ref=e134]: Purchases of inventory
+            - generic [ref=e137]: $136.6M (43)
+          - generic [ref=e138]:
+            - generic [ref=e139]: Intangible asset amortization
+            - generic [ref=e142]: $121.0M (45)
+      - generic [ref=e143]:
+        - generic [ref=e144]: Confidence Distribution
+        - generic [ref=e145]:
+          - generic [ref=e146]:
+            - generic [ref=e147]: "499"
+            - generic [ref=e148]: High
+          - generic [ref=e149]:
+            - generic [ref=e150]: "2"
+            - generic [ref=e151]: Medium
+          - generic [ref=e152]:
+            - generic [ref=e153]: "0"
+            - generic [ref=e154]: Low
+        - generic [ref=e155]:
+          - generic [ref=e156]: Caption Breakdown
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - generic [ref=e159]: SG&A
+              - generic [ref=e162]: $1293.7M (279)
+            - generic [ref=e163]:
+              - generic [ref=e164]: COGS
+              - generic [ref=e167]: $431.7M (146)
+            - generic [ref=e168]:
+              - generic [ref=e169]: R&D
+              - generic [ref=e172]: $196.0M (76)

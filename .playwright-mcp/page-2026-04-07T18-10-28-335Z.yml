@@ -1,0 +1,147 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: GL Intelligence
+    - generic [ref=e11]: 501 accounts · FY2023
+  - generic [ref=e12]:
+    - button "Overview" [ref=e13] [cursor=pointer]
+    - button "Account Explorer" [ref=e14] [cursor=pointer]
+    - button "Audit Trail" [ref=e15] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e16] [cursor=pointer]
+    - button "DISE Disclosure" [active] [ref=e17] [cursor=pointer]
+    - button "Cost Centre" [ref=e18] [cursor=pointer]
+    - button "Agents" [ref=e19] [cursor=pointer]
+  - generic [ref=e20]:
+    - generic [ref=e87]:
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - generic [ref=e91]: Accounts Classified
+          - generic [ref=e92]: "501"
+          - generic [ref=e93]: of 502 GL accounts
+        - generic [ref=e94]:
+          - generic [ref=e96]: Total FY2023 Expense
+          - generic [ref=e97]: $1921.3M
+          - generic [ref=e98]: 5 DISE categories
+        - generic [ref=e99]:
+          - generic [ref=e101]: High Confidence
+          - generic [ref=e102]: 100%
+          - generic [ref=e103]: 499 accounts validated
+        - generic [ref=e104]:
+          - generic [ref=e106]: Needs Review
+          - generic [ref=e107]: "2"
+          - generic [ref=e108]: Medium confidence
+        - generic [ref=e109]:
+          - generic [ref=e111]: Investigate
+          - generic [ref=e112]: "0"
+          - generic [ref=e113]: Low confidence
+      - generic [ref=e114]:
+        - generic [ref=e115]:
+          - generic [ref=e116]: Category Distribution (by FY2023 $)
+          - generic [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e119]: Employee compensation
+              - generic [ref=e122]: $858.3M (171)
+            - generic [ref=e123]:
+              - generic [ref=e124]: Other expenses
+              - generic [ref=e127]: $662.1M (178)
+            - generic [ref=e128]:
+              - generic [ref=e129]: Depreciation
+              - generic [ref=e132]: $143.3M (64)
+            - generic [ref=e133]:
+              - generic [ref=e134]: Purchases of inventory
+              - generic [ref=e137]: $136.6M (43)
+            - generic [ref=e138]:
+              - generic [ref=e139]: Intangible asset amortization
+              - generic [ref=e142]: $121.0M (45)
+        - generic [ref=e143]:
+          - generic [ref=e144]: Confidence Distribution
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]: "499"
+              - generic [ref=e148]: High
+            - generic [ref=e149]:
+              - generic [ref=e150]: "2"
+              - generic [ref=e151]: Medium
+            - generic [ref=e152]:
+              - generic [ref=e153]: "0"
+              - generic [ref=e154]: Low
+          - generic [ref=e155]:
+            - generic [ref=e156]: Caption Breakdown
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - generic [ref=e159]: SG&A
+                - generic [ref=e162]: $1293.7M (279)
+              - generic [ref=e163]:
+                - generic [ref=e164]: COGS
+                - generic [ref=e167]: $431.7M (146)
+              - generic [ref=e168]:
+                - generic [ref=e169]: R&D
+                - generic [ref=e172]: $196.0M (76)
+    - generic [ref=e806]:
+      - generic [ref=e807]: Disaggregation of Income Statement Expenses
+      - generic [ref=e808]: ASU 2024-03 / ASC 220-40 — For the fiscal year ended December 31, 2023 (in thousands)
+      - table [ref=e809]:
+        - rowgroup [ref=e810]:
+          - row "Natural Expense Category COGS SG&A R&D Other income/expense Total" [ref=e811]:
+            - columnheader "Natural Expense Category" [ref=e812] [cursor=pointer]
+            - columnheader "COGS" [ref=e813] [cursor=pointer]
+            - columnheader "SG&A" [ref=e814] [cursor=pointer]
+            - columnheader "R&D" [ref=e815] [cursor=pointer]
+            - columnheader "Other income/expense" [ref=e816] [cursor=pointer]
+            - columnheader "Total" [ref=e817] [cursor=pointer]
+        - rowgroup [ref=e818]:
+          - row "Purchases of inventory $136,625 — — — $136,625" [ref=e819]:
+            - cell "Purchases of inventory" [ref=e820]
+            - cell "$136,625" [ref=e821]
+            - cell "—" [ref=e822]
+            - cell "—" [ref=e823]
+            - cell "—" [ref=e824]
+            - cell "$136,625" [ref=e825]
+          - row "Employee compensation $171,995 $560,169 $126,186 — $858,349" [ref=e826]:
+            - cell "Employee compensation" [ref=e827]
+            - cell "$171,995" [ref=e828]
+            - cell "$560,169" [ref=e829]
+            - cell "$126,186" [ref=e830]
+            - cell "—" [ref=e831]
+            - cell "$858,349" [ref=e832]
+          - row "Depreciation $69,051 $57,823 $16,376 — $143,250" [ref=e833]:
+            - cell "Depreciation" [ref=e834]
+            - cell "$69,051" [ref=e835]
+            - cell "$57,823" [ref=e836]
+            - cell "$16,376" [ref=e837]
+            - cell "—" [ref=e838]
+            - cell "$143,250" [ref=e839]
+          - row "Intangible asset amortization $5,416 $107,648 $7,907 — $120,972" [ref=e840]:
+            - cell "Intangible asset amortization" [ref=e841]
+            - cell "$5,416" [ref=e842]
+            - cell "$107,648" [ref=e843]
+            - cell "$7,907" [ref=e844]
+            - cell "—" [ref=e845]
+            - cell "$120,972" [ref=e846]
+          - row "Other expenses $48,634 $568,022 $45,487 — $662,143" [ref=e847]:
+            - cell "Other expenses" [ref=e848]
+            - cell "$48,634" [ref=e849]
+            - cell "$568,022" [ref=e850]
+            - cell "$45,487" [ref=e851]
+            - cell "—" [ref=e852]
+            - cell "$662,143" [ref=e853]
+        - rowgroup [ref=e854]:
+          - row "Total expenses $431,721 $1,293,662 $195,956 — $1,921,339" [ref=e855]:
+            - cell "Total expenses" [ref=e856]
+            - cell "$431,721" [ref=e857]
+            - cell "$1,293,662" [ref=e858]
+            - cell "$195,956" [ref=e859]
+            - cell "—" [ref=e860]
+            - cell "$1,921,339" [ref=e861]
+      - generic [ref=e862]:
+        - paragraph [ref=e863]:
+          - strong [ref=e864]: "Basis of presentation:"
+          - text: The Company classifies operating expenses into the five natural categories prescribed by ASU 2024-03 (ASC 220-40-50-6). This disaggregation is presented for all relevant income statement expense captions.
+        - paragraph [ref=e865]:
+          - strong [ref=e866]: "Methodology:"
+          - text: 501 GL accounts were classified using BE Technology's GL Intelligence Platform, which employs an AI-assisted mapping agent (Claude Sonnet 4) with human-in-the-loop review. 499 accounts (100%) were classified with HIGH confidence. All classifications are subject to Controller review and approval before inclusion in SEC filings.
+        - paragraph [ref=e867]:
+          - strong [ref=e868]: Amounts in thousands.
+          - text: Columns may not sum due to rounding.

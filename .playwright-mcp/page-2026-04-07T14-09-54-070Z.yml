@@ -1,0 +1,675 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e6]:
+          - generic [ref=e8]:
+            - generic [ref=e10]:
+              - generic [ref=e11]: Harvey Raises at $11 Billion Valuation
+              - link "Learn more" [ref=e12] [cursor=pointer]:
+                - /url: https://www.harvey.ai/blog/harvey-raises-at-dollar11-billion-valuation-to-scale-agents-across-law-firms-and-enterprises
+                - text: Learn more
+                - img [ref=e13]
+            - button "Close banner" [ref=e15] [cursor=pointer]:
+              - img [ref=e16]
+          - generic [ref=e20]:
+            - link "Home" [ref=e22] [cursor=pointer]:
+              - /url: /
+              - generic [ref=e23]: ":Harvey:"
+            - navigation [ref=e24]:
+              - list [ref=e25]:
+                - listitem [ref=e26] [cursor=pointer]:
+                  - button "Platform":
+                    - generic:
+                      - generic: Platform
+                      - img
+                - listitem [ref=e27] [cursor=pointer]:
+                  - button "Solutions":
+                    - generic:
+                      - generic: Solutions
+                      - img
+                - listitem [ref=e28] [cursor=pointer]:
+                  - link "Customers" [ref=e29]:
+                    - /url: /customers
+                    - generic [ref=e30]: Customers
+                - listitem [ref=e31] [cursor=pointer]:
+                  - link "Security" [ref=e32]:
+                    - /url: /security
+                    - generic [ref=e33]: Security
+                - listitem [ref=e34] [cursor=pointer]:
+                  - button "Resources":
+                    - generic:
+                      - generic: Resources
+                      - img
+                - listitem [ref=e35] [cursor=pointer]:
+                  - button "About":
+                    - generic:
+                      - generic: About
+                      - img
+            - button "Login" [ref=e39] [cursor=pointer]:
+              - generic [ref=e40]: Login
+      - main [ref=e41]:
+        - generic [ref=e43]:
+          - generic [ref=e45]:
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - heading "Practice Made Perfect" [level=1] [ref=e54]
+                - paragraph [ref=e55]: Today’s top law firms and in-house legal teams trust Harvey to elevate their craft and navigate complexity.
+              - link "Request a Demo" [ref=e56] [cursor=pointer]:
+                - /url: /contact-sales
+            - generic [ref=e58]:
+              - generic [ref=e61]:
+                - list [ref=e62]:
+                  - listitem [ref=e63]:
+                    - img "Vinson & Elkins" [ref=e64]
+                  - listitem [ref=e65]:
+                    - img "Schonherr" [ref=e66]
+                  - listitem [ref=e67]:
+                    - img "Deutsche Telekom" [ref=e68]
+                  - listitem [ref=e69]:
+                    - img "Repsol" [ref=e70]
+                  - listitem [ref=e71]:
+                    - img "Reed Smith" [ref=e72]
+                  - listitem [ref=e73]:
+                    - img "PwC UK" [ref=e74]
+                  - listitem [ref=e75]:
+                    - img "O'Melveny" [ref=e76]
+                  - listitem [ref=e77]:
+                    - img "Bridgewater logo" [ref=e78]
+                  - listitem [ref=e79]:
+                    - img "Macfarlanes" [ref=e80]
+                  - listitem [ref=e81]:
+                    - img "KKR logo" [ref=e82]
+                  - listitem [ref=e83]:
+                    - img "A&O Shearman" [ref=e84]
+                  - listitem [ref=e85]:
+                    - img "Gleiss Lutz" [ref=e86]
+                  - listitem [ref=e87]:
+                    - img "CMS" [ref=e88]
+                  - listitem [ref=e89]:
+                    - img "Cuatrecasas" [ref=e90]
+                  - listitem [ref=e91]:
+                    - img "Thompson Hine" [ref=e92]
+                  - listitem [ref=e93]:
+                    - img "Merck KGaA, Darmstadt, Germany" [ref=e94]
+                  - listitem [ref=e95]:
+                    - img "comcast" [ref=e96]
+                  - listitem [ref=e97]:
+                    - img "Dentons" [ref=e98]
+                  - listitem [ref=e99]:
+                    - img "BakerHostetler" [ref=e100]
+                  - listitem [ref=e101]:
+                    - img "Procter & Gamble" [ref=e102]
+                  - listitem [ref=e103]:
+                    - img "HSFK" [ref=e104]
+                  - listitem [ref=e105]:
+                    - img "Hengeler Mueller" [ref=e106]
+                - list [ref=e107]:
+                  - listitem [ref=e108]:
+                    - img [ref=e109]
+                  - listitem [ref=e110]:
+                    - img [ref=e111]
+                  - listitem [ref=e112]:
+                    - img [ref=e113]
+                  - listitem [ref=e114]:
+                    - img [ref=e115]
+                  - listitem [ref=e116]:
+                    - img [ref=e117]
+                  - listitem [ref=e118]:
+                    - img [ref=e119]
+                  - listitem [ref=e120]:
+                    - img [ref=e121]
+                  - listitem [ref=e122]:
+                    - img [ref=e123]
+                  - listitem [ref=e124]:
+                    - img [ref=e125]
+                  - listitem [ref=e126]:
+                    - img [ref=e127]
+                  - listitem [ref=e128]:
+                    - img [ref=e129]
+                  - listitem [ref=e130]:
+                    - img [ref=e131]
+                  - listitem [ref=e132]:
+                    - img [ref=e133]
+                  - listitem [ref=e134]:
+                    - img [ref=e135]
+                  - listitem [ref=e136]:
+                    - img [ref=e137]
+                  - listitem [ref=e138]:
+                    - img [ref=e139]
+                  - listitem [ref=e140]:
+                    - img [ref=e141]
+                  - listitem [ref=e142]:
+                    - img [ref=e143]
+                  - listitem [ref=e144]:
+                    - img [ref=e145]
+                  - listitem [ref=e146]:
+                    - img [ref=e147]
+                  - listitem [ref=e148]:
+                    - img [ref=e149]
+                  - listitem [ref=e150]:
+                    - img [ref=e151]
+              - link "Our Customers" [ref=e153] [cursor=pointer]:
+                - /url: /customers
+          - generic [ref=e157]:
+            - heading "Harvey is AI designed for legal and professional services. Advance your expertise on a secure platform that lets you focus on high-value work." [level=3] [ref=e159]:
+              - strong [ref=e160]: Harvey is AI designed for legal and professional services.
+              - text: Advance your expertise on a secure platform that lets you focus on high-value work.
+            - region "video player" [ref=e169]:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+          - generic [ref=e177]:
+            - paragraph [ref=e179]: The top legal teams use Harvey for
+            - generic [ref=e182]:
+              - generic [ref=e183]: Legal Research
+              - generic [ref=e184]: Deal Management
+              - generic [ref=e185]: Due Diligence
+              - generic [ref=e186]: Fund Formation
+              - generic [ref=e187]: Contract Analysis
+              - generic [ref=e188]: Complex Workflows
+              - generic [ref=e189]: Document Storage
+              - generic [ref=e190]: Legal Research
+            - link "Explore Platform" [ref=e192] [cursor=pointer]:
+              - /url: /platform
+          - region [ref=e198]:
+            - generic [ref=e200]:
+              - group [ref=e201]:
+                - generic [ref=e202]:
+                  - img "Dr. Claudia Junker" [ref=e204]
+                  - generic [ref=e205]:
+                    - blockquote [ref=e206]:
+                      - generic [ref=e207]: “
+                      - text: "The legal industry is evolving rapidly, and AI is essential to keep pace with growing complexity. :Harvey: has transformed how we work—enabling us to navigate challenges with precision, tackle intricate legal issues, and focus on delivering strategic value.”"
+                    - generic [ref=e208]:
+                      - paragraph [ref=e209]: Dr. Claudia Junker
+                      - paragraph [ref=e210]: General Counsel
+                      - paragraph [ref=e211]: Deutsche Telekom AG
+                    - link "Customer Story →" [ref=e213] [cursor=pointer]:
+                      - /url: /customers/deutsche-telekom
+              - group [ref=e214]:
+                - generic [ref=e215]:
+                  - img "Rich Robbins" [ref=e217]
+                  - generic [ref=e218]:
+                    - blockquote [ref=e219]:
+                      - generic [ref=e220]: “
+                      - text: "What we have seen at Reed Smith with :Harvey: is by far the most successful firm technology adoption story I have ever been a part of.”"
+                    - generic [ref=e221]:
+                      - paragraph [ref=e222]: Rich Robbins
+                      - paragraph [ref=e223]: Director of Applied Artificial Intelligence
+                    - img "Reed Smith" [ref=e224]
+              - group [ref=e225]:
+                - generic [ref=e226]:
+                  - img "Marie-Cécile Martin" [ref=e228]
+                  - generic [ref=e229]:
+                    - blockquote [ref=e230]:
+                      - generic [ref=e231]: “
+                      - text: ":Harvey: has become part of our routine. Having a partner like :Harvey: at this stage is a real game-changer.”"
+                    - generic [ref=e232]:
+                      - paragraph [ref=e233]: Marie-Cécile Martin
+                      - paragraph [ref=e234]: Head of Legal Operations
+                      - paragraph [ref=e235]: Syngenta Group
+                    - link "Customer Story →" [ref=e237] [cursor=pointer]:
+                      - /url: /customers/syngenta
+            - group "Slide controls" [ref=e238]:
+              - button "Slide 1 of 3" [ref=e239] [cursor=pointer]
+              - button "Slide 2 of 3" [ref=e242] [cursor=pointer]
+              - button "Slide 3 of 3" [ref=e244] [cursor=pointer]
+          - generic [ref=e247]:
+            - generic [ref=e249]:
+              - heading "Real impact for real clients" [level=3] [ref=e251]
+              - link "See more videos" [ref=e253] [cursor=pointer]:
+                - /url: https://www.harvey.ai/customers
+            - generic [ref=e255]:
+              - generic [ref=e257]:
+                - generic [ref=e259]:
+                  - generic [ref=e262]:
+                    - paragraph [ref=e263]: ":Harvey: drives greater efficiency for King & Wood Mallesons."
+                    - button "Play Video" [ref=e264] [cursor=pointer]:
+                      - img [ref=e267]
+                  - generic [ref=e274] [cursor=pointer]:
+                    - generic [ref=e275]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e276]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                - generic [ref=e278]:
+                  - generic [ref=e281]:
+                    - paragraph [ref=e282]: "Syngenta partners with :Harvey: to scale their legal team's impact."
+                    - button "Play Video" [ref=e283] [cursor=pointer]:
+                      - img [ref=e286]
+                  - generic [ref=e293] [cursor=pointer]:
+                    - generic [ref=e294]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e295]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                - generic [ref=e297]:
+                  - generic [ref=e300]:
+                    - paragraph [ref=e301]: "Repsol uses :Harvey: for greater time savings across their entire legal team."
+                    - button "Play Video" [ref=e302] [cursor=pointer]:
+                      - img [ref=e305]
+                  - generic [ref=e312] [cursor=pointer]:
+                    - generic [ref=e313]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e314]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                - generic [ref=e316]:
+                  - generic [ref=e319]:
+                    - paragraph [ref=e320]: ":Harvey: helps Cuatrecasas focus on creating the most value for clients."
+                    - button "Play Video" [ref=e321] [cursor=pointer]:
+                      - img [ref=e324]
+                  - generic [ref=e331] [cursor=pointer]:
+                    - generic [ref=e332]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e333]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                - generic [ref=e335]:
+                  - generic [ref=e338]:
+                    - paragraph [ref=e339]: "The Adecco Group uses :Harvey: to free up time for more meaningful work."
+                    - button "Play Video" [ref=e340] [cursor=pointer]:
+                      - img [ref=e343]
+                  - generic [ref=e350] [cursor=pointer]:
+                    - generic [ref=e351]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e352]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                - generic [ref=e354]:
+                  - generic [ref=e357]:
+                    - paragraph [ref=e358]: A New Era of Collaboration for Legal and Professional Services
+                    - button "Play Video" [ref=e359] [cursor=pointer]:
+                      - img [ref=e362]
+                  - generic [ref=e369] [cursor=pointer]:
+                    - generic [ref=e370]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e371]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                - generic [ref=e373]:
+                  - generic [ref=e376]:
+                    - paragraph [ref=e377]: "CMS Partners with :Harvey: to Turn AI Into a Daily Habit"
+                    - button "Play Video" [ref=e378] [cursor=pointer]:
+                      - img [ref=e381]
+                  - generic [ref=e388] [cursor=pointer]:
+                    - generic [ref=e389]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                    - button "Play video" [ref=e390]:
+                      - generic:
+                        - generic:
+                          - region "video player":
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - generic:
+                                    - img
+              - generic [ref=e393]:
+                - button "Go to King & Wood Mallesons" [ref=e394] [cursor=pointer]:
+                  - img "KWM" [ref=e395]
+                - button "Go to Syngenta Group" [ref=e397] [cursor=pointer]:
+                  - img "Syngenta Group" [ref=e398]
+                - button "Go to Repsol" [ref=e400] [cursor=pointer]:
+                  - img "Repsol" [ref=e401]
+                - button "Go to Cuatrecasas" [ref=e403] [cursor=pointer]:
+                  - img "Cuatrecasas" [ref=e404]
+                - button "Go to The Adecco Group" [ref=e406] [cursor=pointer]:
+                  - img "The Adecco Group" [ref=e407]
+                - button "Go to Gleiss Lutz / Deutsche Telekom" [ref=e409] [cursor=pointer]:
+                  - img "Gleiss Lutz / Deutsche Telekom" [ref=e410]
+                - button "Go to CMS" [ref=e412] [cursor=pointer]:
+                  - img "CMS" [ref=e413]
+          - generic [ref=e418]:
+            - heading "Helping teams stay focused and see measurable results" [level=3] [ref=e419]
+            - generic [ref=e420]:
+              - generic [ref=e421]:
+                - paragraph [ref=e423]: Average hours saved per month‌ ‍ ‍‍‌‍ ‌ ‍‌‍‍‌‌‍‌ ‌‍‍‌‌‍ ‍‍‍ ‍‍‍‍‌ ‌‍‌‌‍ ‍‌‍‍‌‌ ‌‌ ‍‌‍ ‍‌‍‍‌‌‍ ‍‍‍ ‍‍‌‍‍‌ ‍‌‍‌‌‌‍‌‍‍‍ ‍‍‍‍‍ ‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍ ‌‍‍‌‌‍ ‍‌ ‌‌‍‌‌‌‍ ‍‌ ‌‍ ‌‍‌‌‌‍‌‌‍‍‌‌ ‌‍ ‌‍ ‌‌‍ ‌‍‌‌‍‌‌ ‌‌ ‌ ‍‌‍‌‌‌ ‌‍‌‌‌‍ ‍‌ ‌‌‍‌‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‍ ‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‍ ‍ ‌ ‌‍‌‌‍‌ ‌‍‌‍‌ ‍‌ ‌‌‌‍‌‍ ‌‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‌‍‍‌‍‌‌ ‌‍‌‌‌‌‌‌‌ ‍‌‍ ‌‍‌‌ ‍‌‌‍‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍‌‍‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‍ ‍ ‌ ‌‍‌‌‍‌ ‌‍‌‍‌ ‍‌ ‌‌‌‍‌‍ ‌‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‍‍‌ ‌
+                - paragraph [ref=e424]: 20+
+              - generic [ref=e425]:
+                - paragraph [ref=e427]: Professionals using Harvey‌ ‍ ‍‍‌‍ ‌ ‍‌‍‍‌‌‍‌ ‌‍‍‌‌‍ ‍‍‍ ‍‍‍‍‌ ‌‍‌‌‍ ‍‌‍‍‌‌ ‌‌ ‍‌‍ ‍‌‍‍‌‌‍ ‍‍‍ ‍‍‌‍‍‌ ‍‌‍‌‌‌‍‌‍‍‍ ‍‍‍‍‍ ‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍ ‌‍‍‌‌‍ ‍‌ ‌‌‍‌‌‌‍ ‍‌ ‌‍ ‌‍‌‌‌‍‌‌‍‍‌‌ ‌‍ ‌‍ ‌‌‍ ‌‍‌‌‍‌‌ ‌‌ ‌ ‍‌‍‌‌‌ ‌‍‌‌‌‍ ‍‌ ‌‌‍‌‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‍ ‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‍‌‍‌ ‌ ‍‌‍‌‌‍‌‌ ‍‌‌‍‍ ‌ ‌‌ ‌‍ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‌‍‍‌‍‌‌ ‌‍‌‌‌‌‌‌‌ ‍‌‍ ‌‍‌‌ ‍‌‌‍‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍‌‍‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‍‌‍‌ ‌ ‍‌‍‌‌‍‌‌ ‍‌‌‍‍ ‌ ‌‌ ‌‍ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‍‍‌ ‌
+                - paragraph [ref=e428]: 100,000+
+              - generic [ref=e429]:
+                - paragraph [ref=e431]: Law firms and in-house legal teams using Harvey‌ ‍ ‍‍‌‍ ‌ ‍‌‍‍‌‌‍‌ ‌‍‍‌‌‍ ‍‍‍ ‍‍‍‍‌ ‌‍‌‌‍ ‍‌‍‍‌‌ ‌‌ ‍‌‍ ‍‌‍‍‌‌‍ ‍‍‍ ‍‍‌‍‍‌ ‍‌‍‌‌‌‍‌‍‍‍ ‍‍‍‍‍ ‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍ ‌‍‍‌‌‍ ‍‌ ‌‌‍‌‌‌‍ ‍‌ ‌‍ ‌‍‌‌‌‍‌‌‍‍‌‌ ‌‍ ‌‍ ‌‌‍ ‌‍‌‌‍‌‌ ‌‌ ‌ ‍‌‍‌‌‌ ‌‍‌‌‌‍ ‍‌ ‌‌‍‌‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‍ ‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‍ ‌ ‍‌‍ ‌‍ ‍ ‍‌‌‍‍ ‌ ‌‌ ‌ ‌‍‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‌‍‍‌‍‌‌ ‌‍‌‌‌‌‌‌‌ ‍‌‍ ‌‍‌‌ ‍‌‌‍‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍‌‍‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‍ ‌ ‍‌‍ ‌‍ ‍ ‍‌‌‍‍ ‌ ‌‌ ‌ ‌‍‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‍‍‌ ‌
+                - paragraph [ref=e432]: 1,000+
+              - generic [ref=e433]:
+                - paragraph [ref=e435]: Countries Harvey is used in‌ ‍ ‍‍‌‍ ‌ ‍‌‍‍‌‌‍‌ ‌‍‍‌‌‍ ‍‍‍ ‍‍‍‍‌ ‌‍‌‌‍ ‍‌‍‍‌‌ ‌‌ ‍‌‍ ‍‌‍‍‌‌‍ ‍‍‍ ‍‍‌‍‍‌ ‍‌‍‌‌‌‍‌‍‍‍ ‍‍‍‍‍ ‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍ ‌‍‍‌‌‍ ‍‌ ‌‌‍‌‌‌‍ ‍‌ ‌‍ ‌‍‌‌‌‍‌‌‍‍‌‌ ‌‍ ‌‍ ‌‌‍ ‌‍‌‌‍‌‌ ‌‌ ‌ ‍‌‍‌‌‌ ‌‍‌‌‌‍ ‍‌ ‌‌‍‌‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‍ ‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‌ ‌ ‍ ‌‌ ‌ ‌ ‌ ‌‍‌ ‍‌‍‌‍‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‌‍‍‌‍‌‌ ‌‍‌‌‌‌‌‌‌ ‍‌‍ ‌‍‌‌ ‍‌‌‍‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍‌‍‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‌ ‌ ‍ ‌‌ ‌ ‌ ‌ ‌‍‌ ‍‌‍‌‍‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‍‍‌ ‌
+                - paragraph [ref=e436]: "60"
+              - generic [ref=e437]:
+                - paragraph [ref=e439]: AmLaw 100 firms using Harvey‌ ‍ ‍‍‌‍ ‌ ‍‌‍‍‌‌‍‌ ‌‍‍‌‌‍ ‍‍‍ ‍‍‍‍‌ ‌‍‌‌‍ ‍‌‍‍‌‌ ‌‌ ‍‌‍ ‍‌‍‍‌‌‍ ‍‍‍ ‍‍‌‍‍‌ ‍‌‍‌‌‌‍‌‍‍‍ ‍‍‍‍‍ ‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍ ‌‍‍‌‌‍ ‍‌ ‌‌‍‌‌‌‍ ‍‌ ‌‍ ‌‍‌‌‌‍‌‌‍‍‌‌ ‌‍ ‌‍ ‌‌‍ ‌‍‌‌‍‌‌ ‌‌ ‌ ‍‌‍‌‌‌ ‌‍‌‌‌‍ ‍‌ ‌‌‍‌‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‍ ‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌ ‍ ‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍‌‍‍‌‍‌‌ ‌‍ ‌‌‍‌ ‌‌‍‌ ‌ ‍ ‍‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍ ‌‍‍‌‍‌‌ ‌‍‌‌‌‌‌‌‌ ‍‌‍ ‌‍‌‌ ‍‌‌‍‌ ‌ ‌‌ ‌‌‌‍‌‌‍‍‌‌‍ ‍‌‍‌‍‍‌‌‍‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‌ ‍‌‌ ‌‍‌‌ ‌‌‍‍‌‍ ‌‍ ‌‌‍‌‌‌ ‌‍‌‌‍‌ ‌‍‌‌‍‌‍‌ ‌‍‌‌ ‌‌‍‍ ‌‌ ‌‍‌‌‌‍ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍ ‌‌ ‍‌ ‌‍‌‌ ‌‌‍‌‌‌‍‌‍ ‍‌‍‌ ‍‌ ‌ ‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌ ‌ ‌‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌‌‍ ‌‌ ‍‌‌ ‌‌‌‍‌‌ ‌‍‍ ‌‍‌‌‌ ‍‌‍‌‌ ‌‌‍‌‌ ‌‌‍‌‌ ‍ ‍‌‍‍‌‍‌‌ ‌‍ ‌‌‍‌ ‌‌‍‌ ‌ ‍ ‍‍‌‌ ‍ ‍‍‌‌ ‌‌‌‌‍ ‍‌‍‌‌‍‌‌‌ ‌‍ ‌ ‍‌‍‍‌‌ ‌ ‌‌‍‍‌‌‍ ‌‍ ‍‍‍‌ ‌
+                - paragraph [ref=e440]: 60+
+          - generic [ref=e445]:
+            - generic [ref=e447]:
+              - heading "Enterprise-grade security and controls" [level=3] [ref=e448]
+              - generic [ref=e449]:
+                - paragraph [ref=e450]: "Harvey meets the highest industry standards for security and compliance. We include all default controls that enterprise teams expect: SAML SSO, audit logs, IP allow-listing, data lifecycle management, and more."
+                - link "More About Security" [ref=e451] [cursor=pointer]:
+                  - /url: /security
+            - generic [ref=e454]:
+              - generic [ref=e455]:
+                - img "shield" [ref=e456]
+                - generic [ref=e457]:
+                  - paragraph [ref=e458]: SOC2 II
+                  - link "Details" [ref=e459] [cursor=pointer]:
+                    - /url: https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2
+                    - text: Details
+                    - img [ref=e460]
+              - generic [ref=e462]:
+                - img "euro security" [ref=e463]
+                - generic [ref=e464]:
+                  - paragraph [ref=e465]: CCPA
+                  - link "Details" [ref=e466] [cursor=pointer]:
+                    - /url: https://oag.ca.gov/privacy/ccpa
+                    - text: Details
+                    - img [ref=e467]
+              - generic [ref=e469]:
+                - img "iso" [ref=e470]
+                - generic [ref=e471]:
+                  - paragraph [ref=e472]: ISO 27001
+                  - link "Details" [ref=e473] [cursor=pointer]:
+                    - /url: https://www.iso.org/standard/27001
+                    - text: Details
+                    - img [ref=e474]
+              - generic [ref=e476]:
+                - img "euro security" [ref=e477]
+                - generic [ref=e478]:
+                  - paragraph [ref=e479]: GDPR
+                  - link "Details" [ref=e480] [cursor=pointer]:
+                    - /url: https://commission.europa.eu/law/law-topic/data-protection_en
+                    - text: Details
+                    - img [ref=e481]
+    - contentinfo [ref=e483]:
+      - generic [ref=e484]:
+        - heading "Unlock Professional Class AI for Your Firm" [level=3] [ref=e485]
+        - link "Request a Demo" [ref=e486] [cursor=pointer]:
+          - /url: /contact-sales
+          - paragraph [ref=e487]: Request a Demo
+      - generic [ref=e488]:
+        - generic [ref=e489]:
+          - img [ref=e490]
+          - paragraph [ref=e492]: Copyright © 2026 Harvey AI Corporation. All rights reserved.
+        - navigation [ref=e493]:
+          - generic [ref=e494]:
+            - heading "Platform" [level=3] [ref=e495]
+            - list [ref=e496]:
+              - listitem [ref=e497]:
+                - link "Assistant →" [ref=e498] [cursor=pointer]:
+                  - /url: /platform/assistant
+                  - text: Assistant
+                  - generic [ref=e499]: →
+              - listitem [ref=e500]:
+                - link "Vault →" [ref=e501] [cursor=pointer]:
+                  - /url: /platform/vault
+                  - text: Vault
+                  - generic [ref=e502]: →
+              - listitem [ref=e503]:
+                - link "Knowledge →" [ref=e504] [cursor=pointer]:
+                  - /url: /platform/knowledge
+                  - text: Knowledge
+                  - generic [ref=e505]: →
+              - listitem [ref=e506]:
+                - link "Workflow Agents →" [ref=e507] [cursor=pointer]:
+                  - /url: /platform/workflow-agents
+                  - text: Workflow Agents
+                  - generic [ref=e508]: →
+              - listitem [ref=e509]:
+                - link "Ecosystem →" [ref=e510] [cursor=pointer]:
+                  - /url: /platform/ecosystem
+                  - text: Ecosystem
+                  - generic [ref=e511]: →
+              - listitem [ref=e512]:
+                - link "Partnerships →" [ref=e513] [cursor=pointer]:
+                  - /url: /platform/partnerships
+                  - text: Partnerships
+                  - generic [ref=e514]: →
+          - generic [ref=e515]:
+            - heading "Solutions" [level=3] [ref=e516]
+            - list [ref=e517]:
+              - listitem [ref=e518]:
+                - link "Innovation →" [ref=e519] [cursor=pointer]:
+                  - /url: /solutions/innovation
+                  - text: Innovation
+                  - generic [ref=e520]: →
+              - listitem [ref=e521]:
+                - link "In-House →" [ref=e522] [cursor=pointer]:
+                  - /url: /solutions/in-house
+                  - text: In-House
+                  - generic [ref=e523]: →
+              - listitem [ref=e524]:
+                - link "Transactional →" [ref=e525] [cursor=pointer]:
+                  - /url: /solutions/transactional
+                  - text: Transactional
+                  - generic [ref=e526]: →
+              - listitem [ref=e527]:
+                - link "Litigation →" [ref=e528] [cursor=pointer]:
+                  - /url: /solutions/litigation
+                  - text: Litigation
+                  - generic [ref=e529]: →
+              - listitem [ref=e530]:
+                - link "Mid-Sized Firms →" [ref=e531] [cursor=pointer]:
+                  - /url: /solutions/mid-sized-firms
+                  - text: Mid-Sized Firms
+                  - generic [ref=e532]: →
+              - listitem [ref=e533]:
+                - link "Collaboration →" [ref=e534] [cursor=pointer]:
+                  - /url: /solutions/collaboration
+                  - text: Collaboration
+                  - generic [ref=e535]: →
+          - generic [ref=e536]:
+            - heading "About" [level=3] [ref=e537]
+            - list [ref=e538]:
+              - listitem [ref=e539]:
+                - link "Customers →" [ref=e540] [cursor=pointer]:
+                  - /url: /customers
+                  - text: Customers
+                  - generic [ref=e541]: →
+              - listitem [ref=e542]:
+                - link "Security →" [ref=e543] [cursor=pointer]:
+                  - /url: /security
+                  - text: Security
+                  - generic [ref=e544]: →
+              - listitem [ref=e545]:
+                - link "Company →" [ref=e546] [cursor=pointer]:
+                  - /url: /company
+                  - text: Company
+                  - generic [ref=e547]: →
+              - listitem [ref=e548]:
+                - link "Newsroom →" [ref=e549] [cursor=pointer]:
+                  - /url: /newsroom
+                  - text: Newsroom
+                  - generic [ref=e550]: →
+              - listitem [ref=e551]:
+                - link "Careers →" [ref=e552] [cursor=pointer]:
+                  - /url: /company#company-careers
+                  - text: Careers
+                  - generic [ref=e553]: →
+              - listitem [ref=e554]:
+                - link "Law Schools →" [ref=e555] [cursor=pointer]:
+                  - /url: /about/law-schools
+                  - text: Law Schools
+                  - generic [ref=e556]: →
+          - generic [ref=e557]:
+            - heading "Resources" [level=3] [ref=e558]
+            - list [ref=e559]:
+              - listitem [ref=e560]:
+                - link "Blog →" [ref=e561] [cursor=pointer]:
+                  - /url: /blog
+                  - text: Blog
+                  - generic [ref=e562]: →
+              - listitem [ref=e563]:
+                - link "Resources Hub →" [ref=e564] [cursor=pointer]:
+                  - /url: /resources
+                  - text: Resources Hub
+                  - generic [ref=e565]: →
+              - listitem [ref=e566]:
+                - link "Harvey Academy →" [ref=e567] [cursor=pointer]:
+                  - /url: https://academy.harvey.ai
+                  - text: Harvey Academy
+                  - generic [ref=e568]: →
+              - listitem [ref=e569]:
+                - link "Help Center →" [ref=e570] [cursor=pointer]:
+                  - /url: https://help.harvey.ai
+                  - text: Help Center
+                  - generic [ref=e571]: →
+              - listitem [ref=e572]:
+                - link "Legal →" [ref=e573] [cursor=pointer]:
+                  - /url: /legal
+                  - text: Legal
+                  - generic [ref=e574]: →
+              - listitem [ref=e575]:
+                - link "Privacy Policy →" [ref=e576] [cursor=pointer]:
+                  - /url: /legal/privacy-policy
+                  - text: Privacy Policy
+                  - generic [ref=e577]: →
+              - listitem [ref=e578]:
+                - link "Press Kit →" [ref=e579] [cursor=pointer]:
+                  - /url: /press
+                  - text: Press Kit
+                  - generic [ref=e580]: →
+              - listitem [ref=e581]:
+                - link "Your Privacy Choices →" [ref=e582] [cursor=pointer]:
+                  - /url: /opt-out
+                  - img [ref=e583]
+                  - text: Your Privacy Choices
+                  - generic [ref=e586]: →
+          - generic [ref=e587]:
+            - heading "Follow" [level=3] [ref=e588]
+            - list [ref=e589]:
+              - listitem [ref=e590]:
+                - link "X →" [ref=e591] [cursor=pointer]:
+                  - /url: https://x.com/harvey
+                  - text: X
+                  - generic [ref=e592]: →
+              - listitem [ref=e593]:
+                - link "LinkedIn →" [ref=e594] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/harvey-ai/
+                  - text: LinkedIn
+                  - generic [ref=e595]: →
+              - listitem [ref=e596]:
+                - link "YouTube →" [ref=e597] [cursor=pointer]:
+                  - /url: https://www.youtube.com/@harvey-ai
+                  - text: YouTube
+                  - generic [ref=e598]: →
+  - alert [ref=e599]

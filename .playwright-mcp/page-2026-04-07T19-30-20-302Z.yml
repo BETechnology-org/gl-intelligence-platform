@@ -1,0 +1,90 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: ASC 220-40 · DISE Compliance
+    - generic [ref=e8]:
+      - generic [ref=e9]: FY2023 · diplomatic75
+      - generic [ref=e12]: 501 accounts · FY2023
+  - generic [ref=e13]:
+    - button "Overview" [ref=e14] [cursor=pointer]
+    - button "Account Explorer" [ref=e15] [cursor=pointer]
+    - button "Audit Trail" [ref=e16] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e17] [cursor=pointer]
+    - button "DISE Disclosure" [ref=e18] [cursor=pointer]
+    - button "Cost Centre" [ref=e19] [cursor=pointer]
+    - button "Agents" [ref=e20] [cursor=pointer]
+  - generic [ref=e21]:
+    - generic [ref=e88]:
+      - generic [ref=e89]:
+        - generic [ref=e90]: 501 GL accounts
+        - generic [ref=e91]: · FY2023 actuals
+        - generic [ref=e92]: · 5 DISE categories
+        - generic [ref=e93]: · SAP · Google BigQuery · Cortex Framework
+        - generic [ref=e94]: Live data
+      - generic [ref=e96]:
+        - generic [ref=e97]:
+          - generic [ref=e99]: Accounts Classified
+          - generic [ref=e100]: "501"
+          - generic [ref=e101]: of 502 GL accounts
+        - generic [ref=e102]:
+          - generic [ref=e104]: Total FY2023 Expense
+          - generic [ref=e105]: $1921.3M
+          - generic [ref=e106]: 5 DISE categories
+        - generic [ref=e107]:
+          - generic [ref=e109]: High Confidence
+          - generic [ref=e110]: 100%
+          - generic [ref=e111]: 499 accounts validated
+        - generic [ref=e112]:
+          - generic [ref=e114]: Needs Review
+          - generic [ref=e115]: "2"
+          - generic [ref=e116]: Medium confidence
+        - generic [ref=e117]:
+          - generic [ref=e119]: Investigate
+          - generic [ref=e120]: "0"
+          - generic [ref=e121]: Low confidence
+      - generic [ref=e122]:
+        - generic [ref=e123]:
+          - generic [ref=e125]: Expense by DISE Category — FY2023
+          - generic [ref=e126]:
+            - generic [ref=e127]:
+              - generic [ref=e128]: Employee compensation
+              - generic [ref=e131]: $858.3M (171)
+            - generic [ref=e132]:
+              - generic [ref=e133]: Other expenses
+              - generic [ref=e136]: $662.1M (178)
+            - generic [ref=e137]:
+              - generic [ref=e138]: Depreciation
+              - generic [ref=e141]: $143.3M (64)
+            - generic [ref=e142]:
+              - generic [ref=e143]: Purchases of inventory
+              - generic [ref=e146]: $136.6M (43)
+            - generic [ref=e147]:
+              - generic [ref=e148]: Intangible asset amortization
+              - generic [ref=e151]: $121.0M (45)
+        - generic [ref=e152]:
+          - generic [ref=e154]: Classification Confidence
+          - generic [ref=e155]:
+            - generic [ref=e156]:
+              - generic [ref=e157]:
+                - generic [ref=e158]: "499"
+                - generic [ref=e159]: High
+              - generic [ref=e160]:
+                - generic [ref=e161]: "2"
+                - generic [ref=e162]: Medium
+              - generic [ref=e163]:
+                - generic [ref=e164]: "0"
+                - generic [ref=e165]: Low
+            - generic [ref=e166]: Expense Caption Breakdown
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: SG&A
+                - generic [ref=e172]: $1293.7M (279)
+              - generic [ref=e173]:
+                - generic [ref=e174]: COGS
+                - generic [ref=e177]: $431.7M (146)
+              - generic [ref=e178]:
+                - generic [ref=e179]: R&D
+                - generic [ref=e182]: $196.0M (76)
+    - text: · · · · ·

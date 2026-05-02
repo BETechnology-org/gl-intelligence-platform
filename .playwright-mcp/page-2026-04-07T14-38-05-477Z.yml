@@ -1,0 +1,43 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - heading "Sign In" [level=1] [ref=e5]
+        - generic [ref=e6]:
+          - paragraph [ref=e7]: Don't have an account?
+          - link "Sign Up" [ref=e8] [cursor=pointer]:
+            - /url: /auth/signup
+      - generic [ref=e11]:
+        - generic [ref=e13]:
+          - generic:
+            - img
+          - textbox "Email" [ref=e14]
+        - generic [ref=e15]:
+          - generic [ref=e16]:
+            - generic:
+              - img
+            - textbox "Password" [ref=e17]
+          - generic [ref=e18]:
+            - generic [ref=e19]:
+              - checkbox "Show password" [ref=e20] [cursor=pointer]
+              - checkbox
+              - generic [ref=e21]: Show password
+            - link "Forgot password?" [ref=e22] [cursor=pointer]:
+              - /url: /auth/reset-password
+        - button "Submit" [disabled]
+    - img [ref=e23]
+  - generic "Current breakpoint" [ref=e26]:
+    - generic [ref=e27]: XL
+  - complementary:
+    - button "toggle theme" [ref=e28] [cursor=pointer]:
+      - img [ref=e29]
+  - iframe [ref=e32]:
+    - link "All services are online" [ref=f4e2] [cursor=pointer]:
+      - /url: https://status.truffles.ai
+      - img [ref=f4e4]
+      - generic [ref=f4e7]: All services are online
+  - generic [ref=e33]:
+    - img [ref=e35]
+    - button "Open Tanstack query devtools" [ref=e83] [cursor=pointer]:
+      - img [ref=e84]
+  - alert [ref=e132]

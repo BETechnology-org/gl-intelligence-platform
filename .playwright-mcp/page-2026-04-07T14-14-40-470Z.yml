@@ -1,0 +1,1395 @@
+- generic [ref=e1]:
+  - dialog "Cookie Consent Banner" [ref=e2]:
+    - button "Close this dialog" [active] [ref=e3] [cursor=pointer]:
+      - img "Close this dialog" [ref=e4]
+    - generic [ref=e5]:
+      - generic [ref=e6]: "This website utilises technologies such as cookies to enable essential site functionality, as well as for analytics, personalisation, and targeted advertising. To learn more, view the following link:"
+      - link "Privacy Policy" [ref=e7] [cursor=pointer]:
+        - /url: https://www.glean.com/privacy-policy
+    - button "Manage Preferences" [ref=e9] [cursor=pointer]
+  - generic [ref=e10]:
+    - banner [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: Save your spot for Glean:GO 2026. Learn what it takes to run an AI-powered enterprise.
+          - link "Register now" [ref=e16] [cursor=pointer]:
+            - /url: /events/glean-go-2026
+            - generic [ref=e18]: Register now
+        - button [ref=e19] [cursor=pointer]
+      - banner [ref=e23]:
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - link "Glean Logomark Blue" [ref=e27] [cursor=pointer]:
+              - /url: /
+              - img "Glean Logomark Blue" [ref=e28]
+            - generic [ref=e30]:
+              - generic [ref=e32]:
+                - generic [ref=e33]: Product
+                - img [ref=e35]
+              - link "Customers" [ref=e37] [cursor=pointer]:
+                - /url: /resources/customer-stories
+                - generic [ref=e38]: Customers
+              - generic [ref=e40]:
+                - generic [ref=e41]: Solutions
+                - img [ref=e43]
+              - generic [ref=e46]:
+                - generic [ref=e47]: Resources
+                - img [ref=e49]
+              - link "About" [ref=e51] [cursor=pointer]:
+                - /url: /about
+                - generic [ref=e52]: About
+          - generic [ref=e54]:
+            - form "search-box" [ref=e57]:
+              - textbox "Search" [ref=e58]
+            - link "Sign into Glean" [ref=e61] [cursor=pointer]:
+              - /url: https://app.glean.com/login?redirect=%2F
+              - text: Sign in
+            - link "Get a demo" [ref=e64] [cursor=pointer]:
+              - /url: /get-a-demo
+              - generic [ref=e65]: Get a demo
+    - main [ref=e67]:
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - generic [ref=e74]:
+                - img "Gartner Peer Insights Choice 2024" [ref=e75]
+                - generic [ref=e76]:
+                  - generic [ref=e77]: 4.5/5.0
+                  - img [ref=e79]
+                  - generic [ref=e81]: (103)
+                - generic:
+                  - generic: Gartner Peer Insights Customers' Choice 2024 (Insight Engines Category)
+              - generic [ref=e82]:
+                - img [ref=e84]
+                - generic [ref=e87]:
+                  - generic [ref=e88]: "4.8"
+                  - img [ref=e90]
+                  - generic [ref=e92]: (130+)
+                - generic [ref=e94]: G2
+            - heading "Work AI that works f o r C I O s ." [level=1] [ref=e95]:
+              - text: Work AI that works
+              - generic [ref=e96]:
+                - generic [ref=e97]: f
+                - generic [ref=e98]: o
+                - generic [ref=e99]: r
+                - generic [ref=e101]: C
+                - generic [ref=e102]: I
+                - generic [ref=e103]: O
+                - generic [ref=e104]: s
+                - generic [ref=e105]: .
+            - paragraph [ref=e106]: Give every employee an AI Assistant and Agents that put your company’s knowledge to work.
+            - generic [ref=e107]:
+              - link "Get a demo" [ref=e108] [cursor=pointer]:
+                - /url: /get-a-demo
+                - generic [ref=e110]: Get a demo
+              - button "open lightbox" [ref=e111] [cursor=pointer]:
+                - generic [ref=e112]: Watch video
+                - img [ref=e114]
+          - generic [ref=e123]:
+            - img "Home Hero Blue BG 1"
+            - img "Home Hero - Glean Agents" [ref=e124]
+            - img "Home Hero - Glean Assistant" [ref=e125]
+            - img "Home Hero - Glean Search" [ref=e126]
+            - img "Glean Agent Character" [ref=e127]
+          - img "Home Hero Blue BG 2"
+        - generic [ref=e128]:
+          - tablist [ref=e129]:
+            - tab "Tab Link - Engineering Engineering Debug code" [selected] [ref=e130] [cursor=pointer]:
+              - img "Tab Link - Engineering" [ref=e131]
+              - generic [ref=e132]:
+                - generic [ref=e133]: Engineering
+                - generic [ref=e134]: Debug code
+            - tab "Tab Link - Customer Support Customer Support Resolve incidents" [ref=e135] [cursor=pointer]:
+              - img "Tab Link - Customer Support" [ref=e136]
+              - generic [ref=e137]:
+                - generic [ref=e138]: Customer Support
+                - generic [ref=e139]: Resolve incidents
+            - tab "Tab Link - Sales Sales Review accounts" [ref=e140] [cursor=pointer]:
+              - img "Tab Link - Sales" [ref=e141]
+              - generic [ref=e142]:
+                - generic [ref=e143]: Sales
+                - generic [ref=e144]: Review accounts
+            - tab "Tab Link - People People New hire setup" [ref=e145] [cursor=pointer]:
+              - img "Tab Link - People" [ref=e146]
+              - generic [ref=e147]:
+                - generic [ref=e148]: People
+                - generic [ref=e149]: New hire setup
+            - tab "Tab Link - IT IT Patch compliance" [ref=e150] [cursor=pointer]:
+              - img "Tab Link - IT" [ref=e151]
+              - generic [ref=e152]:
+                - generic [ref=e153]: IT
+                - generic [ref=e154]: Patch compliance
+          - tabpanel "Tab Link - Engineering Engineering Debug code" [ref=e156]:
+            - link "See details" [ref=e157] [cursor=pointer]:
+              - /url: /solutions/engineering
+              - generic [ref=e158]:
+                - generic: See details
+                - img [ref=e160]
+      - generic [ref=e168]:
+        - img "GLEANGO2026 Logo - Desktop" [ref=e170]
+        - generic [ref=e171]:
+          - generic [ref=e172]:
+            - paragraph [ref=e173]: Fort Mason, SF, CA
+            - paragraph [ref=e174]: •
+            - paragraph [ref=e175]: August 26-27
+          - paragraph [ref=e177]: Early bird registration is now open!
+          - generic [ref=e178]:
+            - link "Attend in-person" [ref=e179] [cursor=pointer]:
+              - /url: https://events.gleango.com/z0EoAM?rt=PxIwQzGv30yDDqqr_e72_w
+              - generic [ref=e180]: Attend in-person
+              - img [ref=e182]
+            - link "Join virtually" [ref=e191] [cursor=pointer]:
+              - /url: https://events.gleango.com/VevXN0?rt=Dz-POBo_7EaWWk6Rnp7BsA
+              - generic [ref=e192]: Join virtually
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - region [ref=e197]:
+            - generic [ref=e198]:
+              - group "1 of 7" [ref=e199]:
+                - img "Plaid Logo" [ref=e201]
+              - group "2 of 7" [ref=e202]:
+                - img "Pinterest Logo" [ref=e204]
+              - group "3 of 7" [ref=e205]:
+                - link "WealthSimple Logo Customer story Arrow logos icon" [ref=e206] [cursor=pointer]:
+                  - /url: /resources/customer-stories/wealthsimple
+                  - img "WealthSimple Logo" [ref=e207]
+                  - generic [ref=e208]:
+                    - generic [ref=e210]: Customer story
+                    - img "Arrow logos icon" [ref=e211]
+              - group "4 of 7" [ref=e212]:
+                - img "Gainsight Logo" [ref=e214]
+              - group "5 of 7" [ref=e215]:
+                - img "Bill blot logo" [ref=e217]
+              - group "6 of 7" [ref=e218]:
+                - img "Greenhouse logo" [ref=e220]
+              - group "7 of 7" [ref=e221]:
+                - img "LaunchDarkly Logo" [ref=e223]
+              - group "1 of 7" [ref=e224]:
+                - img "Plaid Logo" [ref=e226]
+              - group "2 of 7" [ref=e227]:
+                - img "Pinterest Logo" [ref=e229]
+              - group "3 of 7" [ref=e230]:
+                - link "WealthSimple Logo Customer story Arrow logos icon" [ref=e231] [cursor=pointer]:
+                  - /url: /resources/customer-stories/wealthsimple
+                  - img "WealthSimple Logo" [ref=e232]
+                  - generic [ref=e233]:
+                    - generic [ref=e235]: Customer story
+                    - img "Arrow logos icon" [ref=e236]
+              - group "4 of 7" [ref=e237]:
+                - img "Gainsight Logo" [ref=e239]
+              - group "5 of 7" [ref=e240]:
+                - img "Bill blot logo" [ref=e242]
+              - group "6 of 7" [ref=e243]:
+                - img "Greenhouse logo" [ref=e245]
+              - group "7 of 7" [ref=e246]:
+                - img "LaunchDarkly Logo" [ref=e248]
+              - group "1 of 7" [ref=e249]:
+                - img "Plaid Logo" [ref=e251]
+              - group "2 of 7" [ref=e252]:
+                - img "Pinterest Logo" [ref=e254]
+              - group "3 of 7" [ref=e255]:
+                - link "WealthSimple Logo Customer story Arrow logos icon" [ref=e256] [cursor=pointer]:
+                  - /url: /resources/customer-stories/wealthsimple
+                  - img "WealthSimple Logo" [ref=e257]
+                  - generic [ref=e258]:
+                    - generic [ref=e260]: Customer story
+                    - img "Arrow logos icon" [ref=e261]
+              - group "4 of 7" [ref=e262]:
+                - img "Gainsight Logo" [ref=e264]
+              - group "5 of 7" [ref=e265]:
+                - img "Bill blot logo" [ref=e267]
+              - group "6 of 7" [ref=e268]:
+                - img "Greenhouse logo" [ref=e270]
+              - group "7 of 7" [ref=e271]:
+                - img "LaunchDarkly Logo" [ref=e273]
+              - group "1 of 7" [ref=e274]:
+                - img "Plaid Logo" [ref=e276]
+              - group "2 of 7" [ref=e277]:
+                - img "Pinterest Logo" [ref=e279]
+              - group "3 of 7" [ref=e280]:
+                - link "WealthSimple Logo Customer story Arrow logos icon" [ref=e281] [cursor=pointer]:
+                  - /url: /resources/customer-stories/wealthsimple
+                  - img "WealthSimple Logo" [ref=e282]
+                  - generic [ref=e283]:
+                    - generic [ref=e285]: Customer story
+                    - img "Arrow logos icon" [ref=e286]
+              - group "4 of 7" [ref=e287]:
+                - img "Gainsight Logo" [ref=e289]
+              - group "5 of 7" [ref=e290]:
+                - img "Bill blot logo" [ref=e292]
+              - group "6 of 7" [ref=e293]:
+                - img "Greenhouse logo" [ref=e295]
+              - group "7 of 7" [ref=e296]:
+                - img "LaunchDarkly Logo" [ref=e298]
+              - group "1 of 7" [ref=e299]:
+                - img "Plaid Logo" [ref=e301]
+              - group "2 of 7" [ref=e302]:
+                - img "Pinterest Logo" [ref=e304]
+              - group "3 of 7" [ref=e305]:
+                - link "WealthSimple Logo Customer story Arrow logos icon" [ref=e306] [cursor=pointer]:
+                  - /url: /resources/customer-stories/wealthsimple
+                  - img "WealthSimple Logo" [ref=e307]
+                  - generic [ref=e308]:
+                    - generic [ref=e310]: Customer story
+                    - img "Arrow logos icon" [ref=e311]
+              - group "4 of 7" [ref=e312]:
+                - img "Gainsight Logo" [ref=e314]
+              - group [ref=e315]:
+                - img [ref=e317]
+              - group [ref=e318]:
+                - img [ref=e320]
+              - group [ref=e321]:
+                - img [ref=e323]
+          - region [ref=e324]:
+            - generic [ref=e325]:
+              - group "3 of 8" [ref=e326]:
+                - img "Seat Geek Logo" [ref=e328]
+              - group "4 of 8" [ref=e329]:
+                - link "Super Logo Customer story Arrow logos icon" [ref=e330] [cursor=pointer]:
+                  - /url: /resources/customer-stories/super
+                  - img "Super Logo" [ref=e331]
+                  - generic [ref=e332]:
+                    - generic [ref=e334]: Customer story
+                    - img "Arrow logos icon" [ref=e335]
+              - group "5 of 8" [ref=e336]:
+                - img "Vanta logo" [ref=e338]
+              - group "6 of 8" [ref=e339]:
+                - img "Zscaler Logo" [ref=e341]
+              - group "7 of 8" [ref=e342]:
+                - img "Samsung Logo" [ref=e344]
+              - group "8 of 8" [ref=e345]:
+                - img "Redis Logo" [ref=e347]
+              - group "1 of 8" [ref=e348]:
+                - img "BetterUp Logo" [ref=e350]
+              - group "2 of 8" [ref=e351]:
+                - img "Samsara Logo" [ref=e353]
+              - group "3 of 8" [ref=e354]:
+                - img "Seat Geek Logo" [ref=e356]
+              - group "4 of 8" [ref=e357]:
+                - link "Super Logo Customer story Arrow logos icon" [ref=e358] [cursor=pointer]:
+                  - /url: /resources/customer-stories/super
+                  - img "Super Logo" [ref=e359]
+                  - generic [ref=e360]:
+                    - generic [ref=e362]: Customer story
+                    - img "Arrow logos icon" [ref=e363]
+              - group "5 of 8" [ref=e364]:
+                - img "Vanta logo" [ref=e366]
+              - group "6 of 8" [ref=e367]:
+                - img "Zscaler Logo" [ref=e369]
+              - group "7 of 8" [ref=e370]:
+                - img "Samsung Logo" [ref=e372]
+              - group "8 of 8" [ref=e373]:
+                - img "Redis Logo" [ref=e375]
+              - group "1 of 8" [ref=e376]:
+                - img "BetterUp Logo" [ref=e378]
+              - group "2 of 8" [ref=e379]:
+                - img "Samsara Logo" [ref=e381]
+              - group "3 of 8" [ref=e382]:
+                - img "Seat Geek Logo" [ref=e384]
+              - group "4 of 8" [ref=e385]:
+                - link "Super Logo Customer story Arrow logos icon" [ref=e386] [cursor=pointer]:
+                  - /url: /resources/customer-stories/super
+                  - img "Super Logo" [ref=e387]
+                  - generic [ref=e388]:
+                    - generic [ref=e390]: Customer story
+                    - img "Arrow logos icon" [ref=e391]
+              - group "5 of 8" [ref=e392]:
+                - img "Vanta logo" [ref=e394]
+              - group "6 of 8" [ref=e395]:
+                - img "Zscaler Logo" [ref=e397]
+              - group "7 of 8" [ref=e398]:
+                - img "Samsung Logo" [ref=e400]
+              - group "8 of 8" [ref=e401]:
+                - img "Redis Logo" [ref=e403]
+              - group "1 of 8" [ref=e404]:
+                - img "BetterUp Logo" [ref=e406]
+              - group "2 of 8" [ref=e407]:
+                - img "Samsara Logo" [ref=e409]
+              - group "3 of 8" [ref=e410]:
+                - img "Seat Geek Logo" [ref=e412]
+              - group "4 of 8" [ref=e413]:
+                - link "Super Logo Customer story Arrow logos icon" [ref=e414] [cursor=pointer]:
+                  - /url: /resources/customer-stories/super
+                  - img "Super Logo" [ref=e415]
+                  - generic [ref=e416]:
+                    - generic [ref=e418]: Customer story
+                    - img "Arrow logos icon" [ref=e419]
+              - group "5 of 8" [ref=e420]:
+                - img "Vanta logo" [ref=e422]
+              - group "6 of 8" [ref=e423]:
+                - img "Zscaler Logo" [ref=e425]
+              - group "7 of 8" [ref=e426]:
+                - img "Samsung Logo" [ref=e428]
+              - group "8 of 8" [ref=e429]:
+                - img "Redis Logo" [ref=e431]
+              - group "1 of 8" [ref=e432]:
+                - img "BetterUp Logo" [ref=e434]
+              - group "2 of 8" [ref=e435]:
+                - img "Samsara Logo" [ref=e437]
+              - group [ref=e438]:
+                - img [ref=e440]
+              - group [ref=e441]:
+                - link [ref=e442] [cursor=pointer]:
+                  - /url: /resources/customer-stories/super
+                  - img [ref=e443]
+                  - generic [ref=e444]:
+                    - generic [ref=e446]: Customer story
+                    - img [ref=e447]
+              - group [ref=e448]:
+                - img [ref=e450]
+              - group [ref=e451]:
+                - img [ref=e453]
+          - region [ref=e454]:
+            - generic [ref=e455]:
+              - group "1 of 7" [ref=e456]:
+                - img "Instacart Logo" [ref=e458]
+              - group "2 of 7" [ref=e459]:
+                - img "Abnormal Logo" [ref=e461]
+              - group "3 of 7" [ref=e462]:
+                - img "Instacart logo" [ref=e464]
+              - group "4 of 7" [ref=e465]:
+                - link "Duolingo Logo Customer story Arrow logos icon" [ref=e466] [cursor=pointer]:
+                  - /url: /resources/customer-stories/duolingo
+                  - img "Duolingo Logo" [ref=e467]
+                  - generic [ref=e468]:
+                    - generic [ref=e470]: Customer story
+                    - img "Arrow logos icon" [ref=e471]
+              - group "5 of 7" [ref=e472]:
+                - img "World Wide Web Logo" [ref=e474]
+              - group "6 of 7" [ref=e475]:
+                - link "Purestorage Logo Customer story Arrow logos icon" [ref=e476] [cursor=pointer]:
+                  - /url: /resources/customer-stories/purestorage
+                  - img "Purestorage Logo" [ref=e477]
+                  - generic [ref=e478]:
+                    - generic [ref=e480]: Customer story
+                    - img "Arrow logos icon" [ref=e481]
+              - group "7 of 7" [ref=e482]:
+                - img "Handshake logo" [ref=e484]
+              - group "1 of 7" [ref=e485]:
+                - img "Instacart Logo" [ref=e487]
+              - group "2 of 7" [ref=e488]:
+                - img "Abnormal Logo" [ref=e490]
+              - group "3 of 7" [ref=e491]:
+                - img "Instacart logo" [ref=e493]
+              - group "4 of 7" [ref=e494]:
+                - link "Duolingo Logo Customer story Arrow logos icon" [ref=e495] [cursor=pointer]:
+                  - /url: /resources/customer-stories/duolingo
+                  - img "Duolingo Logo" [ref=e496]
+                  - generic [ref=e497]:
+                    - generic [ref=e499]: Customer story
+                    - img "Arrow logos icon" [ref=e500]
+              - group "5 of 7" [ref=e501]:
+                - img "World Wide Web Logo" [ref=e503]
+              - group "6 of 7" [ref=e504]:
+                - link "Purestorage Logo Customer story Arrow logos icon" [ref=e505] [cursor=pointer]:
+                  - /url: /resources/customer-stories/purestorage
+                  - img "Purestorage Logo" [ref=e506]
+                  - generic [ref=e507]:
+                    - generic [ref=e509]: Customer story
+                    - img "Arrow logos icon" [ref=e510]
+              - group "7 of 7" [ref=e511]:
+                - img "Handshake logo" [ref=e513]
+              - group "1 of 7" [ref=e514]:
+                - img "Instacart Logo" [ref=e516]
+              - group "2 of 7" [ref=e517]:
+                - img "Abnormal Logo" [ref=e519]
+              - group "3 of 7" [ref=e520]:
+                - img "Instacart logo" [ref=e522]
+              - group "4 of 7" [ref=e523]:
+                - link "Duolingo Logo Customer story Arrow logos icon" [ref=e524] [cursor=pointer]:
+                  - /url: /resources/customer-stories/duolingo
+                  - img "Duolingo Logo" [ref=e525]
+                  - generic [ref=e526]:
+                    - generic [ref=e528]: Customer story
+                    - img "Arrow logos icon" [ref=e529]
+              - group "5 of 7" [ref=e530]:
+                - img "World Wide Web Logo" [ref=e532]
+              - group "6 of 7" [ref=e533]:
+                - link "Purestorage Logo Customer story Arrow logos icon" [ref=e534] [cursor=pointer]:
+                  - /url: /resources/customer-stories/purestorage
+                  - img "Purestorage Logo" [ref=e535]
+                  - generic [ref=e536]:
+                    - generic [ref=e538]: Customer story
+                    - img "Arrow logos icon" [ref=e539]
+              - group "7 of 7" [ref=e540]:
+                - img "Handshake logo" [ref=e542]
+              - group "1 of 7" [ref=e543]:
+                - img "Instacart Logo" [ref=e545]
+              - group "2 of 7" [ref=e546]:
+                - img "Abnormal Logo" [ref=e548]
+              - group "3 of 7" [ref=e549]:
+                - img "Instacart logo" [ref=e551]
+              - group "4 of 7" [ref=e552]:
+                - link "Duolingo Logo Customer story Arrow logos icon" [ref=e553] [cursor=pointer]:
+                  - /url: /resources/customer-stories/duolingo
+                  - img "Duolingo Logo" [ref=e554]
+                  - generic [ref=e555]:
+                    - generic [ref=e557]: Customer story
+                    - img "Arrow logos icon" [ref=e558]
+              - group "5 of 7" [ref=e559]:
+                - img "World Wide Web Logo" [ref=e561]
+              - group "6 of 7" [ref=e562]:
+                - link "Purestorage Logo Customer story Arrow logos icon" [ref=e563] [cursor=pointer]:
+                  - /url: /resources/customer-stories/purestorage
+                  - img "Purestorage Logo" [ref=e564]
+                  - generic [ref=e565]:
+                    - generic [ref=e567]: Customer story
+                    - img "Arrow logos icon" [ref=e568]
+              - group "7 of 7" [ref=e569]:
+                - img "Handshake logo" [ref=e571]
+              - group "1 of 7" [ref=e572]:
+                - img "Instacart Logo" [ref=e574]
+              - group "2 of 7" [ref=e575]:
+                - img "Abnormal Logo" [ref=e577]
+              - group "3 of 7" [ref=e578]:
+                - img "Instacart logo" [ref=e580]
+              - group "4 of 7" [ref=e581]:
+                - link "Duolingo Logo Customer story Arrow logos icon" [ref=e582] [cursor=pointer]:
+                  - /url: /resources/customer-stories/duolingo
+                  - img "Duolingo Logo" [ref=e583]
+                  - generic [ref=e584]:
+                    - generic [ref=e586]: Customer story
+                    - img "Arrow logos icon" [ref=e587]
+              - group [ref=e588]:
+                - img [ref=e590]
+              - group [ref=e591]:
+                - link [ref=e592] [cursor=pointer]:
+                  - /url: /resources/customer-stories/purestorage
+                  - img [ref=e593]
+                  - generic [ref=e594]:
+                    - generic [ref=e596]: Customer story
+                    - img [ref=e597]
+              - group [ref=e598]:
+                - img [ref=e600]
+        - generic [ref=e601]:
+          - generic [ref=e602]: The world’s leading enterprises put AI to work with Glean.
+          - generic [ref=e603]:
+            - img "Sharon Milz" [ref=e604]
+            - generic [ref=e605]:
+              - generic [ref=e607]: “We're up and running in three weeks. I don't think I've ever been able to integrate something quicker and faster than that.”
+              - link "Customer story" [ref=e608] [cursor=pointer]:
+                - /url: /resources/customer-stories/time
+                - generic [ref=e609]: Customer story
+                - img [ref=e611]
+        - generic [ref=e614]:
+          - region [ref=e615]:
+            - generic [ref=e616]:
+              - group "1 of 7" [ref=e617]:
+                - img "Zillow Logo" [ref=e619]
+              - group "2 of 7" [ref=e620]:
+                - img "Zapier Logo" [ref=e622]
+              - group "3 of 7" [ref=e623]:
+                - img "Crunchyroll Logo" [ref=e625]
+              - group "4 of 7" [ref=e626]:
+                - img "Booking.com Logo" [ref=e628]
+              - group "5 of 7" [ref=e629]:
+                - img "Reddit Logo" [ref=e631]
+              - group "6 of 7" [ref=e632]:
+                - img "Rivian Logo" [ref=e634]
+              - group "7 of 7" [ref=e635]:
+                - img "Samsung Logo" [ref=e637]
+              - group "1 of 7" [ref=e638]:
+                - img "Zillow Logo" [ref=e640]
+              - group "2 of 7" [ref=e641]:
+                - img "Zapier Logo" [ref=e643]
+              - group "3 of 7" [ref=e644]:
+                - img "Crunchyroll Logo" [ref=e646]
+              - group "4 of 7" [ref=e647]:
+                - img "Booking.com Logo" [ref=e649]
+              - group "5 of 7" [ref=e650]:
+                - img "Reddit Logo" [ref=e652]
+              - group "6 of 7" [ref=e653]:
+                - img "Rivian Logo" [ref=e655]
+              - group "7 of 7" [ref=e656]:
+                - img "Samsung Logo" [ref=e658]
+              - group "1 of 7" [ref=e659]:
+                - img "Zillow Logo" [ref=e661]
+              - group "2 of 7" [ref=e662]:
+                - img "Zapier Logo" [ref=e664]
+              - group "3 of 7" [ref=e665]:
+                - img "Crunchyroll Logo" [ref=e667]
+              - group "4 of 7" [ref=e668]:
+                - img "Booking.com Logo" [ref=e670]
+              - group "5 of 7" [ref=e671]:
+                - img "Reddit Logo" [ref=e673]
+              - group "6 of 7" [ref=e674]:
+                - img "Rivian Logo" [ref=e676]
+              - group "7 of 7" [ref=e677]:
+                - img "Samsung Logo" [ref=e679]
+              - group "1 of 7" [ref=e680]:
+                - img "Zillow Logo" [ref=e682]
+              - group "2 of 7" [ref=e683]:
+                - img "Zapier Logo" [ref=e685]
+              - group "3 of 7" [ref=e686]:
+                - img "Crunchyroll Logo" [ref=e688]
+              - group "4 of 7" [ref=e689]:
+                - img "Booking.com Logo" [ref=e691]
+              - group "5 of 7" [ref=e692]:
+                - img "Reddit Logo" [ref=e694]
+              - group "6 of 7" [ref=e695]:
+                - img "Rivian Logo" [ref=e697]
+              - group "7 of 7" [ref=e698]:
+                - img "Samsung Logo" [ref=e700]
+              - group "1 of 7" [ref=e701]:
+                - img "Zillow Logo" [ref=e703]
+              - group "2 of 7" [ref=e704]:
+                - img "Zapier Logo" [ref=e706]
+              - group "3 of 7" [ref=e707]:
+                - img "Crunchyroll Logo" [ref=e709]
+              - group "4 of 7" [ref=e710]:
+                - img "Booking.com Logo" [ref=e712]
+              - group [ref=e713]:
+                - img [ref=e715]
+              - group [ref=e716]:
+                - img [ref=e718]
+              - group [ref=e719]:
+                - img [ref=e721]
+          - region [ref=e722]:
+            - generic [ref=e723]:
+              - group "1 of 7" [ref=e724]:
+                - img "Rubrik Logo" [ref=e726]
+              - group "2 of 7" [ref=e727]:
+                - img "Betterup Logo" [ref=e729]
+              - group "3 of 7" [ref=e730]:
+                - link "Webflow Logo Customer story Arrow logos icon" [ref=e731] [cursor=pointer]:
+                  - /url: /resources/customer-stories/webflow
+                  - img "Webflow Logo" [ref=e732]
+                  - generic [ref=e733]:
+                    - generic [ref=e735]: Customer story
+                    - img "Arrow logos icon" [ref=e736]
+              - group "4 of 7" [ref=e737]:
+                - link "Grammarly Logo Customer story Arrow logos icon" [ref=e738] [cursor=pointer]:
+                  - /url: /resources/customer-stories/grammarly
+                  - img "Grammarly Logo" [ref=e739]
+                  - generic [ref=e740]:
+                    - generic [ref=e742]: Customer story
+                    - img "Arrow logos icon" [ref=e743]
+              - group "5 of 7" [ref=e744]:
+                - img "Intercom Logo" [ref=e746]
+              - group "6 of 7" [ref=e747]:
+                - img "Vanta Logo" [ref=e749]
+              - group "7 of 7" [ref=e750]:
+                - img "Bookign.com Logo" [ref=e752]
+              - group "1 of 7" [ref=e753]:
+                - img "Rubrik Logo" [ref=e755]
+              - group "2 of 7" [ref=e756]:
+                - img "Betterup Logo" [ref=e758]
+              - group "3 of 7" [ref=e759]:
+                - link "Webflow Logo Customer story Arrow logos icon" [ref=e760] [cursor=pointer]:
+                  - /url: /resources/customer-stories/webflow
+                  - img "Webflow Logo" [ref=e761]
+                  - generic [ref=e762]:
+                    - generic [ref=e764]: Customer story
+                    - img "Arrow logos icon" [ref=e765]
+              - group "4 of 7" [ref=e766]:
+                - link "Grammarly Logo Customer story Arrow logos icon" [ref=e767] [cursor=pointer]:
+                  - /url: /resources/customer-stories/grammarly
+                  - img "Grammarly Logo" [ref=e768]
+                  - generic [ref=e769]:
+                    - generic [ref=e771]: Customer story
+                    - img "Arrow logos icon" [ref=e772]
+              - group "5 of 7" [ref=e773]:
+                - img "Intercom Logo" [ref=e775]
+              - group "6 of 7" [ref=e776]:
+                - img "Vanta Logo" [ref=e778]
+              - group "7 of 7" [ref=e779]:
+                - img "Bookign.com Logo" [ref=e781]
+              - group "1 of 7" [ref=e782]:
+                - img "Rubrik Logo" [ref=e784]
+              - group "2 of 7" [ref=e785]:
+                - img "Betterup Logo" [ref=e787]
+              - group "3 of 7" [ref=e788]:
+                - link "Webflow Logo Customer story Arrow logos icon" [ref=e789] [cursor=pointer]:
+                  - /url: /resources/customer-stories/webflow
+                  - img "Webflow Logo" [ref=e790]
+                  - generic [ref=e791]:
+                    - generic [ref=e793]: Customer story
+                    - img "Arrow logos icon" [ref=e794]
+              - group "4 of 7" [ref=e795]:
+                - link "Grammarly Logo Customer story Arrow logos icon" [ref=e796] [cursor=pointer]:
+                  - /url: /resources/customer-stories/grammarly
+                  - img "Grammarly Logo" [ref=e797]
+                  - generic [ref=e798]:
+                    - generic [ref=e800]: Customer story
+                    - img "Arrow logos icon" [ref=e801]
+              - group "5 of 7" [ref=e802]:
+                - img "Intercom Logo" [ref=e804]
+              - group "6 of 7" [ref=e805]:
+                - img "Vanta Logo" [ref=e807]
+              - group "7 of 7" [ref=e808]:
+                - img "Bookign.com Logo" [ref=e810]
+              - group "1 of 7" [ref=e811]:
+                - img "Rubrik Logo" [ref=e813]
+              - group "2 of 7" [ref=e814]:
+                - img "Betterup Logo" [ref=e816]
+              - group "3 of 7" [ref=e817]:
+                - link "Webflow Logo Customer story Arrow logos icon" [ref=e818] [cursor=pointer]:
+                  - /url: /resources/customer-stories/webflow
+                  - img "Webflow Logo" [ref=e819]
+                  - generic [ref=e820]:
+                    - generic [ref=e822]: Customer story
+                    - img "Arrow logos icon" [ref=e823]
+              - group "4 of 7" [ref=e824]:
+                - link "Grammarly Logo Customer story Arrow logos icon" [ref=e825] [cursor=pointer]:
+                  - /url: /resources/customer-stories/grammarly
+                  - img "Grammarly Logo" [ref=e826]
+                  - generic [ref=e827]:
+                    - generic [ref=e829]: Customer story
+                    - img "Arrow logos icon" [ref=e830]
+              - group "5 of 7" [ref=e831]:
+                - img "Intercom Logo" [ref=e833]
+              - group "6 of 7" [ref=e834]:
+                - img "Vanta Logo" [ref=e836]
+              - group "7 of 7" [ref=e837]:
+                - img "Bookign.com Logo" [ref=e839]
+              - group "1 of 7" [ref=e840]:
+                - img "Rubrik Logo" [ref=e842]
+              - group "2 of 7" [ref=e843]:
+                - img "Betterup Logo" [ref=e845]
+              - group "3 of 7" [ref=e846]:
+                - link "Webflow Logo Customer story Arrow logos icon" [ref=e847] [cursor=pointer]:
+                  - /url: /resources/customer-stories/webflow
+                  - img "Webflow Logo" [ref=e848]
+                  - generic [ref=e849]:
+                    - generic [ref=e851]: Customer story
+                    - img "Arrow logos icon" [ref=e852]
+              - group "4 of 7" [ref=e853]:
+                - link "Grammarly Logo Customer story Arrow logos icon" [ref=e854] [cursor=pointer]:
+                  - /url: /resources/customer-stories/grammarly
+                  - img "Grammarly Logo" [ref=e855]
+                  - generic [ref=e856]:
+                    - generic [ref=e858]: Customer story
+                    - img "Arrow logos icon" [ref=e859]
+              - group [ref=e860]:
+                - img [ref=e862]
+              - group [ref=e863]:
+                - img [ref=e865]
+              - group [ref=e866]:
+                - img [ref=e868]
+          - region [ref=e869]:
+            - generic [ref=e870]:
+              - group "1 of 7" [ref=e871]:
+                - img "Covered Calofornia Logo" [ref=e873]
+              - group "2 of 7" [ref=e874]:
+                - link "Databricks Logo Customer story Arrow logos icon" [ref=e875] [cursor=pointer]:
+                  - /url: /resources/customer-stories/databricks
+                  - img "Databricks Logo" [ref=e876]
+                  - generic [ref=e877]:
+                    - generic [ref=e879]: Customer story
+                    - img "Arrow logos icon" [ref=e880]
+              - group "3 of 7" [ref=e881]:
+                - img "Intuit Logo" [ref=e883]
+              - group "4 of 7" [ref=e884]:
+                - img "Gainsight Logo" [ref=e886]
+              - group "5 of 7" [ref=e887]:
+                - img "Motive Logo" [ref=e889]
+              - group "6 of 7" [ref=e890]:
+                - img "Bookign.com Logo" [ref=e892]
+              - group "7 of 7" [ref=e893]:
+                - img "Redis Logo" [ref=e895]
+              - group "1 of 7" [ref=e896]:
+                - img "Covered Calofornia Logo" [ref=e898]
+              - group "2 of 7" [ref=e899]:
+                - link "Databricks Logo Customer story Arrow logos icon" [ref=e900] [cursor=pointer]:
+                  - /url: /resources/customer-stories/databricks
+                  - img "Databricks Logo" [ref=e901]
+                  - generic [ref=e902]:
+                    - generic [ref=e904]: Customer story
+                    - img "Arrow logos icon" [ref=e905]
+              - group "3 of 7" [ref=e906]:
+                - img "Intuit Logo" [ref=e908]
+              - group "4 of 7" [ref=e909]:
+                - img "Gainsight Logo" [ref=e911]
+              - group "5 of 7" [ref=e912]:
+                - img "Motive Logo" [ref=e914]
+              - group "6 of 7" [ref=e915]:
+                - img "Bookign.com Logo" [ref=e917]
+              - group "7 of 7" [ref=e918]:
+                - img "Redis Logo" [ref=e920]
+              - group "1 of 7" [ref=e921]:
+                - img "Covered Calofornia Logo" [ref=e923]
+              - group "2 of 7" [ref=e924]:
+                - link "Databricks Logo Customer story Arrow logos icon" [ref=e925] [cursor=pointer]:
+                  - /url: /resources/customer-stories/databricks
+                  - img "Databricks Logo" [ref=e926]
+                  - generic [ref=e927]:
+                    - generic [ref=e929]: Customer story
+                    - img "Arrow logos icon" [ref=e930]
+              - group "3 of 7" [ref=e931]:
+                - img "Intuit Logo" [ref=e933]
+              - group "4 of 7" [ref=e934]:
+                - img "Gainsight Logo" [ref=e936]
+              - group "5 of 7" [ref=e937]:
+                - img "Motive Logo" [ref=e939]
+              - group "6 of 7" [ref=e940]:
+                - img "Bookign.com Logo" [ref=e942]
+              - group "7 of 7" [ref=e943]:
+                - img "Redis Logo" [ref=e945]
+              - group "1 of 7" [ref=e946]:
+                - img "Covered Calofornia Logo" [ref=e948]
+              - group "2 of 7" [ref=e949]:
+                - link "Databricks Logo Customer story Arrow logos icon" [ref=e950] [cursor=pointer]:
+                  - /url: /resources/customer-stories/databricks
+                  - img "Databricks Logo" [ref=e951]
+                  - generic [ref=e952]:
+                    - generic [ref=e954]: Customer story
+                    - img "Arrow logos icon" [ref=e955]
+              - group "3 of 7" [ref=e956]:
+                - img "Intuit Logo" [ref=e958]
+              - group "4 of 7" [ref=e959]:
+                - img "Gainsight Logo" [ref=e961]
+              - group "5 of 7" [ref=e962]:
+                - img "Motive Logo" [ref=e964]
+              - group "6 of 7" [ref=e965]:
+                - img "Bookign.com Logo" [ref=e967]
+              - group "7 of 7" [ref=e968]:
+                - img "Redis Logo" [ref=e970]
+              - group "1 of 7" [ref=e971]:
+                - img "Covered Calofornia Logo" [ref=e973]
+              - group "2 of 7" [ref=e974]:
+                - link "Databricks Logo Customer story Arrow logos icon" [ref=e975] [cursor=pointer]:
+                  - /url: /resources/customer-stories/databricks
+                  - img "Databricks Logo" [ref=e976]
+                  - generic [ref=e977]:
+                    - generic [ref=e979]: Customer story
+                    - img "Arrow logos icon" [ref=e980]
+              - group "3 of 7" [ref=e981]:
+                - img "Intuit Logo" [ref=e983]
+              - group "4 of 7" [ref=e984]:
+                - img "Gainsight Logo" [ref=e986]
+              - group [ref=e987]:
+                - img [ref=e989]
+              - group [ref=e990]:
+                - img [ref=e992]
+              - group [ref=e993]:
+                - img [ref=e995]
+      - generic [ref=e1000]:
+        - heading "Reimagine your everyday work with AI." [level=2] [ref=e1002]
+        - generic [ref=e1003]:
+          - generic [ref=e1005]:
+            - generic [ref=e1006]:
+              - heading "Find & understand" [level=2] [ref=e1007]
+              - generic [ref=e1008]: information
+            - generic [ref=e1009]:
+              - generic [ref=e1010]:
+                - img [ref=e1012]
+                - generic [ref=e1014]: Search information, docs, and people
+              - generic [ref=e1015]:
+                - img [ref=e1017]
+                - generic [ref=e1019]: Explore insights, research, and discoveries
+              - generic [ref=e1020]:
+                - img [ref=e1022]
+                - generic [ref=e1024]: Onboard to new jobs and projects
+          - generic [ref=e1026]:
+            - generic [ref=e1027]:
+              - heading "Create & summarize" [level=2] [ref=e1028]
+              - generic [ref=e1029]: content
+            - generic [ref=e1030]:
+              - generic [ref=e1031]:
+                - img [ref=e1033]
+                - generic [ref=e1035]: Create content, updates and deliverables
+              - generic [ref=e1036]:
+                - img [ref=e1038]
+                - generic [ref=e1040]: Summarize docs, threads and meetings
+              - generic [ref=e1041]:
+                - img [ref=e1043]
+                - generic [ref=e1045]: Analyze for insights and answers
+          - generic [ref=e1047]:
+            - generic [ref=e1048]:
+              - heading "Automate" [level=2] [ref=e1049]
+              - generic [ref=e1050]: your work
+            - generic [ref=e1051]:
+              - generic [ref=e1052]:
+                - img [ref=e1054]
+                - generic [ref=e1056]: Communicate with automatic responses
+              - generic [ref=e1057]:
+                - img [ref=e1059]
+                - generic [ref=e1061]: Automate repetitive tasks and workflows
+              - generic [ref=e1062]:
+                - img [ref=e1064]
+                - generic [ref=e1066]: Orchestrate departmental processes
+      - generic [ref=e1071]:
+        - heading "One centralized platform for quickly and securely deploying AI in the enterprise." [level=2] [ref=e1072]
+        - link "See product overview" [ref=e1074] [cursor=pointer]:
+          - /url: /product/overview
+          - generic [ref=e1075]: See product overview
+          - img [ref=e1077]
+      - generic [ref=e1090]:
+        - generic [ref=e1092]:
+          - generic [ref=e1093]:
+            - link "Agents" [ref=e1094] [cursor=pointer]:
+              - /url: "#"
+            - link "Assistant" [ref=e1095] [cursor=pointer]:
+              - /url: "#"
+            - link "Search" [ref=e1096] [cursor=pointer]:
+              - /url: "#"
+          - link "Protect" [ref=e1097] [cursor=pointer]:
+            - /url: "#"
+          - link "APIs" [ref=e1098] [cursor=pointer]:
+            - /url: "#"
+        - tabpanel "Agents" [ref=e1101]:
+          - generic [ref=e1103]:
+            - generic [ref=e1105]:
+              - heading "Glean Agents" [level=2] [ref=e1107]
+              - paragraph [ref=e1108]: Create powerful AI agents to automate work at scale.
+              - link "Explore Glean Agents" [ref=e1110] [cursor=pointer]:
+                - /url: /product/ai-agents
+                - generic [ref=e1111]: Explore Glean Agents
+                - img [ref=e1113]
+            - generic [ref=e1123]:
+              - img "Background blurb"
+              - img "Create powerful AI agents to automate work at scale" [ref=e1124]
+      - generic [ref=e1129]:
+        - generic [ref=e1130]:
+          - heading "Glean connects with 100+ apps" [level=2] [ref=e1131]
+          - generic [ref=e1132]: via native, push API & web history based connectors.
+          - link "View all connectors" [ref=e1134] [cursor=pointer]:
+            - /url: /connectors
+        - generic [ref=e1135]:
+          - generic [ref=e1137]:
+            - generic [ref=e1138]: CONNECTORS
+            - list [ref=e1140]:
+              - listitem [ref=e1141]:
+                - generic [ref=e1142]:
+                  - generic: Google Drive
+              - listitem [ref=e1143]:
+                - generic [ref=e1144]:
+                  - generic: GitLab
+              - listitem [ref=e1145]:
+                - generic [ref=e1146]:
+                  - generic: ServiceNow
+              - listitem [ref=e1147]:
+                - generic [ref=e1148]:
+                  - generic: Microsoft SharePoint
+              - listitem [ref=e1149]:
+                - generic [ref=e1150]:
+                  - generic: Microsoft OneDrive
+              - listitem [ref=e1151]:
+                - generic [ref=e1152]:
+                  - generic: Microsoft Outlook
+              - listitem [ref=e1153]:
+                - generic [ref=e1154]:
+                  - generic: Box
+              - listitem [ref=e1155]:
+                - generic [ref=e1156]:
+                  - generic: GitHub
+              - listitem [ref=e1157]:
+                - generic [ref=e1158]:
+                  - generic: Zendesk
+              - listitem [ref=e1159]:
+                - generic [ref=e1160]:
+                  - generic: Microsoft Teams
+              - listitem [ref=e1161]:
+                - generic [ref=e1162]:
+                  - generic: Gmail
+              - listitem [ref=e1163]:
+                - generic [ref=e1164]:
+                  - generic: Confluence
+              - listitem [ref=e1165]:
+                - generic [ref=e1166]:
+                  - generic: Slack
+              - listitem [ref=e1167]:
+                - generic [ref=e1168]:
+                  - generic: Jira
+              - listitem [ref=e1169]:
+                - generic [ref=e1170]:
+                  - generic: Salesforce
+              - listitem [ref=e1171]:
+                - generic [ref=e1172]:
+                  - generic: Dropbox
+          - img [ref=e1177]
+          - generic [ref=e1179]:
+            - generic [ref=e1180]:
+              - generic [ref=e1181]: INTEGRATION DETAILS
+              - generic [ref=e1183]: Drag and drop an app to Glean to view details
+            - generic [ref=e1184]:
+              - generic [ref=e1185]:
+                - img "Glean Logomark Blue" [ref=e1186]
+                - generic [ref=e1187]: +
+                - generic [ref=e1188]: Microsoft Sharepoint
+              - generic [ref=e1189]:
+                - generic [ref=e1190]: Search for exactly the files you need through Glean’s integration with Dropbox.
+                - generic [ref=e1191]:
+                  - generic [ref=e1192]: Features
+                  - generic [ref=e1193]:
+                    - paragraph [ref=e1194]: Lorem ipsum dolor sit amet, consectetur adipiscing eli.
+                    - list [ref=e1195]:
+                      - listitem [ref=e1196]: Item A
+                      - listitem [ref=e1197]: Item B
+                      - listitem [ref=e1198]: Item C
+                - link "See more details" [ref=e1200] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e1201]: See more details
+      - generic [ref=e1207]:
+        - heading "Glean saves up to 110 hours per user/year" [level=2] [ref=e1209]
+        - generic [ref=e1210]:
+          - generic [ref=e1211]:
+            - generic [ref=e1212]:
+              - generic [ref=e1213]: "93"
+              - text: "%"
+            - generic [ref=e1214]: Glean adoption reached 93% in just 2 years.
+          - generic [ref=e1215]:
+            - generic [ref=e1216]: "36"
+            - generic [ref=e1217]: Glean saves 36 hours per employee on onboarding
+          - generic [ref=e1218]:
+            - generic [ref=e1219]:
+              - generic [ref=e1220]: "20"
+              - text: "%"
+            - generic [ref=e1221]: Glean Chat reduces internal support requests by 20% (IT, HR, etc.).
+          - generic [ref=e1222]:
+            - generic [ref=e1223]:
+              - generic [ref=e1224]: "6"
+              - generic [ref=e1225]: months
+            - generic [ref=e1226]: Companies recover their Glean investment in under 6 months.
+        - link "See the Forrester Report" [ref=e1227] [cursor=pointer]:
+          - /url: /resources/guides/forrester-study-the-total-economic-impact-of-glean
+          - generic [ref=e1228]: See the Forrester Report
+          - img [ref=e1230]
+      - generic [ref=e1237]:
+        - generic [ref=e1238]:
+          - heading "See what our customers say" [level=2] [ref=e1240]
+          - region [ref=e1241]:
+            - generic [ref=e1242]:
+              - group "1 of 4" [ref=e1243] [cursor=pointer]
+              - group "2 of 4" [ref=e1248] [cursor=pointer]:
+                - img "Bill Logo" [ref=e1253]
+              - group "3 of 4" [ref=e1254] [cursor=pointer]:
+                - img "Customer Logo - Webflow" [ref=e1259]
+              - group "4 of 4" [ref=e1260] [cursor=pointer]:
+                - img "Confluent Logo" [ref=e1265]
+        - region [ref=e1267]:
+          - generic [ref=e1268]:
+            - group [ref=e1269] [cursor=pointer]:
+              - generic [ref=e1270]:
+                - generic [ref=e1271]:
+                  - generic [ref=e1272]:
+                    - img [ref=e1273]
+                    - img [ref=e1274]
+                  - generic [ref=e1275]:
+                    - paragraph [ref=e1276]: Tadeu Faedrick
+                    - paragraph [ref=e1277]: Senior Engineer Manager
+                - generic [ref=e1278]:
+                  - paragraph [ref=e1282]: Glean helps you get work done, rather than just find information. The moment we launched Glean, there was so much positivity.
+                  - generic [ref=e1284]:
+                    - generic [ref=e1285]: Customer story
+                    - img [ref=e1287]
+            - group [ref=e1296]:
+              - generic [ref=e1297]:
+                - generic [ref=e1298]:
+                  - generic [ref=e1299]:
+                    - img [ref=e1300]
+                    - img [ref=e1301]
+                  - generic [ref=e1302]:
+                    - paragraph [ref=e1303]: Steve Januario
+                    - paragraph [ref=e1304]: VP of Technology
+                - generic [ref=e1305]:
+                  - img [ref=e1308]
+                  - paragraph [ref=e1310]: Calibrations, email, presentations, content creation, etc., have gotten so much easier. I've seen stats that say Glean saves people 2-3 hours of time a week, but I know it's saving me a lot more time than that, and if you're not using Glean today, you really should be.
+            - group [ref=e1311] [cursor=pointer]:
+              - generic [ref=e1312]:
+                - generic [ref=e1313]:
+                  - generic [ref=e1314]:
+                    - img [ref=e1315]
+                    - img [ref=e1316]
+                  - generic [ref=e1317]:
+                    - paragraph [ref=e1318]: Casey Carlton
+                    - paragraph [ref=e1319]: Director of IT & Business Tech
+                - generic [ref=e1320]:
+                  - img [ref=e1323]
+                  - paragraph [ref=e1325]: In my previous roles, I looked at and tried out tools that said they could handle enterprise search, both on-prem and Saas-based, but nothing worked. So, I was skeptical at first. However, Glean quickly proved that my skepticism was invalid.
+                  - generic [ref=e1327]:
+                    - generic [ref=e1328]: Customer story
+                    - img [ref=e1330]
+            - group [ref=e1339] [cursor=pointer]:
+              - generic [ref=e1340]:
+                - generic [ref=e1341]:
+                  - generic [ref=e1342]:
+                    - img [ref=e1343]
+                    - img [ref=e1344]
+                  - generic [ref=e1345]:
+                    - paragraph [ref=e1346]: Manu Narayan
+                    - paragraph [ref=e1347]: VP of IT, Data & Business Operations
+                - generic [ref=e1348]:
+                  - paragraph [ref=e1350]: It seems every SaaS platform has added some kind of generative feature, but they only have a single window of context. Glean brings the same thoughtful approach they brought to search to enterprise Al.
+                  - generic [ref=e1352]:
+                    - generic [ref=e1353]: Customer story
+                    - img [ref=e1355]
+            - group "1 of 4" [ref=e1364] [cursor=pointer]:
+              - generic [ref=e1365]:
+                - generic [ref=e1366]:
+                  - generic [ref=e1367]:
+                    - img "Tadeu Faedrick" [ref=e1368]
+                    - img "Tadeu Faedrick Mobile" [ref=e1369]
+                  - generic [ref=e1370]:
+                    - paragraph [ref=e1371]: Tadeu Faedrick
+                    - paragraph [ref=e1372]: Senior Engineer Manager
+                - generic [ref=e1373]:
+                  - paragraph [ref=e1377]: Glean helps you get work done, rather than just find information. The moment we launched Glean, there was so much positivity.
+                  - generic [ref=e1379]:
+                    - generic [ref=e1380]: Customer story
+                    - img [ref=e1382]
+            - group [ref=e1391]:
+              - generic [ref=e1392]:
+                - generic [ref=e1393]:
+                  - generic [ref=e1394]:
+                    - img [ref=e1395]
+                    - img [ref=e1396]
+                  - generic [ref=e1397]:
+                    - paragraph [ref=e1398]: Steve Januario
+                    - paragraph [ref=e1399]: VP of Technology
+                - generic [ref=e1400]:
+                  - img [ref=e1403]
+                  - paragraph [ref=e1405]: Calibrations, email, presentations, content creation, etc., have gotten so much easier. I've seen stats that say Glean saves people 2-3 hours of time a week, but I know it's saving me a lot more time than that, and if you're not using Glean today, you really should be.
+            - group [ref=e1406] [cursor=pointer]:
+              - generic [ref=e1407]:
+                - generic [ref=e1408]:
+                  - generic [ref=e1409]:
+                    - img [ref=e1410]
+                    - img [ref=e1411]
+                  - generic [ref=e1412]:
+                    - paragraph [ref=e1413]: Casey Carlton
+                    - paragraph [ref=e1414]: Director of IT & Business Tech
+                - generic [ref=e1415]:
+                  - img [ref=e1418]
+                  - paragraph [ref=e1420]: In my previous roles, I looked at and tried out tools that said they could handle enterprise search, both on-prem and Saas-based, but nothing worked. So, I was skeptical at first. However, Glean quickly proved that my skepticism was invalid.
+                  - generic [ref=e1422]:
+                    - generic [ref=e1423]: Customer story
+                    - img [ref=e1425]
+            - group [ref=e1434] [cursor=pointer]:
+              - generic [ref=e1435]:
+                - generic [ref=e1436]:
+                  - generic [ref=e1437]:
+                    - img [ref=e1438]
+                    - img [ref=e1439]
+                  - generic [ref=e1440]:
+                    - paragraph [ref=e1441]: Manu Narayan
+                    - paragraph [ref=e1442]: VP of IT, Data & Business Operations
+                - generic [ref=e1443]:
+                  - paragraph [ref=e1445]: It seems every SaaS platform has added some kind of generative feature, but they only have a single window of context. Glean brings the same thoughtful approach they brought to search to enterprise Al.
+                  - generic [ref=e1447]:
+                    - generic [ref=e1448]: Customer story
+                    - img [ref=e1450]
+            - group [ref=e1459] [cursor=pointer]:
+              - generic [ref=e1460]:
+                - generic [ref=e1461]:
+                  - generic [ref=e1462]:
+                    - img [ref=e1463]
+                    - img [ref=e1464]
+                  - generic [ref=e1465]:
+                    - paragraph [ref=e1466]: Tadeu Faedrick
+                    - paragraph [ref=e1467]: Senior Engineer Manager
+                - generic [ref=e1468]:
+                  - paragraph [ref=e1472]: Glean helps you get work done, rather than just find information. The moment we launched Glean, there was so much positivity.
+                  - generic [ref=e1474]:
+                    - generic [ref=e1475]: Customer story
+                    - img [ref=e1477]
+            - group [ref=e1486]:
+              - generic [ref=e1487]:
+                - generic [ref=e1488]:
+                  - generic [ref=e1489]:
+                    - img [ref=e1490]
+                    - img [ref=e1491]
+                  - generic [ref=e1492]:
+                    - paragraph [ref=e1493]: Steve Januario
+                    - paragraph [ref=e1494]: VP of Technology
+                - generic [ref=e1495]:
+                  - img [ref=e1498]
+                  - paragraph [ref=e1500]: Calibrations, email, presentations, content creation, etc., have gotten so much easier. I've seen stats that say Glean saves people 2-3 hours of time a week, but I know it's saving me a lot more time than that, and if you're not using Glean today, you really should be.
+            - group [ref=e1501] [cursor=pointer]:
+              - generic [ref=e1502]:
+                - generic [ref=e1503]:
+                  - generic [ref=e1504]:
+                    - img [ref=e1505]
+                    - img [ref=e1506]
+                  - generic [ref=e1507]:
+                    - paragraph [ref=e1508]: Casey Carlton
+                    - paragraph [ref=e1509]: Director of IT & Business Tech
+                - generic [ref=e1510]:
+                  - img [ref=e1513]
+                  - paragraph [ref=e1515]: In my previous roles, I looked at and tried out tools that said they could handle enterprise search, both on-prem and Saas-based, but nothing worked. So, I was skeptical at first. However, Glean quickly proved that my skepticism was invalid.
+                  - generic [ref=e1517]:
+                    - generic [ref=e1518]: Customer story
+                    - img [ref=e1520]
+            - group [ref=e1529] [cursor=pointer]:
+              - generic [ref=e1530]:
+                - generic [ref=e1531]:
+                  - generic [ref=e1532]:
+                    - img [ref=e1533]
+                    - img [ref=e1534]
+                  - generic [ref=e1535]:
+                    - paragraph [ref=e1536]: Manu Narayan
+                    - paragraph [ref=e1537]: VP of IT, Data & Business Operations
+                - generic [ref=e1538]:
+                  - paragraph [ref=e1540]: It seems every SaaS platform has added some kind of generative feature, but they only have a single window of context. Glean brings the same thoughtful approach they brought to search to enterprise Al.
+                  - generic [ref=e1542]:
+                    - generic [ref=e1543]: Customer story
+                    - img [ref=e1545]
+      - generic [ref=e1557]:
+        - heading "Analyst Recognition" [level=2] [ref=e1559]
+        - list [ref=e1561]:
+          - listitem [ref=e1562]:
+            - 'link "Gartner® Emerging Market Quadrant: Glean named a Leader (AI Knowledge Management Apps / General Productivity) Named as an \"Emerging Leader\" in the Emerging Market Quadrant. Read the press release" [ref=e1563] [cursor=pointer]':
+              - /url: /press/glean-named-as-one-of-the-emerging-leaders-in-the-gartner-r-emerging-market-quadrant-of-the-2025-innovation-guide-for-generative-ai-knowledge-management-apps
+              - generic [ref=e1564]:
+                - generic [ref=e1565]:
+                  - 'heading "Gartner® Emerging Market Quadrant: Glean named a Leader" [level=2] [ref=e1566]'
+                  - paragraph [ref=e1568]: (AI Knowledge Management Apps / General Productivity)
+                  - paragraph [ref=e1569]: Named as an "Emerging Leader" in the Emerging Market Quadrant.
+                - generic [ref=e1571]:
+                  - generic [ref=e1572]: Read the press release
+                  - img [ref=e1574]
+            - 'link "Glean Recognized as #1 Applied AI, Top 6 Globally Named to Fast Company’s 2025 World’s Most Innovative Companies for enterprise AI leadership and innovation. Read the announcement" [ref=e1576] [cursor=pointer]':
+              - /url: /press/glean-worlds-most-innovative-companies-2025
+              - generic [ref=e1577]:
+                - generic [ref=e1578]:
+                  - 'heading "Glean Recognized as #1 Applied AI, Top 6 Globally" [level=2] [ref=e1579]'
+                  - paragraph [ref=e1580]: Named to Fast Company’s 2025 World’s Most Innovative Companies for enterprise AI leadership and innovation.
+                - generic [ref=e1582]:
+                  - generic [ref=e1583]: Read the announcement
+                  - img [ref=e1585]
+            - 'link "Emerging Tech: Glean is Recognized as a Tech Innovator in Agentic AI Gartner® on agentic AI: Vendors tackling automation, collaboration, reliability, and autonomy. Download now" [ref=e1587] [cursor=pointer]':
+              - /url: /resources/guides/glean-an-emerging-tech-innovator-in-agentic-ai
+              - generic [ref=e1588]:
+                - generic [ref=e1589]:
+                  - 'heading "Emerging Tech: Glean is Recognized as a Tech Innovator in Agentic AI" [level=2] [ref=e1590]'
+                  - paragraph [ref=e1591]: "Gartner® on agentic AI: Vendors tackling automation, collaboration, reliability, and autonomy."
+                - generic [ref=e1593]:
+                  - generic [ref=e1594]: Download now
+                  - img [ref=e1596]
+      - generic [ref=e1598]:
+        - generic [ref=e1602]:
+          - heading "Work AI that works." [level=2] [ref=e1603]
+          - 'link "Get a demo: Scehdule time to understand more about Glean''s capabilites" [ref=e1605] [cursor=pointer]':
+            - /url: /get-a-demo
+            - text: Get a demo
+        - img "CTA Background Gradient 2" [ref=e1606]
+        - img "CTA Background Gradient 3" [ref=e1607]
+        - img "CTA Background Gradient 3" [ref=e1608]
+    - contentinfo [ref=e1609]:
+      - generic [ref=e1613]:
+        - generic [ref=e1614]:
+          - generic [ref=e1616]:
+            - link "Glean Logomark White" [ref=e1617] [cursor=pointer]:
+              - /url: /
+              - img "Glean Logomark White" [ref=e1618]
+            - generic [ref=e1619]:
+              - generic [ref=e1620]: Ask AI for a summary about Glean
+              - generic [ref=e1621]:
+                - link [ref=e1622] [cursor=pointer]:
+                  - /url: https://chatgpt.com/?prompt=As%20an%20Enterprise%20Developer%2C%20I%20want%20to%20know%20how%20Glean%E2%80%99s%20Work%20AI%20platform%20can%20help%20me%20build%20secure%20and%20knowledgeable%20AI%20applications%20using%20my%20company%27s%20data.%20Summarize%20the%20highlights%20from%20Glean%E2%80%99s%20website%3A%20https%3A%2F%2Fglean.com%2F%20and%20their%20developer%20documentation%20https%3A%2F%2Fdevelopers.glean.com%2F
+                  - img [ref=e1624]
+                - link [ref=e1627] [cursor=pointer]:
+                  - /url: https://grok.com/?q=As%20an%20Enterprise%20Developer%2C%20I%20want%20to%20know%20how%20Glean%E2%80%99s%20Work%20AI%20platform%20can%20help%20me%20build%20secure%20and%20knowledgeable%20AI%20applications%20using%20my%20company%27s%20data.%20Summarize%20the%20highlights%20from%20Glean%E2%80%99s%20website%3A%20https%3A%2F%2Fglean.com%2F%20and%20their%20developer%20documentation%20https%3A%2F%2Fdevelopers.glean.com%2F
+                  - img [ref=e1629]
+                - link [ref=e1633] [cursor=pointer]:
+                  - /url: https://www.perplexity.ai/search?q=As%20an%20Enterprise%20Developer%2C%20I%20want%20to%20know%20how%20Glean%E2%80%99s%20Work%20AI%20platform%20can%20help%20me%20build%20secure%20and%20knowledgeable%20AI%20applications%20using%20my%20company%27s%20data.%20Summarize%20the%20highlights%20from%20Glean%E2%80%99s%20website%3A%20https%3A%2F%2Fglean.com%2F%20and%20their%20developer%20documentation%20https%3A%2F%2Fdevelopers.glean.com%2F
+                  - img [ref=e1635]
+                - link [ref=e1638] [cursor=pointer]:
+                  - /url: https://www.google.com/search?udm=50&aep=11&q=As%20an%20Enterprise%20Developer%2C%20I%20want%20to%20know%20how%20Glean%E2%80%99s%20Work%20AI%20platform%20can%20help%20me%20build%20secure%20and%20knowledgeable%20AI%20applications%20using%20my%20company%27s%20data.%20Summarize%20the%20highlights%20from%20Glean%E2%80%99s%20website%3A%20https%3A%2F%2Fglean.com%2F%20and%20their%20developer%20documentation%20https%3A%2F%2Fdevelopers.glean.com%2F
+                  - img [ref=e1640]
+                - link [ref=e1643] [cursor=pointer]:
+                  - /url: https://claude.ai/new?q=As%20an%20Enterprise%20Developer%2C%20I%20want%20to%20know%20how%20Glean%E2%80%99s%20Work%20AI%20platform%20can%20help%20me%20build%20secure%20and%20knowledgeable%20AI%20applications%20using%20my%20company%27s%20data.%20Summarize%20the%20highlights%20from%20Glean%E2%80%99s%20website%3A%20https%3A%2F%2Fglean.com%2F%20and%20their%20developer%20documentation%20https%3A%2F%2Fdevelopers.glean.com%2F
+                  - img [ref=e1645]
+            - generic [ref=e1649]:
+              - text: 634 2nd Street
+              - text: San Francisco, CA 94107
+              - text: United States
+            - generic [ref=e1650]:
+              - link "Twiiter" [ref=e1651] [cursor=pointer]:
+                - /url: https://twitter.com/glean
+              - link "Linkedin" [ref=e1654] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/gleanwork/about/
+              - link "Linkedin" [ref=e1656] [cursor=pointer]:
+                - /url: https://www.instagram.com/gleanwork/
+                - img [ref=e1657]
+              - link "Youtube" [ref=e1660] [cursor=pointer]:
+                - /url: https://www.youtube.com/channel/UCY0JDJWRBXrR0m1SqWPVB9A
+            - button "Language" [ref=e1664] [cursor=pointer]:
+              - img [ref=e1666]
+              - generic [ref=e1669]: Language
+              - img [ref=e1671]
+          - generic [ref=e1673]:
+            - generic [ref=e1674]:
+              - generic [ref=e1675]: PRODUCT
+              - generic [ref=e1676]:
+                - generic [ref=e1677]:
+                  - link "Work AI Platform" [ref=e1678] [cursor=pointer]:
+                    - /url: /product/overview
+                    - generic [ref=e1679]: Work AI Platform
+                  - link "Workplace Search" [ref=e1680] [cursor=pointer]:
+                    - /url: /product/workplace-search-ai
+                    - generic [ref=e1681]: Workplace Search
+                - generic [ref=e1682]:
+                  - link "Assistant" [ref=e1683] [cursor=pointer]:
+                    - /url: /product/assistant
+                    - generic [ref=e1684]: Assistant
+                  - link "Data Analysis" [ref=e1685] [cursor=pointer]:
+                    - /url: /product/data-analysis
+                    - generic [ref=e1686]: Data Analysis
+                  - link "Deep Research" [ref=e1687] [cursor=pointer]:
+                    - /url: /product/deep-research
+                    - generic [ref=e1688]: Deep Research
+                  - link "Canvas" [ref=e1689] [cursor=pointer]:
+                    - /url: /product/canvas
+                    - generic [ref=e1690]: Canvas
+                  - link "Companion" [ref=e1691] [cursor=pointer]:
+                    - /url: /product/assistant/companion
+                    - generic [ref=e1692]: Companion
+                  - link "Prompt Library" [ref=e1693] [cursor=pointer]:
+                    - /url: /prompt-library
+                    - generic [ref=e1694]: Prompt Library
+                - generic [ref=e1695]:
+                  - link "Agents" [ref=e1696] [cursor=pointer]:
+                    - /url: /product/ai-agents
+                    - generic [ref=e1697]: Agents
+                  - link "Agent Builder" [ref=e1698] [cursor=pointer]:
+                    - /url: /product/agent-builder
+                    - generic [ref=e1699]: Agent Builder
+                  - link "Agent Orchestration" [ref=e1700] [cursor=pointer]:
+                    - /url: /product/agent-orchestration
+                    - generic [ref=e1701]: Agent Orchestration
+                  - link "Agent Library" [ref=e1702] [cursor=pointer]:
+                    - /url: /agent-library
+                    - generic [ref=e1703]: Agent Library
+                  - link "Agentic Engine" [ref=e1704] [cursor=pointer]:
+                    - /url: /product/agentic-engine
+                    - generic [ref=e1705]: Agentic Engine
+                - generic [ref=e1706]:
+                  - link "Connectors" [ref=e1707] [cursor=pointer]:
+                    - /url: /connectors
+                    - generic [ref=e1708]: Connectors
+                  - link "Model Hub" [ref=e1709] [cursor=pointer]:
+                    - /url: /product/model-hub
+                    - generic [ref=e1710]: Model Hub
+                  - link "Security" [ref=e1711] [cursor=pointer]:
+                    - /url: /security
+                    - generic [ref=e1712]: Security
+                  - link "System of Context" [ref=e1713] [cursor=pointer]:
+                    - /url: /product/system-of-context
+                    - generic [ref=e1714]: System of Context
+            - generic [ref=e1715]:
+              - generic [ref=e1716]: SOLUTIONS
+              - generic [ref=e1717]:
+                - generic [ref=e1718]:
+                  - link "All Teams" [ref=e1719] [cursor=pointer]:
+                    - /url: /solutions/all-teams
+                    - generic [ref=e1720]: All Teams
+                  - link "Engineering" [ref=e1721] [cursor=pointer]:
+                    - /url: /solutions/engineering
+                    - generic [ref=e1722]: Engineering
+                  - link "Sales" [ref=e1723] [cursor=pointer]:
+                    - /url: /solutions/sales
+                    - generic [ref=e1724]: Sales
+                  - link "Marketing" [ref=e1725] [cursor=pointer]:
+                    - /url: /solutions/marketing
+                    - generic [ref=e1726]: Marketing
+                  - link "Support" [ref=e1727] [cursor=pointer]:
+                    - /url: /solutions/support
+                    - generic [ref=e1728]: Support
+                  - link "People" [ref=e1729] [cursor=pointer]:
+                    - /url: /solutions/people
+                    - generic [ref=e1730]: People
+                  - link "Retail" [ref=e1731] [cursor=pointer]:
+                    - /url: /industries/retail
+                    - generic [ref=e1732]: Retail
+                  - link "Financial Services" [ref=e1733] [cursor=pointer]:
+                    - /url: /industries/financial-services
+                    - generic [ref=e1734]: Financial Services
+                - generic [ref=e1735]:
+                  - generic [ref=e1736]: USE CASES
+                  - link "Enterprise AI" [ref=e1737] [cursor=pointer]:
+                    - /url: /enterprise-ai
+                    - generic [ref=e1738]: Enterprise AI
+                  - link "Enterprise Search Software" [ref=e1739] [cursor=pointer]:
+                    - /url: /enterprise-search-software
+                    - generic [ref=e1740]: Enterprise Search Software
+                  - link "AI Agent Orchestration" [ref=e1741] [cursor=pointer]:
+                    - /url: /what-is-agent-orchestration
+                    - generic [ref=e1742]: AI Agent Orchestration
+                - generic [ref=e1743]:
+                  - generic [ref=e1744]: COMPARISONS
+                  - link "Glean vs ChatGPT Enterprise" [ref=e1745] [cursor=pointer]:
+                    - /url: /glean-vs-chatgpt-enterprise
+                    - generic [ref=e1746]: Glean vs ChatGPT Enterprise
+                  - link "Glean vs. Copilot" [ref=e1747] [cursor=pointer]:
+                    - /url: /glean-vs-copilot
+                    - generic [ref=e1748]: Glean vs. Copilot
+            - generic [ref=e1749]:
+              - generic [ref=e1750]: RESOURCES
+              - generic [ref=e1751]:
+                - link "Resources Center" [ref=e1752] [cursor=pointer]:
+                  - /url: /resources
+                  - generic [ref=e1753]: Resources Center
+                - link "Product Videos" [ref=e1754] [cursor=pointer]:
+                  - /url: /resources/product-videos
+                  - generic [ref=e1755]: Product Videos
+                - link "Guides" [ref=e1756] [cursor=pointer]:
+                  - /url: /resources/guides
+                  - generic [ref=e1757]: Guides
+                - link "Customer Stories" [ref=e1758] [cursor=pointer]:
+                  - /url: /resources/customer-stories
+                  - generic [ref=e1759]: Customer Stories
+                - link "Blog" [ref=e1760] [cursor=pointer]:
+                  - /url: /blog
+                  - generic [ref=e1761]: Blog
+                - link "Events" [ref=e1762] [cursor=pointer]:
+                  - /url: /events
+                  - generic [ref=e1763]: Events
+                - link "Webinars" [ref=e1764] [cursor=pointer]:
+                  - /url: /webinars
+                  - generic [ref=e1765]: Webinars
+                - link "Developers" [ref=e1766] [cursor=pointer]:
+                  - /url: https://developers.glean.com/
+                  - generic [ref=e1767]: Developers
+                - link "Help Center" [ref=e1768] [cursor=pointer]:
+                  - /url: https://help.glean.com/en/
+                  - generic [ref=e1769]: Help Center
+                - link "Download Glean" [ref=e1770] [cursor=pointer]:
+                  - /url: /download-glean
+                  - generic [ref=e1771]: Download Glean
+                - link "Product Drops" [ref=e1772] [cursor=pointer]:
+                  - /url: /product-drop
+                  - generic [ref=e1773]: Product Drops
+                - link "Gleaniverse Community" [ref=e1774] [cursor=pointer]:
+                  - /url: https://community.glean.com/
+                  - generic [ref=e1775]: Gleaniverse Community
+            - generic [ref=e1776]:
+              - generic [ref=e1777]: COMPANY
+              - generic [ref=e1778]:
+                - link "About" [ref=e1779] [cursor=pointer]:
+                  - /url: /about
+                  - generic [ref=e1780]: About
+                - link "Careers" [ref=e1781] [cursor=pointer]:
+                  - /url: /careers
+                  - generic [ref=e1782]: Careers
+                - link "Newsroom" [ref=e1783] [cursor=pointer]:
+                  - /url: /press
+                  - generic [ref=e1784]: Newsroom
+                - link "Referrals" [ref=e1785] [cursor=pointer]:
+                  - /url: /refer-friend
+                  - generic [ref=e1786]: Referrals
+                - link "Partners" [ref=e1787] [cursor=pointer]:
+                  - /url: /partners
+                  - generic [ref=e1788]: Partners
+                - link "Trust center" [ref=e1789] [cursor=pointer]:
+                  - /url: https://trust.glean.com/
+                  - generic [ref=e1790]: Trust center
+        - generic [ref=e1792]:
+          - text: Gartner®, Peer Insights™, Voice of the Customer for Insight Engines, Peer Contributors, 28 June 2024.
+          - text: Gartner Peer Insights content consists of the opinions of individual end users based on their own experiences, and should not be construed as statements of fact, nor do they represent the views of Gartner or its affiliates.
+          - text: Gartner does not endorse any vendor, product or service depicted in this content nor makes any warranties, expressed or implied, with respect to this content, about its accuracy or completeness, including any warranties of merchantability or fitness for a particular purpose.
+          - text: GARTNER is a registered trademark and service mark of Gartner, Inc. and/or its affiliates in the U.S. and internationally, and PEER INSIGHTS and GARTNER PEER INSIGHTS CUSTOMERS’ CHOICE BADGE is a registered trademark of Gartner, Inc. and/or its affiliates and are used herein with permission. All rights reserved.
+        - generic [ref=e1793]:
+          - generic [ref=e1795]: © 2026, Glean Technologies, Inc.
+          - generic [ref=e1797]:
+            - link "Website Terms" [ref=e1798] [cursor=pointer]:
+              - /url: /website-terms
+              - generic [ref=e1799]: Website Terms
+            - link "Privacy" [ref=e1800] [cursor=pointer]:
+              - /url: /privacy
+              - generic [ref=e1801]: Privacy
+  - iframe [ref=e1802]:
+    - log [ref=f11e7]:
+      - button "Open messenger" [ref=f11e9] [cursor=pointer]:
+        - img [ref=f11e10]
