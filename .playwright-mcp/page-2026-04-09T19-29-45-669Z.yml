@@ -1,0 +1,237 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e7]: ASC 220-40 · DISE Compliance
+    - generic [ref=e8]:
+      - generic [ref=e9]: FY2023 · diplomatic75
+      - generic [ref=e12]: 501 accounts · FY2023
+  - generic [ref=e13]:
+    - button "Overview" [ref=e14] [cursor=pointer]
+    - button "Account Explorer" [ref=e15] [cursor=pointer]
+    - button "Audit Trail" [ref=e16] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e17] [cursor=pointer]
+    - button "DISE Disclosure" [ref=e18] [cursor=pointer]
+    - button "Cost Centre" [ref=e19] [cursor=pointer]
+    - button "Agents" [ref=e20] [cursor=pointer]
+    - button "Income Tax" [active] [ref=e21] [cursor=pointer]
+  - generic [ref=e22]:
+    - text: · · · · · · · · ·
+    - generic [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]: ASC 740 · Income Tax
+        - generic [ref=e100]: · ASU 2023-09 effective FY2025
+        - generic [ref=e101]: · BE Technology Corp
+        - generic [ref=e102]: Live from API
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e107]: Effective Tax Rate
+          - generic [ref=e108]: 25.3%
+          - generic [ref=e109]: +430 bps vs 21% statutory
+        - generic [ref=e110]:
+          - generic [ref=e112]: Pretax Income
+          - generic [ref=e113]: $296.6M
+          - generic [ref=e114]: "Dom: $198.4M / For: $98.2M"
+        - generic [ref=e115]:
+          - generic [ref=e117]: Total Tax Expense
+          - generic [ref=e118]: $75.0M
+          - generic [ref=e119]: Current $62.5M · Def $12.5M
+        - generic [ref=e120]:
+          - generic [ref=e122]: Net DTA
+          - generic [ref=e123]: $79.1M
+          - generic [ref=e124]: Gross DTA $166.6M · VA $-9.0M
+        - generic [ref=e125]:
+          - generic [ref=e127]: Cash Taxes Paid
+          - generic [ref=e128]: $63.4M
+          - generic [ref=e129]: 2 of 10 jurs ≥5% · UTPs $8.4M
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - generic [ref=e133]: ETR Reconciliation Waterfall — ASU 2023-09
+            - generic [ref=e134]: 21% statutory → effective rate · Amounts in $K
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - generic "Income tax expense at US federal statutory rate" [ref=e137]: Income tax expense at US federal statuto…
+              - generic [ref=e140]: $62,286K · 21.00%
+            - generic [ref=e141]:
+              - generic "State and local income tax, net of federal benefit" [ref=e142]: State and local income tax, net of feder…
+              - generic [ref=e145]: $6,229K · 2.10%
+            - generic [ref=e146]:
+              - generic "Ireland — Statutory rate difference (12.5% vs 21%)" [ref=e147]: Ireland — Statutory rate difference (12.…
+              - generic [ref=e150]: ($3,244K) · -1.09%
+            - generic [ref=e151]:
+              - generic "Ireland — Withholding taxes on intercompany royalties" [ref=e152]: Ireland — Withholding taxes on intercomp…
+              - generic [ref=e155]: $1,892K · 0.64%
+            - generic [ref=e156]:
+              - generic "Ireland — IP box regime benefit" [ref=e157]
+              - generic [ref=e160]: ($1,127K) · -0.38%
+            - generic [ref=e161]:
+              - generic "Ireland — Changes in valuation allowance" [ref=e162]
+              - generic [ref=e165]: $0K · 0.00%
+            - generic [ref=e166]:
+              - generic "Ireland — Other" [ref=e167]
+              - generic [ref=e170]: $89K · 0.03%
+            - generic [ref=e171]:
+              - generic "Singapore — Statutory rate difference (17% vs 21%)" [ref=e172]: Singapore — Statutory rate difference (1…
+              - generic [ref=e175]: ($896K) · -0.30%
+            - generic [ref=e176]:
+              - generic "Singapore — Pioneer incentive benefit" [ref=e177]
+              - generic [ref=e180]: ($652K) · -0.22%
+            - generic [ref=e181]:
+              - generic "Singapore — Withholding taxes" [ref=e182]
+              - generic [ref=e185]: $237K · 0.08%
+            - generic [ref=e186]:
+              - generic "United Kingdom — Statutory rate difference (25% vs 21%)" [ref=e187]: United Kingdom — Statutory rate differen…
+              - generic [ref=e190]: $592K · 0.20%
+            - generic [ref=e191]:
+              - generic "United Kingdom — R&D expenditure credits (RDEC)" [ref=e192]: United Kingdom — R&D expenditure credits…
+              - generic [ref=e195]: ($356K) · -0.12%
+            - generic [ref=e196]:
+              - generic "Germany — Statutory rate difference (30% vs 21%)" [ref=e197]: Germany — Statutory rate difference (30%…
+              - generic [ref=e200]: $774K · 0.26%
+            - generic [ref=e201]:
+              - generic "Germany — Trade tax (Gewerbesteuer)" [ref=e202]
+              - generic [ref=e205]: $267K · 0.09%
+            - generic [ref=e206]:
+              - generic "Other foreign jurisdictions, net" [ref=e207]
+              - generic [ref=e210]: ($178K) · -0.06%
+            - generic [ref=e211]:
+              - generic "Effect of changes in tax laws or rates" [ref=e212]
+              - generic [ref=e215]: $0K · 0.00%
+            - generic [ref=e216]:
+              - generic "GILTI inclusion — IRC §951A" [ref=e217]
+              - generic [ref=e220]: $2,521K · 0.85%
+            - generic [ref=e221]:
+              - generic "Subpart F income — IRC §952" [ref=e222]
+              - generic [ref=e225]: $356K · 0.12%
+            - generic [ref=e226]:
+              - generic "FDII deduction — IRC §250" [ref=e227]
+              - generic [ref=e230]: ($1,335K) · -0.45%
+            - generic [ref=e231]:
+              - generic "IRC §78 gross-up" [ref=e232]
+              - generic [ref=e235]: $534K · 0.18%
+            - generic [ref=e236]:
+              - generic "Federal R&D credit — IRC §41" [ref=e237]
+              - generic [ref=e240]: ($2,669K) · -0.90%
+            - generic [ref=e241]:
+              - generic "Foreign tax credits — IRC §901" [ref=e242]
+              - generic [ref=e245]: ($741K) · -0.25%
+            - generic [ref=e246]:
+              - generic "Other credits (WOTC, energy)" [ref=e247]
+              - generic [ref=e250]: ($119K) · -0.04%
+            - generic [ref=e251]:
+              - generic "Changes in valuation allowances" [ref=e252]
+              - generic [ref=e255]: $445K · 0.15%
+            - generic [ref=e256]:
+              - generic "Stock-based compensation — excess tax benefits (ASC 718)" [ref=e257]: Stock-based compensation — excess tax be…
+              - generic [ref=e260]: $1,186K · 0.40%
+            - generic [ref=e261]:
+              - generic "Nondeductible executive compensation — IRC §162(m)" [ref=e262]: Nondeductible executive compensation — I…
+              - generic [ref=e265]: $949K · 0.32%
+            - generic [ref=e266]:
+              - generic "Meals, entertainment, and other permanent differences" [ref=e267]: Meals, entertainment, and other permanen…
+              - generic [ref=e270]: $178K · 0.06%
+            - generic [ref=e271]:
+              - generic "Changes in unrecognized tax benefits" [ref=e272]
+              - generic [ref=e275]: $652K · 0.22%
+            - generic [ref=e276]:
+              - generic "Return-to-provision and other adjustments" [ref=e277]: Return-to-provision and other adjustment…
+              - generic [ref=e280]: ($237K) · -0.08%
+        - generic [ref=e281]:
+          - generic [ref=e283]: Workpaper Completion
+          - generic [ref=e284]:
+            - generic [ref=e285]:
+              - generic [ref=e286]: Rate Reconciliation
+              - generic [ref=e289]: 100%
+            - generic [ref=e290]:
+              - generic [ref=e291]: ASU 2023-09 Compliance
+              - generic [ref=e294]: 75%
+            - generic [ref=e295]:
+              - generic [ref=e296]: Disclosure Draft
+              - generic [ref=e299]: 60%
+            - generic [ref=e300]:
+              - generic [ref=e301]: Deferred Schedule
+              - generic [ref=e304]: 0%
+            - generic [ref=e305]:
+              - generic [ref=e306]: Cash Taxes Paid
+              - generic [ref=e309]: 0%
+            - generic [ref=e310]:
+              - generic [ref=e311]: Jurisdictional Disaggregation
+              - generic [ref=e314]: 0%
+            - generic [ref=e315]:
+              - generic [ref=e316]: UTP Rollforward
+              - generic [ref=e319]: 0%
+            - generic [ref=e320]:
+              - generic [ref=e321]: Carryforward Schedule
+              - generic [ref=e324]: 0%
+      - generic [ref=e325]:
+        - button "Expense Components" [ref=e326] [cursor=pointer]
+        - button "Rate Reconciliation" [ref=e327] [cursor=pointer]
+        - button "Deferred Schedule" [ref=e328] [cursor=pointer]
+        - button "Jurisdictions" [ref=e329] [cursor=pointer]
+        - button "Cash Taxes Paid" [ref=e330] [cursor=pointer]
+        - button "UTPs" [ref=e331] [cursor=pointer]
+      - generic [ref=e334]:
+        - table [ref=e335]:
+          - rowgroup [ref=e336]:
+            - row "Component FY2025 ($K) FY2024 ($K) Change ($K)" [ref=e337]:
+              - columnheader "Component" [ref=e338] [cursor=pointer]
+              - columnheader "FY2025 ($K)" [ref=e339] [cursor=pointer]
+              - columnheader "FY2024 ($K)" [ref=e340] [cursor=pointer]
+              - columnheader "Change ($K)" [ref=e341] [cursor=pointer]
+          - rowgroup [ref=e342]:
+            - row "Current — Federal 38,420 34,200 +4,220" [ref=e343]:
+              - cell "Current — Federal" [ref=e344]
+              - cell "38,420" [ref=e345]
+              - cell "34,200" [ref=e346]
+              - cell "+4,220" [ref=e347]
+            - row "Current — State 5,180 4,680 +500" [ref=e348]:
+              - cell "Current — State" [ref=e349]
+              - cell "5,180" [ref=e350]
+              - cell "4,680" [ref=e351]
+              - cell "+500" [ref=e352]
+            - row "Current — Foreign 18,940 15,800 +3,140" [ref=e353]:
+              - cell "Current — Foreign" [ref=e354]
+              - cell "18,940" [ref=e355]
+              - cell "15,800" [ref=e356]
+              - cell "+3,140" [ref=e357]
+            - row "Total Current 62,540 54,680 +7,860" [ref=e358]:
+              - cell "Total Current" [ref=e359]
+              - cell "62,540" [ref=e360]
+              - cell "54,680" [ref=e361]
+              - cell "+7,860" [ref=e362]
+            - row "Deferred — Federal 5,730 4,100 +1,630" [ref=e363]:
+              - cell "Deferred — Federal" [ref=e364]
+              - cell "5,730" [ref=e365]
+              - cell "4,100" [ref=e366]
+              - cell "+1,630" [ref=e367]
+            - row "Deferred — State 1,049 820 +229" [ref=e368]:
+              - cell "Deferred — State" [ref=e369]
+              - cell "1,049" [ref=e370]
+              - cell "820" [ref=e371]
+              - cell "+229" [ref=e372]
+            - row "Deferred — Foreign 5,721 3,200 +2,521" [ref=e373]:
+              - cell "Deferred — Foreign" [ref=e374]
+              - cell "5,721" [ref=e375]
+              - cell "3,200" [ref=e376]
+              - cell "+2,521" [ref=e377]
+            - row "Total Deferred 12,500 8,120 +4,380" [ref=e378]:
+              - cell "Total Deferred" [ref=e379]
+              - cell "12,500" [ref=e380]
+              - cell "8,120" [ref=e381]
+              - cell "+4,380" [ref=e382]
+            - row "Total Tax Expense 75,040 62,800 +12,240" [ref=e383]:
+              - cell "Total Tax Expense" [ref=e384]
+              - cell "75,040" [ref=e385]
+              - cell "62,800" [ref=e386]
+              - cell "+12,240" [ref=e387]
+        - generic [ref=e388]:
+          - text: "Domestic pretax:"
+          - strong [ref=e389]: $198,400K
+          - text: "· Foreign pretax:"
+          - strong [ref=e390]: $98,200K
+          - text: "· Citation: ASC 740-10-50-9/10"
+      - generic [ref=e391]:
+        - button "✦ Run Full Tax Agent" [ref=e392] [cursor=pointer]
+        - button "↻ Refresh Data" [ref=e393] [cursor=pointer]

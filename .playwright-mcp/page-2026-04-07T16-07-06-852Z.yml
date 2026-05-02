@@ -1,0 +1,189 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3] [cursor=pointer]:
+      - generic [ref=e4]: tf
+      - generic [ref=e6]: trufflesfasb.ai
+    - generic [ref=e7]:
+      - button "Platform" [ref=e8] [cursor=pointer]
+      - button "Income Tax" [ref=e9] [cursor=pointer]
+      - button "DISE" [active] [ref=e10] [cursor=pointer]
+      - button "Segments" [ref=e11] [cursor=pointer]
+      - button "Leases" [ref=e12] [cursor=pointer]
+      - link "Dashboard" [ref=e13] [cursor=pointer]:
+        - /url: /dashboard
+    - generic [ref=e14]:
+      - button "✶ AI Assistant" [ref=e15] [cursor=pointer]:
+        - generic [ref=e16]: ✶
+        - text: AI Assistant
+      - generic [ref=e17] [cursor=pointer]: JD
+  - generic [ref=e393]:
+    - generic [ref=e394]:
+      - button "← Back to Home" [ref=e395] [cursor=pointer]
+      - generic [ref=e396]: FASB Mandate · Digital Evidence
+      - heading "DISE Mandate" [level=1] [ref=e397]
+      - paragraph [ref=e398]: Digital Interrogation & Substantiation of Evidence — systematic validation of financial disclosures against source evidence, supporting FASB compliance and SEC scrutiny readiness.
+      - generic [ref=e399]:
+        - generic [ref=e400]: Active Filing Cycle
+        - generic [ref=e401]: Q1 2026
+        - generic [ref=e402]: 3 Open Items
+        - generic [ref=e403]: SAP ECC Integration
+    - generic [ref=e404]:
+      - generic [ref=e405]:
+        - generic [ref=e406]:
+          - img [ref=e408]
+          - generic [ref=e410]:
+            - generic [ref=e411]: Google BigQuery via Cortex Framework
+            - generic [ref=e412]: "project: be-tech-prod · dataset: cortex_sap_reporting"
+          - generic [ref=e413]: Connected
+          - generic [ref=e416]:
+            - generic [ref=e417]: 2,847
+            - generic [ref=e418]: GL Entries
+          - generic [ref=e420]:
+            - generic [ref=e421]: "10"
+            - generic [ref=e422]: Entities
+          - generic [ref=e424]:
+            - generic [ref=e425]: 1.2s
+            - generic [ref=e426]: Last Sync
+        - generic [ref=e427]:
+          - generic [ref=e428]:
+            - generic [ref=e429]: Disclosures Validated
+            - generic [ref=e430]: 84%
+            - generic [ref=e431]: 112 of 133 items
+          - generic [ref=e432]:
+            - generic [ref=e433]: Evidence Gaps
+            - generic [ref=e434]: "3"
+            - generic [ref=e435]: Require action
+          - generic [ref=e436]:
+            - generic [ref=e437]: Days to Filing
+            - generic [ref=e438]: "18"
+            - generic [ref=e439]: April 17, 2026
+          - generic [ref=e440]:
+            - generic [ref=e441]: Audit Status
+            - generic [ref=e442]: In Review
+            - generic [ref=e443]: PwC fieldwork
+        - generic [ref=e444]:
+          - generic [ref=e445]: Evidence Interrogation Queue
+          - table [ref=e446]:
+            - rowgroup [ref=e447]:
+              - row "Disclosure Item Source System Evidence Status Assigned To Due" [ref=e448]:
+                - columnheader "Disclosure Item" [ref=e449]
+                - columnheader "Source System" [ref=e450]
+                - columnheader "Evidence Status" [ref=e451]
+                - columnheader "Assigned To" [ref=e452]
+                - columnheader "Due" [ref=e453]
+            - rowgroup [ref=e454]:
+              - row "Revenue disaggregation by geography SAP ECC → GL ✓ Validated K. Patel Mar 28" [ref=e455]:
+                - cell "Revenue disaggregation by geography" [ref=e456]
+                - cell "SAP ECC → GL" [ref=e457]
+                - cell "✓ Validated" [ref=e458]:
+                  - generic [ref=e459]: ✓ Validated
+                - cell "K. Patel" [ref=e460]
+                - cell "Mar 28" [ref=e461]
+              - row "Related party transaction disclosures SAP ECC → AR ⏳ Pending M. Torres Apr 2" [ref=e462]:
+                - cell "Related party transaction disclosures" [ref=e463]
+                - cell "SAP ECC → AR" [ref=e464]
+                - cell "⏳ Pending" [ref=e465]:
+                  - generic [ref=e466]: ⏳ Pending
+                - cell "M. Torres" [ref=e467]
+                - cell "Apr 2" [ref=e468]
+              - row "Goodwill impairment testing evidence Manual / DCF model ⚠ Gap Identified S. Chen Apr 5" [ref=e469]:
+                - cell "Goodwill impairment testing evidence" [ref=e470]
+                - cell "Manual / DCF model" [ref=e471]
+                - cell "⚠ Gap Identified" [ref=e472]:
+                  - generic [ref=e473]: ⚠ Gap Identified
+                - cell "S. Chen" [ref=e474]
+                - cell "Apr 5" [ref=e475]
+              - row "Pension obligation assumptions Actuary report ✓ Validated L. Washington Mar 20" [ref=e476]:
+                - cell "Pension obligation assumptions" [ref=e477]
+                - cell "Actuary report" [ref=e478]
+                - cell "✓ Validated" [ref=e479]:
+                  - generic [ref=e480]: ✓ Validated
+                - cell "L. Washington" [ref=e481]
+                - cell "Mar 20" [ref=e482]
+              - row "Contingent liability disclosures Legal → SAP ⚠ Gap Identified M. Torres Apr 8" [ref=e483]:
+                - cell "Contingent liability disclosures" [ref=e484]
+                - cell "Legal → SAP" [ref=e485]
+                - cell "⚠ Gap Identified" [ref=e486]:
+                  - generic [ref=e487]: ⚠ Gap Identified
+                - cell "M. Torres" [ref=e488]
+                - cell "Apr 8" [ref=e489]
+              - row "Share-based compensation expense Equity platform → In Review K. Patel Apr 10" [ref=e490]:
+                - cell "Share-based compensation expense" [ref=e491]
+                - cell "Equity platform" [ref=e492]
+                - cell "→ In Review" [ref=e493]:
+                  - generic [ref=e494]: → In Review
+                - cell "K. Patel" [ref=e495]
+                - cell "Apr 10" [ref=e496]
+              - row "Fair value hierarchy disclosures Treasury / Bloomberg ✓ Validated S. Chen Mar 25" [ref=e497]:
+                - cell "Fair value hierarchy disclosures" [ref=e498]
+                - cell "Treasury / Bloomberg" [ref=e499]
+                - cell "✓ Validated" [ref=e500]:
+                  - generic [ref=e501]: ✓ Validated
+                - cell "S. Chen" [ref=e502]
+                - cell "Mar 25" [ref=e503]
+        - generic [ref=e504]:
+          - generic [ref=e505]: Completion by Category
+          - generic [ref=e507]:
+            - generic [ref=e508]: Balance Sheet Disclosures
+            - generic [ref=e509]: 94%
+          - generic [ref=e513]:
+            - generic [ref=e514]: Income Statement Footnotes
+            - generic [ref=e515]: 88%
+          - generic [ref=e519]:
+            - generic [ref=e520]: Cash Flow Supplementals
+            - generic [ref=e521]: 76%
+          - generic [ref=e525]:
+            - generic [ref=e526]: Related Party & Commitments
+            - generic [ref=e527]: 52%
+          - generic [ref=e531]:
+            - generic [ref=e532]: Subsequent Events
+            - generic [ref=e533]: 100%
+        - generic [ref=e536]:
+          - button "✦ Ask AI Assistant" [ref=e537] [cursor=pointer]
+          - link "📊 Open DISE Dashboard" [ref=e538] [cursor=pointer]:
+            - /url: /dashboard
+          - button "↓ Export Evidence Package" [ref=e539] [cursor=pointer]
+          - button "⊕ Add Disclosure Item" [ref=e540] [cursor=pointer]
+      - generic [ref=e541]:
+        - generic [ref=e542]:
+          - generic [ref=e543]: Filing Checklist
+          - generic [ref=e544]:
+            - generic [ref=e545]: ✓
+            - generic [ref=e546]: Management representation letter signed
+          - generic [ref=e547]:
+            - generic [ref=e548]: ✓
+            - generic [ref=e549]: Auditor independence confirmed
+          - generic [ref=e550]:
+            - generic [ref=e551]: "!"
+            - generic [ref=e552]: Goodwill impairment evidence — awaiting final DCF
+          - generic [ref=e553]:
+            - generic [ref=e554]: "!"
+            - generic [ref=e555]: Contingent liability legal sign-off
+          - generic [ref=e556]:
+            - generic [ref=e557]: ○
+            - generic [ref=e558]: 10-K XBRL tagging review
+          - generic [ref=e559]:
+            - generic [ref=e560]: ○
+            - generic [ref=e561]: Disclosure committee final approval
+        - generic [ref=e562]:
+          - generic [ref=e563]: Recent Activity
+          - generic [ref=e566]:
+            - generic [ref=e567]: Today, 09:14
+            - generic [ref=e568]: Revenue disaggregation validated by K. Patel
+          - generic [ref=e571]:
+            - generic [ref=e572]: Yesterday, 16:42
+            - generic [ref=e573]: "Gap flagged: contingent liability source missing"
+          - generic [ref=e576]:
+            - generic [ref=e577]: Mar 27, 11:05
+            - generic [ref=e578]: Fair value hierarchy evidence uploaded
+          - generic [ref=e581]:
+            - generic [ref=e582]: Mar 26, 14:20
+            - generic [ref=e583]: Pension assumptions confirmed with actuary
+        - generic [ref=e584]:
+          - generic [ref=e585]: AI Insight
+          - paragraph [ref=e586]:
+            - text: Based on your open gaps, the
+            - strong [ref=e587]: goodwill impairment
+            - text: item carries the highest SEC comment risk. Similar disclosures received staff comments in 38% of 2025 filings.
+          - button "Ask AI about this →" [ref=e588] [cursor=pointer]
+  - button "✦" [ref=e392] [cursor=pointer]

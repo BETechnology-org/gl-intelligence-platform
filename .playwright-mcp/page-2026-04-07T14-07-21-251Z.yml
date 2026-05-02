@@ -1,0 +1,545 @@
+- generic [active] [ref=e1]:
+  - img
+  - banner [ref=e2]:
+    - link "skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#main"
+    - generic [ref=e4]:
+      - link "Hebbia Inc." [ref=e5] [cursor=pointer]:
+        - /url: https://www.hebbia.com/
+        - heading "Hebbia Inc." [level=1] [ref=e6]:
+          - img [ref=e7]
+          - generic [ref=e9]: Hebbia Inc.
+      - navigation "main" [ref=e10]:
+        - list [ref=e11]:
+          - listitem [ref=e12]:
+            - link "Product" [ref=e13] [cursor=pointer]:
+              - /url: /product
+          - listitem [ref=e14]:
+            - button "Solutions" [ref=e15] [cursor=pointer]
+          - listitem [ref=e16]:
+            - button "Company" [ref=e17] [cursor=pointer]
+          - listitem [ref=e18]:
+            - link "Security" [ref=e19] [cursor=pointer]:
+              - /url: /security
+          - listitem [ref=e20]:
+            - link "Pricing" [ref=e21] [cursor=pointer]:
+              - /url: /pricing
+          - listitem [ref=e22]:
+            - link "Forum" [ref=e23] [cursor=pointer]:
+              - /url: https://forum.hebbia.com
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - link "Careers" [ref=e27] [cursor=pointer]:
+            - /url: /careers
+          - link "Sign in" [ref=e29] [cursor=pointer]:
+            - /url: https://search.hebbia.ai/?_gl=1*1s9mvmu*_gcl_au*MTQwNDk4NTM1My4xNzcwMDQ4OTUz*_ga*MTYzMzg3OTU1My4xNzcwMDQ4OTUz*_ga_8GHMZ3CY3C*czE3NzAyODI4NDMkbzEwJGcxJHQxNzcwMjg1MTk1JGo1NiRsMCRoMTk2MzkzNTU5MA..
+        - link "Contact sales" [ref=e30] [cursor=pointer]:
+          - /url: /demo
+  - main [ref=e31]:
+    - generic [ref=e37]:
+      - paragraph [ref=e38]: AI for Finance
+      - heading "Institutional Intelligence" [level=2] [ref=e39]
+      - generic [ref=e40]: Purpose-built AI trusted by leading asset managers, bankers, advisors, and Fortune 500 companies for high-stakes decisions.
+      - link "Contact sales" [ref=e43] [cursor=pointer]:
+        - /url: /demo
+        - generic [ref=e44]: Contact sales
+    - generic [ref=e48]:
+      - img "OHA" [ref=e52]
+      - img "Center View" [ref=e56]
+      - img "KKR" [ref=e60]
+      - img "MetLife" [ref=e64]
+      - img "Rice Management Company" [ref=e68]
+      - img "New Mountain Capital" [ref=e72]
+      - img "Latham & Watkins" [ref=e76]
+      - img "Pemberton" [ref=e80]
+    - generic [ref=e82]:
+      - heading "Purpose-built for Finance" [level=2] [ref=e86]
+      - navigation "Feature navigation" [ref=e87]:
+        - list [ref=e88]:
+          - listitem [ref=e89]:
+            - link "Enterprise collaboration" [ref=e90] [cursor=pointer]:
+              - /url: "#feature-enterprise-collaboration"
+          - listitem [ref=e91]:
+            - link "Unmatched scale" [ref=e92] [cursor=pointer]:
+              - /url: "#feature-unmatched-scale"
+          - listitem [ref=e93]:
+            - link "Automated workflows" [ref=e94] [cursor=pointer]:
+              - /url: "#feature-workflows"
+          - listitem [ref=e95]:
+            - link "Financial context" [ref=e96] [cursor=pointer]:
+              - /url: "#feature-financial-data"
+      - generic [ref=e98]:
+        - article [ref=e99]:
+          - generic [ref=e101]:
+            - heading "Elevating the entire organization" [level=2] [ref=e102]
+            - generic [ref=e103]: One platform where your team shares context, so every insight becomes institutional knowledge.
+          - generic [ref=e108]:
+            - generic [ref=e110]: Project Titan
+            - generic [ref=e114]:
+              - paragraph [ref=e116]: M&A Deal Count and Volume by Quarter
+              - paragraph [ref=e120]: ADCME VDR Deep Dive
+              - paragraph [ref=e124]: Confidential Investment Teaser
+              - paragraph [ref=e128]: Buyer Universe
+              - paragraph [ref=e132]: Cash Flow Build
+        - article [ref=e135]:
+          - generic [ref=e137]:
+            - heading "Unmatched analytical scale" [level=2] [ref=e138]
+            - generic [ref=e139]: Uncover insights others miss with the power to reason over limitless context.
+          - generic [ref=e146]:
+            - generic [ref=e147]:
+              - generic [ref=e148]: Airlines Earnings Calls Analysis
+              - generic [ref=e149]:
+                - generic [ref=e150]: ...
+                - generic [ref=e151]: Export
+                - generic [ref=e152]: Automate
+                - generic [ref=e153]: Schedule
+                - generic [ref=e154]: Share
+            - generic [ref=e156]:
+              - generic [ref=e157]:
+                - generic [ref=e158]: "#"
+                - generic [ref=e159]:
+                  - generic [ref=e160]: Documents
+                  - generic [ref=e161]:
+                    - generic [ref=e162]: (
+                    - generic [ref=e163]: "1256"
+                    - generic [ref=e164]: )
+                - generic [ref=e165]: Red flags
+                - generic [ref=e166]: Opportunities
+              - generic [ref=e167]:
+                - generic [ref=e168]: "1"
+                - generic [ref=e169]: American Airlines Group Inc - Q4 2025 Earnings Call
+                - generic [ref=e170]: Severe operational disruption from Winter S...
+                - generic [ref=e171]: In the coming years, completion of a new Te...
+              - generic [ref=e172]:
+                - generic [ref=e173]: "2"
+                - generic [ref=e174]: Delta Airlines, Inc. - Q4 2025 Earnings Call
+                - generic [ref=e175]: The government shutdown had a negative i...
+                - generic [ref=e176]: Leveraging exclusive partnerships with bra...
+              - generic [ref=e177]:
+                - generic [ref=e178]: "3"
+                - generic [ref=e179]: United Airlines Holdings, Inc. - Q4 2025 Earnings Call
+                - generic [ref=e180]: None meeting your criteria
+                - generic [ref=e181]: None meeting your criteria
+              - generic [ref=e182]:
+                - generic [ref=e183]: "4"
+                - generic [ref=e184]: Alaska Air Group, Inc. - Q4 2025 Earnings Call
+                - generic [ref=e185]: None meeting your criteria
+                - generic [ref=e186]: Securing the largest aircraft order in compa...
+              - generic [ref=e187]:
+                - generic [ref=e188]: "5"
+                - generic [ref=e189]: British Airways plc - Q4 2025 Earnings Call
+                - generic [ref=e190]: Worst economic crisis since the Second Wo...
+                - generic [ref=e191]: Consolidation via the merger with Iberia an...
+              - generic [ref=e192]:
+                - generic [ref=e193]: "6"
+                - generic [ref=e194]: Air Canada - Q4 2025 Earnings Call
+                - generic [ref=e195]: Material negative impact from labor disrupt...
+                - generic [ref=e196]: None meeting your criteria
+              - generic [ref=e197]:
+                - generic [ref=e198]: "7"
+                - generic [ref=e199]: EasyJet plc - Q4 2025 Earnings Call
+                - generic [ref=e200]: None meeting your criteria
+                - generic [ref=e201]: Upgauging the fleet by increasing deliverie...
+              - generic [ref=e202]:
+                - generic [ref=e203]: "8"
+                - generic [ref=e204]: Ryanair Holdings plc - Q4 2025 Earnings Call
+                - generic [ref=e205]: Significant exceptional legal exposure from...
+                - generic [ref=e206]: None meeting your criteria
+              - generic [ref=e207]:
+                - generic [ref=e208]: "9"
+                - generic [ref=e209]: Interglobe Aviation Limited - Q4 2025 Earnings Call
+                - generic [ref=e210]: Significant operational disruption in early D...
+                - generic [ref=e211]: None meeting your criteria
+              - generic [ref=e212]:
+                - generic [ref=e213]: "10"
+                - generic [ref=e214]: JetBlue Airways Corporation - Q4 2025 Earnings Call
+                - generic [ref=e215]: None meeting your criteria
+                - generic [ref=e216]: None meeting your criteria
+        - article [ref=e217]:
+          - generic [ref=e219]:
+            - heading "Workflows that run like your best people" [level=2] [ref=e220]
+            - generic [ref=e221]: Encode your firm's processes once and Hebbia runs them continuously, without being asked.
+          - generic [ref=e226]:
+            - generic [ref=e227]:
+              - heading "Find fintech AI startups" [level=3] [ref=e230]
+              - paragraph [ref=e232]: Research startups focused on payments sub-processing
+            - img [ref=e236]
+            - generic [ref=e239]:
+              - heading "Analyze expert call transcripts" [level=3] [ref=e242]
+              - paragraph [ref=e244]: Create a Matrix with expert calls for each company
+            - img [ref=e248]
+            - generic [ref=e251]:
+              - heading "Draft slides for each company" [level=3] [ref=e254]
+              - paragraph [ref=e256]: For each company, create a summary analysis slide
+            - img [ref=e260]
+            - generic [ref=e263]:
+              - heading "Send email" [level=3] [ref=e266]
+              - paragraph [ref=e267]: Send the summary deck to my MD
+        - article [ref=e268]:
+          - generic [ref=e270]:
+            - heading "The full picture, always in reach" [level=2] [ref=e271]
+            - generic [ref=e272]: Connect your private documents, public filings, and leading financial data providers in one place.
+          - generic [ref=e274]:
+            - heading "Snowflake" [level=3] [ref=e279]
+            - heading "Amazon AWS S3" [level=3] [ref=e284]
+            - heading "FactSet" [level=3] [ref=e289]
+            - heading "Guidepoint" [level=3] [ref=e294]
+            - heading "Pitchbook" [level=3] [ref=e299]
+            - heading "Thirdbridge" [level=3] [ref=e304]
+            - heading "Box" [level=3] [ref=e309]
+            - heading "Dropbox" [level=3] [ref=e314]
+            - heading "Earnings Calls" [level=3] [ref=e319]
+            - heading "Filings" [level=3] [ref=e324]
+            - heading "Investor Materials" [level=3] [ref=e329]
+            - heading "EU Filings" [level=3] [ref=e334]
+            - heading "S&P Capital IQ" [level=3] [ref=e339]
+            - heading "Sharepoint" [level=3] [ref=e344]
+            - heading "Sector Insights" [level=3] [ref=e349]
+            - heading "Egnyte" [level=3] [ref=e354]
+            - heading "Podcasts" [level=3] [ref=e359]
+            - heading "Email" [level=3] [ref=e364]
+    - generic [ref=e366]:
+      - heading "High finance, without friction" [level=2] [ref=e370]:
+        - text: High finance,
+        - text: without friction
+      - generic [ref=e371]:
+        - article [ref=e372]:
+          - generic [ref=e377]:
+            - paragraph [ref=e378]: $ 30 T
+            - paragraph [ref=e379]: AUM of firms using Hebbia
+        - article [ref=e380]:
+          - generic [ref=e385]:
+            - paragraph [ref=e386]: 200 K
+            - paragraph [ref=e387]: Average prompts per day
+        - article [ref=e388]:
+          - generic [ref=e393]:
+            - paragraph [ref=e394]: 1.5 B
+            - paragraph [ref=e395]: Pages processed
+    - figure [ref=e398]:
+      - generic [ref=e402]:
+        - blockquote [ref=e404]: "\" Hebbia has not only increased the speed at which analysts can perform, but also created insights into our various positions that have influenced our investment process. \""
+        - generic [ref=e407]: Sonja Renander
+    - generic [ref=e409]:
+      - heading "How professionals use Hebbia" [level=2] [ref=e413]
+      - generic [ref=e415]:
+        - tablist "Matrix categories" [ref=e417]:
+          - tab "Asset Management" [ref=e418] [cursor=pointer]
+          - tab "Legal" [ref=e419] [cursor=pointer]
+          - tab "Credit" [selected] [ref=e420] [cursor=pointer]
+          - tab "Corporate" [ref=e421] [cursor=pointer]
+          - tab "Consulting" [ref=e422] [cursor=pointer]
+          - tab "Real Estate" [ref=e423] [cursor=pointer]
+        - tabpanel "Credit" [ref=e425]:
+          - generic [ref=e426]:
+            - generic [ref=e427]:
+              - img [ref=e428]
+              - text: Oak Rock Deal Terms
+            - generic [ref=e431]:
+              - generic [ref=e432]: What are typical terms for deals we've agreed to with Oak Rock in the past?
+              - img [ref=e434]
+            - generic [ref=e436]:
+              - generic [ref=e437]:
+                - img [ref=e439]
+                - generic [ref=e441]: Add documents
+              - generic [ref=e442]:
+                - img [ref=e444]
+                - generic [ref=e446]: Add column
+          - table [ref=e448]:
+            - rowgroup [ref=e449]:
+              - row "Document Facilities Applicable Margin Amortization Term Call Protection Incremental Debt Capacity" [ref=e450]:
+                - columnheader [ref=e451]:
+                  - checkbox [disabled] [ref=e452]
+                - columnheader "Document" [ref=e453]:
+                  - generic [ref=e454]:
+                    - img [ref=e456]
+                    - generic [ref=e458]: Document
+                - columnheader "Facilities" [ref=e459]:
+                  - generic [ref=e460]:
+                    - img [ref=e462]
+                    - generic [ref=e464]: Facilities
+                - columnheader "Applicable Margin" [ref=e465]:
+                  - generic [ref=e466]:
+                    - img [ref=e468]
+                    - generic [ref=e470]: Applicable Margin
+                - columnheader "Amortization" [ref=e471]:
+                  - generic [ref=e472]:
+                    - img [ref=e474]
+                    - generic [ref=e476]: Amortization
+                - columnheader "Term" [ref=e477]:
+                  - generic [ref=e478]:
+                    - generic [ref=e480]: "#"
+                    - generic [ref=e481]: Term
+                - columnheader "Call Protection" [ref=e482]:
+                  - generic [ref=e483]:
+                    - img [ref=e485]
+                    - generic [ref=e487]: Call Protection
+                - columnheader "Incremental Debt Capacity" [ref=e488]:
+                  - generic [ref=e489]:
+                    - img [ref=e491]
+                    - generic [ref=e493]: Incremental Debt Capacity
+            - rowgroup [ref=e494]:
+              - row "1 All Good HoldCo Credit Agreeme... $200m unitranche term loan S + 4.00% 0.25% per quarter 6 years Make Whole / 101 / Par The greater of $40m of 20% of C..." [ref=e495]:
+                - rowheader "1" [ref=e496]
+                - cell "All Good HoldCo Credit Agreeme..." [ref=e497]:
+                  - generic [ref=e498]:
+                    - img [ref=e500]
+                    - generic [ref=e502]:
+                      - img [ref=e504]
+                      - generic [ref=e506]: All Good HoldCo Credit Agreeme...
+                - cell "$200m unitranche term loan" [ref=e507]:
+                  - generic [ref=e508]: $200m unitranche term loan
+                - cell "S + 4.00%" [ref=e509]:
+                  - generic [ref=e510]: S + 4.00%
+                - cell "0.25% per quarter" [ref=e511]:
+                  - generic [ref=e512]: 0.25% per quarter
+                - cell "6 years" [ref=e513]:
+                  - generic [ref=e514]: 6 years
+                - cell "Make Whole / 101 / Par" [ref=e515]:
+                  - generic [ref=e516]: Make Whole / 101 / Par
+                - cell "The greater of $40m of 20% of C..." [ref=e517]:
+                  - generic [ref=e518]: The greater of $40m of 20% of C...
+              - row "2 Big Technology, Inc. CA $550m term loan | $75m revolvi... S + 5.00% if leverage does not e... 1.0% per annum 5 years 103 / 102 / 101 / Par The 'Accordion Amount' is $100,..." [ref=e519]:
+                - rowheader "2" [ref=e520]
+                - cell "Big Technology, Inc. CA" [ref=e521]:
+                  - generic [ref=e522]:
+                    - img [ref=e524]
+                    - generic [ref=e526]:
+                      - img [ref=e528]
+                      - generic [ref=e530]: Big Technology, Inc. CA
+                - cell "$550m term loan | $75m revolvi..." [ref=e531]:
+                  - generic [ref=e532]: $550m term loan | $75m revolvi...
+                - cell "S + 5.00% if leverage does not e..." [ref=e533]:
+                  - generic [ref=e534]: S + 5.00% if leverage does not e...
+                - cell "1.0% per annum" [ref=e535]:
+                  - generic [ref=e536]: 1.0% per annum
+                - cell "5 years" [ref=e537]:
+                  - generic [ref=e538]: 5 years
+                - cell "103 / 102 / 101 / Par" [ref=e539]:
+                  - generic [ref=e540]: 103 / 102 / 101 / Par
+                - cell "The 'Accordion Amount' is $100,..." [ref=e541]:
+                  - generic [ref=e542]: The 'Accordion Amount' is $100,...
+              - row "3 BrightBucket Operating LLC Agr... $100m first lien facility L + 350 bps - 7 years 101 soft call for 12 months -" [ref=e543]:
+                - rowheader "3" [ref=e544]
+                - cell "BrightBucket Operating LLC Agr..." [ref=e545]:
+                  - generic [ref=e546]:
+                    - img [ref=e548]
+                    - generic [ref=e550]:
+                      - img [ref=e552]
+                      - generic [ref=e554]: BrightBucket Operating LLC Agr...
+                - cell "$100m first lien facility" [ref=e555]:
+                  - generic [ref=e556]: $100m first lien facility
+                - cell "L + 350 bps" [ref=e557]:
+                  - generic [ref=e558]: L + 350 bps
+                - cell "-" [ref=e559]:
+                  - generic [ref=e560]: "-"
+                - cell "7 years" [ref=e561]:
+                  - generic [ref=e562]: 7 years
+                - cell "101 soft call for 12 months" [ref=e563]:
+                  - generic [ref=e564]: 101 soft call for 12 months
+                - cell "-" [ref=e565]:
+                  - generic [ref=e566]: "-"
+              - row "4 Credit Agreement Large Retailer,... $600m term loan | $50m ABL fa... 5 + 6.00% if BB rating or better fr... $1.5m per quarter through the se... 7 years Non-call 6 months The greater of $80m or 5% of tot..." [ref=e567]:
+                - rowheader "4" [ref=e568]
+                - cell "Credit Agreement Large Retailer,..." [ref=e569]:
+                  - generic [ref=e570]:
+                    - img [ref=e572]
+                    - generic [ref=e574]:
+                      - img [ref=e576]
+                      - generic [ref=e578]: Credit Agreement Large Retailer,...
+                - cell "$600m term loan | $50m ABL fa..." [ref=e579]:
+                  - generic [ref=e580]: $600m term loan | $50m ABL fa...
+                - cell "5 + 6.00% if BB rating or better fr..." [ref=e581]:
+                  - generic [ref=e582]: 5 + 6.00% if BB rating or better fr...
+                - cell "$1.5m per quarter through the se..." [ref=e583]:
+                  - generic [ref=e584]: $1.5m per quarter through the se...
+                - cell "7 years" [ref=e585]:
+                  - generic [ref=e586]: 7 years
+                - cell "Non-call 6 months" [ref=e587]:
+                  - generic [ref=e588]: Non-call 6 months
+                - cell "The greater of $80m or 5% of tot..." [ref=e589]:
+                  - generic [ref=e590]: The greater of $80m or 5% of tot...
+              - row "5 Topco Execution Version $400m priority lien term loan | $... L + 4.50% with 0.50% PIK toggle... 25 bps per quarter 6 years 102 / 101 / Par The greater of $100,000,000 or 5..." [ref=e591]:
+                - rowheader "5" [ref=e592]
+                - cell "Topco Execution Version" [ref=e593]:
+                  - generic [ref=e594]:
+                    - img [ref=e596]
+                    - generic [ref=e598]:
+                      - img [ref=e600]
+                      - generic [ref=e602]: Topco Execution Version
+                - cell "$400m priority lien term loan | $..." [ref=e603]:
+                  - generic [ref=e604]: $400m priority lien term loan | $...
+                - cell "L + 4.50% with 0.50% PIK toggle..." [ref=e605]:
+                  - generic [ref=e606]: L + 4.50% with 0.50% PIK toggle...
+                - cell "25 bps per quarter" [ref=e607]:
+                  - generic [ref=e608]: 25 bps per quarter
+                - cell "6 years" [ref=e609]:
+                  - generic [ref=e610]: 6 years
+                - cell "102 / 101 / Par" [ref=e611]:
+                  - generic [ref=e612]: 102 / 101 / Par
+                - cell "The greater of $100,000,000 or 5..." [ref=e613]:
+                  - generic [ref=e614]: The greater of $100,000,000 or 5...
+              - row "6 Stellar Enterprises Credit Agreement $150m revolving credit L + 3.50% 0.50% per quarter 5 years 102 / 101 / Par The greater of $30m or 15% of Consolidated..." [ref=e615]:
+                - rowheader "6" [ref=e616]
+                - cell "Stellar Enterprises Credit Agreement" [ref=e617]:
+                  - generic [ref=e618]:
+                    - img [ref=e620]
+                    - generic [ref=e622]:
+                      - img [ref=e624]
+                      - generic [ref=e626]: Stellar Enterprises Credit Agreement
+                - cell "$150m revolving credit" [ref=e627]:
+                  - generic [ref=e628]: $150m revolving credit
+                - cell "L + 3.50%" [ref=e629]:
+                  - generic [ref=e630]: L + 3.50%
+                - cell "0.50% per quarter" [ref=e631]:
+                  - generic [ref=e632]: 0.50% per quarter
+                - cell "5 years" [ref=e633]:
+                  - generic [ref=e634]: 5 years
+                - cell "102 / 101 / Par" [ref=e635]:
+                  - generic [ref=e636]: 102 / 101 / Par
+                - cell "The greater of $30m or 15% of Consolidated..." [ref=e637]:
+                  - generic [ref=e638]: The greater of $30m or 15% of Consolidated...
+              - row "7 Apex Holdings Credit Agreement $250m senior secured loan S + 3.75% 0.30% per quarter 7 years Make Whole / 102 / Par The greater of $50m or 25% of Consolidated..." [ref=e639]:
+                - rowheader "7" [ref=e640]
+                - cell "Apex Holdings Credit Agreement" [ref=e641]:
+                  - generic [ref=e642]:
+                    - img [ref=e644]
+                    - generic [ref=e646]:
+                      - img [ref=e648]
+                      - generic [ref=e650]: Apex Holdings Credit Agreement
+                - cell "$250m senior secured loan" [ref=e651]:
+                  - generic [ref=e652]: $250m senior secured loan
+                - cell "S + 3.75%" [ref=e653]:
+                  - generic [ref=e654]: S + 3.75%
+                - cell "0.30% per quarter" [ref=e655]:
+                  - generic [ref=e656]: 0.30% per quarter
+                - cell "7 years" [ref=e657]:
+                  - generic [ref=e658]: 7 years
+                - cell "Make Whole / 102 / Par" [ref=e659]:
+                  - generic [ref=e660]: Make Whole / 102 / Par
+                - cell "The greater of $50m or 25% of Consolidated..." [ref=e661]:
+                  - generic [ref=e662]: The greater of $50m or 25% of Consolidated...
+              - row "+ Add row" [ref=e663]:
+                - cell "+" [ref=e664]
+                - cell "Add row" [ref=e665]
+          - link "Explore hundreds of use cases" [ref=e667] [cursor=pointer]:
+            - /url: /usecases
+            - generic [ref=e668]: Explore hundreds of use cases
+            - img [ref=e670]
+    - generic [ref=e673]:
+      - heading "Enterprise-grade security" [level=2] [ref=e677]
+      - generic [ref=e678]:
+        - article [ref=e679]:
+          - heading "ISO" [level=3] [ref=e687]
+        - article [ref=e688]:
+          - img [ref=e691]
+          - heading "SOC2 II" [level=3] [ref=e697]
+        - article [ref=e698]:
+          - img [ref=e701]
+          - heading "Encrypted end-to-end" [level=3] [ref=e708]
+        - article [ref=e709]:
+          - img [ref=e712]
+          - heading "No training on user data" [level=3] [ref=e720]
+        - article [ref=e721]:
+          - img [ref=e724]
+          - heading "CCPA" [level=3] [ref=e731]
+        - article [ref=e732]:
+          - img [ref=e735]
+          - heading "GDPR" [level=3] [ref=e742]
+      - paragraph [ref=e744]: Data encrypted at rest with AES 256 and in transit with TLS.12+
+    - heading "A new era of institutional intelligence" [level=2] [ref=e749]
+  - contentinfo [ref=e750]:
+    - generic [ref=e751]:
+      - generic [ref=e752]:
+        - generic [ref=e753]:
+          - link "Hebbia Inc." [ref=e754] [cursor=pointer]:
+            - /url: https://www.hebbia.com/
+            - generic [ref=e757]: Hebbia Inc.
+          - heading "Precision AI for billion dollar decisions" [level=2] [ref=e758]
+          - link "Contact Sales" [ref=e759] [cursor=pointer]:
+            - /url: /demo
+        - navigation [ref=e760]:
+          - generic [ref=e761]:
+            - heading "Product" [level=3] [ref=e762]
+            - list [ref=e763]:
+              - listitem [ref=e764]:
+                - link "Institutional AI" [ref=e765] [cursor=pointer]:
+                  - /url: /product/
+              - listitem [ref=e766]:
+                - link "Security" [ref=e767] [cursor=pointer]:
+                  - /url: /security/
+          - generic [ref=e768]:
+            - heading "Solutions" [level=3] [ref=e769]
+            - list [ref=e770]:
+              - listitem [ref=e771]:
+                - link "For Finance" [ref=e772] [cursor=pointer]:
+                  - /url: /industry/finance
+              - listitem [ref=e773]:
+                - link "For Law" [ref=e774] [cursor=pointer]:
+                  - /url: /industry/law
+              - listitem [ref=e775]:
+                - link "For Corporate" [ref=e776] [cursor=pointer]:
+                  - /url: /industry/corporate
+          - generic [ref=e777]:
+            - heading "Company" [level=3] [ref=e778]
+            - list [ref=e779]:
+              - listitem [ref=e780]:
+                - link "About" [ref=e781] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e782]:
+                - link "Careers" [ref=e783] [cursor=pointer]:
+                  - /url: /careers
+              - listitem [ref=e784]:
+                - link "Partnerships" [ref=e785] [cursor=pointer]:
+                  - /url: /partnerships
+              - listitem [ref=e786]:
+                - link "Blog" [ref=e787] [cursor=pointer]:
+                  - /url: /blog
+              - listitem [ref=e788]:
+                - link "Customers" [ref=e789] [cursor=pointer]:
+                  - /url: /customers
+              - listitem [ref=e790]:
+                - link "Forum" [ref=e791] [cursor=pointer]:
+                  - /url: https://forum.hebbia.com
+          - generic [ref=e792]:
+            - heading "Follow Us" [level=3] [ref=e793]
+            - list [ref=e794]:
+              - listitem [ref=e795]:
+                - link "X" [ref=e796] [cursor=pointer]:
+                  - /url: https://x.com/hebbia
+              - listitem [ref=e797]:
+                - link "LinkedIn" [ref=e798] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/hebbia/
+              - listitem [ref=e799]:
+                - link "YouTube" [ref=e800] [cursor=pointer]:
+                  - /url: https://www.youtube.com/@HebbiaAI
+          - generic [ref=e801]:
+            - heading "Contact" [level=3] [ref=e802]
+            - list [ref=e803]:
+              - listitem [ref=e804]:
+                - link "Contact us" [ref=e805] [cursor=pointer]:
+                  - /url: /demo/
+            - paragraph [ref=e808]:
+              - text: Hebbia Inc.
+              - text: 233 Spring Street,
+              - text: New York, NY
+      - generic [ref=e810]:
+        - navigation "Legal Navigation" [ref=e811]:
+          - list [ref=e812]:
+            - listitem [ref=e813]:
+              - link "Terms of Service" [ref=e814] [cursor=pointer]:
+                - /url: /terms-of-service
+            - listitem [ref=e815]:
+              - link "Fair Use Policy" [ref=e816] [cursor=pointer]:
+                - /url: /fair-use
+            - listitem [ref=e817]:
+              - link "Data Processing Agreement" [ref=e818] [cursor=pointer]:
+                - /url: /dpa
+            - listitem [ref=e819]:
+              - link "Privacy Policy" [ref=e820] [cursor=pointer]:
+                - /url: /privacy
+            - listitem [ref=e821]:
+              - link "More Resources" [ref=e822] [cursor=pointer]:
+                - /url: /resources
+            - listitem [ref=e823]:
+              - button "Cookie Preferences" [ref=e824] [cursor=pointer]
+        - paragraph [ref=e825]: © Copyright 2026 Hebbia Inc. All rights reserved.

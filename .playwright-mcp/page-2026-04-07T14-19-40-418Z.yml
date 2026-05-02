@@ -1,0 +1,357 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "tf truffles.ai" [ref=e4] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e7]: tf
+        - generic [ref=e8]: truffles.ai
+      - navigation [ref=e9]:
+        - link "Platform" [ref=e10] [cursor=pointer]:
+          - /url: "#platform"
+        - link "Modules" [ref=e11] [cursor=pointer]:
+          - /url: "#modules"
+        - link "Security" [ref=e12] [cursor=pointer]:
+          - /url: "#security"
+      - generic [ref=e13]:
+        - link "Sign in" [ref=e14] [cursor=pointer]:
+          - /url: "#cta"
+        - link "Request access" [ref=e15] [cursor=pointer]:
+          - /url: "#cta"
+  - generic [ref=e17]:
+    - generic [ref=e20]: Processing FY2025 filings
+    - heading "FASB disclosure, automated." [level=1] [ref=e21]
+    - paragraph [ref=e22]: From ERP journal entry to signed 10-K. Five AI agents. Zero spreadsheets.
+    - generic [ref=e23]:
+      - link "Request a demo" [ref=e24] [cursor=pointer]:
+        - /url: "#cta"
+        - text: Request a demo
+        - img [ref=e25]
+      - link "See it work" [ref=e27] [cursor=pointer]:
+        - /url: "#platform"
+        - text: See it work
+        - img [ref=e28]
+    - generic [ref=e31]:
+      - generic [ref=e37]: truffles.ai — Income Tax · ASC 740
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - generic [ref=e41]:
+              - generic [ref=e42]: ETR
+              - generic [ref=e43]: 25.3%
+            - generic [ref=e44]:
+              - generic [ref=e45]: Provision
+              - generic [ref=e46]: $75.0M
+            - generic [ref=e47]:
+              - generic [ref=e48]: Jurisdictions
+              - generic [ref=e49]: "10"
+            - generic [ref=e50]:
+              - generic [ref=e51]: Compliance
+              - generic [ref=e52]: 91%
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - generic [ref=e55]: Rate Reconciliation
+              - generic [ref=e56]: FY2025
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - generic [ref=e59]: Federal statutory rate
+                - generic [ref=e60]: +21.00%
+              - generic [ref=e61]:
+                - generic [ref=e62]: State & local
+                - generic [ref=e63]: +2.10%
+              - generic [ref=e64]:
+                - generic [ref=e65]: Ireland — 12.5%
+                - generic [ref=e66]: −1.09%
+              - generic [ref=e67]:
+                - generic [ref=e68]: R&D credit — IRC §41
+                - generic [ref=e69]: −0.90%
+              - generic [ref=e70]:
+                - generic [ref=e71]: Other adjustments
+                - generic [ref=e72]: +0.59%
+              - generic [ref=e73]:
+                - generic [ref=e74]: Effective tax rate
+                - generic [ref=e75]: 25.30%
+          - generic [ref=e76]:
+            - generic [ref=e77]: Pretax Income by Jurisdiction
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]: US
+                - generic [ref=e83]: $198.4M
+              - generic [ref=e84]:
+                - generic [ref=e85]: Ireland
+                - generic [ref=e88]: $38.2M
+              - generic [ref=e89]:
+                - generic [ref=e90]: Singapore
+                - generic [ref=e93]: $22.4M
+              - generic [ref=e94]:
+                - generic [ref=e95]: UK
+                - generic [ref=e98]: $14.8M
+              - generic [ref=e99]:
+                - generic [ref=e100]: Other
+                - generic [ref=e103]: $22.8M
+        - generic [ref=e104]:
+          - generic [ref=e105]: ASU 2023-09 Checks
+          - generic [ref=e106]:
+            - img [ref=e107]
+            - generic [ref=e110]: Rate recon — 8 categories
+          - generic [ref=e111]:
+            - img [ref=e112]
+            - generic [ref=e115]: Dual format (% and $)
+          - generic [ref=e116]:
+            - img [ref=e117]
+            - generic [ref=e120]: Cash taxes per-jurisdiction
+          - generic [ref=e121]:
+            - img [ref=e122]
+            - generic [ref=e125]: Jurisdictions ≥5%
+          - generic [ref=e126]:
+            - img [ref=e127]
+            - generic [ref=e130]: Carryforward schedules
+          - generic [ref=e131]:
+            - img [ref=e132]
+            - generic [ref=e135]: VA item in review
+          - generic [ref=e136]:
+            - generic [ref=e137]: Tax Rate Waterfall
+            - generic [ref=e138]:
+              - generic [ref=e140]: 21%
+              - generic [ref=e142]: "+2.1"
+              - generic [ref=e144]: −2.0
+              - generic [ref=e146]: "+0.7"
+              - generic [ref=e148]: −3.5
+              - generic [ref=e150]: 25.3%
+  - generic [ref=e152]:
+    - generic [ref=e153]: Deloitte
+    - generic [ref=e154]: PwC
+    - generic [ref=e155]: KPMG
+    - generic [ref=e156]: EY
+    - generic [ref=e157]: BDO
+    - generic [ref=e158]: Grant Thornton
+    - generic [ref=e159]: Deloitte
+    - generic [ref=e160]: PwC
+    - generic [ref=e161]: KPMG
+    - generic [ref=e162]: EY
+    - generic [ref=e163]: BDO
+    - generic [ref=e164]: Grant Thornton
+  - generic [ref=e165]:
+    - heading "Source to 10-K. Three steps." [level=2] [ref=e168]
+    - generic [ref=e169]:
+      - generic [ref=e174]:
+        - img [ref=e176]
+        - generic [ref=e180]: Step 01
+        - generic [ref=e181]: Connect
+        - generic [ref=e182]:
+          - generic [ref=e183]:
+            - img [ref=e184]
+            - generic [ref=e188]: SAP S/4HANA
+          - generic [ref=e189]:
+            - img [ref=e190]
+            - generic [ref=e194]: Oracle EBS
+          - generic [ref=e195]:
+            - img [ref=e196]
+            - generic [ref=e200]: BigQuery
+          - generic [ref=e201]:
+            - img [ref=e202]
+            - generic [ref=e206]: CSV / API
+      - generic [ref=e208]:
+        - img [ref=e210]
+        - generic [ref=e213]: Step 02
+        - generic [ref=e214]: Analyze
+        - generic [ref=e215]:
+          - generic [ref=e216]:
+            - img [ref=e217]
+            - generic [ref=e220]: Mapping Agent
+          - generic [ref=e221]:
+            - img [ref=e222]
+            - generic [ref=e224]: Tax Agent
+          - generic [ref=e225]:
+            - img [ref=e226]
+            - generic [ref=e229]: Recon Agent
+          - generic [ref=e230]:
+            - img [ref=e231]
+            - generic [ref=e233]: Compliance
+      - generic [ref=e235]:
+        - img [ref=e237]
+        - generic [ref=e241]: Step 03
+        - generic [ref=e242]: File
+        - generic [ref=e243]:
+          - generic [ref=e244]:
+            - img [ref=e245]
+            - generic [ref=e248]: 10-K Footnotes
+          - generic [ref=e249]:
+            - img [ref=e250]
+            - generic [ref=e253]: XBRL Tags
+          - generic [ref=e254]:
+            - img [ref=e255]
+            - generic [ref=e257]: Audit Package
+          - generic [ref=e258]:
+            - img [ref=e259]
+            - generic [ref=e262]: SEC Ready
+  - generic [ref=e266]:
+    - generic [ref=e267]:
+      - img [ref=e269]
+      - generic [ref=e272]:
+        - generic [ref=e273]: Tax Reconciliation Agent
+        - generic [ref=e274]: ASC 740 · ASU 2023-09
+      - generic [ref=e277]: Processing...
+    - generic [ref=e278]:
+      - generic [ref=e279]:
+        - img [ref=e281]
+        - generic [ref=e284]:
+          - generic [ref=e285]: Scanning 2,847 GL journal entries
+          - generic [ref=e286]:
+            - generic [ref=e287]: SAP FI/CO
+            - generic [ref=e288]: BigQuery
+            - generic [ref=e289]: 10 Entities
+      - generic [ref=e290]:
+        - img [ref=e292]
+        - generic [ref=e296]:
+          - generic [ref=e297]: Classifying current vs. deferred provisions
+          - generic [ref=e298]:
+            - generic [ref=e299]: Current $62.5M
+            - generic [ref=e300]: Deferred $12.5M
+      - generic [ref=e301]:
+        - img [ref=e303]
+        - generic [ref=e306]:
+          - generic [ref=e307]: Validating ASU 2023-09 compliance
+          - generic [ref=e308]:
+            - generic [ref=e309]: 10/11 Passed
+            - generic [ref=e310]: 1 In Review
+      - generic [ref=e311]:
+        - img [ref=e313]
+        - generic [ref=e317]: Generating 10-K footnote narrative
+      - generic [ref=e321]:
+        - generic [ref=e322]: 0% complete
+        - generic [ref=e323]: Processing...
+  - generic [ref=e326]:
+    - generic [ref=e327]:
+      - generic [ref=e329]: 0+
+      - generic [ref=e330]: GL accounts
+      - generic [ref=e331]: 5 DISE categories
+    - generic [ref=e332]:
+      - generic [ref=e334]: 0%
+      - generic [ref=e335]: Compliance
+      - generic [ref=e336]: ASU 2023-09
+    - generic [ref=e337]:
+      - generic [ref=e338]: "0"
+      - generic [ref=e339]: Jurisdictions
+      - generic [ref=e340]: Real-time recon
+    - generic [ref=e341]:
+      - generic [ref=e343]: $0M
+      - generic [ref=e344]: Provision
+      - generic [ref=e345]: Current + deferred
+  - generic [ref=e346]:
+    - heading "Every critical FASB standard." [level=2] [ref=e349]
+    - generic [ref=e350]:
+      - generic [ref=e351] [cursor=pointer]:
+        - generic [ref=e352]:
+          - generic [ref=e353]: Flagship
+          - generic [ref=e354]: ASC 740
+        - heading "Income Tax Provision" [level=3] [ref=e355]
+        - paragraph [ref=e356]: Full ASU 2023-09 compliance — rate reconciliation, jurisdictional disaggregation, and AI-generated footnotes.
+        - generic [ref=e357]:
+          - generic [ref=e358]: 7 Tabs
+          - generic [ref=e359]: 10 Jurisdictions
+          - generic [ref=e360]: 11 Checks
+          - generic [ref=e361]: Auto Footnotes
+      - generic [ref=e362] [cursor=pointer]:
+        - generic [ref=e363]:
+          - img [ref=e364]
+          - generic [ref=e368]: Required
+        - heading "DISE Mandate" [level=3] [ref=e369]
+        - paragraph [ref=e370]: Evidence mapping, gap detection, SEC comment risk scoring.
+      - generic [ref=e371] [cursor=pointer]:
+        - img [ref=e372]
+        - generic [ref=e375]: ASC 280
+        - heading "Segment Reporting" [level=3] [ref=e376]
+        - paragraph [ref=e377]: CODM identification and ASU 2023-07 interim disclosures.
+      - generic [ref=e378] [cursor=pointer]:
+        - img [ref=e379]
+        - generic [ref=e383]: ASC 842
+        - heading "Lease Accounting" [level=3] [ref=e384]
+        - paragraph [ref=e385]: ROU assets, classification, maturity schedules.
+      - generic [ref=e387]:
+        - generic [ref=e388] [cursor=pointer]:
+          - img [ref=e389]
+          - generic [ref=e392]: ASC 606
+          - heading "Revenue" [level=3] [ref=e393]
+          - paragraph [ref=e394]: Five-step model compliance and performance obligations.
+        - generic [ref=e395] [cursor=pointer]:
+          - img [ref=e396]
+          - generic [ref=e398]: ASC 326
+          - heading "Credit Losses" [level=3] [ref=e399]
+          - paragraph [ref=e400]: CECL modeling, allowance calculation, vintage analysis.
+  - generic [ref=e401]:
+    - heading "ERP to audit-ready. One pipeline." [level=2] [ref=e404]
+    - generic [ref=e405]:
+      - generic [ref=e408]:
+        - generic [ref=e409]:
+          - img [ref=e410]
+          - generic [ref=e414]: Source Systems
+        - generic [ref=e415]:
+          - generic [ref=e416]: SAP S/4HANA
+          - generic [ref=e417]: Oracle EBS
+          - generic [ref=e418]: Custom ERP
+      - generic [ref=e423]:
+        - generic [ref=e424]:
+          - img [ref=e425]
+          - generic [ref=e427]: Google Cortex
+        - generic [ref=e429]: Data Foundation → BigQuery
+      - generic [ref=e434]:
+        - generic [ref=e435]:
+          - img [ref=e436]
+          - generic [ref=e439]: Truffles Agents
+        - generic [ref=e440]:
+          - generic [ref=e441]: DISE
+          - generic [ref=e442]: Tax
+          - generic [ref=e443]: Segments
+          - generic [ref=e444]: Leases
+          - generic [ref=e445]: Revenue
+      - generic [ref=e450]:
+        - generic [ref=e451]:
+          - img [ref=e452]
+          - generic [ref=e456]: Output
+        - generic [ref=e458]: 10-K · XBRL · Audit Pack
+  - generic [ref=e460]:
+    - heading "Built for teams that can't get it wrong." [level=2] [ref=e463]
+    - generic [ref=e464]:
+      - generic [ref=e466]:
+        - img [ref=e468]
+        - generic [ref=e470]: SOC 2 Type II
+        - generic [ref=e471]: Annually audited
+      - generic [ref=e473]:
+        - img [ref=e475]
+        - generic [ref=e478]: AES-256 + TLS 1.3
+        - generic [ref=e479]: End-to-end encrypted
+      - generic [ref=e481]:
+        - img [ref=e483]
+        - generic [ref=e488]: Big 4 Compatible
+        - generic [ref=e489]: Audit-ready exports
+      - generic [ref=e491]:
+        - img [ref=e493]
+        - generic [ref=e495]: 99.9% Uptime
+        - generic [ref=e496]: AWS auto-scaling
+  - generic [ref=e499]:
+    - heading "Close faster. File smarter." [level=2] [ref=e500]
+    - paragraph [ref=e501]: See how Truffles reduces disclosure prep from weeks to hours.
+    - generic [ref=e502]:
+      - link "Request a demo" [ref=e503] [cursor=pointer]:
+        - /url: mailto:hello@truffles.ai
+        - text: Request a demo
+        - img [ref=e504]
+      - link "hello@truffles.ai" [ref=e506] [cursor=pointer]:
+        - /url: mailto:hello@truffles.ai
+        - text: hello@truffles.ai
+        - img [ref=e507]
+  - contentinfo [ref=e510]:
+    - generic [ref=e512]:
+      - generic [ref=e513]:
+        - generic [ref=e516]: tf
+        - generic [ref=e517]: © 2026 BE Technology Corp.
+      - generic [ref=e518]:
+        - link "Privacy" [ref=e519] [cursor=pointer]:
+          - /url: "#"
+        - link "Terms" [ref=e520] [cursor=pointer]:
+          - /url: "#"
+        - link "Security" [ref=e521] [cursor=pointer]:
+          - /url: "#"
+        - link "Docs" [ref=e522] [cursor=pointer]:
+          - /url: "#"
+  - alert [ref=e523]

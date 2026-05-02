@@ -1,0 +1,20 @@
+# ============================================================
+# BE Technology — Tax Classifier Cloud Run Job
+# Dockerfile for tax_03_classifier.py
+# ============================================================
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements_tax.txt .
+RUN pip install --no-cache-dir -r requirements_tax.txt
+
+# Copy classifier
+COPY tax_03_classifier.py .
+
+# Cloud Run jobs execute the entrypoint and exit
+# Mode is passed as CMD arg: classify | promote | full
+ENTRYPOINT ["python", "tax_03_classifier.py"]
+CMD ["full"]

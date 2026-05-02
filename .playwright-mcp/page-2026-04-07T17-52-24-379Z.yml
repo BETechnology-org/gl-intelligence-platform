@@ -1,0 +1,48 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: B
+      - generic [ref=e5]: BE Technology
+    - generic [ref=e6]: GL Intelligence Platform
+    - generic [ref=e8]: No data loaded
+  - generic [ref=e9]:
+    - button "Dashboard" [ref=e10] [cursor=pointer]
+    - button "Account Explorer" [ref=e11] [cursor=pointer]
+    - button "Audit Trail" [ref=e12] [cursor=pointer]
+    - button "Anomaly Alerts" [ref=e13] [cursor=pointer]
+    - button "DISE Disclosure" [ref=e14] [cursor=pointer]
+    - button "Cost Centre Intel" [ref=e15] [cursor=pointer]
+    - button "Agents" [ref=e16] [cursor=pointer]
+  - generic [ref=e19]:
+    - generic [ref=e20]:
+      - img [ref=e22]
+      - generic [ref=e24]:
+        - generic [ref=e25]: Google BigQuery
+        - generic [ref=e26]: via Cortex Framework · be-tech-prod
+      - generic [ref=e29]: Connecting…
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - img [ref=e33]
+        - generic [ref=e35]:
+          - generic [ref=e36]: Authenticating with Cortex Framework
+          - generic [ref=e37]: "dataset: cortex_sap_reporting"
+        - img [ref=e39]
+      - generic [ref=e42]:
+        - img [ref=e44]
+        - generic [ref=e48]:
+          - generic [ref=e49]: Querying SAP GL journal entries
+          - generic [ref=e50]: SELECT * FROM sap_fi_document_header…
+        - img [ref=e52]
+      - generic [ref=e55]:
+        - img [ref=e57]
+        - generic [ref=e62]:
+          - generic [ref=e63]: Running DISE Mapping Agent
+          - generic [ref=e64]: Classifying accounts into 5 ASC 220-40 categories…
+        - img [ref=e66]
+      - generic [ref=e69]:
+        - img [ref=e71]
+        - generic [ref=e73]:
+          - generic [ref=e74]: Preparing disclosure dashboard
+          - generic [ref=e75]: 502 accounts · FY2023 actuals ready
+        - img [ref=e77]
+    - generic [ref=e83]: 0% complete

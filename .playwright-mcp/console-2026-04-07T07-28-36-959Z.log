@@ -1,0 +1,6 @@
+[     765ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8789/favicon.ico:0
+[ 5417982ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8789/api/tax/provision:0
+[ 5417983ms] [ERROR] Tax data load error: TypeError: Failed to fetch
+    at loadTaxData (http://localhost:8789/fasb_dise_platform:3344:23)
+    at showModule (http://localhost:8789/fasb_dise_platform:3674:28)
+    at HTMLDivElement.onclick (http://localhost:8789/fasb_dise_platform:2371:118) @ http://localhost:8789/fasb_dise_platform:3349

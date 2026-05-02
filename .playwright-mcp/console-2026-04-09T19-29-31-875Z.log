@@ -1,0 +1,5 @@
+[     184ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8789/favicon.ico:0
+[   23146ms] TypeError: Cannot read properties of null (reading 'classList')
+    at HTMLButtonElement.<anonymous> (http://localhost:8789/dashboard:683:74)
+[   39641ms] TypeError: Cannot read properties of null (reading 'classList')
+    at HTMLButtonElement.<anonymous> (http://localhost:8789/dashboard:683:74)

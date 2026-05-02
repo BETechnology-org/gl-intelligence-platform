@@ -1,0 +1,356 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "tf truffles.ai" [ref=e4] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e7]: tf
+        - generic [ref=e8]: truffles.ai
+      - navigation [ref=e9]:
+        - link "Platform" [ref=e10] [cursor=pointer]:
+          - /url: "#platform"
+        - link "Modules" [ref=e11] [cursor=pointer]:
+          - /url: "#modules"
+        - link "Security" [ref=e12] [cursor=pointer]:
+          - /url: "#security"
+      - generic [ref=e13]:
+        - link "Sign in" [ref=e14] [cursor=pointer]:
+          - /url: "#cta"
+        - link "Request access" [ref=e15] [cursor=pointer]:
+          - /url: "#cta"
+  - generic [ref=e17]:
+    - generic [ref=e20]: DISE Mandate · FY2025 Filing Cycle
+    - heading "DISE compliance, automated." [level=1] [ref=e21]
+    - paragraph [ref=e22]: Digital evidence validation from source ledger to signed 10-K.
+    - generic [ref=e23]:
+      - link "Request a demo" [ref=e24] [cursor=pointer]:
+        - /url: "#cta"
+        - text: Request a demo
+        - img [ref=e25]
+      - link "See it work" [ref=e27] [cursor=pointer]:
+        - /url: "#platform"
+        - text: See it work
+        - img [ref=e28]
+    - generic [ref=e31]:
+      - generic [ref=e37]: truffles.ai — DISE Mandate · ASC 220-40
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - generic [ref=e41]:
+              - generic [ref=e42]: Validated
+              - generic [ref=e43]: 84%
+            - generic [ref=e44]:
+              - generic [ref=e45]: Evidence Gaps
+              - generic [ref=e46]: "3"
+            - generic [ref=e47]:
+              - generic [ref=e48]: Days to Filing
+              - generic [ref=e49]: "18"
+            - generic [ref=e50]:
+              - generic [ref=e51]: Disclosures
+              - generic [ref=e52]: "133"
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - generic [ref=e55]: Evidence Interrogation Queue
+              - generic [ref=e56]: Q1 2026
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - generic [ref=e59]: Revenue disaggregation by geography
+                - generic [ref=e60]: SAP ECC → GL
+                - generic [ref=e61]: Validated
+              - generic [ref=e62]:
+                - generic [ref=e63]: Related party transaction disclosures
+                - generic [ref=e64]: SAP ECC → AR
+                - generic [ref=e65]: Pending
+              - generic [ref=e66]:
+                - generic [ref=e67]: Goodwill impairment testing evidence
+                - generic [ref=e68]: Manual / DCF
+                - generic [ref=e69]: Gap
+              - generic [ref=e70]:
+                - generic [ref=e71]: Pension obligation assumptions
+                - generic [ref=e72]: Actuary report
+                - generic [ref=e73]: Validated
+              - generic [ref=e74]:
+                - generic [ref=e75]: Contingent liability disclosures
+                - generic [ref=e76]: Legal → SAP
+                - generic [ref=e77]: Gap
+          - generic [ref=e78]:
+            - generic [ref=e79]: Completion by Category
+            - generic [ref=e80]:
+              - generic [ref=e81]:
+                - generic [ref=e82]: Balance Sheet
+                - generic [ref=e85]: 47/50
+              - generic [ref=e86]:
+                - generic [ref=e87]: Income Stmt
+                - generic [ref=e90]: 37/42
+              - generic [ref=e91]:
+                - generic [ref=e92]: Cash Flow
+                - generic [ref=e95]: 19/25
+              - generic [ref=e96]:
+                - generic [ref=e97]: Related Party
+                - generic [ref=e100]: 8/16
+        - generic [ref=e101]:
+          - generic [ref=e102]: Filing Checklist
+          - generic [ref=e103]:
+            - img [ref=e104]
+            - generic [ref=e107]: Management rep letter signed
+          - generic [ref=e108]:
+            - img [ref=e109]
+            - generic [ref=e112]: Auditor independence confirmed
+          - generic [ref=e113]:
+            - img [ref=e114]
+            - generic [ref=e117]: Balance sheet disclosures validated
+          - generic [ref=e118]:
+            - img [ref=e119]
+            - generic [ref=e122]: Income stmt footnotes complete
+          - generic [ref=e123]:
+            - img [ref=e124]
+            - generic [ref=e127]: Goodwill impairment — awaiting DCF
+          - generic [ref=e128]:
+            - img [ref=e129]
+            - generic [ref=e132]: Contingent liability sign-off
+          - generic [ref=e133]:
+            - generic [ref=e134]: SEC Comment Risk
+            - generic [ref=e135]:
+              - generic [ref=e137]: Rev
+              - generic [ref=e139]: Pen
+              - generic [ref=e141]: Cont
+              - generic [ref=e143]: GW
+              - generic [ref=e145]: SBC
+              - generic [ref=e147]: FV
+  - generic [ref=e149]:
+    - generic [ref=e150]: Deloitte
+    - generic [ref=e151]: PwC
+    - generic [ref=e152]: KPMG
+    - generic [ref=e153]: EY
+    - generic [ref=e154]: BDO
+    - generic [ref=e155]: Grant Thornton
+    - generic [ref=e156]: Deloitte
+    - generic [ref=e157]: PwC
+    - generic [ref=e158]: KPMG
+    - generic [ref=e159]: EY
+    - generic [ref=e160]: BDO
+    - generic [ref=e161]: Grant Thornton
+  - generic [ref=e162]:
+    - heading "Source to 10-K. Three steps." [level=2] [ref=e165]
+    - generic [ref=e166]:
+      - generic [ref=e171]:
+        - img [ref=e173]
+        - generic [ref=e177]: Step 01
+        - generic [ref=e178]: Connect
+        - generic [ref=e179]:
+          - generic [ref=e180]:
+            - img [ref=e181]
+            - generic [ref=e185]: SAP S/4HANA
+          - generic [ref=e186]:
+            - img [ref=e187]
+            - generic [ref=e191]: Oracle EBS
+          - generic [ref=e192]:
+            - img [ref=e193]
+            - generic [ref=e197]: BigQuery
+          - generic [ref=e198]:
+            - img [ref=e199]
+            - generic [ref=e203]: CSV / API
+      - generic [ref=e205]:
+        - img [ref=e207]
+        - generic [ref=e210]: Step 02
+        - generic [ref=e211]: Analyze
+        - generic [ref=e212]:
+          - generic [ref=e213]:
+            - img [ref=e214]
+            - generic [ref=e217]: Mapping Agent
+          - generic [ref=e218]:
+            - img [ref=e219]
+            - generic [ref=e221]: Tax Agent
+          - generic [ref=e222]:
+            - img [ref=e223]
+            - generic [ref=e226]: Recon Agent
+          - generic [ref=e227]:
+            - img [ref=e228]
+            - generic [ref=e230]: Compliance
+      - generic [ref=e232]:
+        - img [ref=e234]
+        - generic [ref=e238]: Step 03
+        - generic [ref=e239]: File
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - img [ref=e242]
+            - generic [ref=e245]: 10-K Footnotes
+          - generic [ref=e246]:
+            - img [ref=e247]
+            - generic [ref=e250]: XBRL Tags
+          - generic [ref=e251]:
+            - img [ref=e252]
+            - generic [ref=e254]: Audit Package
+          - generic [ref=e255]:
+            - img [ref=e256]
+            - generic [ref=e259]: SEC Ready
+  - generic [ref=e263]:
+    - generic [ref=e264]:
+      - img [ref=e266]
+      - generic [ref=e269]:
+        - generic [ref=e270]: Tax Reconciliation Agent
+        - generic [ref=e271]: ASC 740 · ASU 2023-09
+      - generic [ref=e274]: Processing...
+    - generic [ref=e275]:
+      - generic [ref=e276]:
+        - img [ref=e278]
+        - generic [ref=e281]:
+          - generic [ref=e282]: Scanning 2,847 GL journal entries
+          - generic [ref=e283]:
+            - generic [ref=e284]: SAP FI/CO
+            - generic [ref=e285]: BigQuery
+            - generic [ref=e286]: 10 Entities
+      - generic [ref=e287]:
+        - img [ref=e289]
+        - generic [ref=e293]:
+          - generic [ref=e294]: Classifying current vs. deferred provisions
+          - generic [ref=e295]:
+            - generic [ref=e296]: Current $62.5M
+            - generic [ref=e297]: Deferred $12.5M
+      - generic [ref=e298]:
+        - img [ref=e300]
+        - generic [ref=e303]:
+          - generic [ref=e304]: Validating ASU 2023-09 compliance
+          - generic [ref=e305]:
+            - generic [ref=e306]: 10/11 Passed
+            - generic [ref=e307]: 1 In Review
+      - generic [ref=e308]:
+        - img [ref=e310]
+        - generic [ref=e314]: Generating 10-K footnote narrative
+      - generic [ref=e318]:
+        - generic [ref=e319]: 0% complete
+        - generic [ref=e320]: Processing...
+  - generic [ref=e323]:
+    - generic [ref=e324]:
+      - generic [ref=e326]: 0+
+      - generic [ref=e327]: GL accounts
+      - generic [ref=e328]: 5 DISE categories
+    - generic [ref=e329]:
+      - generic [ref=e331]: 0%
+      - generic [ref=e332]: Compliance
+      - generic [ref=e333]: ASU 2023-09
+    - generic [ref=e334]:
+      - generic [ref=e335]: "0"
+      - generic [ref=e336]: Jurisdictions
+      - generic [ref=e337]: Real-time recon
+    - generic [ref=e338]:
+      - generic [ref=e340]: $0M
+      - generic [ref=e341]: Provision
+      - generic [ref=e342]: Current + deferred
+  - generic [ref=e343]:
+    - heading "Every critical FASB standard." [level=2] [ref=e346]
+    - generic [ref=e347]:
+      - generic [ref=e348] [cursor=pointer]:
+        - generic [ref=e349]:
+          - generic [ref=e350]: Required
+          - generic [ref=e351]: ASC 220-40
+        - heading "DISE Mandate" [level=3] [ref=e352]
+        - paragraph [ref=e353]: Digital Interrogation & Substantiation of Evidence — systematic validation of financial disclosures against source evidence, SEC comment risk scoring, and gap detection.
+        - generic [ref=e354]:
+          - generic [ref=e355]: 133 Disclosures
+          - generic [ref=e356]: 5 Categories
+          - generic [ref=e357]: Evidence Mapping
+          - generic [ref=e358]: SEC Risk Score
+      - generic [ref=e359] [cursor=pointer]:
+        - generic [ref=e360]:
+          - img [ref=e361]
+          - generic [ref=e363]: Flagship
+        - heading "Income Tax Provision" [level=3] [ref=e364]
+        - paragraph [ref=e365]: ASU 2023-09 rate reconciliation, jurisdictional disaggregation, AI-generated footnotes.
+      - generic [ref=e366] [cursor=pointer]:
+        - img [ref=e367]
+        - generic [ref=e370]: ASC 280
+        - heading "Segment Reporting" [level=3] [ref=e371]
+        - paragraph [ref=e372]: CODM identification and ASU 2023-07 interim disclosures.
+      - generic [ref=e373] [cursor=pointer]:
+        - img [ref=e374]
+        - generic [ref=e378]: ASC 842
+        - heading "Lease Accounting" [level=3] [ref=e379]
+        - paragraph [ref=e380]: ROU assets, classification, maturity schedules.
+      - generic [ref=e382]:
+        - generic [ref=e383] [cursor=pointer]:
+          - img [ref=e384]
+          - generic [ref=e387]: ASC 606
+          - heading "Revenue" [level=3] [ref=e388]
+          - paragraph [ref=e389]: Five-step model compliance and performance obligations.
+        - generic [ref=e390] [cursor=pointer]:
+          - img [ref=e391]
+          - generic [ref=e393]: ASC 326
+          - heading "Credit Losses" [level=3] [ref=e394]
+          - paragraph [ref=e395]: CECL modeling, allowance calculation, vintage analysis.
+  - generic [ref=e396]:
+    - heading "ERP to audit-ready. One pipeline." [level=2] [ref=e399]
+    - generic [ref=e400]:
+      - generic [ref=e403]:
+        - generic [ref=e404]:
+          - img [ref=e405]
+          - generic [ref=e409]: Source Systems
+        - generic [ref=e410]:
+          - generic [ref=e411]: SAP S/4HANA
+          - generic [ref=e412]: Oracle EBS
+          - generic [ref=e413]: Custom ERP
+      - generic [ref=e418]:
+        - generic [ref=e419]:
+          - img [ref=e420]
+          - generic [ref=e422]: Google Cortex
+        - generic [ref=e424]: Data Foundation → BigQuery
+      - generic [ref=e429]:
+        - generic [ref=e430]:
+          - img [ref=e431]
+          - generic [ref=e434]: Truffles Agents
+        - generic [ref=e435]:
+          - generic [ref=e436]: DISE
+          - generic [ref=e437]: Tax
+          - generic [ref=e438]: Segments
+          - generic [ref=e439]: Leases
+          - generic [ref=e440]: Revenue
+      - generic [ref=e445]:
+        - generic [ref=e446]:
+          - img [ref=e447]
+          - generic [ref=e451]: Output
+        - generic [ref=e453]: 10-K · XBRL · Audit Pack
+  - generic [ref=e455]:
+    - heading "Built for teams that can't get it wrong." [level=2] [ref=e458]
+    - generic [ref=e459]:
+      - generic [ref=e461]:
+        - img [ref=e463]
+        - generic [ref=e465]: SOC 2 Type II
+        - generic [ref=e466]: Annually audited
+      - generic [ref=e468]:
+        - img [ref=e470]
+        - generic [ref=e473]: AES-256 + TLS 1.3
+        - generic [ref=e474]: End-to-end encrypted
+      - generic [ref=e476]:
+        - img [ref=e478]
+        - generic [ref=e483]: Big 4 Compatible
+        - generic [ref=e484]: Audit-ready exports
+      - generic [ref=e486]:
+        - img [ref=e488]
+        - generic [ref=e490]: 99.9% Uptime
+        - generic [ref=e491]: AWS auto-scaling
+  - generic [ref=e494]:
+    - heading "Close faster. File smarter." [level=2] [ref=e495]
+    - paragraph [ref=e496]: See how Truffles reduces disclosure prep from weeks to hours.
+    - generic [ref=e497]:
+      - link "Request a demo" [ref=e498] [cursor=pointer]:
+        - /url: mailto:hello@truffles.ai
+        - text: Request a demo
+        - img [ref=e499]
+      - link "hello@truffles.ai" [ref=e501] [cursor=pointer]:
+        - /url: mailto:hello@truffles.ai
+        - text: hello@truffles.ai
+        - img [ref=e502]
+  - contentinfo [ref=e505]:
+    - generic [ref=e507]:
+      - generic [ref=e508]:
+        - generic [ref=e511]: tf
+        - generic [ref=e512]: © 2026 BE Technology Corp.
+      - generic [ref=e513]:
+        - link "Privacy" [ref=e514] [cursor=pointer]:
+          - /url: "#"
+        - link "Terms" [ref=e515] [cursor=pointer]:
+          - /url: "#"
+        - link "Security" [ref=e516] [cursor=pointer]:
+          - /url: "#"
+        - link "Docs" [ref=e517] [cursor=pointer]:
+          - /url: "#"
+  - alert [ref=e518]
