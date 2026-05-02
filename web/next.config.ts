@@ -13,15 +13,6 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
-  // Backward-compat for the legacy Flask service URL: /app served
-  // GL_Intelligence_Platform_6.html. The new product lives at /dashboard;
-  // 308-redirect keeps existing bookmarks + the deck CTA working.
-  async redirects() {
-    return [
-      { source: "/app", destination: "/dashboard", permanent: true },
-      { source: "/app/:path*", destination: "/dashboard/:path*", permanent: true },
-    ];
-  },
 };
 
 export default nextConfig;
