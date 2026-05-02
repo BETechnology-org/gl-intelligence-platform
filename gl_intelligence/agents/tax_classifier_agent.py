@@ -17,6 +17,11 @@ from typing import Optional
 from gl_intelligence.config import cfg
 from gl_intelligence.cortex.client import CortexClient
 from gl_intelligence.agents.base import BaseAgent, AgentResult
+from gl_intelligence.persistence import (
+    supabase_available,
+    write_audit_event,
+)
+from gl_intelligence.persistence import tax_store
 
 log = logging.getLogger("agents.tax_classifier")
 
@@ -247,13 +252,17 @@ class TaxClassifierAgent(BaseAgent):
                     pending_review += 1
                 continue
 
-            # Write to appropriate store
+            # Write to appropriate store. Supabase is the durable backing
+            # store when SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY are set;
+            # the in-memory list is the legacy fallback.
             if status == "approved":
                 _approved_tax_mappings.append(entry)
                 auto_approved += 1
             else:
                 _pending_tax_mappings.append(entry)
                 pending_review += 1
+                if supabase_available():
+                    tax_store.write_pending(entry)
 
             result.results.append(entry)
             result.processed += 1
@@ -278,7 +287,17 @@ class TaxClassifierAgent(BaseAgent):
         return result
 
     def get_pending_tax_mappings(self) -> list[dict]:
-        """Returns all pending tax GL mappings awaiting controller review."""
+        """Returns all pending tax GL mappings awaiting controller review.
+
+        Resolution order:
+          1. Supabase  — durable, survives Cloud Run restarts.
+          2. BigQuery  — legacy demo dataset (Max's 86-account fixture).
+          3. In-memory — last-resort fallback when neither is available.
+        """
+        if supabase_available():
+            rows = tax_store.get_pending(limit=50)
+            if rows:
+                return rows
         if self.cx.available:
             try:
                 sql = f"""
@@ -296,6 +315,10 @@ class TaxClassifierAgent(BaseAgent):
 
     def get_approved_tax_mappings(self) -> list[dict]:
         """Returns all approved tax GL mappings."""
+        if supabase_available():
+            rows = tax_store.get_approved(limit=200)
+            if rows:
+                return rows
         if self.cx.available:
             try:
                 sql = f"""
@@ -312,8 +335,21 @@ class TaxClassifierAgent(BaseAgent):
         return [m for m in _approved_tax_mappings]
 
     def approve_mapping(self, gl_account: str, reviewer: str = "controller",
-                        override_category: str | None = None) -> bool:
+                        override_category: str | None = None,
+                        override_reason: str | None = None) -> bool:
         """Move a pending mapping to approved. Optionally override the AI category."""
+        if supabase_available():
+            ok = tax_store.approve(
+                gl_account,
+                reviewer=reviewer,
+                override_category=override_category,
+                override_reason=override_reason,
+            )
+            if ok:
+                log.info(f"Approved tax mapping (supabase): {gl_account}")
+                return True
+
+        # Legacy in-memory fallback
         for m in _pending_tax_mappings:
             if m["gl_account"] == gl_account and m.get("status") == "pending":
                 m["status"] = "approved"
@@ -324,13 +360,29 @@ class TaxClassifierAgent(BaseAgent):
                     m["tax_category_label"] = TAX_CATEGORY_LABELS.get(override_category, override_category)
                     m["disclosure_table"] = CATEGORY_TO_TABLE.get(override_category, "")
                 _approved_tax_mappings.append(m)
-                log.info(f"Approved tax mapping: {gl_account} → {m['tax_category']}")
+                write_audit_event(
+                    module="tax",
+                    event_type="HUMAN_OVERRIDDEN" if override_category else "HUMAN_APPROVED",
+                    actor=reviewer, actor_type="HUMAN",
+                    gl_account=gl_account,
+                    payload={"agent_category": m.get("tax_category"),
+                             "final_category": m.get("tax_category"),
+                             "override_reason": override_reason},
+                )
+                log.info(f"Approved tax mapping (in-memory): {gl_account} → {m['tax_category']}")
                 return True
         return False
 
     def reject_mapping(self, gl_account: str, reviewer: str = "controller",
                        reason: str = "") -> bool:
         """Reject a pending mapping."""
+        if supabase_available():
+            ok = tax_store.reject(gl_account, reviewer=reviewer, reason=reason)
+            if ok:
+                log.info(f"Rejected tax mapping (supabase): {gl_account}")
+                return True
+
+        # Legacy in-memory fallback
         for m in _pending_tax_mappings:
             if m["gl_account"] == gl_account and m.get("status") == "pending":
                 m["status"] = "rejected"
