@@ -12,6 +12,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/bedrock-sdk": "^0.29.1",
     "@anthropic-ai/sdk": "^0.92.0",
     "@fontsource/instrument-serif": "^5.2.8",
     "@supabase/ssr": "^0.10.2",

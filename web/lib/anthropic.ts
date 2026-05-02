@@ -1,17 +1,50 @@
+/**
+ * Claude client — supports both Anthropic direct API and AWS Bedrock.
+ *
+ * Bedrock is preferred when AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY are
+ * set (no Anthropic API costs — routed via Truffles' AWS infrastructure,
+ * matching the legacy gl-intelligence service). Falls back to direct
+ * Anthropic API when only ANTHROPIC_API_KEY is set.
+ */
+
 import Anthropic from "@anthropic-ai/sdk";
+import { AnthropicBedrock } from "@anthropic-ai/bedrock-sdk";
 
-const apiKey = process.env.ANTHROPIC_API_KEY;
-const model = process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-5-20250929";
+const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const awsRegion = process.env.AWS_BEDROCK_REGION ?? "ap-south-1";
+const anthropicApiKey = process.env.ANTHROPIC_API_KEY;
 
-let _client: Anthropic | null = null;
+const useBedrock = !!(awsAccessKeyId && awsSecretAccessKey);
 
-export function getAnthropic(): Anthropic {
-  if (!apiKey) throw new Error("ANTHROPIC_API_KEY not set");
-  if (!_client) _client = new Anthropic({ apiKey });
+// Bedrock model IDs are different from direct API. Default matches the
+// legacy CLAUDE_MODEL=apac.anthropic.claude-sonnet-4-5-20250929-v1:0 used
+// by gl_intelligence/api/server.py.
+const bedrockModel =
+  process.env.CLAUDE_MODEL ?? "apac.anthropic.claude-sonnet-4-5-20250929-v1:0";
+const directModel =
+  process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-5-20250929";
+
+export const ANTHROPIC_MODEL = useBedrock ? bedrockModel : directModel;
+
+let _client: Anthropic | AnthropicBedrock | null = null;
+
+export function getClaude(): Anthropic | AnthropicBedrock {
+  if (_client) return _client;
+  if (useBedrock) {
+    _client = new AnthropicBedrock({
+      awsAccessKey: awsAccessKeyId!,
+      awsSecretKey: awsSecretAccessKey!,
+      awsRegion,
+    });
+  } else {
+    if (!anthropicApiKey) {
+      throw new Error("Neither AWS Bedrock creds nor ANTHROPIC_API_KEY set");
+    }
+    _client = new Anthropic({ apiKey: anthropicApiKey });
+  }
   return _client;
 }
-
-export const ANTHROPIC_MODEL = model;
 
 export interface ClassifyJSONOptions {
   system: string;
@@ -20,8 +53,9 @@ export interface ClassifyJSONOptions {
 }
 
 export async function classifyJSON<T>(opts: ClassifyJSONOptions): Promise<T | null> {
-  const res = await getAnthropic().messages.create({
-    model,
+  const client = getClaude();
+  const res = await client.messages.create({
+    model: ANTHROPIC_MODEL,
     max_tokens: opts.maxTokens ?? 800,
     system: opts.system,
     messages: [{ role: "user", content: opts.prompt }],
@@ -32,7 +66,6 @@ export async function classifyJSON<T>(opts: ClassifyJSONOptions): Promise<T | nu
     .join("\n")
     .trim();
 
-  // Strip code fences if present
   let cleaned = text;
   if (cleaned.startsWith("```")) {
     const inner = cleaned.split("```");
@@ -54,8 +87,9 @@ export async function generateText(opts: {
   prompt: string;
   maxTokens?: number;
 }): Promise<string> {
-  const res = await getAnthropic().messages.create({
-    model,
+  const client = getClaude();
+  const res = await client.messages.create({
+    model: ANTHROPIC_MODEL,
     max_tokens: opts.maxTokens ?? 2000,
     system: opts.system,
     messages: [{ role: "user", content: opts.prompt }],

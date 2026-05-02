@@ -2,6 +2,9 @@
 # Cloud Build — BL/GL Intelligence Next.js 16 image
 # Builds web → pushes to Artifact Registry → deploys to Cloud Run
 # Project: trufflesai-loans / Region: us-central1 / Service: gl-intelligence
+#
+# Reuses existing AWS_* secrets (Bedrock route — no Anthropic API costs)
+# already set up for the legacy gl-intelligence service.
 # ─────────────────────────────────────────────────────────────────────────
 steps:
   # 1. Build the Next.js production image with public env vars baked in
@@ -47,8 +50,8 @@ steps:
       - "--min-instances=0"
       - "--max-instances=10"
       - "--timeout=300"
-      - "--set-env-vars=NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1"
-      - "--set-secrets=SUPABASE_SERVICE_ROLE_KEY=bl-intelligence-supabase-service-role:latest,ANTHROPIC_API_KEY=bl-intelligence-anthropic-api-key:latest"
+      - "--set-env-vars=NODE_ENV=production,NEXT_TELEMETRY_DISABLED=1,AWS_BEDROCK_REGION=ap-south-1,CLAUDE_MODEL=apac.anthropic.claude-sonnet-4-5-20250929-v1:0"
+      - "--set-secrets=AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID:latest,AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY:latest,SUPABASE_SERVICE_ROLE_KEY=bl-intelligence-supabase-service-role:latest"
 
 images:
   - "us-central1-docker.pkg.dev/trufflesai-loans/gl-intelligence/web:$SHORT_SHA"
