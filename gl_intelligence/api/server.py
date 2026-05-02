@@ -643,6 +643,140 @@ def classified_accounts():
     return jsonify({"count": len(data), "accounts": data})
 
 
+# ── Audit log + Workiva-ready exports (Supabase-backed) ────
+#
+# These routes are gated on the Supabase env vars being set. When
+# they are, controller actions in the legacy /app HTML UI flow
+# through the durable Supabase backing store (replacing the
+# module-level Python lists in tax_classifier_agent that lost
+# state on every Cloud Run restart). When they're not, the routes
+# return empty/501 — the legacy in-memory fallback continues to
+# work, just without persistence.
+
+@app.route("/api/audit-log")
+def audit_log():
+    """Return the most recent audit_log rows for a company × module.
+
+    Query params:
+      company_id  (optional; defaults to demo company C006)
+      module      (optional; 'tax' | 'dise' | 'platform')
+      limit       (optional; default 200, capped at 500)
+    """
+    from gl_intelligence.persistence import supabase_available
+    from gl_intelligence.persistence.tax_store import list_audit_events
+    if not supabase_available():
+        return jsonify({"events": [], "count": 0, "supabase": False}), 200
+    module = request.args.get("module")
+    company_id = request.args.get("company_id")
+    try:
+        limit = max(1, min(int(request.args.get("limit", "200")), 500))
+    except (TypeError, ValueError):
+        return _error_response(400, "bad_request", "limit must be an integer")
+    kwargs: dict = {"limit": limit}
+    if company_id:
+        kwargs["company_id"] = company_id
+    if module:
+        kwargs["module"] = module
+    events = list_audit_events(**kwargs)
+    return jsonify({"events": events, "count": len(events), "supabase": True})
+
+
+def _export_response(content: bytes | str, *, mime: str, filename: str) -> Response:
+    if isinstance(content, str):
+        content = content.encode("utf-8")
+    resp = Response(content, mimetype=mime)
+    resp.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return resp
+
+
+@app.route("/api/exports/dise")
+def export_dise():
+    """CSV / JSON / DOCX export of approved DISE mappings (ASU 2024-03)."""
+    from gl_intelligence.persistence import supabase_available
+    from gl_intelligence.persistence.supabase_client import (
+        DEFAULT_COMPANY_ID,
+        get_supabase,
+    )
+    from gl_intelligence.exports import dise_export
+
+    fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
+    fmt = (request.args.get("format", "csv") or "csv").lower()
+    company_id = request.args.get("company_id", DEFAULT_COMPANY_ID)
+
+    rows: list[dict] = []
+    if supabase_available():
+        sb = get_supabase()
+        try:
+            rows = (
+                sb.table("dise_approved_mappings").select("*")
+                .eq("company_id", company_id).eq("fiscal_year", fy)
+                .order("gl_account").execute()
+            ).data or []
+        except Exception as e:
+            log.warning("dise export supabase read failed: %s", e)
+
+    base = f"dise_disclosure_FY{fy}"
+    if fmt == "csv":
+        return _export_response(dise_export.to_csv(rows),
+                                mime="text/csv; charset=utf-8",
+                                filename=f"{base}.csv")
+    if fmt == "json":
+        return _export_response(dise_export.to_json(rows, fy),
+                                mime="application/json",
+                                filename=f"{base}.json")
+    if fmt == "docx":
+        return _export_response(
+            dise_export.to_docx(rows, fy),
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            filename=f"{base}.docx",
+        )
+    return _error_response(400, "bad_request", "format must be csv | json | docx")
+
+
+@app.route("/api/exports/tax")
+def export_tax():
+    """CSV / JSON / DOCX export of approved tax mappings (ASU 2023-09)."""
+    from gl_intelligence.persistence import supabase_available
+    from gl_intelligence.persistence.supabase_client import (
+        DEFAULT_COMPANY_ID,
+        get_supabase,
+    )
+    from gl_intelligence.exports import tax_export
+
+    fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
+    fmt = (request.args.get("format", "csv") or "csv").lower()
+    company_id = request.args.get("company_id", DEFAULT_COMPANY_ID)
+
+    rows: list[dict] = []
+    if supabase_available():
+        sb = get_supabase()
+        try:
+            rows = (
+                sb.table("tax_approved_mappings").select("*")
+                .eq("company_id", company_id).eq("fiscal_year", fy)
+                .order("gl_account").execute()
+            ).data or []
+        except Exception as e:
+            log.warning("tax export supabase read failed: %s", e)
+
+    base = f"tax_disclosure_FY{fy}"
+    if fmt == "csv":
+        return _export_response(tax_export.to_csv(rows),
+                                mime="text/csv; charset=utf-8",
+                                filename=f"{base}.csv")
+    if fmt == "json":
+        return _export_response(tax_export.to_json(rows, fy),
+                                mime="application/json",
+                                filename=f"{base}.json")
+    if fmt == "docx":
+        return _export_response(
+            tax_export.to_docx(rows, fy),
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            filename=f"{base}.docx",
+        )
+    return _error_response(400, "bad_request", "format must be csv | json | docx")
+
+
 # ── Static files (dashboard) ───────────────────────────────
 
 ASSETS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS"))
