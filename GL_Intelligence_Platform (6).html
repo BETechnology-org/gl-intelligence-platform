@@ -648,7 +648,7 @@ function flattenRecon(items) {
 /* ── /api/tax/provision ── */
 async function loadTax() {
   try {
-    const res = await fetch(API_BASE + '/api/tax/provision');
+    const res = await fetch(API_BASE + '/api/tax/provision?fiscal_year=2024');
     const d = await res.json();
     renderTax(d);
   } catch(e) {
@@ -767,7 +767,7 @@ function renderTax(d) {
 /* ── /api/dise/pivot ── */
 async function loadDISE() {
   try {
-    const res = await fetch(API_BASE + '/api/dise/pivot');
+    const res = await fetch(API_BASE + '/api/dise/pivot?fiscal_year=2024');
     const d   = await res.json();
     const fy  = d.fiscal_year || '2022';
     setText('dise-page-sub', `Company C006 · FY${fy} · dise_reporting.dise_pivot · $0 variance`);
