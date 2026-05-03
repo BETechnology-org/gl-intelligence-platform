@@ -205,6 +205,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="nav-item" onclick="nav(this,'ask')"><div class="nav-dot" style="background:#EC4899"></div>Ask the GL</div>
   </div>
 
+  <div class="nav-group">
+    <div class="nav-group-label">Finance Agents</div>
+    <div class="nav-item" onclick="nav(this,'agents')"><div class="nav-dot" style="background:var(--gold)"></div>All agents<span class="nav-badge nb-new" id="agents-badge">9</span></div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('cfo')"><div class="nav-dot" style="background:#C9A84C"></div>CFO · brief</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('fpa')"><div class="nav-dot" style="background:#185FA5"></div>FP&amp;A · variance</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('tax_provision')"><div class="nav-dot" style="background:#1D9E75"></div>Tax · provision</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('audit')"><div class="nav-dot" style="background:#E24B4A"></div>Audit · JE testing</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('accounting')"><div class="nav-dot" style="background:#534AB7"></div>Accounting · recon</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('ir')"><div class="nav-dot" style="background:#BA7517"></div>IR · earnings</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('esg')"><div class="nav-dot" style="background:#10B981"></div>ESG · GHG</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('etr_narrative')"><div class="nav-dot" style="background:#7C3AED"></div>ETR · narratives</div>
+    <div class="nav-item" onclick="nav(this,'agents');runAgent('close_tracker')"><div class="nav-dot" style="background:#6b6b67"></div>Close · tracker</div>
+  </div>
+
   <div class="sidebar-footer" id="sidebar-footer">
     diplomatic75 · us-central1<br>
     Loading…<br>
@@ -555,6 +569,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
       <button onclick="askQ(document.getElementById('ask-input').value)" style="padding:7px 14px;border-radius:var(--r);border:0.5px solid var(--blue);background:var(--blue-l);color:var(--blue);font-size:12px;font-weight:600;cursor:pointer">Ask</button>
     </div>
     <div class="chat-area" id="chat-area">Select a question above or type your own.</div>
+  </div>
+</div>
+
+<!-- ── FINANCE AGENTS ── -->
+<div class="page" id="page-agents">
+  <div class="page-title">Finance Agents</div>
+  <div class="page-sub" id="agents-page-sub">9 specialized agents per the April-2026 spec — each obeys the standard contract (run_id, dry_run, audit-defensible output)</div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Agents</div><div class="stat-val">9</div><div class="stat-sub">6 main + 3 Phase-1</div></div>
+    <div class="stat"><div class="stat-label">Total runs</div><div class="stat-val" id="agents-total-runs">—</div><div class="stat-sub" id="agents-total-runs-sub">Across all agents</div></div>
+    <div class="stat"><div class="stat-label">Last run</div><div class="stat-val" id="agents-last-run-val" style="font-size:14px">—</div><div class="stat-sub" id="agents-last-run-sub">—</div></div>
+    <div class="stat"><div class="stat-label">Output tables</div><div class="stat-val">19</div><div class="stat-sub">In dise_reporting</div></div>
+  </div>
+
+  <div class="section-label">Agent registry</div>
+  <div class="card">
+    <table class="tbl">
+      <thead><tr><th>Agent</th><th>Module</th><th>Version</th><th>Primary output</th><th>Latest run</th><th class="amt">Actions</th></tr></thead>
+      <tbody id="agents-tbody"><tr><td colspan="6" class="loading">Loading…</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="section-label">Latest agent run output</div>
+  <div class="card" id="agent-output-card">
+    <div class="card-head">
+      <div class="card-title" id="agent-output-title">Click <span style="color:var(--gold);font-weight:600">Run</span> on any agent above</div>
+      <span class="pill p-gray" id="agent-output-pill">—</span>
+    </div>
+    <div id="agent-output-body" style="font-size:11px;line-height:1.5"></div>
   </div>
 </div>
 
@@ -967,12 +1011,160 @@ function approvN(id) {
   document.getElementById('na' + id).innerHTML = '<span class="approved-badge">Approved</span>';
 }
 
+/* ── Finance Agents (April-2026 spec: 9 agents on the standard contract) ── */
+let _agentRegistry = [];
+
+async function loadAgentRegistry() {
+  try {
+    const r = await fetch(API_BASE + '/api/finance/agents');
+    const j = await r.json();
+    _agentRegistry = j.agents || [];
+
+    const tbody = document.getElementById('agents-tbody');
+    if (!tbody) return;
+    if (!_agentRegistry.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="loading">No agents registered</td></tr>';
+      return;
+    }
+    tbody.innerHTML = _agentRegistry.map(a => `
+      <tr>
+        <td><b>${a.display_name}</b></td>
+        <td><span class="pill p-blue">${a.module}</span></td>
+        <td style="font-family:ui-monospace,monospace;font-size:10px">${a.agent_version}</td>
+        <td style="font-size:10px;color:var(--text3);font-family:ui-monospace,monospace">${a.primary_output}</td>
+        <td id="agent-latest-${a.slug}" style="font-size:10px;color:var(--text3)">—</td>
+        <td class="amt">
+          <button onclick="runAgent('${a.slug}')" style="font-size:10px;padding:4px 10px;border-radius:var(--r);border:0.5px solid var(--gold);background:#FAEEDA;color:var(--amber);cursor:pointer;font-weight:600">Run</button>
+          <button onclick="loadAgentLatest('${a.slug}')" style="font-size:10px;padding:4px 10px;border-radius:var(--r);border:0.5px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;margin-left:4px">Latest</button>
+        </td>
+      </tr>
+    `).join('');
+
+    // Pull recent runs to populate "Latest" column
+    const runs = await (await fetch(API_BASE + '/api/finance/runs?limit=200')).json();
+    const seen = {};
+    for (const r of (runs.runs || [])) {
+      if (!seen[r.module]) seen[r.module] = r;  // first per module = most recent
+    }
+    let totalRuns = (runs.runs || []).length;
+    setText('agents-total-runs', totalRuns);
+    setText('agents-total-runs-sub', totalRuns ? 'most recent ' + totalRuns + ' runs' : 'No runs yet');
+
+    let lastRun = null;
+    for (const a of _agentRegistry) {
+      const seenForModule = Object.values(seen).filter(s => s.module === a.module);
+      const latestForSlug = seenForModule[0];
+      const cell = document.getElementById('agent-latest-' + a.slug);
+      if (cell && latestForSlug) {
+        const at = new Date(latestForSlug.created_at);
+        const ago = Math.round((Date.now() - at.getTime()) / 60000);
+        cell.innerHTML = `<span class="pill ${latestForSlug.status === 'draft' ? 'p-blue' : 'p-amber'}">${latestForSlug.status}</span> · ${ago}m ago · <code style="font-size:9px">${latestForSlug.run_id}</code>`;
+        if (!lastRun || at > new Date(lastRun.created_at)) lastRun = latestForSlug;
+      }
+    }
+    if (lastRun) {
+      const at = new Date(lastRun.created_at);
+      setText('agents-last-run-val', lastRun.run_id);
+      setText('agents-last-run-sub', at.toLocaleString() + ' · ' + lastRun.duration_ms + 'ms');
+    }
+  } catch (e) {
+    console.error('loadAgentRegistry', e);
+  }
+}
+
+async function runAgent(slug) {
+  const card = document.getElementById('agent-output-card');
+  const title = document.getElementById('agent-output-title');
+  const body = document.getElementById('agent-output-body');
+  const pill = document.getElementById('agent-output-pill');
+  const meta = _agentRegistry.find(a => a.slug === slug) || {display_name: slug, primary_output: ''};
+  title.textContent = meta.display_name + ' — running…';
+  pill.className = 'pill p-amber';
+  pill.textContent = 'running';
+  body.innerHTML = '<div class="loading">Calling /api/finance/' + slug + '/run …</div>';
+
+  try {
+    const t0 = Date.now();
+    const r = await fetch(API_BASE + '/api/finance/' + slug + '/run', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({fiscal_year: '2024', dry_run: false}),
+    });
+    const j = await r.json();
+    const dt = Date.now() - t0;
+    if (!r.ok) {
+      pill.className = 'pill p-red';
+      pill.textContent = 'error';
+      title.textContent = meta.display_name + ' — failed';
+      body.innerHTML = '<pre style="color:var(--red);font-size:11px;white-space:pre-wrap">' + JSON.stringify(j, null, 2) + '</pre>';
+      return;
+    }
+    pill.className = 'pill p-green';
+    pill.textContent = j.status || 'done';
+    title.innerHTML = meta.display_name + ' · <code style="font-size:11px">' + (j.run_id || '?') + '</code> · ' + (j.rows_written || 0) + ' rows · ' + (j.duration_ms || dt) + 'ms';
+    const summary = j.summary || {};
+    const summaryRows = Object.entries(summary).map(([k, v]) => {
+      let val = v;
+      if (typeof v === 'object' && v !== null) val = JSON.stringify(v);
+      else if (typeof v === 'number' && Math.abs(v) >= 1000) val = v.toLocaleString();
+      return '<tr><td style="color:var(--text3);padding:3px 8px;font-family:ui-monospace,monospace;font-size:10px">' + k + '</td><td style="padding:3px 8px">' + val + '</td></tr>';
+    }).join('');
+    body.innerHTML = `
+      <table class="tbl" style="margin-bottom:12px">${summaryRows}</table>
+      <div style="font-size:10px;color:var(--text3);margin-top:8px">
+        Output written to <code>${meta.primary_output}</code>
+        (run_id <code>${j.run_id}</code>) — preserves history per the standard contract.
+      </div>`;
+    loadAgentRegistry();  // refresh "Latest" column
+  } catch (e) {
+    pill.className = 'pill p-red';
+    pill.textContent = 'error';
+    body.innerHTML = '<pre style="color:var(--red);font-size:11px">' + e.toString() + '</pre>';
+  }
+}
+
+async function loadAgentLatest(slug) {
+  const card = document.getElementById('agent-output-card');
+  const title = document.getElementById('agent-output-title');
+  const body = document.getElementById('agent-output-body');
+  const pill = document.getElementById('agent-output-pill');
+  const meta = _agentRegistry.find(a => a.slug === slug) || {display_name: slug};
+  body.innerHTML = '<div class="loading">Loading latest run…</div>';
+  try {
+    const r = await fetch(API_BASE + '/api/finance/' + slug + '/latest');
+    const j = await r.json();
+    if (!j.run_id) {
+      title.textContent = meta.display_name + ' — no runs yet';
+      pill.className = 'pill p-gray'; pill.textContent = 'never run';
+      body.innerHTML = '<div style="color:var(--text3);font-size:11px">Click <b>Run</b> on this agent to produce its first output.</div>';
+      return;
+    }
+    title.innerHTML = meta.display_name + ' · <code style="font-size:11px">' + j.run_id + '</code> · ' + (j.duration_ms || '?') + 'ms';
+    pill.className = j.status === 'error' ? 'pill p-red' : 'pill p-blue';
+    pill.textContent = j.status || 'draft';
+    const summary = j.summary || {};
+    const summaryRows = Object.entries(summary).map(([k, v]) => {
+      let val = v;
+      if (typeof v === 'object' && v !== null) val = JSON.stringify(v);
+      else if (typeof v === 'number' && Math.abs(v) >= 1000) val = v.toLocaleString();
+      return '<tr><td style="color:var(--text3);padding:3px 8px;font-family:ui-monospace,monospace;font-size:10px">' + k + '</td><td style="padding:3px 8px">' + val + '</td></tr>';
+    }).join('');
+    const tableSections = (j.tables || []).filter(t => (t.rows || []).length).map(t =>
+      `<div style="margin-top:10px"><div class="section-label">${t.table} · ${t.rows.length} rows</div><pre style="font-size:10px;background:var(--surface2);padding:8px;border-radius:6px;max-height:240px;overflow:auto">${JSON.stringify(t.rows.slice(0, 5), null, 2)}</pre></div>`
+    ).join('');
+    body.innerHTML = '<table class="tbl">' + summaryRows + '</table>' + tableSections;
+  } catch (e) {
+    body.innerHTML = '<pre style="color:var(--red);font-size:11px">' + e.toString() + '</pre>';
+  }
+}
+
 /* ── Boot ── */
 document.addEventListener('DOMContentLoaded', () => {
   loadTax();
   loadDISE();
   loadCloseTracker();
   loadAnomalies();
+  loadAgentRegistry();
 });
 </script>
 </body>
