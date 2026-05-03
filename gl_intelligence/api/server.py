@@ -799,6 +799,114 @@ def export_tax():
     return _error_response(400, "bad_request", "format must be csv | json | docx")
 
 
+# ── Finance Agents (per April-2026 Cross-Agent Architecture spec) ───
+#
+# 9 agents, each obeying the Standard Agent Contract. Routes:
+#   GET  /api/finance/agents           — registry (which agents exist)
+#   POST /api/finance/<slug>/run       — fire the agent
+#   GET  /api/finance/<slug>/latest    — latest output rows for that agent
+#   GET  /api/finance/runs             — agent_runs registry (recent N)
+
+@app.route("/api/finance/agents")
+def finance_agents_list():
+    from gl_intelligence.finance_agents import list_agents
+    return jsonify({"agents": list_agents(), "count": len(list_agents())})
+
+
+@app.route("/api/finance/<slug>/run", methods=["POST"])
+def finance_agent_run(slug: str):
+    from gl_intelligence.finance_agents import get_agent
+    from gl_intelligence.finance_agents.base import AgentInput
+    body = request.get_json(silent=True) or {}
+    try:
+        params = AgentInput(
+            company_code=body.get("company_code", cfg.COMPANY_CODE),
+            fiscal_year=str(body.get("fiscal_year", cfg.FISCAL_YEAR)),
+            fiscal_period=body.get("fiscal_period", "Full Year"),
+            run_id=body.get("run_id"),
+            dry_run=bool(body.get("dry_run", False)),
+            extra=body.get("extra") or {},
+        )
+        agent = get_agent(slug)
+    except ValueError as e:
+        return _error_response(404, "unknown_agent", str(e))
+
+    out, err = _safe_run(lambda: agent.run(params))
+    if err:
+        return err
+    return jsonify({
+        "run_id":       out.run_id,
+        "module":       out.module,
+        "status":       out.status,
+        "rows_written": out.rows_written,
+        "duration_ms":  out.duration_ms,
+        "summary":      out.summary,
+        "error":        out.error,
+    })
+
+
+@app.route("/api/finance/<slug>/latest")
+def finance_agent_latest(slug: str):
+    from gl_intelligence.finance_agents import get_agent
+    from gl_intelligence.persistence import supabase_available
+    from gl_intelligence.persistence.supabase_client import get_supabase
+    if not supabase_available():
+        return jsonify({"rows": [], "supabase": False})
+    try:
+        agent_cls = type(get_agent(slug))
+    except ValueError as e:
+        return _error_response(404, "unknown_agent", str(e))
+
+    sb = get_supabase()
+    company_code = request.args.get("company_code", cfg.COMPANY_CODE)
+    fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
+    try:
+        # Latest run_id for this slug+company+fy
+        latest = (
+            sb.table("agent_runs").select("run_id,created_at,duration_ms,output_summary,status,error")
+            .eq("module", agent_cls.MODULE).eq("company_code", company_code)
+            .eq("fiscal_year", fy).order("created_at", desc=True).limit(1).execute()
+        ).data
+        if not latest:
+            return jsonify({"rows": [], "summary": None, "run_id": None})
+        run_id = latest[0]["run_id"]
+        output_rows: list[dict] = []
+        for tbl in agent_cls.OUTPUT_TABLES or [agent_cls.OUTPUT_TABLE]:
+            try:
+                rows = (sb.table(tbl).select("*").eq("run_id", run_id).execute()).data or []
+                output_rows.append({"table": tbl, "rows": rows})
+            except Exception:
+                pass
+        return jsonify({
+            "run_id":  run_id,
+            "summary": latest[0].get("output_summary"),
+            "status":  latest[0].get("status"),
+            "duration_ms": latest[0].get("duration_ms"),
+            "tables":  output_rows,
+        })
+    except Exception as e:
+        log.exception("finance_agent_latest failed")
+        return _error_response(500, "internal_error", str(e))
+
+
+@app.route("/api/finance/runs")
+def finance_runs():
+    from gl_intelligence.persistence import supabase_available
+    from gl_intelligence.persistence.supabase_client import get_supabase
+    if not supabase_available():
+        return jsonify({"runs": [], "supabase": False})
+    try:
+        limit = max(1, min(int(request.args.get("limit", "30")), 200))
+    except (TypeError, ValueError):
+        return _error_response(400, "bad_request", "limit must be an integer")
+    sb = get_supabase()
+    rows = (
+        sb.table("agent_runs").select("*")
+        .order("created_at", desc=True).limit(limit).execute()
+    ).data or []
+    return jsonify({"runs": rows, "count": len(rows), "supabase": True})
+
+
 # ── Static files (dashboard) ───────────────────────────────
 
 ASSETS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "FASB DISE ASSETS"))
