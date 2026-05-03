@@ -319,10 +319,18 @@ def dise_pending():
 
 @app.route("/api/dise/pivot")
 def dise_pivot():
-    orch = get_orchestrator()
+    """DISE pivot. Reads live from Supabase dise_approved_mappings when
+    available; falls back to legacy BigQuery / offline JSON path."""
     fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
+    from gl_intelligence.persistence import supabase_available
+    if supabase_available():
+        from gl_intelligence.persistence.aggregates import dise_pivot as sb_pivot
+        pivot = sb_pivot(fiscal_year=fy)
+        if pivot:
+            return jsonify({"fiscal_year": fy, "data": pivot, "source": "supabase"})
+    orch = get_orchestrator()
     pivot = orch.agents["mapping"].get_dise_pivot(fy)
-    return jsonify({"fiscal_year": fy, "data": pivot})
+    return jsonify({"fiscal_year": fy, "data": pivot, "source": "legacy"})
 
 
 @app.route("/api/dise/close-tracker")
@@ -387,10 +395,24 @@ def generate_disclosure():
 
 @app.route("/api/tax/provision")
 def tax_provision():
-    """Returns the full tax provision dataset."""
+    """Returns the full tax provision dataset.
+
+    Resolution order:
+      1. Supabase tax_approved_mappings — live computation from
+         approved mappings (the new DEMO/FY2024 dataset).
+      2. Legacy curated `tax_provision_data.json` — fallback.
+    """
+    from gl_intelligence.persistence import supabase_available
     from gl_intelligence.agents.tax_agent import load_tax_data
-    data = load_tax_data()
-    return jsonify(data)
+    fy = request.args.get("fiscal_year", cfg.FISCAL_YEAR)
+    if supabase_available():
+        from gl_intelligence.persistence.aggregates import tax_provision as sb_provision
+        live = sb_provision(fiscal_year=fy)
+        if live:
+            base = dict(load_tax_data() or {})
+            base.update(live)
+            return jsonify(base)
+    return jsonify(load_tax_data())
 
 
 @app.route("/api/tax/rate-reconciliation")
